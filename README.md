@@ -1,7 +1,11 @@
 # Planning Chess
 The consensus-based chess inspired estimation game.
 
-# MVP
+## Rules
+- The game is played by a team (multiple players)
+- A shared chess board is availabe and a separate set of figres available for each player
+
+## MVP
 - Single room (link to it is available)
 - 6x6 chess board
   - X axis
@@ -27,8 +31,17 @@ The consensus-based chess inspired estimation game.
   - queen - 13 SP
 - No admin - team selfserves:
   - Resets game
+  - Removes player
   - Skips players (that are having coffee for the round)
 - Display the game result automatically when every player made a move / skipped
 - Display list of players
 - Ask for player name and store it on local storage for other games
+- The game has to have at least 2 players
+- Player should let system know about his move by pressing "Finish move" button
 - Professional look-and-feel
+
+## Tech stack
+- React and Node.js (Typescript)
+- Websockets
+- Docker
+- Initially no DB
