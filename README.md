@@ -1,2 +1,2 @@
-# planning-chess
-Chess based consensus-based estimation game
+# Planning chess
+The consensus-based chess inspired estimation game.
