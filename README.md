@@ -50,7 +50,7 @@ The consensus-based chess inspired estimation game.
 - Display list of players
 - Ask for player name and store it on local storage for other games
 - The game has to have at least 2 players
-- Player should let system know about his move by pressing "Finish move" button
+- Player should let system know about his move completion
 - Professional look-and-feel
 
 ## Tech stack
