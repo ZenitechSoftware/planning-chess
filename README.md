@@ -3,7 +3,18 @@ The consensus-based chess inspired estimation game.
 
 ## Rules
 - The game is played by a team (multiple players)
-- A shared chess board is availabe and a separate set of figres available for each player
+- A single shared chess board and a separate set of figures are available for each player
+- Player chooses a figure and place it on the board
+- Players do not see each other moves
+- Player can skip the move
+- Game has 2 states:
+  - game in progress (players are making a move with chosen figure on the board)
+  - game complete (all players made a move or skipped the move)
+- After game completes - everyone can see each other moves
+- The goal of the game is to place similar figure in similar position on the board. That could also mean that same figure must be places in exacly the same position on the board by all players.
+- Each figure has a different Story Point (SP) value. The value represents the complexity of the task being estimated
+- The Y axis of the board represents the amount of work to complete the task being estimated
+- The X axis of the board represents the uncertainty of the task being estimated
 
 ## MVP
 - Single room (link to it is available)
@@ -44,4 +55,4 @@ The consensus-based chess inspired estimation game.
 - React and Node.js (Typescript)
 - Websockets
 - Docker
-- Initially no DB
+- Initially no DB (state is stored in back-end memory)
