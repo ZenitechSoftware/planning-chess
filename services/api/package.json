@@ -1,0 +1,40 @@
+{
+  "name": "planning-chess-api",
+  "version": "1.0.0",
+  "description": "Planning Chess API",
+  "author": "Planning Chess",
+  "license": "MIT",
+  "scripts": {
+    "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
+    "format": "prettier --check \"src/**\" \"test/**\" \"*.js\" \"*.json\"",
+    "lint": "eslint .",
+    "build": "tsc",
+    "test": "jest",
+    "start": "node dist/src",
+    "dev": "ts-node-dev src/index.ts",
+    "test:watch": "jest --watch",
+    "coverage": "jest --collectCoverage",
+    "ci": "npm run spell && npm run format && npm run lint && npm run build && npm test"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/jest": "^26.0.13",
+    "@types/node": "^14.0.27",
+    "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "cspell": "^5.13.1",
+    "eslint": "^7.12.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.2.1",
+    "prettier-plugin-pretty-imports": "^0.0.2",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.3.0",
+    "ts-node-dev": "^1.0.0-pre.56",
+    "typescript": "^3.9.7"
+  }
+}

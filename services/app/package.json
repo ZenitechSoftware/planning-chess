@@ -1,0 +1,46 @@
+{
+  "name": "planning-chess-app",
+  "version": "1.0.0",
+  "description": "Planning Chess WEB Application",
+  "scripts": {
+    "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
+    "format": "prettier --check \"src/**\" \"*.js\" \"*.json\"",
+    "lint": "eslint . --ext js,jsx",
+    "build": "cross-env NODE_ENV=production webpack",
+    "test": "jest",
+    "dev": "webpack serve",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "ci": "npm run spell && npm run format && npm run lint && npm run build && npm test"
+  },
+  "author": "Planning Chess",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.2",
+    "cspell": "^5.13.1",
+    "css-loader": "^6.5.1",
+    "eslint": "^7.12.0",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^26.6.1",
+    "mini-css-extract-plugin": "^2.4.5",
+    "prettier": "^2.2.1",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

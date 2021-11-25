@@ -1,0 +1,28 @@
+{
+  "name": "planning-chess",
+  "version": "1.0.0",
+  "description": "The consensus-based chess inspired estimation game",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean:dist": "rimraf services/*/dist",
+    "clean:lerna": "lerna clean --yes",
+    "clean:root": "rimraf node_modules",
+    "clean": "run-s clean:lerna clean:dist clean:build clean:root",
+    "dev": "lerna run dev --parallel",
+    "start": "lerna run start --parallel",
+    "build": "lerna run build",
+    "lint": "lerna run lint --concurrency 1",
+    "package": "docker build -t planning-chess .",
+    "ci": "npm run build && npm run package",
+    "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ZenitechSoftware/planning-chess.git"
+  },
+  "author": "Planning Chess",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

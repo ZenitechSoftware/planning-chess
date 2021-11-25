@@ -1,0 +1,25 @@
+name: WEB Application
+
+on:
+  push:
+    paths:
+      - "services/app/**"
+  pull_request:
+    paths:
+      - "services/app/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: services/app
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - run: npm run ci
