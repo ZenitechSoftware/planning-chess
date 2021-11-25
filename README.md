@@ -4,6 +4,7 @@ The consensus-based chess inspired estimation game.
 ## Rules
 - The game is played by a team (multiple players)
 - A single shared chess board and a separate set of figures are available for each player
+- At the begining of the game the board is empty and the figures of each player are outside of the board
 - Player chooses a figure and place it on the board
 - Players do not see each other moves
 - Player can skip the move
