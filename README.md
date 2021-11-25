@@ -41,6 +41,7 @@ The consensus-based chess inspired estimation game.
   - rook - 5 SP
   - king - 8 SP
   - queen - 13 SP
+- Realistically there might be around 10 players
 - No admin - team selfserves:
   - Resets game
   - Removes player
