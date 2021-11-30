@@ -1,0 +1,27 @@
+{
+  "name": "planning-chess",
+  "version": "1.0.0",
+  "description": "The consensus-based chess inspired estimation game",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean:build": "rimraf services/*/*/build",
+    "clean:dist": "rimraf services/*/*/dist",
+    "clean:lerna": "lerna clean --yes",
+    "clean:root": "rimraf node_modules",
+    "clean": "run-s clean:lerna clean:dist clean:build clean:root",
+    "dev": "lerna run dev --parallel",
+    "start": "lerna run start",
+    "build": "lerna run build",
+    "lint": "lerna run lint --concurrency 1",
+    "pretty": "lerna run pretty --parallel"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ZenitechSoftware/planning-chess.git"
+  },
+  "author": "Planning Chess",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

@@ -62,3 +62,29 @@ The consensus-based chess inspired estimation game.
 - Websocket
 - Docker
 - Initially no DB (state is stored in back-end memory)
+
+## Running local development environment
+
+```
+npm install
+npm run bootstrap
+npm run dev
+```
+
+This starts all micro-services in watch mode.
+
+`npm install` - installs tools that help to manage this mono repo.
+
+`npm run bootstrap` - installs all required dependencies in all packages and services. You will not need to go to each service and install npm dependencies separately and it links local packages.
+
+`npm run dev` - starts all services in "watch" mode.
+
+`npm run start` - builds and starts all services.
+
+## Other npm commands
+
+`clean` - removes all npm_modules, build and dist directories.
+
+`lint` - runs linter in every package.
+
+`build` - builds all services.
