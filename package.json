@@ -10,7 +10,7 @@
     "clean:root": "rimraf node_modules",
     "clean": "run-s clean:lerna clean:dist clean:build clean:root",
     "dev": "lerna run dev --parallel",
-    "start": "lerna run start",
+    "start": "lerna run start --parallel",
     "build": "lerna run build",
     "lint": "lerna run lint --concurrency 1",
     "pretty": "lerna run pretty --parallel"
