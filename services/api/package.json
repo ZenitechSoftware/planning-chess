@@ -8,7 +8,7 @@
     "prebuild": "eslint .",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node dist",
+    "start": "node dist/src",
     "dev": "ts-node-dev src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
