@@ -1,10 +1,12 @@
 # Planning Chess
+
 The consensus-based chess inspired estimation game.
 
 ## Rules
+
 - The game is played by a team (multiple players)
 - A single shared chess board and a separate set of figures are available for each player
-- At the begining of the game the board is empty and the figures of each player are outside of the board
+- At the beginning of the game the board is empty and the figures of each player are outside of the board
 - Player chooses a figure and place it on the board
 - Players do not see each other moves
 - Player can skip the move
@@ -12,12 +14,13 @@ The consensus-based chess inspired estimation game.
   - game in progress (players are making a move with chosen figure on the board)
   - game complete (all players made a move or skipped the move)
 - After game completes - everyone can see each other moves
-- The goal of the game is to place similar figure in similar position on the board. That could also mean that same figure must be places in exacly the same position on the board by all players.
+- The goal of the game is to place similar figure in similar position on the board. That could also mean that same figure must be places in exactly the same position on the board by all players.
 - Each figure has a different Story Point (SP) value. The value represents the complexity of the task being estimated
 - The Y axis of the board represents the amount of work to complete the task being estimated
 - The X axis of the board represents the uncertainty of the task being estimated
 
 ## MVP
+
 - Single room (link to it is available)
 - 6x6 chess board
   - X axis
@@ -42,7 +45,7 @@ The consensus-based chess inspired estimation game.
   - king - 8 SP
   - queen - 13 SP
 - Realistically there might be around 10 players
-- No admin - team selfserves:
+- No admin - team self-serves:
   - Resets game
   - Removes player
   - Skips players (that are having coffee for the round)
@@ -54,7 +57,8 @@ The consensus-based chess inspired estimation game.
 - Professional look-and-feel
 
 ## Tech stack
+
 - React and Node.js (Typescript)
-- Websockets
+- Websocket
 - Docker
 - Initially no DB (state is stored in back-end memory)
