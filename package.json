@@ -12,7 +12,9 @@
     "start": "lerna run start --parallel",
     "build": "lerna run build",
     "lint": "lerna run lint --concurrency 1",
-    "pretty": "lerna run pretty --parallel"
+    "package": "docker build -t planning-chess .",
+    "ci": "npm run build && npm run package",
+    "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest"
   },
   "repository": {
     "type": "git",

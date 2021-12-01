@@ -65,6 +65,13 @@ The consensus-based chess inspired estimation game.
 
 ## Running local development environment
 
+Make sure you have:
+
+- Node.js
+- Docker
+
+Please run:
+
 ```
 npm install
 npm run bootstrap
