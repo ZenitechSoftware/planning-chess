@@ -27,29 +27,6 @@ module.exports = {
     proxy: {
       '/api': 'http://localhost:8081',
     },
-    before: function (app) {
-      app.use(function (req, res, next) {
-        res.set('Access-Control-Allow-Origin', `http://localhost:${DEV_PORT}`);
-
-        if (req.path.includes('/api')) {
-          next();
-          return;
-        }
-
-        res.set({
-          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-          'X-Frame-Options': 'deny',
-          'X-XSS-Protection': '1; mode=block',
-          'X-Content-Type-Options': 'nosniff',
-          'X-Permitted-Cross-Domain-Policies': 'none',
-          'Referrer-Policy': 'no-referrer',
-          'Expect-CT': 'max-age=86400, enforce',
-          // 'Content-Security-Policy': `default-src 'self'; style-src 'self' 'nonce-${nonce}'; object-src 'none'; base-uri 'self'; sandbox allow-same-origin allow-forms allow-modals allow-scripts`,
-        });
-
-        next();
-      });
-    },
   },
   output: {
     path: path.join(__dirname, '/dist'),

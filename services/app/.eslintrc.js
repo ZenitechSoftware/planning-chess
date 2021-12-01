@@ -20,7 +20,7 @@ module.exports = {
     },
   },
   extends: ['eslint:recommended', 'plugin:react/recommended'],
-  plugins: ['react-hooks'],
+  plugins: ['react', 'react-hooks'],
   rules: {
     semi: [2, 'always'],
     indent: ['error', 2],
