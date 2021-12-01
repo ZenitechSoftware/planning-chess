@@ -88,3 +88,7 @@ This starts all micro-services in watch mode.
 `lint` - runs linter in every package.
 
 `build` - builds all services.
+
+## Contributing guidelines
+
+[Please refer to the contribution guidlines file](CONTRIBUTING.md)
