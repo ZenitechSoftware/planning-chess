@@ -10,9 +10,7 @@ module.exports = {
     sourceType: 'module',
   },
   settings: {},
-  plugins: [
-    '@typescript-eslint',
-  ],
+  plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -22,11 +20,14 @@ module.exports = {
     quotes: ['error', 'single'],
     indent: ['error', 2],
     semi: ['error', 'always'],
-    'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
+    'key-spacing': ['error', { beforeColon: false, afterColon: true }],
     'no-trailing-spaces': 'error',
     'space-before-blocks': 'error',
-    'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'ignore' }],
-    'keyword-spacing': ['error', { 'before': true }],
+    'space-before-function-paren': [
+      'error',
+      { anonymous: 'always', named: 'ignore' },
+    ],
+    'keyword-spacing': ['error', { before: true }],
     'space-in-parens': ['error', 'never'],
     'object-curly-spacing': ['error', 'always'],
     'no-console': ['error', { allow: ['warn', 'error', 'info', 'debug'] }],

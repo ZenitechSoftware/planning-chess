@@ -5,16 +5,16 @@
   "author": "Planning Chess",
   "license": "MIT",
   "scripts": {
-    "prebuild": "eslint .",
+    "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
+    "format": "prettier --check \"src/**\" \"test/**\" \"*.js\" \"*.json\"",
+    "lint": "eslint .",
     "build": "tsc",
-    "prestart": "npm run build",
+    "test": "jest",
     "start": "node dist/src",
     "dev": "ts-node-dev src/index.ts",
-    "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --collectCoverage",
-    "lint": "eslint .",
-    "pretty": "prettier --write \"src/**\""
+    "ci": "npm run spell && npm run format && npm run lint && npm run build && npm test"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
