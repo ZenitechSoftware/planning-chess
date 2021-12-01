@@ -19,10 +19,7 @@ module.exports = {
       version: '16.13.1',
     },
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
   plugins: ['react-hooks'],
   rules: {
     semi: [2, 'always'],
