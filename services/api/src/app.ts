@@ -1,6 +1,5 @@
 import express from 'express';
 import routes from './routes';
-import * as path from 'path';
 
 const app = express();
 app.use(express.json());
@@ -13,10 +12,6 @@ app.use((_req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   next();
 });
-app.use(express.static(path.join(__dirname, '/../../../app/dist')));
 app.use('/api', routes);
-app.get('*', (_req,res) =>{
-  res.sendFile(path.join(__dirname+'/../../../app/dist/index.html'));
-});
 
 export default app;

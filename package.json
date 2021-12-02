@@ -24,8 +24,5 @@
   "license": "MIT",
   "devDependencies": {
     "lerna": "^4.0.0"
-  },
-  "optionalDependencies": {
-    "fsevents": "^2.3.2"
   }
 }

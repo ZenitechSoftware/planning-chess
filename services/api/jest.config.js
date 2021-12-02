@@ -1,9 +1,8 @@
 module.exports = {
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-  },
+  preset: 'ts-jest',
   moduleDirectories: ['node_modules', 'src'],
   collectCoverage: true,
+  collectCoverageFrom: ['src/**', '!src/index.ts'],
   coverageThreshold: {
     global: {
       branches: 100,
