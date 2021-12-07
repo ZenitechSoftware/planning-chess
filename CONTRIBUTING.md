@@ -13,7 +13,7 @@ Reading and following these guidelines will help us make the contribution proces
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the [Zenitech Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [info@zenitech.co.uk](mailto:info@zenitech.co.uk).
+This project and everyone participating in it is governed by the [Zenitech Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [planningchess@zenitech.co.uk](mailto:planningchess@zenitech.co.uk).
 
 ## Getting Started
 
