@@ -5,7 +5,7 @@ import Content from './content/Content';
 function App() {
   return (
     <Router>
-      <Content/>
+      <Content />
     </Router>
   );
 }
