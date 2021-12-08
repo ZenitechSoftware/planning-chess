@@ -8,14 +8,10 @@ const PrivateRoute = () => {
   const passedUUIDpath = window.location.pathname.replace('/game/', '');
 
   useEffect(() => {
-    fetchedUUID();
-  }, []);
-
-  const fetchedUUID = () => {
     validateGameRoomUUID(passedUUIDpath).then((r) => {
       setAuth(r.data.test);
     });
-  };
+  }, []);
 
   return auth ? <Outlet /> : <Navigate to="/" />;
 };
