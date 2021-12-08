@@ -11,7 +11,7 @@ const PrivateRoute = () => {
     validateGameRoomUUID(passedUUIDpath).then((r) => {
       setAuth(r.data.test);
     });
-  }, []);
+  }, [passedUUIDpath]);
 
   return auth ? <Outlet /> : <Navigate to="/" />;
 };
