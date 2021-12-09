@@ -1,0 +1,24 @@
+name: System
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v2
+        with:
+          tags: planning-chess:latest
+          push: false
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: planning-chess:latest
+          options: -d -p 8080:8081
+      - run: nc -zv localhost 8080
