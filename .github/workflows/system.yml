@@ -13,6 +13,11 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - run: npm run ci
       - uses: docker/build-push-action@v2
         with:
           tags: planning-chess:latest
