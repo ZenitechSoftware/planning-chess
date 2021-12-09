@@ -7,7 +7,6 @@ import app from './app';
 
 app.use(express.static(path.join(__dirname, '/../../../app/dist')));
 app.get('*', (_req, res) => {
-  res.redirect('/');
   res.sendFile(path.join(__dirname + '/../../../app/dist/index.html'));
 });
 

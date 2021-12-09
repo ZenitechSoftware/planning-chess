@@ -1,5 +1,5 @@
 import express from 'express';
-import { validate as validateUUID } from 'uuid';
+import Joi from 'joi';
 
 const router = express.Router();
 
@@ -8,13 +8,14 @@ router.use((_req, res, next) => {
   next();
 });
 
-router.get('*', async (req, res) => {
-  const uuidString = req.path.replace('/', '');
-  if (validateUUID(uuidString)) {
-    res.json({ test: true });
-  } else {
-    res.json({ test: false });
-  }
+router.get('/:id', async (req, res) => {
+  const pathUUID = req.params.id;
+  const uuidValidationSchema = Joi.string().guid({
+    version: 'uuidv4',
+    separator: '-',
+  });
+  const authResult = uuidValidationSchema.validate(pathUUID);
+  !authResult.error ? res.json({ test: true }) : res.json({ test: false });
 });
 
 export default router;
