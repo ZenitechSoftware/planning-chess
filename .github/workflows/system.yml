@@ -20,4 +20,6 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: planning-chess:latest
-          run: echo "Hello"
+          run: |
+            sleep 5
+            nc -zv localhost 8081
