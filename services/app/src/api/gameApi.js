@@ -1,4 +1,4 @@
 import HTTP from '../http';
 
-export const validateGameRoomUUID = (uuidString) =>
+export const getGame = (uuidString) =>
   HTTP.get(`/api/game/${uuidString}`);
