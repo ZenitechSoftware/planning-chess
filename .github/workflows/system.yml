@@ -20,5 +20,4 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: planning-chess:latest
-          options: -d -p 8080:8081
-      - run: nc -zv localhost 8080
+          run: nc -zv localhost 8081
