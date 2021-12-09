@@ -21,5 +21,5 @@ jobs:
         with:
           image: planning-chess:latest
           run: |
-            sleep 5
+            node /opt/planning-chess/services/api/dist/src &
             nc -zv localhost 8081
