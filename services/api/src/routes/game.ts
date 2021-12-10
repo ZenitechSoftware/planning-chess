@@ -9,13 +9,15 @@ router.use((_req, res, next) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const pathUUID = req.params.id;
-  const uuidValidationSchema = Joi.string().guid({
-    version: 'uuidv4',
-    separator: '-',
-  });
-  const authResult = uuidValidationSchema.validate(pathUUID);
-  !authResult.error ? res.json({ test: true }) : res.json({ test: false });
+  const passedUUID = req.params.id;
+  const uuidPath = '671e2367-86c3-453a-9df8-3c0048145b64';
+
+  const pathValidationSchema = Joi.string().valid(uuidPath);
+
+  await pathValidationSchema
+    .validateAsync(passedUUID)
+    .then(() => res.status(200).send({ message: 'Validation Successful' }))
+    .catch(() => res.status(400).send({ message: 'Validation Error' }));
 });
 
 export default router;
