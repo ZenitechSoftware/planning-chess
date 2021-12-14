@@ -5,8 +5,8 @@ const Room = () => {
 
   return (
     <div>
-      <h1>GAME1</h1>
-      <a>{ gameURL }</a>
+      <h1 id="game">GAME</h1>
+      <a id="game-url">{gameURL}</a>
     </div>
   );
 };
