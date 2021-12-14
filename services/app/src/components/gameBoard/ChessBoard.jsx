@@ -1,33 +1,59 @@
 import React from 'react';
 import '../../static/style/chess-board.css';
 
-const ChessBoard = () => {
-    
-  const rowNumber = 6;
-  const colNumber = 6;
+// eslint-disable-next-line react/prop-types
+const ChessBoard = ({ numberOfRows, numberOfCells }) => {
+  const rowNumber = numberOfRows;
+  const rowCellNumber = numberOfCells;
 
   const squares = [];
   const color = ['white_tile', 'black_tile'];
-  let colNo = 0;
+
+  let useColorIndx = 0;
+  let colorSwitch = false;
+  let cellNo = 0;
 
   for (let row = 1; row <= rowNumber; row++) {
     let cell = [];
-    for (let col = 1; col <= colNumber; col++) {
-      colNo++;
-      cell.push(<td id={'col_' + colNo.toString()} title={color[1]}>col {colNo}</td>);
+    for (let rowCell = 1; rowCell <= rowCellNumber; rowCell++) {
+      cellNo++;
+      if (colorSwitch) {
+        if (rowCell % 2 === 0) {
+          useColorIndx = 0;
+        } else {
+          useColorIndx = 1;
+        }
+      } else {
+        if (rowCell % 2 === 0) {
+          useColorIndx = 1;
+        } else {
+          useColorIndx = 0;
+        }
+      }
+
+      cell.push(
+        <td
+          id={'cell_' + cellNo.toString()}
+          title={color[useColorIndx]}
+          key={cellNo}
+        >
+          {cellNo}
+        </td>,
+      );
     }
-    squares.push(<tr id={'row_' + row.toString()}>{cell}</tr>);
+    squares.push(
+      <tr id={'row_' + row.toString()} key={'rowNo_' + row}>
+        {cell}
+      </tr>,
+    );
+    if (!colorSwitch) {
+      colorSwitch = true;
+    } else {
+      colorSwitch = false;
+    }
   }
 
-  return (
-    <div className="chess-board">
-      <table>
-        {
-          squares
-        }
-      </table>
-    </div>
-  );
+  return <table id="chess_board">{squares}</table>;
 };
 
 export default ChessBoard;

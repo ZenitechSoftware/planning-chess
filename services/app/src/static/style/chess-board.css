@@ -1,0 +1,13 @@
+table {
+  border: 1px solid black;
+  text-align: center;
+}
+
+[title^='white_tile'] {
+  background-color: white;
+}
+
+[title^='black_tile'] {
+  color: white;
+  background-color: black;
+}
