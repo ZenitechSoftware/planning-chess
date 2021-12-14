@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../static/style/chess-board.css';
+import {} from '../../static/style/chess-board.css';
 
 // eslint-disable-next-line react/prop-types
 const ChessBoard = ({ numberOfRows, numberOfCells }) => {
