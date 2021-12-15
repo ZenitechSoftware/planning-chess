@@ -3,11 +3,15 @@ table {
   text-align: center;
 }
 
-[title^='white_tile'] {
+#chess-board .white-tile {
   background-color: white;
+  width: 30px;
+  height: 30px;
 }
 
-[title^='black_tile'] {
+#chess-board .black-tile {
   color: white;
   background-color: black;
+  width: 30px;
+  height: 30px;
 }
