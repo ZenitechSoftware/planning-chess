@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../../static/style/chess-board.css';
 
 const ChessBoard = ({ numberOfRows, numberOfCells }) => {
@@ -10,6 +11,11 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
     })),
   );
 
+  ChessBoard.prototype = {
+    numberOfRows: PropTypes.number,
+    numberOfCells: PropTypes.number,
+  };
+
   return (
     <table id="chess-board">
       {board.map((row, rowIndex) => (
@@ -17,7 +23,7 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
           {row.map((tile, tileIndex) => (
             <td
               id={'cell_' + tileIndex}
-              class={tile.isFilled ? 'black-tile' : 'white-tile'}
+              className={tile.isFilled ? 'black-tile' : 'white-tile'}
               key={tileIndex}
             />
           ))}
