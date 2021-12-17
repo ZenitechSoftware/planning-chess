@@ -11,11 +11,6 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
     })),
   );
 
-  ChessBoard.prototype = {
-    numberOfRows: PropTypes.number,
-    numberOfCells: PropTypes.number,
-  };
-
   return (
     <table id="chess-board">
       {board.map((row, rowIndex) => (
@@ -31,6 +26,11 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
       ))}
     </table>
   );
+};
+
+ChessBoard.propTypes = {
+  numberOfRows: PropTypes.number,
+  numberOfCells: PropTypes.number,
 };
 
 export default ChessBoard;
