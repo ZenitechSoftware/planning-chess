@@ -1,0 +1,17 @@
+table {
+  border: 1px solid black;
+  text-align: center;
+}
+
+#chess-board .white-tile {
+  background-color: white;
+  width: 30px;
+  height: 30px;
+}
+
+#chess-board .black-tile {
+  color: white;
+  background-color: black;
+  width: 30px;
+  height: 30px;
+}
