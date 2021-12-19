@@ -1,4 +1,5 @@
 import React from 'react';
+import ChessBoard from '../../components/chessBoard/ChessBoard';
 
 const Room = () => {
   const currentGameURL = window.location.href;
@@ -15,13 +16,9 @@ const Room = () => {
 
   return (
     <div>
-      <h1 id="game">GAME</h1>
-      <a id="game-url">{currentGameURL}</a>
-      <div>
-        <button id="copy-game-url-button" onClick={() => copyGameURL(gameURL)}>
-          Copy Link
-        </button>
-      </div>
+      <h1>GAME</h1>
+      <span id="game-url">{currentGameURL}</span>
+      <ChessBoard numberOfCells={6} numberOfRows={6} />
     </div>
   );
 };
