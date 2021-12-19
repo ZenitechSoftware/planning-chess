@@ -11,6 +11,23 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
     })),
   );
 
+  const alphabetArray = [...'abcdefghijklmnopqrstuvwxyz'];
+  const numberArray = Array.from({ length: alphabetArray.length }, (_, i) => i + 1);
+
+
+  board.push([...Array(numberOfCells).keys()].map((_tile, tileIndex) => ({
+    xAxis: alphabetArray[tileIndex],
+  })));
+
+  board.forEach((element, i) => {
+    if (i !== element.length) {
+      element.unshift({ yAxis: numberArray[i] });
+    } else {
+      element.unshift({ yAxis: '' });
+    }
+  });
+
+
   return (
     <table id="chess-board">
       {board.map((row, rowIndex) => (
@@ -18,9 +35,9 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
           {row.map((tile, tileIndex) => (
             <td
               id={'cell_' + tileIndex}
-              className={tile.isFilled ? 'black-tile' : 'white-tile'}
+              className={('isFilled' in tile) ? (tile.isFilled ? 'black-tile' : 'white-tile') : (('xAxis' in tile) ? tile.xAxis : (('yAxis' in tile) ? tile.yAxis : ''))}
               key={tileIndex}
-            />
+            >{('yAxis' in tile) ? tile.yAxis : tile.xAxis}</td>
           ))}
         </tr>
       ))}
