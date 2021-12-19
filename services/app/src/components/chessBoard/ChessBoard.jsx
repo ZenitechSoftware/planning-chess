@@ -13,9 +13,9 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
 
   const alphabetArray = [...'abcdefghijklmnopqrstuvwxyz'];
   const numberArray = Array.from(
-    { length: alphabetArray.length },
+    { length: board.length },
     (_, i) => i + 1,
-  );
+  ).reverse();
 
   board.push(
     [...Array(numberOfCells).keys()].map((_tile, tileIndex) => ({
