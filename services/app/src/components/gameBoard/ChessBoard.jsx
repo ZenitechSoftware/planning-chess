@@ -24,7 +24,7 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
   );
 
   board.forEach((element, i) => {
-    if (i !== element.length) {
+    if (i !== board.length) {
       element.unshift({ yAxis: numberArray[i] });
     } else {
       element.unshift({ yAxis: '' });
