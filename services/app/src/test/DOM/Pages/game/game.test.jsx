@@ -6,6 +6,6 @@ test('test Game page elements', () => {
   render(<Game />);
   expect(screen.getByText('GAME')).toBeInTheDocument();
   expect(
-    screen.getByText('http://localhost/', { selector: '#game-url' }),
+    screen.getByText('http://localhost/'),
   ).toBeInTheDocument();
 });
