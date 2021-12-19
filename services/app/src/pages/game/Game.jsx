@@ -1,5 +1,5 @@
 import React from 'react';
-import ChessBoard from '../../components/gameBoard/ChessBoard';
+import ChessBoard from '../../components/chessBoard/ChessBoard';
 
 const Room = () => {
   const currentGameURL = window.location.href;
@@ -7,8 +7,8 @@ const Room = () => {
   return (
     <div>
       <h1>GAME</h1>
-        <a id="game-url">{currentGameURL}</a>
-        <ChessBoard numberOfCells={6} numberOfRows={6} />
+      <span id="game-url">{currentGameURL}</span>
+      <ChessBoard numberOfCells={6} numberOfRows={6} />
     </div>
   );
 };
