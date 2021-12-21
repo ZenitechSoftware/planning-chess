@@ -44,10 +44,10 @@ const ChessBoard = ({ numberOfRows, numberOfCells }) => {
                     ? 'black-tile'
                     : 'white-tile'
                   : 'xAxis' in tile
-                    ? tile.xAxis
-                    : 'yAxis' in tile
-                      ? tile.yAxis
-                      : ''
+                  ? tile.xAxis
+                  : 'yAxis' in tile
+                  ? tile.yAxis
+                  : ''
               }
               key={tileIndex}
             >
