@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 
 const Room = () => {
-  const [roomUrl, _setRoomUrl] = useState(window.location.href);
+  const [roomUrl] = useState(window.location.href);
 
   return (
     <div>
