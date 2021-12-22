@@ -1,26 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 
 const Room = () => {
-  const currentGameURL = window.location.href;
-
-  const copyGameURL = async () => {
-    try {
-      const url =
-        window.location.host + '/game/671e2367-86c3-453a-9df8-3c0048145b64';
-      await navigator.clipboard.writeText(url);
-      alert(`Link Copied To: \n ${url}`);
-    } catch (err) {
-      new Error(err);
-    }
-  };
+  const [roomUrl, _setRoomUrl] = useState(window.location.href);
 
   return (
     <div>
       <h1>GAME</h1>
-      <span id="game-url">
-        <a onClick={() => copyGameURL()}>{currentGameURL}</a>
-      </span>
+      <span id="game-url">{roomUrl}</span>
+      <CopyToClipboard text={roomUrl}>
+        <button>Copy link</button>
+      </CopyToClipboard>
       <ChessBoard numberOfCells={6} numberOfRows={6} />
     </div>
   );
