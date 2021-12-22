@@ -6,7 +6,7 @@ const ChessBoardPieces = () => {
   return (
     <div id="chess-game-pieces">
       {pieces.map((figure) => (
-        <p className={figure + '-piece'} key={figure}>
+        <p key={figure}>
           {figure}
         </p>
       ))}
