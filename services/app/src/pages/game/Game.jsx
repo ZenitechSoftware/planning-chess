@@ -9,7 +9,7 @@ function Room() {
       <h1>GAME</h1>
       <span id="game-url">{roomUrl}</span>
       <CopyToClipboard text={roomUrl}>
-        <button>Copy link</button>
+        <button type="button">Copy link</button>
       </CopyToClipboard>
       <ChessBoard numberOfColumns={6} numberOfRows={6} />
     </div>
