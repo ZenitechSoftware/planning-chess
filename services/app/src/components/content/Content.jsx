@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Game from 'pages/game/Game';
+import Game from '../../pages/game/Game';
 import NameRoute from '../nameRoute/NameRoute';
 
-const Content = () => {
+function Content() {
   return (
     <Routes>
       <Route element={<NameRoute/>}>
@@ -11,6 +11,6 @@ const Content = () => {
       </Route>
     </Routes>
   );
-};
+}
 
 export default Content;
