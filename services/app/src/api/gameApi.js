@@ -1,3 +1,3 @@
-import HTTP from '../http';
+import { get } from '../http';
 
-export const getGame = (uuidString) => HTTP.get(`/api/game/${uuidString}`);
+export default (uuidString) => get(`/api/game/${uuidString}`);

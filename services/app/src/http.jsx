@@ -1,21 +1,5 @@
-export async function get(url, options = {}) {
-  return await request(url, undefined, { method: 'GET', ...options });
-}
-
-export async function post(url, data, options = {}) {
-  return await request(url, data, { method: 'POST', ...options });
-}
-
-export async function put(url, data, options = {}) {
-  return await request(url, data, { method: 'PUT', ...options });
-}
-
-export async function DELETE(url, data, options = {}) {
-  return await request(url, data, { method: 'DELETE', ...options });
-}
-
 async function request(url, data, options) {
-  let body = undefined;
+  let body;
   const extraHeaders = {};
 
   if (data !== undefined) {
@@ -41,6 +25,22 @@ async function request(url, data, options) {
   }
 
   return res;
+}
+
+export function get(url, options = {}) {
+  return request(url, undefined, { method: 'GET', ...options });
+}
+
+export function post(url, data, options = {}) {
+  return request(url, data, { method: 'POST', ...options });
+}
+
+export function put(url, data, options = {}) {
+  return request(url, data, { method: 'PUT', ...options });
+}
+
+export function DELETE(url, data, options = {}) {
+  return request(url, data, { method: 'DELETE', ...options });
 }
 
 export default {

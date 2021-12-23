@@ -1,6 +1,10 @@
 table {
-  border: 1px solid black;
   text-align: center;
+}
+
+#chess-board .white-tile,
+.black-tile {
+  border: 1px solid black;
 }
 
 #chess-board .white-tile {
