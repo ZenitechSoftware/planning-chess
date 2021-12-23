@@ -16,7 +16,7 @@ const NameRoute = () => {
     setAuth(true);
   }
 
-  return auth ? 'todo nothing is user doesnt exist' : 'todo custom pop up element if user doesnt exist';
+  return auth ? 'todo let user to the game if user exists in local storage' : 'todo custom pop up element if user doesnt exist';
 };
 
 export default NameRoute;
