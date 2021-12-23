@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "services/app/**"
+    branches:
+      - main
   pull_request:
     paths:
       - "services/app/**"

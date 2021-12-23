@@ -1,37 +1,17 @@
-/* global module */
-
 module.exports = {
   env: {
+    commonjs: true,
+    es2021: true,
     es6: true,
     browser: true,
     jest: true,
   },
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 2020,
-    ecmaFeatures: {
-      jsx: true,
-    },
-    sourceType: 'module',
-  },
-  settings: {
-    react: {
-      version: '16.13.1',
-    },
-  },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
-  plugins: ['react', 'react-hooks'],
+  extends: ['airbnb', 'prettier'],
   rules: {
-    semi: [2, 'always'],
-    indent: ['error', 2],
-    quotes: ['error', 'single', { avoidEscape: true }],
-    'jsx-quotes': ['error', 'prefer-double'],
-    'comma-dangle': ['warn', 'always-multiline'],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'no-multiple-empty-lines': ['error', { max: 2 }],
-    'eol-last': ['error'],
-    'no-console': ['error', { allow: ['warn', 'error', 'info', 'debug'] }],
-    'object-curly-spacing': ['error', 'always'],
+    'no-throw-literal': 'off',
+    'no-console': 'error',
+    'react/function-component-definition': 'off',
+    'react/no-array-index-key': 'off',
+    'no-nested-ternary': 'off',
   },
 };

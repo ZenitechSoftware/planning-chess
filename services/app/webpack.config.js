@@ -1,5 +1,3 @@
-/* global  module __dirname process */
-
 const path = require('path');
 const crypto = require('crypto');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
