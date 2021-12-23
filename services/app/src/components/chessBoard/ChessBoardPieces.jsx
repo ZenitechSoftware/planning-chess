@@ -6,9 +6,7 @@ const ChessBoardPieces = () => {
   return (
     <div id="chess-game-pieces">
       {pieces.map((figure) => (
-        <p key={figure}>
-          {figure}
-        </p>
+        <p key={figure}>{figure}</p>
       ))}
     </div>
   );
