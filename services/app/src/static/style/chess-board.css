@@ -2,7 +2,8 @@ table {
   text-align: center;
 }
 
-.white-tile, .black-tile {
+.white-tile,
+.black-tile {
   border: 1px solid black;
 }
 
