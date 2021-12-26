@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 function promptInput() {
   const person = prompt('Please enter your name');
   if (person != null) {
-    window.localStorage.setItem('playerName', person);
+    window.localStorage.setItem('user', person);
   }
 }
 
@@ -25,8 +25,7 @@ const NameRoute = () => {
   useEffect(() => {
     const userFormLocalStorage = localStorage.getItem('user');
     if (userFormLocalStorage) {
-      const foundUser = JSON.parse(userFormLocalStorage);
-      setUser(foundUser);
+      setUser(userFormLocalStorage);
       setAuth(true);
     }
   }, [user]);
