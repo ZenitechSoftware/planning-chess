@@ -8,7 +8,7 @@ test('test Game page elements', () => {
   expect(screen.getByText('http://localhost/')).toBeInTheDocument();
   fireEvent.click(screen.getByText('Copy link'));
   const pieces = ['pawn', 'knight', 'bishop', 'rook', 'king', 'queen'];
-  pieces.forEach(p => {
+  pieces.forEach((p) => {
     expect(screen.getByText(p)).toBeInTheDocument();
   });
 });
