@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import Outlet from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+
+function WindowPrompt() {
+  return (
+    <div className="windowPrompt">
+      <button onClick={prompt()}>Press Me</button>
+    </div>
+  );
+}
+
+function prompt() {
+  let person = prompt('Please enter your name');
+  if (person != null) {
+    window.localStorage.setItem('playerName', person);
+  }
+}
 
 const NameRoute = () => {
-
   const [user, setUser] = useState();
   const [auth, setAuth] = useState(false);
 
@@ -18,7 +32,7 @@ const NameRoute = () => {
     setAuth(true);
   }
 
-  return auth ? 'todo let user to the game if user exists in local storage, firstly try to use Outlet' : 'todo custom prompt element if user doesnt exist';
+  return auth ? <Outlet /> : <WindowPrompt />;
 };
 
 export default NameRoute;

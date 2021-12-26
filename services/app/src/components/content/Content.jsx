@@ -6,7 +6,7 @@ import NameRoute from '../nameRoute/NameRoute';
 function Content() {
   return (
     <Routes>
-      <Route element={<NameRoute />}>
+      <Route path="/" element={<NameRoute />}>
         <Route path="/game/:id" element={<Game />} />
       </Route>
     </Routes>
