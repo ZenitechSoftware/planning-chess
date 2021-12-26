@@ -19,7 +19,7 @@ function WindowPrompt() {
 }
 
 const NameRoute = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState('');
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
