@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-function WindowPrompt() {
-  return (
-    <div className="windowPrompt">
-      <button onClick={prompt()}>Press Me</button>
-    </div>
-  );
-}
-
-function prompt() {
-  let person = prompt('Please enter your name');
+function promptInput() {
+  const person = prompt('Please enter your name');
   if (person != null) {
     window.localStorage.setItem('playerName', person);
   }
+}
+
+function WindowPrompt() {
+  return (
+    <div className="windowPrompt">
+      <button type="button" onClick={promptInput()}>
+        Press Me
+      </button>
+    </div>
+  );
 }
 
 const NameRoute = () => {
@@ -25,12 +27,9 @@ const NameRoute = () => {
     if (userFormLocalStorage) {
       const foundUser = JSON.parse(userFormLocalStorage);
       setUser(foundUser);
+      setAuth(true);
     }
   }, [user]);
-
-  if (user !== null) {
-    setAuth(true);
-  }
 
   return auth ? <Outlet /> : <WindowPrompt />;
 };
