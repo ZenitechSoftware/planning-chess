@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-
-function promptInput() {
-  const person = prompt('Please enter your name');
-  if (person != null) {
-    window.localStorage.setItem('user', person);
-  }
-}
-
-function WindowPrompt() {
-  return (
-    <div className="windowPrompt">
-      <button type="button" onClick={promptInput()}>
-        Press Me
-      </button>
-    </div>
-  );
-}
+import WindowPrompt from '../nameRoute/Prompt';
 
 const NameRoute = () => {
   const [user, setUser] = useState('');
