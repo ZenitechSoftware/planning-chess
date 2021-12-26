@@ -1,18 +1,21 @@
 import React from 'react';
 
 function promptInput() {
-  const person = prompt('Please enter your name');
-  if (person != null) {
-    window.localStorage.setItem('user', person);
+  if (
+    localStorage.getItem('user') === '' ||
+    localStorage.getItem('user') === null
+  ) {
+    const person = prompt('Please enter your name');
+    if (person != null) {
+      window.localStorage.setItem('user', person);
+    }
   }
 }
 
 function WindowPrompt() {
   return (
     <div className="windowPrompt">
-      <button type="button" onClick={promptInput()}>
-        Press Me
-      </button>
+      <script src={promptInput()} />
     </div>
   );
 }
