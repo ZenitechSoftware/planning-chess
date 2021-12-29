@@ -2,7 +2,7 @@ table {
   text-align: center;
 }
 
-#chess-board .white-tile,
+.white-tile,
 .black-tile {
   border: 1px solid black;
 }
