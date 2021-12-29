@@ -4,8 +4,8 @@ import WindowPrompt from '../prompt/WindowPrompt';
 import {useUserFromLocalStorage} from "../../hooks/useUserFromLocalStorage";
 
 const NameRoute = () => {
-  const auth = useUserFromLocalStorage();
-  return auth ? <Outlet /> : <WindowPrompt />;
+  const {authentication} = useUserFromLocalStorage();
+  return authentication ? <Outlet /> : <WindowPrompt />;
 }
 
 export default NameRoute;
