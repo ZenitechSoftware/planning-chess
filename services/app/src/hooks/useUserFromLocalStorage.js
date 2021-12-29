@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export const useUserFromLocalStorage = () => {
-    const [user, setUser] = useState('');
-    const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState('');
+  const [auth, setAuth] = useState(false);
 
-    useEffect(() => {
-        const userFromLocalStorage = localStorage.getItem('user');
-        if (userFromLocalStorage) {
-            setUser(userFromLocalStorage);
-            setAuth(true);
-        }
-    }, [user]);
-    return {authentication: auth, username: user};
+  useEffect(() => {
+    const userFromLocalStorage = localStorage.getItem('user');
+    if (userFromLocalStorage) {
+      setUser(userFromLocalStorage);
+      setAuth(true);
+    }
+  }, [user]);
+  return { authentication: auth, username: user };
 };

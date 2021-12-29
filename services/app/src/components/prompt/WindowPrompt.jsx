@@ -12,10 +12,6 @@ const promptInput = () => {
   }
 };
 
-const WindowPrompt = () => (
-  <div className="windowPrompt">
-    {promptInput()}
-  </div>
-);
+const WindowPrompt = () => <div className="windowPrompt">{promptInput()}</div>;
 
 export default WindowPrompt;
