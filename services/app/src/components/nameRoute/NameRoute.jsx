@@ -7,9 +7,9 @@ const NameRoute = () => {
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    const userFormLocalStorage = localStorage.getItem('user');
-    if (userFormLocalStorage) {
-      setUser(userFormLocalStorage);
+    const userFromLocalStorage = localStorage.getItem('user');
+    if (userFromLocalStorage) {
+      setUser(userFromLocalStorage);
       setAuth(true);
     }
   }, [user]);
