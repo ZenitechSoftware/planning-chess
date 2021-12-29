@@ -1,6 +1,6 @@
 import React from 'react';
 
-function promptInput() {
+const promptInput = () => {
   if (
     localStorage.getItem('user') === '' ||
     localStorage.getItem('user') === null
@@ -10,14 +10,12 @@ function promptInput() {
       window.localStorage.setItem('user', person);
     }
   }
-}
+};
 
-function WindowPrompt() {
-  return (
-    <div className="windowPrompt">
-      <script src={promptInput()} />
-    </div>
-  );
-}
+const WindowPrompt = () => (
+  <div className="windowPrompt">
+    {promptInput()}
+  </div>
+);
 
 export default WindowPrompt;
