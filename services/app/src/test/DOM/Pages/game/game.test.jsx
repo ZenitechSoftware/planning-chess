@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from '../../../../pages/game/Game';
+import Player from '../../../../components/player/Player';
 
 test('test Game page elements', () => {
   render(<Game />);
@@ -11,4 +12,10 @@ test('test Game page elements', () => {
   pieces.forEach((p) => {
     expect(screen.getByText(p)).toBeInTheDocument();
   });
+});
+
+test('test Player page elements', () => {
+  render(<Player name="username" />);
+  expect(screen.getByText('username')).toBeInTheDocument();
+
 });
