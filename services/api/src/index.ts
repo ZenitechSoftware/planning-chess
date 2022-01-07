@@ -2,7 +2,7 @@
 import express from 'express';
 import * as path from 'path';
 import app from './app';
-import { WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 
 app.use(express.static(path.join(__dirname, '/../../../app/dist')));
 app.get('*', (_req, res) => {
@@ -16,24 +16,31 @@ const wss = new WebSocketServer({
 });
 
 const users: Array<string> = [];
+const players = new Map<string, WebSocket>();
+
 server.on('upgrade', (req, socket, head) => {
   wss.handleUpgrade(req, socket, head, (ws, request) => {
 
     wss.emit('connection', ws, request);
 
-    ws.on('message', function message(data, isBinary) {
-      wss.clients.forEach(function each(client) {
-        if (client.readyState === 1) {
-          console.log(users);
-          const newUser = data.toString();
-          if (users.includes(newUser)) {
-            client.send('Please select another name', { binary: isBinary });
-          } else {
-            users.push(newUser);
-            client.send(JSON.stringify(users), { binary: isBinary });
+    ws.once('message', function message(data, isBinary) {
+      const newUser = data.toString();
+      players.set(newUser, ws);
+      ws.on('close', () => {
+        players.delete(newUser);
+        const allPlayers = Array.from(players.keys());
+        for (const connection of players.values()) {
+          if (connection.readyState === 1) {
+            connection.send(JSON.stringify(allPlayers), { binary: isBinary });
           }
         }
       });
+      const allPlayers = Array.from(players.keys());
+      for (const connection of players.values()) {
+        if (connection.readyState === 1) {
+          connection.send(JSON.stringify(allPlayers), { binary: isBinary });
+        }
+      }
     });
   });
 });

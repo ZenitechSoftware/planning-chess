@@ -10,9 +10,7 @@ function Room() {
   const username = localStorage.getItem('user') 
   const [wsConnection, users] = useWebSockets('/api/ws-game');
 
- 
   const handleSubmit = () => {
-    console.log(username)
       wsConnection.send(username);
   };
 
