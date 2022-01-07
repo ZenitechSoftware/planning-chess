@@ -17,5 +17,4 @@ test('test Game page elements', () => {
 test('test Player page elements', () => {
   render(<Player name="username" />);
   expect(screen.getByText('username')).toBeInTheDocument();
-
 });
