@@ -13,8 +13,8 @@ export const useUserFromLocalStorage = () => {
       const person = prompt('Please enter your name');
       window.localStorage.setItem('user', person);
       setUser(userFromLocalStorage);
-      setAuth(true)
-      }
-    }, []);
+      setAuth(true);
+    }
+  }, []);
   return { authentication: auth, username: user };
 };

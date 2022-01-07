@@ -4,7 +4,7 @@ import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 
 const NameRoute = () => {
   const { authentication } = useUserFromLocalStorage();
-  return authentication && <Outlet /> ;
+  return authentication && <Outlet />;
 };
 
 export default NameRoute;

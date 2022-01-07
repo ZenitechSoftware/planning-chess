@@ -7,7 +7,7 @@ import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
-  const {username} = useUserFromLocalStorage();
+  const { username } = useUserFromLocalStorage();
   return (
     <div>
       <h1>GAME</h1>
