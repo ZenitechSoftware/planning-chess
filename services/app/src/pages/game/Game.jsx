@@ -1,13 +1,14 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets'
+import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
+import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
-  const username = localStorage.getItem('user') 
+  const { username } = useUserFromLocalStorage();
   const [wsConnection, users] = useWebSockets('/api/ws-game');
 
   const handleSubmit = () => {
@@ -32,6 +33,7 @@ function Room() {
         submit
       </button>
       <ChessBoard numberOfColumns={6} numberOfRows={6} />
+      <ChessBoardPieces />
     </div>
   );
 }

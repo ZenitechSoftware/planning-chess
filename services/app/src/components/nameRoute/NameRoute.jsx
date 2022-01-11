@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
-import WindowPrompt from '../prompt/WindowPrompt';
+import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 
 const NameRoute = () => {
-  const [user, setUser] = useState('');
-  const [auth, setAuth] = useState(false);
-
-  useEffect(() => {
-    const userFormLocalStorage = localStorage.getItem('user');
-    if (userFormLocalStorage) {
-      setUser(userFormLocalStorage);
-      setAuth(true);
-    }
-  }, [user]);
-
-  return auth ? <Outlet /> : <WindowPrompt />;
+  const { authentication } = useUserFromLocalStorage();
+  return authentication && <Outlet />;
 };
 
 export default NameRoute;
