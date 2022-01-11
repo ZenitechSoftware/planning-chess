@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
@@ -25,7 +25,7 @@ function Room() {
       <div>
         <h2>Team</h2>
         <div>
-          {/* {users && users.split('-').map((user) => user !== username)} */}
+          {users.map((user) => user !== username && user)}
         </div>
       </div>
       <button type="submit" onClick={() => handleSubmit()}>

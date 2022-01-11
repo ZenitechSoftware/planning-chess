@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable import/prefer-default-export */
+import { useEffect, useState } from 'react';
 
 export const useWebSockets = (endpoint) => {
     const url = `ws://localhost:8081${endpoint}`;
@@ -21,8 +23,7 @@ export const useWebSockets = (endpoint) => {
 
       ws.addEventListener('message', (event) => {
           const newUser = event.data
-          console.log(event.data)
-          setUsers(newUser)
+          setUsers(JSON.parse(newUser))
         }
       )
     }, [])
