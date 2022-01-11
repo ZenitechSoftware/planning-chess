@@ -24,8 +24,5 @@
   "license": "MIT",
   "devDependencies": {
     "lerna": "^4.0.0"
-  },
-  "dependencies": {
-    "react-router-dom": "^6.2.1"
   }
 }
