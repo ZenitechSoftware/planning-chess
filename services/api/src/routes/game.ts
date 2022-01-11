@@ -1,10 +1,7 @@
 import express from 'express';
-import express_ws from 'express-ws';
 import Joi from 'joi';
 
 const router = express.Router();
-const expressWs = express_ws(express());
-
 
 const validationOfPath = () => {
   const uuidPath = '671e2367-86c3-453a-9df8-3c0048145b64';

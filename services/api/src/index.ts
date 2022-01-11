@@ -15,12 +15,10 @@ const wss = new WebSocketServer({
   noServer: true,
 });
 
-const users: Array<string> = [];
 const players = new Map<string, WebSocket>();
 
 server.on('upgrade', (req, socket, head) => {
   wss.handleUpgrade(req, socket, head, (ws, request) => {
-
     wss.emit('connection', ws, request);
 
     ws.once('message', function message(data, isBinary) {

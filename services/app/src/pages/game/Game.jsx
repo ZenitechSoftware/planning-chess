@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
-import { useWebSockets } from '../../utils/useWebSockets'
+import { useWebSockets } from '../../utils/useWebSockets';
 import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 
@@ -12,7 +12,7 @@ function Room() {
   const [wsConnection, users] = useWebSockets('/api/ws-game');
 
   const handleSubmit = () => {
-      wsConnection.send(username);
+    wsConnection.send(username);
   };
 
   return (
@@ -25,9 +25,7 @@ function Room() {
       <Player name={username} />
       <div>
         <h2>Team</h2>
-        <div>
-          {users.map((user) => user !== username && user)}
-        </div>
+        <div>{users.map((user) => user !== username && user)}</div>
       </div>
       <button type="submit" onClick={() => handleSubmit()}>
         submit
