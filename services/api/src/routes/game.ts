@@ -26,12 +26,4 @@ router.get('/:id', async (req, res) => {
     .catch(() => res.status(400).send({ message: 'Validation Error' }));
 });
 
-router.ws('/a/name', (ws, req) => {
-
-  ws.on('message', (msg) => {
-    console.log(msg);
-  });
-  console.log('socket', req.params);
-});
-
 export default router;
