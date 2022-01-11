@@ -1,11 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Game from '../../pages/game/Game';
+import NameRoute from '../nameRoute/NameRoute';
 
 function Content() {
   return (
     <Routes>
-      <Route path="/game/:id" element={<Game />} />
+      <Route element={<NameRoute />}>
+        <Route path="/game/:id" element={<Game />} />
+      </Route>
     </Routes>
   );
 }

@@ -13,5 +13,6 @@ module.exports = {
     'react/function-component-definition': 'off',
     'react/no-array-index-key': 'off',
     'no-nested-ternary': 'off',
+    'import/prefer-default-export': 'off',
   },
 };
