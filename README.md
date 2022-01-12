@@ -56,6 +56,10 @@ The consensus-based chess inspired estimation game.
 - Player should let system know about his move completion
 - Professional look-and-feel
 
+## Visual design
+
+[Figma design](https://www.figma.com/file/YLW1i75Qq3FLzHtpxz1Lgi/Planning-Chess)
+
 ## Tech stack
 
 - React and Node.js (Typescript)
