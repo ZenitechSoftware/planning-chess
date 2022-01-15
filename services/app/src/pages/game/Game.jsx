@@ -4,6 +4,7 @@ import ChessBoard from '../../components/chessBoard/ChessBoard';
 import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import Player from '../../components/player/Player';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
+import ChessGameProvider from '../../contexts/ChessBoardContext';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
@@ -16,8 +17,10 @@ function Room() {
         <button type="button">Copy link</button>
       </CopyToClipboard>
       <Player name={username} />
-      <ChessBoard numberOfColumns={6} numberOfRows={6} />
-      <ChessBoardPieces />
+      <ChessGameProvider>
+        <ChessBoard />
+        <ChessBoardPieces />
+      </ChessGameProvider>
     </div>
   );
 }
