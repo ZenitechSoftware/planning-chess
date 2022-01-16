@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 export const useWebSockets = (endpoint) => {
   const url = `ws://localhost:8081${endpoint}`;
-  const ws = new WebSocket(url);
   const [users, setUsers] = useState([]);
+  const ws = useMemo(() => new WebSocket(url), [url]);
 
   useEffect(() => {
     ws.addEventListener('open', () => {
@@ -25,7 +25,7 @@ export const useWebSockets = (endpoint) => {
       const newUser = event.data;
       setUsers(JSON.parse(newUser));
     });
-  }, []);
+  }, [ws]);
 
   return [ws, users];
 };
