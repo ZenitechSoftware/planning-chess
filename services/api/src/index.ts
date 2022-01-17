@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import express from 'express';
 import * as path from 'path';
 import app from './app';
