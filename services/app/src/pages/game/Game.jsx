@@ -27,7 +27,7 @@ function Room() {
         <h2>Team</h2>
         <div>{users.map((user) => user !== username && user)}</div>
       </div>
-      <button type="submit" onClick={() => handleSubmit()}>
+      <button type="submit" onClick={handleSubmit}>
         submit
       </button>
       <ChessBoard numberOfColumns={6} numberOfRows={6} />
