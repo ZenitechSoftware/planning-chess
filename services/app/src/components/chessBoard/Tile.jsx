@@ -15,7 +15,7 @@ const Tile = ({
 
   const _onClick = useCallback(() => {
     onClick(row, column);
-  }, [onClick]);
+  }, [onClick, row, column]);
 
   return (
     <td
