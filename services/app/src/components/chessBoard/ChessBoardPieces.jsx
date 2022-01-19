@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
-import { pieces } from '../../constants/board';
+import { PIECES } from '../../constants/board';
 
 const ChessBoardPieces = () => {
   const { setSelectedItem } = useContext(ChessBoardContext);
 
   return (
     <div id="chess-game-pieces">
-      {pieces.map((figure) => (
+      {PIECES.map((figure) => (
         <p
           role="presentation"
           key={figure}
