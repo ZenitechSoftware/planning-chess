@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from '../../../../pages/game/Game';
 import Player from '../../../../components/player/Player';
-import { PIECES } from '../../../../constants/board'
+import { PIECES } from '../../../../constants/board';
 
 test('test Game page elements', () => {
   render(<Game />);
