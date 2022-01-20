@@ -4,7 +4,7 @@ import Joi from 'joi';
 const router = express.Router();
 
 const validationOfPath = () => {
-  const uuidPath = '671e2367-86c3-453a-9df8-3c0048145b64';
+  const uuidPath = `${process.env.GAME_ROOM_UUID}`;
   return Joi.string().valid(uuidPath);
 };
 

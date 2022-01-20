@@ -17,6 +17,9 @@ function Room() {
     ws.send(username);
   };
 
+  const findUserByUsername = (userName) =>
+    users.find((element) => element.name === userName);
+
   return (
     <div>
       <h1>GAME</h1>
@@ -27,7 +30,11 @@ function Room() {
       <Player name={username} />
       <div>
         <h2>Team</h2>
-        <div>{users.map((user) => user.name !== username && user.name)}</div>
+        <div>
+          {users.map(
+            (user) => user.id !== findUserByUsername(username).id && user.name,
+          )}
+        </div>
       </div>
       <button type="submit" onClick={handleSubmit}>
         submit
