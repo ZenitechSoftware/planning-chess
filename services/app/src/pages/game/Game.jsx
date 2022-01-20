@@ -13,6 +13,10 @@ function Room() {
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
 
+  window.onload = () => {
+      ws.send(username)
+  }
+
   const handleSubmit = () => {
     ws.send(username);
   };
