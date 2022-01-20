@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
 import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
+import { WsContext } from '../../contexts/ws-context';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-  const [wsConnection, users] = useWebSockets('/api/ws-game');
+  const { users } = useWebSockets();
+  const { ws } = useContext(WsContext);
 
   const handleSubmit = () => {
-    wsConnection.send(username);
+    ws.send(username);
   };
 
   return (
@@ -25,7 +27,7 @@ function Room() {
       <Player name={username} />
       <div>
         <h2>Team</h2>
-        <div>{users.map((user) => user !== username && user)}</div>
+        <div>{users.map((user) => user.name !== username && user.name)}</div>
       </div>
       <button type="submit" onClick={handleSubmit}>
         submit

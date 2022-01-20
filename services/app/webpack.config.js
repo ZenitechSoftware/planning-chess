@@ -2,6 +2,7 @@ const path = require('path');
 const crypto = require('crypto');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -79,5 +80,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css?v=[chunkhash]',
     }),
+    new Dotenv(),
   ],
 };
