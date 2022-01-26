@@ -1,9 +1,11 @@
 import request from 'supertest';
 import app from '../../src/app';
+import { config } from 'dotenv';
 
 describe('/api/game', function () {
   describe('GET /671e2367-86c3-453a-9df8-3c0048145b64', function () {
     it('should return status 200 and message', async function () {
+      config();
       await request(app)
         .get('/api/game/671e2367-86c3-453a-9df8-3c0048145b64')
         .expect('Content-Type', 'application/json; charset=utf-8')
@@ -15,6 +17,7 @@ describe('/api/game', function () {
 describe('/api/game', function () {
   describe('GET /123-456', function () {
     it('should return status 400 and massage', async function () {
+      config();
       await request(app)
         .get('/api/game/123-456')
         .expect('Content-Type', 'application/json; charset=utf-8')

@@ -1,7 +1,10 @@
 import express from 'express';
 import Joi from 'joi';
+import { config } from 'dotenv';
 
 const router = express.Router();
+
+config();
 
 const validationOfPath = () => {
   const uuidPath = `${process.env.GAME_ROOM_UUID}`;
