@@ -14,8 +14,8 @@ function Room() {
   const { ws } = useContext(WsContext);
 
   window.onload = () => {
-      ws.send(username)
-  }
+    ws.send(username);
+  };
 
   const handleSubmit = () => {
     ws.send(username);
