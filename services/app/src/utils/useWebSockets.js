@@ -8,10 +8,12 @@ export const useWebSockets = () => {
   const { ws } = useContext(WsContext);
 
   useEffect(() => {
-    ws.addEventListener('message', (event) => {
-      const newUser = event.data;
-      setUsers(JSON.parse(newUser));
-    });
+    if (ws !== undefined) {
+      ws.addEventListener('message', (event) => {
+        const newUser = event.data;
+        setUsers(JSON.parse(newUser));
+      });
+    }
   }, [ws]);
 
   return { users };

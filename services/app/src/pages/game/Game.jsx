@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
@@ -13,9 +13,11 @@ function Room() {
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
 
-  window.onload = () => {
-    ws.send(username);
-  };
+  useEffect(() => {
+    if (username) {
+      ws.send(username);
+    }
+  }, [username]);
 
   const handleSubmit = () => {
     ws.send(username);
