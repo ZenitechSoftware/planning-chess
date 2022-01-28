@@ -31,19 +31,23 @@ function Example() {
         </Button>
       </div>
 
-      <div id="dropdown">
-        <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}>
+        <div id="dropdown">
           <input id="nameInput" placeholder="Enter your name here" />
           <ModalFooter>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onclick='RoomIsReadyFunc("+person+");'>
+            <Button
+              id="saveChanges"
+              variant="primary"
+              onclick='RoomIsReadyFunc("+person+");'
+            >
               Save Changes
             </Button>
           </ModalFooter>
-        </Modal>
-      </div>
+        </div>
+      </Modal>
     </>
   );
 }
