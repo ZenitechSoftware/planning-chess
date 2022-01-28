@@ -1,0 +1,14 @@
+#title {
+  font-weight: bold;
+  text-align: center;
+  font-size: larger;
+  color: blue;
+}
+#button {
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+}
+#dropdown {
+  text-align: center;
+}
