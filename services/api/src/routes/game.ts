@@ -1,7 +1,15 @@
 import express from 'express';
 import Joi from 'joi';
+import { config } from 'dotenv';
 
 const router = express.Router();
+
+config();
+
+const validationOfPath = () => {
+  const uuidPath = `${process.env.GAME_ROOM_UUID}`;
+  return Joi.string().valid(uuidPath);
+};
 
 router.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,9 +18,7 @@ router.use((_req, res, next) => {
 
 router.get('/:id', async (req, res) => {
   const passedUUID = req.params.id;
-  const uuidPath = '671e2367-86c3-453a-9df8-3c0048145b64';
-
-  const pathValidationSchema = Joi.string().valid(uuidPath);
+  const pathValidationSchema = validationOfPath();
 
   await pathValidationSchema
     .validateAsync(passedUUID)
