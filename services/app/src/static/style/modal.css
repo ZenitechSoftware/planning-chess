@@ -3,12 +3,209 @@
   text-align: center;
   font-size: larger;
   color: blue;
-}
-#button {
-  display: flex;
-  justify-content: center;
-  padding: 100px;
+  padding-top: 1%;
 }
 #dropdown {
   text-align: center;
+}
+#buttonDiv {
+  text-align: center;
+  padding-top: 22%;
+}
+#bothButtons {
+  display: flex;
+  place-content: flex-end;
+  padding-top: 15px;
+}
+#nameInput {
+  margin-bottom: 10px;
+  appearance: button;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Ubuntu, sans-serif;
+  font-size: 90%;
+  height: 44px;
+  width: 200px;
+  line-height: 1.15;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all 0.2s, box-shadow 0.08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Button CSS */
+#button-7 {
+  appearance: button;
+  text-align: center;
+  backface-visibility: hidden;
+  background-color: #405cf5;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Ubuntu, sans-serif;
+  font-size: 90%;
+  height: 45px;
+  width: 200px;
+  line-height: 1.15;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all 0.2s, box-shadow 0.08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#button-7:hover,
+#button-7:focus {
+  box-shadow: gray 0 0 0 1px inset, gray 0 6px 15px 0, gray 0 2px 2px 0,
+    gray 0 0 0 4px;
+}
+
+#button-7:active {
+  background-color: #0095ff;
+  box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
+}
+
+/* Button-8 CSS */
+#button-8 {
+  appearance: button;
+  text-align: center;
+  backface-visibility: hidden;
+  background-color: red;
+  margin-right: 5px;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Ubuntu, sans-serif;
+  font-size: 90%;
+  height: 30px;
+  line-height: 1.15;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all 0.2s, box-shadow 0.08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#button-8:hover,
+#button-8:focus {
+  box-shadow: gray 0 0 0 1px inset, gray 0 6px 15px 0, gray 0 2px 2px 0,
+    gray 0 0 0 4px;
+}
+
+#button-8:active {
+  background-color: red;
+  box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
+}
+
+/* Button-9 CSS */
+#button-9 {
+  appearance: button;
+  text-align: center;
+  backface-visibility: hidden;
+  background-color: rgba(10, 206, 23, 0.952);
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Ubuntu, sans-serif;
+  font-size: 90%;
+  height: 30px;
+  line-height: 1.15;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all 0.2s, box-shadow 0.08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#button-9:hover,
+#button-9:focus {
+  box-shadow: gray 0 0 0 1px inset, gray 0 6px 15px 0, gray 0 2px 2px 0,
+    gray 0 0 0 4px;
+}
+
+#button-9:active {
+  background-color: rgba(10, 206, 23, 0.952);
+  box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
+}
+
+/* Modal CSS */
+
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  position: relative;
+  text-align: center;
+  background-color: #fcfcfc;
+  top: -350px;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%; /* Could be more or less, depending on screen size */
+  height: 50%;
+  -webkit-animation: slide 3s forwards;
+  animation: slide 3s forwards;
+}
+@-webkit-keyframes slide {
+  100% {
+    top: 60px;
+  }
+}
+
+@keyframes slide {
+  100% {
+    top: 60px;
+  }
 }

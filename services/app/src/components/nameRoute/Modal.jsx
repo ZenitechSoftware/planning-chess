@@ -8,9 +8,11 @@ import ModalTitle from 'react-bootstrap/ModalTitle';
 import ModalBody from 'react-bootstrap/ModalBody';
 import ModalFooter from 'react-bootstrap/ModalFooter';
 import '../../static/style/modal.css';
+import NameRoute from './NameRoute';
 
 const saveName = (person) => {
   window.localStorage.setItem('user', person);
+  return <NameRoute />;
 };
 
 function Example() {
@@ -25,28 +27,24 @@ function Example() {
         <text> Planning Chess</text>
       </div>
 
-      <div id="button">
-        <Button variant="primary" onClick={handleShow}>
+      <div id="buttonDiv">
+        <Button variant="primary" onClick={handleShow} id="button-7">
           Press to enter your name
         </Button>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
-        <div id="dropdown">
-          <input id="nameInput" placeholder="Enter your name here" />
-          <ModalFooter>
-            <Button variant="secondary" onClick={handleClose}>
+      <Modal id="dropdown" show={show} onHide={handleClose}>
+        <input id="nameInput" placeholder="Enter your name here" />
+        <ModalFooter>
+          <div id="bothButtons">
+            <Button variant="secondary" onClick={handleClose} id="button-8">
               Close
             </Button>
-            <Button
-              id="saveChanges"
-              variant="primary"
-              onclick='RoomIsReadyFunc("+person+");'
-            >
-              Save Changes
+            <Button id="saveChanges" variant="primary" id="button-9">
+              Save
             </Button>
-          </ModalFooter>
-        </div>
+          </div>
+        </ModalFooter>
       </Modal>
     </>
   );
