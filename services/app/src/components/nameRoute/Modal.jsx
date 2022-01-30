@@ -10,21 +10,25 @@ import ModalFooter from 'react-bootstrap/ModalFooter';
 import '../../static/style/modal.css';
 import NameRoute from './NameRoute';
 
-const saveName = (person) => {
-  window.localStorage.setItem('user', person);
-  return <NameRoute />;
-};
-
 function Example() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const saveName = () => {
+    var input = document.getElementById('nameInput');
+    var inputVal = '';
+    if (input) {
+      inputVal = input.value;
+      window.localStorage.setItem('user', inputVal);
+    }
+  };
+
   return (
     <>
       <div id="title">
-        <text> Planning Chess</text>
+        <div> Planning Chess</div>
       </div>
 
       <div id="buttonDiv">
@@ -37,10 +41,10 @@ function Example() {
         <input id="nameInput" placeholder="Enter your name here" />
         <ModalFooter>
           <div id="bothButtons">
-            <Button variant="secondary" onClick={handleClose} id="button-8">
+            <Button id="button-8" onClick={handleClose}>
               Close
             </Button>
-            <Button id="saveChanges" variant="primary" id="button-9">
+            <Button id="button-9" onClick={saveName}>
               Save
             </Button>
           </div>
