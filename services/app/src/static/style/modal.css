@@ -200,12 +200,12 @@
 }
 @-webkit-keyframes slide {
   100% {
-    top: 60px;
+    top: 80px;
   }
 }
 
 @keyframes slide {
   100% {
-    top: 60px;
+    top: 80px;
   }
 }
