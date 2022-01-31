@@ -9,11 +9,6 @@ export const useUserFromLocalStorage = () => {
     if (userFromLocalStorage) {
       setUser(userFromLocalStorage);
       setAuth(true);
-    } else {
-      const person = prompt('Please enter your name');
-      window.localStorage.setItem('user', person);
-      setUser(userFromLocalStorage);
-      setAuth(true);
     }
   }, []);
   return { authentication: auth, username: user };
