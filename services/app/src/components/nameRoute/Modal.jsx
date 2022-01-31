@@ -8,7 +8,6 @@ import ModalTitle from 'react-bootstrap/ModalTitle';
 import ModalBody from 'react-bootstrap/ModalBody';
 import ModalFooter from 'react-bootstrap/ModalFooter';
 import '../../static/style/modal.css';
-import NameRoute from './NameRoute';
 
 function Example() {
   const [show, setShow] = useState(false);
@@ -22,6 +21,9 @@ function Example() {
     if (input) {
       inputVal = input.value;
       window.localStorage.setItem('user', inputVal);
+    }
+    if (localStorage.getItem('user') !== null) {
+      window.location.reload(false);
     }
   };
 

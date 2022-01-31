@@ -15,12 +15,12 @@ function Room() {
 
   useEffect(() => {
     if (username) {
-      ws.send(username);
+      ws.onopen = () => ws.send(username);
     }
   }, [username]);
 
   const handleSubmit = () => {
-    ws.send(username);
+    ws.onopen = () => ws.send(username);
   };
 
   const findUserByUsername = (userName) =>
