@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Game from '../../../../pages/game/Game';
+import Room from '../../../../pages/game/Game';
 import Player from '../../../../components/player/Player';
 
 test('test Game page elements', () => {
-  render(<Game />);
+  render(<Room />);
   expect(screen.getByText('GAME')).toBeInTheDocument();
   expect(screen.getByText('http://localhost/')).toBeInTheDocument();
   fireEvent.click(screen.getByText('Copy link'));

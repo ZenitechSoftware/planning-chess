@@ -20,7 +20,7 @@ function Room() {
     if (username && ws.readyState === 1) {
       ws.send(username);
     }
-  }, [username, ws.readyState]);
+  }, [username, ws?.readyState]);
 
   const handleSubmit = () => {
     ws.send(username);
