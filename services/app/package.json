@@ -49,6 +49,7 @@
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^6.0.2"
+    "react-router-dom": "^6.0.2",
+    "planning-chess-shared": "^1.0.0"
   }
 }

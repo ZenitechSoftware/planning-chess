@@ -1,7 +1,10 @@
 import express from 'express';
 import Joi from 'joi';
 import { config } from 'dotenv';
+import { createInitialState } from 'planning-chess-shared';
 
+const newGameState = createInitialState();
+console.info(newGameState);
 const router = express.Router();
 
 config();

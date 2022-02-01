@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-ws": "^5.0.2",
     "joi": "^17.5.0",
+    "planning-chess-shared": "^1.0.0",
     "uuidv4": "^6.2.12",
     "ws": "^8.4.0"
   },

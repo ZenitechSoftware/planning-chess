@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { reduce } from 'planning-chess-shared';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
@@ -7,6 +8,8 @@ import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 
+reduce();
+
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
@@ -14,10 +17,10 @@ function Room() {
   const { ws } = useContext(WsContext);
 
   useEffect(() => {
-    if (username) {
+    if (username && ws.readyState === 1) {
       ws.send(username);
     }
-  }, [username]);
+  }, [username, ws.readyState]);
 
   const handleSubmit = () => {
     ws.send(username);

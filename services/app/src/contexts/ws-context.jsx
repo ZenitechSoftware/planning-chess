@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useMemo, createContext } from 'react';
 
-export const WsContext = createContext('');
+export const WsContext = createContext({});
 
 // eslint-disable-next-line react/prop-types
 const WebSocketsContextProvider = ({ children }) => {
