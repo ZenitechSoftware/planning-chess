@@ -16,8 +16,6 @@ function Example() {
   const handleShow = () => setShow(true);
 
   const saveName = () => {
-    var input = document.getElementById('nameInput');
-    var inputVal = '';
     if (input) {
       inputVal = input.value;
       window.localStorage.setItem('user', inputVal);
