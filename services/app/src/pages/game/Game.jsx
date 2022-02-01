@@ -8,11 +8,10 @@ import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 
 function Room() {
-  const [roomUrl] = useState(window.location.href);
+  const [roomUrl] = useState(window.location.href.split('?')[0]);
   const { username } = useUserFromLocalStorage();
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
-
 
   useEffect(() => {
     if (username) {
