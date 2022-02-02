@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -20,7 +19,6 @@ const UserModal = () => {
   };
 
   const submitInfo = (event) => {
-    // alert(event.target.username.value)
     window.localStorage.setItem('user', event.target.username.value);
   };
 
