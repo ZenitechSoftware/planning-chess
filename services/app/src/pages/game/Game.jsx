@@ -8,7 +8,7 @@ import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 
 function Room() {
-  const [roomUrl] = useState(window.location.href.split('?')[0]);
+  const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
@@ -18,10 +18,6 @@ function Room() {
       ws.onopen = () => ws.send(username);
     }
   }, [username]);
-
-  const handleSubmit = () => {
-    ws.onopen = () => ws.send(username);
-  };
 
   const findUserByUsername = (userName) =>
     users.find((element) => element.name === userName);
@@ -42,9 +38,6 @@ function Room() {
           )}
         </div>
       </div>
-      <button type="submit" onClick={handleSubmit}>
-        submit
-      </button>
       <ChessBoard numberOfColumns={6} numberOfRows={6} />
       <ChessBoardPieces />
     </div>

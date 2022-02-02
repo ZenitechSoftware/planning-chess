@@ -19,7 +19,9 @@ const UserModal = () => {
   };
 
   const submitInfo = (event) => {
+    event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
+    window.location.reload();
   };
 
   return (
