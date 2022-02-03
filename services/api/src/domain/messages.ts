@@ -13,7 +13,7 @@ export interface Message {
     payload: unknown,
 }
 
-export interface newPlayerMessage {
+export interface NewPlayerMessage {
     playerName: string;
 }
 

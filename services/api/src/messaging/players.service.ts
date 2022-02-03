@@ -2,18 +2,18 @@ import WebSocket from 'ws';
 import { Player } from '../domain';
 import { uuid } from 'uuidv4';
 import logger from '../logger';
-import { Handler, Message, MessageType } from '../domain/messages';
+import { Handler, Message, MessageType, NewPlayerMessage } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
 
 const figureMoved: Handler = (ws, payload): void => {
-  logger.info(`Player ${players.get(ws).name} moved a figure.`);
+  logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   const newBoardState = gameService.figureMoved(payload);
   publish({ type: MessageType.NewBoardState, payload: newBoardState });
 };
 
-const playerConnected: Handler = (ws, payload: string): void => {
+const playerConnected: Handler = (ws, payload: NewPlayerMessage): void => {
   subscribe(ws, payload);
   newPlayerJoined();
 };
@@ -30,7 +30,7 @@ export const newPlayerJoined = (): void => {
   publish({ type: MessageType.NewPlayer, payload: allPlayers });
 };
 
-export const subscribe = (ws: WebSocket, playerName: string): void => {
+export const subscribe = (ws: WebSocket, { playerName }: NewPlayerMessage): void => {
   logger.info(`New player "${playerName}" joined the game.`);
   const newPlayer: Player = {
     id: uuid(),
@@ -41,7 +41,7 @@ export const subscribe = (ws: WebSocket, playerName: string): void => {
 
 export const unsubscribe = (ws: WebSocket): void => {
   const player = players.get(ws);
-  logger.info(`Unsubscribing player ${player.name}`);
+  logger.info(`Unsubscribing player ${player?.name}`);
   players.delete(ws);
 };
 

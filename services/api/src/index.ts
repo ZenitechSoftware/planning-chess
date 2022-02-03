@@ -18,7 +18,7 @@ const wss = new WebSocketServer({
 server.on('upgrade', (req, socket, head) => {
   wss.handleUpgrade(req, socket, head, (ws, request) => {
     wss.emit('connection', ws, request);
-    ws.once('message', (data) => {
+    ws.on('message', (data) => {
       playersService.newMessageReceived(ws, JSON.parse(data.toString()));
       ws.on('close', () => {
         playersService.unsubscribe(ws);
