@@ -2,7 +2,12 @@ import WebSocket from 'ws';
 import { Player } from '../domain';
 import { uuid } from 'uuidv4';
 import logger from '../logger';
-import { Handler, Message, MessageType, NewPlayerMessage } from '../domain/messages';
+import {
+  Handler,
+  Message,
+  MessageType,
+  NewPlayerMessage,
+} from '../domain/messages';
 import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
@@ -30,7 +35,10 @@ export const newPlayerJoined = (): void => {
   publish({ type: MessageType.NewPlayer, payload: allPlayers });
 };
 
-export const subscribe = (ws: WebSocket, { playerName }: NewPlayerMessage): void => {
+export const subscribe = (
+  ws: WebSocket,
+  { playerName }: NewPlayerMessage,
+): void => {
   logger.info(`New player "${playerName}" joined the game.`);
   const newPlayer: Player = {
     id: uuid(),
@@ -53,7 +61,7 @@ export const publish = (message: Message): void => {
   }
 };
 
-const handlers: { [key in MessageType]?: Handler} = {
+const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
 };

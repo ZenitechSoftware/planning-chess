@@ -1,22 +1,22 @@
 import WebSocket from 'ws';
 
 export enum MessageType {
-    PlayerConnected = 'PlayerConnected',
-    NewPlayer = 'NewPlayer',
-    PlayerDisconnected = 'PlayerDisconnected',
-    FigureMoved = 'FigureMoved',
-    NewBoardState = 'NewBoardState',
+  PlayerConnected = 'PlayerConnected',
+  NewPlayer = 'NewPlayer',
+  PlayerDisconnected = 'PlayerDisconnected',
+  FigureMoved = 'FigureMoved',
+  NewBoardState = 'NewBoardState',
 }
 
 export interface Message {
-    type: MessageType,
-    payload: unknown,
+  type: MessageType;
+  payload: unknown;
 }
 
 export interface NewPlayerMessage {
-    playerName: string;
+  playerName: string;
 }
 
 export interface Handler {
-    (ws: WebSocket, payload: unknown): void
+  (ws: WebSocket, payload: unknown): void;
 }
