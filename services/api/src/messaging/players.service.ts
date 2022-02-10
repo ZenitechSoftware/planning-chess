@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
+import { v4 as uuidv4  } from 'uuid';
 import { Player } from '../domain';
-import { uuid } from 'uuidv4';
 import logger from '../logger';
 import {
   Handler,
@@ -41,21 +41,20 @@ export const subscribe = (
 ): void => {
   logger.info(`New player "${playerName}" joined the game.`);
   const newPlayer: Player = {
-    id: uuid(),
+    id: uuidv4(),
     name: playerName,
   };
   players.set(ws, newPlayer);
 };
 
 export const unsubscribe = (ws: WebSocket): void => {
-  const player = players.get(ws);
-  logger.info(`Unsubscribing player ${player?.name}`);
+  logger.info(`Unsubscribing player ${players.get(ws)?.name}`);
   players.delete(ws);
 };
 
 export const publish = (message: Message): void => {
   for (const connection of players.keys()) {
-    if (connection.readyState === 1) {
+    if (connection.readyState === WebSocket.OPEN) {
       connection.send(JSON.stringify(message));
     }
   }

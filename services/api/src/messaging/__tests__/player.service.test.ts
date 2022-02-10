@@ -1,0 +1,55 @@
+import WebSocket from 'ws';
+import * as playerService from '../players.service';
+import { MessageType } from '../../domain/messages';
+import * as gameService from '../../game/game.service';
+
+jest.mock('ws');
+jest.mock('uuid', () => ({
+  v4: () => 'some-short-v4-uuid-0',
+}));
+jest.mock('../../game/game.service');
+
+describe('player.service', () => {
+  const ws = new WebSocket('');
+  beforeAll(() => {
+    Object.defineProperty(ws, 'readyState', { value: WebSocket.OPEN });
+    playerService.subscribe(ws, { playerName: 'player1' });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  afterAll(() => {
+    playerService.unsubscribe(ws);
+  });
+
+  it('should join a new player', () => {
+    const message = { type: MessageType.PlayerConnected, payload: { playerName: 'foo' } };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should move a chess figure', () => {
+    const payload = { move: 'test' };
+    const message = { type: MessageType.FigureMoved, payload };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock.mock.calls).toMatchSnapshot();
+    expect(gameService.figureMoved).toBeCalledWith(payload);
+  });
+
+  it('should disconnect a player', async () => {
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.playerDisconnected();
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should unsubscribe twice without crash', async () => {
+    playerService.unsubscribe(ws);
+    playerService.unsubscribe(ws);
+  });
+
+});
+
