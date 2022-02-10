@@ -25,7 +25,10 @@ describe('player.service', () => {
   });
 
   it('should join a new player', () => {
-    const message = { type: MessageType.PlayerConnected, payload: { playerName: 'foo' } };
+    const message = {
+      type: MessageType.PlayerConnected,
+      payload: { playerName: 'foo' },
+    };
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
@@ -50,6 +53,4 @@ describe('player.service', () => {
     playerService.unsubscribe(ws);
     playerService.unsubscribe(ws);
   });
-
 });
-
