@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
-    "format": "prettier --check \"src/**\" \"test/**\" \"*.js\" \"*.json\" '!package-lock.json'",
+    "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\" \"*.json\" '!package-lock.json' ",
+    "format:write": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\" \"*.json\"",
     "lint": "eslint .",
     "build": "tsc",
     "test": "jest",
@@ -17,12 +18,14 @@
     "ci": "npm run spell && npm run format && npm run lint && npm run build && npm test"
   },
   "dependencies": {
+    "@types/uuid": "^8.3.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-ws": "^5.0.2",
     "joi": "^17.5.0",
     "planning-chess-shared": "^1.0.0",
-    "uuidv4": "^6.2.12",
+    "uuid": "^8.3.2",
+    "winston": "^3.5.1",
     "ws": "^8.4.0"
   },
   "devDependencies": {

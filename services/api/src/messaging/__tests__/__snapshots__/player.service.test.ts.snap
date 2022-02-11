@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`player.service should disconnect a player 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\"}]}",
+  ],
+]
+`;
+
+exports[`player.service should join a new player 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"NewPlayer\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\"}]}",
+  ],
+]
+`;
+
+exports[`player.service should move a chess figure 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"NewBoardState\\"}",
+  ],
+]
+`;

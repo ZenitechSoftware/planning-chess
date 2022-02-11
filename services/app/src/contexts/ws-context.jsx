@@ -14,6 +14,10 @@ const WebSocketsContextProvider = ({ children }) => {
       console.log('opened');
     });
 
+    ws.addEventListener('message', (event) => {
+      console.log('message: ', event.data);
+    });
+
     ws.addEventListener('close', () => {
       console.log('closed');
     });
