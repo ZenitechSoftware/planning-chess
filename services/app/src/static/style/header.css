@@ -1,0 +1,35 @@
+#header {
+  width: 1440px;
+  height: 80px;
+  top: 0%;
+  left: 0%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #f3f6fa;
+  position: absolute;
+  flex-grow: 1;
+}
+#logo {
+  margin-left: 64px;
+}
+#seperator {
+  margin-left: 16.5px;
+  margin-right: 16.5px;
+}
+#roomName {
+  margin-right: 18px;
+}
+#copyLink {
+  margin-right: 20.28px;
+}
+#settings {
+  margin-right: 20.28px;
+}
+#avatar {
+  margin-right: 10px;
+}
+#loginInfo {
+  position: absolute;
+  right: 56px;
+}
