@@ -15,10 +15,8 @@ const Header = () => {
       <img src={CopyLink} id="copyLink" />
       <img src={Settings} id="settings" />
       <img src={Info} id="info" />
-      <div id="loginInfo">
-        <text id="avatar">M</text>
-        <text id="user">Mike</text>
-      </div>
+      <span id="letter">M</span>
+      <text id="username">Mike</text>
     </div>
   );
 };
