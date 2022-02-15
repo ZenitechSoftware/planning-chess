@@ -9,6 +9,7 @@
   background: #f3f6fa;
   position: absolute;
   flex-grow: 1;
+  min-width: 800px;
 }
 #logo {
   margin-left: 64px;
