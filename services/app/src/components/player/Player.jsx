@@ -7,9 +7,11 @@ const Player = ({ name }) => (
     <span>{name}</span>
   </div>
 );
-
+Player.defaultProps = {
+  name: '',
+};
 Player.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 
 export default Player;
