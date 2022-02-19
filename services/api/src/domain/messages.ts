@@ -6,6 +6,7 @@ export enum MessageType {
   PlayerDisconnected = 'PlayerDisconnected',
   FigureMoved = 'FigureMoved',
   NewBoardState = 'NewBoardState',
+  MoveSkipped = 'MoveSkipped',
 }
 
 export interface Message {
