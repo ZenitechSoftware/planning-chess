@@ -1,5 +1,5 @@
 export default {
-    MoveSkipped: 'MoveSkipped',
-    FigurePlaced: 'FigurePlaced',
-    ActionNotTaken: 'ActionNotTaken',
+  MoveSkipped: 'MoveSkipped',
+  FigurePlaced: 'FigurePlaced',
+  ActionNotTaken: 'ActionNotTaken',
 };
