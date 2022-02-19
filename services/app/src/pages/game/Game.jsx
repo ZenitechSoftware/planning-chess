@@ -6,6 +6,8 @@ import { useWebSockets } from '../../utils/useWebSockets';
 import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
+import Team from '../../components/team/Team';
+import wsReadyStates from '../../constants/wsReadyStates';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
@@ -33,6 +35,17 @@ function Room() {
     );
   };
 
+  const skipMove = (userId) => {
+    if (userId && ws.readyState === wsReadyStates.OPEN) {
+      ws.send(
+        JSON.stringify({
+          type: 'MoveSkipped',
+          payload: { userId },
+        }),
+      );
+    }
+  };
+
   const findUserByUsername = (userName) =>
     users.find((element) => element.name === userName);
 
@@ -43,15 +56,14 @@ function Room() {
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <Player name={username} />
-      <div>
-        <h2>Team</h2>
-        <div>
-          {users.map(
-            (user) => user.id !== findUserByUsername(username).id && user.name,
-          )}
-        </div>
-      </div>
+      <Player user={findUserByUsername(username)} skipMove={skipMove} />
+      <Team
+        title="Team"
+        users={users.filter(
+          (user) => user.id !== findUserByUsername(username).id && user.name,
+        )}
+        skipMove={skipMove}
+      />
       <button type="submit" onClick={handleSubmit}>
         submit
       </button>

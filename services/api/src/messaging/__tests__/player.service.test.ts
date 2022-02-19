@@ -43,6 +43,22 @@ describe('player.service', () => {
     expect(gameService.figureMoved).toBeCalledWith(payload);
   });
 
+  it('should skip a move for a player', () => {
+    const payload = { userId: 'some-short-v4-uuid-0' };
+    const message = { type: MessageType.MoveSkipped, payload };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should not skip a move, because user do not exist', () => {
+    const payload = { userId: 'some-short-v4-' };
+    const message = { type: MessageType.MoveSkipped, payload };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).not.toBeCalled();
+  });
+
   it('should disconnect a player', async () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.playerDisconnected();

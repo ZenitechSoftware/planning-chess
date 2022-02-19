@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { Player } from '../domain';
+import { Player, PlayerStatus } from '../domain';
 import logger from '../logger';
 import {
   Handler,
@@ -16,6 +16,16 @@ const figureMoved: Handler = (ws, payload): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   const newBoardState = gameService.figureMoved(payload);
   publish({ type: MessageType.NewBoardState, payload: newBoardState });
+};
+
+const moveSkipped: Handler = (ws, payload): void => {
+  const { userId } = payload as { userId: string };
+  const [playerConnection, player] = Array.from(players.entries()).find(([_, player]) => player.id === userId && player.status === PlayerStatus.ActionNotTaken) || [null, null];
+  if (player) {
+    logger.info(`Player ${player?.name} skippes a move.`);
+    players.set(playerConnection, { ...players.get(playerConnection), status: PlayerStatus.MoveSkipped });
+    publish({ type: MessageType.MoveSkipped, payload: Array.from(players.values()) });
+  }
 };
 
 const playerConnected: Handler = (ws, payload: NewPlayerMessage): void => {
@@ -43,6 +53,7 @@ export const subscribe = (
   const newPlayer: Player = {
     id: uuidv4(),
     name: playerName,
+    status: PlayerStatus.ActionNotTaken,
   };
   players.set(ws, newPlayer);
 };
@@ -63,6 +74,7 @@ export const publish = (message: Message): void => {
 const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
+  [MessageType.MoveSkipped]: moveSkipped,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
