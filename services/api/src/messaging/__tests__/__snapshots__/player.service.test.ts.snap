@@ -3,7 +3,7 @@
 exports[`player.service should disconnect a player 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\"}]}",
+    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"status\\":\\"done\\"}]}",
   ],
 ]
 `;
@@ -11,7 +11,7 @@ Array [
 exports[`player.service should join a new player 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"NewPlayer\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\"}]}",
+    "{\\"type\\":\\"NewPlayer\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"status\\":\\"active\\"}]}",
   ],
 ]
 `;

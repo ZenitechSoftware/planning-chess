@@ -5,4 +5,8 @@ describe('game.service', () => {
     const newState = gameService.figureMoved({});
     expect(newState).toMatchSnapshot(newState);
   });
+  it('should return empty list when all players are done', async () => {
+    const newState = gameService.figureMoved(null);
+    expect(newState).toMatchSnapshot(newState);
+  });
 });
