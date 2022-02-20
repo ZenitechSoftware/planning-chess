@@ -13,11 +13,16 @@ import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
 
-const figureMoved: Handler = (ws, payload: PlaceFigureMessage | string): void => {
+const figureMoved: Handler = (
+  ws,
+  payload: PlaceFigureMessage | string,
+): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.get(ws).status = 'done';
   const newBoardState = gameService.figureMoved(payload);
-  const areAllPlayersDone = Array.from(players.values()).every((player:any) => player.status === 'done');
+  const areAllPlayersDone = Array.from(players.values()).every(
+    (player: any) => player.status === 'done',
+  );
   if (areAllPlayersDone) {
     publish({ type: MessageType.NewBoardState, payload: newBoardState });
     gameService.figureMoved(null);
