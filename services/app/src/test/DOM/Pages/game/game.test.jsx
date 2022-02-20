@@ -9,7 +9,8 @@ test('test Game page elements', () => {
   render(
     <ChessGameProvider>
       <Game />
-    </ChessGameProvider>);
+    </ChessGameProvider>,
+  );
   expect(screen.getByText('GAME')).toBeInTheDocument();
   expect(screen.getByText('http://localhost/')).toBeInTheDocument();
   fireEvent.click(screen.getByText('Copy link'));
