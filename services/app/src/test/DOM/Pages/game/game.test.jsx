@@ -2,10 +2,14 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from '../../../../pages/game/Game';
 import Player from '../../../../components/player/Player';
+import ChessGameProvider from '../../../../contexts/ChessBoardContext';
 import { PIECES } from '../../../../constants/board';
 
 test('test Game page elements', () => {
-  render(<Game />);
+  render(
+    <ChessGameProvider>
+      <Game />
+    </ChessGameProvider>);
   expect(screen.getByText('GAME')).toBeInTheDocument();
   expect(screen.getByText('http://localhost/')).toBeInTheDocument();
   fireEvent.click(screen.getByText('Copy link'));
