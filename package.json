@@ -13,7 +13,7 @@
     "build": "lerna run build",
     "lint": "lerna run lint --concurrency 1",
     "package": "docker build -t planning-chess .",
-    "ci": "npm run bootstrap && npm run build",
+    "ci": "npm run bootstrap && lerna run ci",
     "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest"
   },
   "repository": {

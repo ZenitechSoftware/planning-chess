@@ -11,7 +11,7 @@ export const useWebSockets = () => {
     if (ws !== undefined) {
       ws.addEventListener('message', (event) => {
         const newUser = event.data;
-        setUsers(JSON.parse(newUser));
+        setUsers(JSON.parse(newUser).payload);
       });
     }
   }, [ws]);

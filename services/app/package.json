@@ -5,6 +5,7 @@
   "scripts": {
     "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
     "format": "prettier --check \"src/**\" \"*.js\" \"*.json\"",
+    "format:write": "prettier --write \"src/**\" \"*.js\" \"*.json\"",
     "lint": "eslint . --ext js,jsx",
     "build": "cross-env NODE_ENV=production webpack",
     "test": "jest",

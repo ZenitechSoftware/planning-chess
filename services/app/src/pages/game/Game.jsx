@@ -15,9 +15,23 @@ function Room() {
 
   useEffect(() => {
     if (username) {
-      ws.onopen = () => ws.send(username);
+      ws.send(
+        JSON.stringify({
+          type: 'PlayerConnected',
+          payload: { playerName: username },
+        }),
+      );
     }
   }, [username]);
+
+  const handleSubmit = () => {
+    ws.send(
+      JSON.stringify({
+        type: 'PlayerConnected',
+        payload: { playerName: username },
+      }),
+    );
+  };
 
   const findUserByUsername = (userName) =>
     users.find((element) => element.name === userName);
