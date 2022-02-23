@@ -1,11 +1,15 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+import {Navigate} from "react-router";
+import {Route} from "react-router-dom";
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
-import LoginPage from "../../pages/login/LoginPage";
 
-const LoginRoute = () => {
+const LoginRoute = (routeProps) => {
   const { authentication } = useUserFromLocalStorage();
-  return authentication ? <Outlet /> : <LoginPage />;
-};
+  if (authentication) {
+    return <Route {...routeProps} />;
+  }
+
+  return <Navigate to="/login" />
+}
 
 export default LoginRoute;

@@ -7,9 +7,7 @@ import LoginPage from "../../pages/login/LoginPage";
 function Content() {
   return (
     <Routes>
-      <Route element={<LoginRoute />}>
-        <Route path="/game/:id" element={<Game />} />
-      </Route>
+      <LoginRoute path="/game/:id" element={<Game />} />
       <Route path="/login" element={<LoginPage />} />
     </Routes>
   );
