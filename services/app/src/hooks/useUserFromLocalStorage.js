@@ -10,6 +10,6 @@ export const useUserFromLocalStorage = () => {
       setUser(userFromLocalStorage);
       setAuth(true);
     }
-  }, []);
+  }, [auth]);
   return { authentication: auth, username: user };
 };

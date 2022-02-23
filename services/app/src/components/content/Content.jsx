@@ -1,14 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Game from '../../pages/game/Game';
-import NameRoute from '../nameRoute/NameRoute';
+import LoginRoute from "../nameRoute/LoginRoute";
+import LoginPage from "../../pages/login/LoginPage";
 
 function Content() {
   return (
     <Routes>
-      <Route element={<NameRoute />}>
+      <Route element={<LoginRoute />}>
         <Route path="/game/:id" element={<Game />} />
       </Route>
+      <Route path="/login" element={<LoginPage />} />
     </Routes>
   );
 }
