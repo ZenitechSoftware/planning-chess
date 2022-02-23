@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useGameId } from '../../hooks/useGameId';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
@@ -12,24 +13,27 @@ import { WsContext } from '../../contexts/ws-context';
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
+  
   const { id } = useParams();
+  const { saveGameId } = useGameId();
 
   useEffect(() => {
-    window.localStorage.setItem('lastGameId', id)
+    saveGameId(id)
   }, [])
-
 
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
 
   useEffect(() => {
     if (username) {
-      ws.send(
-        JSON.stringify({
-          type: 'PlayerConnected',
-          payload: { playerName: username },
-        }),
-      );
+      ws.onOpen = () => {
+        ws.send(
+          JSON.stringify({
+            type: 'PlayerConnected',
+            payload: { playerName: username },
+          }),
+        );
+      }
     }
   }, [username]);
 

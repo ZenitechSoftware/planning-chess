@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useGameIdFromLocalStorage } from '../../hooks/useGameIdFromLocalStorage';
+import { useGameId } from '../../hooks/useGameId';
 
 function HomePage() {
   const navigate = useNavigate();
 
-  const gameId = useGameIdFromLocalStorage();
+  const gameId = useGameId().getGameId();
 
   useEffect(() => {
     if(gameId) navigate(`/game/${gameId}`);
-  })
+  }, [])
 
   return (
     <div>
