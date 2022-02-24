@@ -5,11 +5,10 @@ import HomePage from '../../pages/home/HomePage';
 import NameRoute from '../nameRoute/NameRoute';
 
 function Content() {
-
   return (
     <Routes>
       <Route element={<NameRoute />}>
-        <Route path='/' element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/game/:id" element={<Game />} />
       </Route>
     </Routes>

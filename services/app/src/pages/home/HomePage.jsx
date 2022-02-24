@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useGameId } from '../../hooks/useGameId';
 
 function HomePage() {
@@ -8,8 +8,8 @@ function HomePage() {
   const gameId = useGameId().getGameId();
 
   useEffect(() => {
-    if(gameId) navigate(`/game/${gameId}`);
-  }, [])
+    if (gameId) navigate(`/game/${gameId}`);
+  }, []);
 
   return (
     <div>

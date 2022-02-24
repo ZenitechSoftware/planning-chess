@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useGameId } from '../../hooks/useGameId';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
@@ -9,17 +9,16 @@ import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 
-
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-  
+
   const { id } = useParams();
   const { saveGameId } = useGameId();
 
   useEffect(() => {
-    saveGameId(id)
-  }, [])
+    saveGameId(id);
+  }, []);
 
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
@@ -33,7 +32,7 @@ function Room() {
             payload: { playerName: username },
           }),
         );
-      }
+      };
     }
   }, [username]);
 

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
 export const useGameId = () => {
   const saveGameId = useCallback((id) => {
@@ -7,5 +7,5 @@ export const useGameId = () => {
 
   const getGameId = () => localStorage.getItem('lastGameId');
 
-  return {getGameId, saveGameId};
+  return { getGameId, saveGameId };
 };
