@@ -22,7 +22,7 @@ const moveSkipped: Handler = (ws, payload): void => {
   const { userId } = payload as { userId: string };
   const [playerConnection, player] = Array.from(players.entries()).find(([_, player]) => player.id === userId && player.status === PlayerStatus.ActionNotTaken) || [null, null];
   if (player) {
-    logger.info(`Player ${player?.name} skippes a move.`);
+    logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, { ...players.get(playerConnection), status: PlayerStatus.MoveSkipped });
     publish({ type: MessageType.MoveSkipped, payload: Array.from(players.values()) });
   }
