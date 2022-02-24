@@ -15,6 +15,11 @@ test('test Game page elements', () => {
 });
 
 test('test Player page elements', () => {
-  render(<Player user={{ name: 'username', id: '1', status: 'ActionNotTaken'}} skipMove={() => {}} />);
+  render(
+    <Player
+      user={{ name: 'username', id: '1', status: 'ActionNotTaken' }}
+      skipMove={() => {}}
+    />,
+  );
   expect(screen.getByText('username')).toBeInTheDocument();
 });
