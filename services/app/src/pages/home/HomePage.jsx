@@ -10,7 +10,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (gameId) navigate(`/game/${gameId}`);
-  });
+  }, []);
 
   return <div>HomePage</div>;
 };
