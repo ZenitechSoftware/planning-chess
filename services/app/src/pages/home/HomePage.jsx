@@ -2,20 +2,17 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGameId } from '../../hooks/useGameId';
 
-function HomePage() {
+const HomePage = () => {
   const navigate = useNavigate();
 
-  const gameId = useGameId().getGameId();
+  const { getGameId } = useGameId();
+  const gameId = getGameId();
 
   useEffect(() => {
     if (gameId) navigate(`/game/${gameId}`);
-  }, []);
+  });
 
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  );
-}
+  return <div>HomePage</div>;
+};
 
 export default HomePage;
