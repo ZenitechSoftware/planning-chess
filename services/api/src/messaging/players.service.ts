@@ -15,7 +15,7 @@ const players = new Map<WebSocket, Player>();
 
 const figureMoved: Handler = (
   ws,
-  payload: PlaceFigureMessage | string,
+  payload: PlaceFigureMessage,
 ): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.get(ws).status = 'done';
@@ -23,9 +23,25 @@ const figureMoved: Handler = (
   const areAllPlayersDone = Array.from(players.values()).every(
     (player: any) => player.status === 'done',
   );
+
+  publish({ type: MessageType.FigureMoved, payload: newBoardState });
   if (areAllPlayersDone) {
     publish({ type: MessageType.NewBoardState, payload: newBoardState });
-    gameService.figureMoved(null);
+  }
+};
+
+const clearBoard = (): void => {
+  gameService.clearBoard();
+  publish({ type: MessageType.ClearBoard, payload: [] });
+  publish({ type: MessageType.NewBoardState, payload: [] });
+};
+
+export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
+  const myTurn = gameService.turns.find(turn => turn.player === players.get(ws)?.name);
+
+  if (myTurn) {
+    players.get(ws).status = 'done';
+    publish({ type: MessageType.SetMyTurn, payload: myTurn });
   }
 };
 
@@ -57,6 +73,8 @@ export const subscribe = (
     status: 'active',
   };
   players.set(ws, newPlayer);
+
+  checkIfUserAlreadyExists(ws);
 };
 
 export const unsubscribe = (ws: WebSocket): void => {
@@ -75,6 +93,7 @@ export const publish = (message: Message): void => {
 const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
+  [MessageType.ClearBoard]: clearBoard,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];

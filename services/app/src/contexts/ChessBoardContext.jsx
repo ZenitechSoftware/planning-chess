@@ -10,10 +10,10 @@ export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns } = useWebSockets();
+  const { turns, myTurn } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
-  const [board, setBoard] = useChessBoard();
+  const {board, setBoard, defaultBoard} = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [finished, setFinished] = useState(false);
 
@@ -26,23 +26,39 @@ const ChessBoardContextProvider = ({ children }) => {
     setBoard(copyOfBoard);
   };
 
+  const clearBoardItems = () => {
+    setBoard(defaultBoard)
+    setFinished(false);
+  }
+
   useEffect(() => {
     if (turns.length) {
       generateFinalBoard(turns);
+    } else {
+      clearBoardItems()
     }
   }, [turns]);
 
-  const placeItemOnBoard = (row, tile) => {
+  const placeItemOnBoard = (row, tile, figure) => {
     if (!finished) {
       const copyOfBoard = [...board];
       if (lastTurn) {
         copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
       }
-      copyOfBoard[row][tile].items.push(selectedItem);
+      copyOfBoard[row][tile].items.push(figure || selectedItem);
       setLastTurn({ row, tile, figure: selectedItem });
       setBoard(copyOfBoard);
     }
   };
+
+  useEffect(() => {
+   
+    if(myTurn && myTurn.player === username){
+      const { row, tile, figure } = myTurn
+      placeItemOnBoard(row, tile, figure)
+      setFinished(true);
+    }
+  }, [myTurn])
 
   const finishMove = () => {
     if (lastTurn) {
@@ -56,6 +72,14 @@ const ChessBoardContextProvider = ({ children }) => {
     }
   };
 
+  const clearBoard = () => {
+    ws.send(
+      JSON.stringify({
+        type: 'ClearBoard',
+      }),
+    );
+  }
+
   return (
     <ChessBoardContext.Provider
       value={{
@@ -64,6 +88,7 @@ const ChessBoardContextProvider = ({ children }) => {
         placeItemOnBoard,
         board,
         finishMove,
+        clearBoard,
       }}
     >
       {children}

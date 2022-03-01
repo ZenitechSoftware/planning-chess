@@ -5,7 +5,10 @@ export enum MessageType {
   NewPlayer = 'NewPlayer',
   PlayerDisconnected = 'PlayerDisconnected',
   FigureMoved = 'FigureMoved',
+  PlayerFinishMove = 'PlayerFinishMove',
   NewBoardState = 'NewBoardState',
+  ClearBoard = 'ClearBoard',
+  SetMyTurn = 'SetMyTurn',
 }
 
 export interface Message {

@@ -6,6 +6,8 @@ import { WsContext } from '../contexts/ws-context';
 export const useWebSockets = () => {
   const [users, setUsers] = useState([]);
   const [turns, setTurns] = useState([]);
+  const [movedBy, setMovedBy] = useState([]);
+  const [myTurn, setMyTurn] = useState(null)
   const { ws } = useContext(WsContext);
 
   const websocketReducer = (type, payload) => {
@@ -14,6 +16,12 @@ export const useWebSockets = () => {
         return setUsers(payload);
       case 'NewBoardState':
         return setTurns(payload);
+      case 'FigureMoved':
+        return setMovedBy(payload.map((player) => player.player));
+      case 'ClearBoard':
+         return setMovedBy([]);
+      case 'SetMyTurn':
+         return setMyTurn(payload)
       default:
         return null;
     }
@@ -28,5 +36,5 @@ export const useWebSockets = () => {
     }
   }, [ws]);
 
-  return { users, turns };
+  return { users, turns, movedBy, myTurn };
 };

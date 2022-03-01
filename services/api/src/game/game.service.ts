@@ -1,11 +1,14 @@
-const turns: any = [];
+import {
+  PlaceFigureMessage,
+} from '../domain/messages';
 
-export const figureMoved = (payload: unknown): any => {
-  if (payload) {
-    turns.push(payload);
-  } else {
-    turns.length = 0;
-  }
+export const turns: PlaceFigureMessage[] = [];
 
+export const figureMoved = (payload: PlaceFigureMessage): PlaceFigureMessage[] => {
+  turns.push(payload);
   return turns;
+};
+
+export const clearBoard = (): void => {
+  turns.length = 0;
 };
