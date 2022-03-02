@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
+import '../../static/style/team.css';
 
 function TeamMember({ name, id, skipMove, status }) {
   return (
-    <>
+    <div className="team-list-item">
       {name}
       <button
         type="button"
@@ -13,7 +14,7 @@ function TeamMember({ name, id, skipMove, status }) {
       >
         skip
       </button>
-    </>
+    </div>
   );
 }
 

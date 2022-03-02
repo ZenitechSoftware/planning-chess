@@ -1,36 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
-import playerStatuses from '../../constants/playerStatuses';
+import userPropType from '../../prop-types/user';
+import '../../static/style/team.css';
 
 function Team({ title, users, skipMove }) {
   return (
-    <div style={{ marginBottom: '10px' }}>
+    <div className="team-container">
       <h2>{title}</h2>
-      <div>
-        {users.map((user) => (
-          <TeamMember
-            key={user.id}
-            name={user.name}
-            id={user.id}
-            skipMove={skipMove}
-            status={user.status}
-          />
-        ))}
-      </div>
+      {users.map((user) => (
+        <TeamMember
+          key={user.id}
+          name={user.name}
+          id={user.id}
+          skipMove={skipMove}
+          status={user.status}
+        />
+      ))}
     </div>
   );
 }
 
 Team.propTypes = {
   title: PropTypes.string.isRequired,
-  users: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      status: PropTypes.oneOf(Object.values(playerStatuses)),
-    }),
-  ).isRequired,
+  users: PropTypes.arrayOf(userPropType).isRequired,
   skipMove: PropTypes.func.isRequired,
 };
 export default Team;

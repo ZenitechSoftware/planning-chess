@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
+import userPropType from '../../prop-types/user';
 import '../../static/style/username.css';
 
 const Player = ({ user, skipMove }) =>
@@ -22,11 +23,7 @@ Player.defaultProps = {
   user: null,
 };
 Player.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    status: PropTypes.oneOf(Object.values(playerStatuses)),
-    id: PropTypes.string,
-  }),
+  user: userPropType,
   skipMove: PropTypes.func.isRequired,
 };
 

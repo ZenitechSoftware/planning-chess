@@ -12,6 +12,15 @@ import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
 
+const findPlayerById = (id: string): [WebSocket, Player] | [null, null] => {
+  return (
+    Array.from(players.entries()).find(([_, player]) => player.id === id) || [
+      null,
+      null,
+    ]
+  );
+};
+
 const figureMoved: Handler = (ws, payload): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   const newBoardState = gameService.figureMoved(payload);
@@ -20,11 +29,14 @@ const figureMoved: Handler = (ws, payload): void => {
 
 const moveSkipped: Handler = (ws, payload): void => {
   const { userId } = payload as { userId: string };
-  const [playerConnection, player] = Array.from(players.entries()).find(
-    ([_, player]) =>
-      player.id === userId && player.status === PlayerStatus.ActionNotTaken,
-  ) || [null, null];
-  if (player) {
+  const [playerConnection, player] = findPlayerById(userId);
+  try {
+    if (!player) {
+      throw new Error(`Player with id ${userId} not found`);
+    }
+    if (player.status !== PlayerStatus.ActionNotTaken) {
+      throw new Error(`Player ${userId} cannot skip a move`);
+    }
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
       ...players.get(playerConnection),
@@ -34,6 +46,8 @@ const moveSkipped: Handler = (ws, payload): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
+  } catch (err) {
+    logger.error(err?.message);
   }
 };
 

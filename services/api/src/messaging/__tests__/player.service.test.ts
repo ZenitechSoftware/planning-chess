@@ -59,6 +59,15 @@ describe('player.service', () => {
     expect(sendMock).not.toBeCalled();
   });
 
+  it('should not skip a move, because user state is not ActionNotTaken', () => {
+    const payload = { userId: 'some-short-v4-uuid-0' };
+    const message = { type: MessageType.MoveSkipped, payload };
+    playerService.newMessageReceived(ws, message);
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).not.toBeCalled();
+  });
+
   it('should disconnect a player', async () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.playerDisconnected();
