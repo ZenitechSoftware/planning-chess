@@ -19,6 +19,9 @@ Array [
 exports[`player.service should move a chess figure 1`] = `
 Array [
   Array [
+    "{\\"type\\":\\"FigureMoved\\"}",
+  ],
+  Array [
     "{\\"type\\":\\"NewBoardState\\"}",
   ],
 ]
