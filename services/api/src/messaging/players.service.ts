@@ -13,10 +13,7 @@ import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
 
-const figureMoved: Handler = (
-  ws,
-  payload: PlaceFigureMessage,
-): void => {
+const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.get(ws).status = 'done';
   const newBoardState = gameService.figureMoved(payload);
@@ -37,7 +34,9 @@ const clearBoard = (): void => {
 };
 
 export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
-  const myTurn = gameService.turns.find(turn => turn.player === players.get(ws)?.name);
+  const myTurn = gameService.turns.find(
+    (turn) => turn.player === players.get(ws)?.name,
+  );
 
   if (myTurn) {
     players.get(ws).status = 'done';

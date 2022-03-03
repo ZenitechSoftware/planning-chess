@@ -7,7 +7,7 @@ export const useWebSockets = () => {
   const [users, setUsers] = useState([]);
   const [turns, setTurns] = useState([]);
   const [movedBy, setMovedBy] = useState([]);
-  const [myTurn, setMyTurn] = useState(null)
+  const [myTurn, setMyTurn] = useState(null);
   const { ws } = useContext(WsContext);
 
   const websocketReducer = (type, payload) => {
@@ -19,9 +19,9 @@ export const useWebSockets = () => {
       case 'FigureMoved':
         return setMovedBy(payload.map((player) => player.player));
       case 'ClearBoard':
-         return setMovedBy([]);
+        return setMovedBy([]);
       case 'SetMyTurn':
-         return setMyTurn(payload)
+        return setMyTurn(payload);
       default:
         return null;
     }

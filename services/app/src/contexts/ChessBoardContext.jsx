@@ -13,7 +13,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const { turns, myTurn } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
-  const {board, setBoard, defaultBoard} = useChessBoard();
+  const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [finished, setFinished] = useState(false);
 
@@ -27,15 +27,15 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const clearBoardItems = () => {
-    setBoard(defaultBoard)
+    setBoard(defaultBoard);
     setFinished(false);
-  }
+  };
 
   useEffect(() => {
     if (turns.length) {
       generateFinalBoard(turns);
     } else {
-      clearBoardItems()
+      clearBoardItems();
     }
   }, [turns]);
 
@@ -52,13 +52,12 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-   
-    if(myTurn && myTurn.player === username){
-      const { row, tile, figure } = myTurn
-      placeItemOnBoard(row, tile, figure)
+    if (myTurn && myTurn.player === username) {
+      const { row, tile, figure } = myTurn;
+      placeItemOnBoard(row, tile, figure);
       setFinished(true);
     }
-  }, [myTurn])
+  }, [myTurn]);
 
   const finishMove = () => {
     if (lastTurn) {
@@ -78,7 +77,7 @@ const ChessBoardContextProvider = ({ children }) => {
         type: 'ClearBoard',
       }),
     );
-  }
+  };
 
   return (
     <ChessBoardContext.Provider

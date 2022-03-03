@@ -1,10 +1,10 @@
-import {
-  PlaceFigureMessage,
-} from '../domain/messages';
+import { PlaceFigureMessage } from '../domain/messages';
 
 export const turns: PlaceFigureMessage[] = [];
 
-export const figureMoved = (payload: PlaceFigureMessage): PlaceFigureMessage[] => {
+export const figureMoved = (
+  payload: PlaceFigureMessage,
+): PlaceFigureMessage[] => {
   turns.push(payload);
   return turns;
 };

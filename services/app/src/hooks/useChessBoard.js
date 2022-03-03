@@ -4,8 +4,6 @@ import { range } from '../helpers/array';
 
 const alphabetArray = [...'abcdefghijklmnopqrstuvwxyz'];
 
-
-
 export const useChessBoard = () => {
   const defaultBoard = [
     ...range(NUMBER_OF_ROWS).map((_row, rowIndex) => [
@@ -18,7 +16,7 @@ export const useChessBoard = () => {
       })),
     ]),
     [{}, ...range(6).map((key) => ({ attribute: alphabetArray[key] }))],
-  ]
+  ];
   const [board, setBoard] = useState(defaultBoard);
 
   return { board, setBoard, defaultBoard };
