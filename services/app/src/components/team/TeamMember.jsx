@@ -25,4 +25,4 @@ TeamMember.propTypes = {
   status: PropTypes.oneOf(Object.values(playerStatuses)).isRequired,
 };
 
-export default TeamMember;
+export default React.memo(TeamMember);
