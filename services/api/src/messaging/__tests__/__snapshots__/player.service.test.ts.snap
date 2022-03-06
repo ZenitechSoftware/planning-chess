@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`player.service should clear the board 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"ClearBoard\\",\\"payload\\":[]}",
+  ],
+  Array [
+    "{\\"type\\":\\"NewBoardState\\",\\"payload\\":[]}",
+  ],
+]
+`;
+
 exports[`player.service should disconnect a player 1`] = `
 Array [
   Array [
@@ -26,3 +37,5 @@ Array [
   ],
 ]
 `;
+
+exports[`player.service should set a turn if user\`s move already exist 1`] = `Array []`;

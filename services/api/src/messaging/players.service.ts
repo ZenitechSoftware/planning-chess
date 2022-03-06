@@ -27,16 +27,14 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   }
 };
 
-const clearBoard = (): void => {
+export const clearBoard = (): void => {
   gameService.clearBoard();
   publish({ type: MessageType.ClearBoard, payload: [] });
   publish({ type: MessageType.NewBoardState, payload: [] });
 };
 
 export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
-  const myTurn = gameService.turns.find(
-    (turn) => turn.player === players.get(ws)?.name,
-  );
+  const myTurn = findMoveByPlayerName(players.get(ws).name);
 
   if (myTurn) {
     players.get(ws).status = 'done';
@@ -74,6 +72,10 @@ export const subscribe = (
   players.set(ws, newPlayer);
 
   checkIfUserAlreadyExists(ws);
+};
+
+const findMoveByPlayerName = (name: string) => {
+  return gameService.turns.find((turn) => turn.player === name);
 };
 
 export const unsubscribe = (ws: WebSocket): void => {

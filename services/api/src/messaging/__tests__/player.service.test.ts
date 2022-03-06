@@ -43,6 +43,18 @@ describe('player.service', () => {
     expect(gameService.figureMoved).toBeCalledWith(payload);
   });
 
+  it('should set a turn if user`s move already exist', () => {
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.checkIfUserAlreadyExists(ws);
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should clear the board', async () => {
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.clearBoard();
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
   it('should disconnect a player', async () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.playerDisconnected();
@@ -54,3 +66,5 @@ describe('player.service', () => {
     playerService.unsubscribe(ws);
   });
 });
+
+const payload = { row: 1, tile: 1, figure: 'rock', player: 'test' };
