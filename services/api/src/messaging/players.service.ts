@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { Player } from '../domain';
+import { Player, PlayerStatus } from '../domain';
 import logger from '../logger';
 import {
   Handler,
@@ -15,10 +15,13 @@ const players = new Map<WebSocket, Player>();
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
-  players.get(ws).status = 'done';
+  players.set(ws, {
+    ...players.get(ws),
+    status: PlayerStatus.FigurePlaced,
+  });
   const newBoardState = gameService.figureMoved(payload);
   const areAllPlayersDone = Array.from(players.values()).every(
-    (player: any) => player.status === 'done',
+    (player: any) => player.status === 'FigurePlaced',
   );
 
   publish({ type: MessageType.FigureMoved, payload: newBoardState });
@@ -37,7 +40,10 @@ export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
   const myTurn = findMoveByPlayerName(players.get(ws).name);
 
   if (myTurn) {
-    players.get(ws).status = 'done';
+    players.set(ws, {
+      ...players.get(ws),
+      status: PlayerStatus.FigurePlaced,
+    });
     publish({ type: MessageType.SetMyTurn, payload: myTurn });
   }
 };
@@ -67,7 +73,7 @@ export const subscribe = (
   const newPlayer: Player = {
     id: uuidv4(),
     name: playerName,
-    status: 'active',
+    status: PlayerStatus.ActionNotTaken,
   };
   players.set(ws, newPlayer);
 
