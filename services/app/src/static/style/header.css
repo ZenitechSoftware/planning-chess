@@ -1,33 +1,32 @@
 #header {
-  width: 100%;
+  width: 103%;
   height: 80px;
-  top: 0%;
-  left: 0%;
+  bottom: 8px;
+  right: 2%;
   display: flex;
   flex-direction: row;
   align-items: center;
   background: #f3f6fa;
-  position: absolute;
+  position: relative;
   flex-grow: 1;
-  min-width: 800px;
+  min-width: 700px;
 }
 #logo {
   margin-left: 64px;
 }
-#seperator {
+#separator {
   margin-left: 16.5px;
   margin-right: 16.5px;
 }
 #roomName {
   margin-right: 18px;
 }
-#copyLink {
+.nav-items-container {
+  display: flex;
+  flex-direction: row;
   margin-right: 20.28px;
 }
-#settings {
-  margin-right: 20.28px;
-}
-#letter {
+.avatar {
   height: 40px;
   width: 40px;
   line-height: 40px;

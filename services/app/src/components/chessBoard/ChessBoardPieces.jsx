@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import React from 'react';
 import { PIECES } from '../../constants/board';
+import { useChessBoardContext } from '../../hooks/useChessBoardContext';
 
 const ChessBoardPieces = () => {
-  const { setSelectedItem } = useContext(ChessBoardContext);
+  const { setSelectedItem } = useChessBoardContext();
 
   return (
     <div id="chess-game-pieces">
