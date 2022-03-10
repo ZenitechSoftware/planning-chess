@@ -80,7 +80,6 @@ export const subscribe = (
   checkIfUserAlreadyExists(ws);
 };
 
-
 export const unsubscribe = (ws: WebSocket): void => {
   logger.info(`Unsubscribing player ${players.get(ws)?.name}`);
   players.delete(ws);
