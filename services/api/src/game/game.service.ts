@@ -12,3 +12,7 @@ export const figureMoved = (
 export const clearBoard = (): void => {
   turns.length = 0;
 };
+
+export const findMoveByPlayerName = (name: string) => {
+  return turns.find((turn) => turn.player === name);
+};
