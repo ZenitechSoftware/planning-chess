@@ -23,16 +23,17 @@ function Room() {
   const { users } = useWebSockets();
   const { ws } = useContext(WsContext);
 
-    useEffect(() => {
-        if (username) {
-            ws.onopen = () => ws.send(
-                JSON.stringify({
-                    type: 'PlayerConnected',
-                    payload: { playerName: username },
-                }),
-            );
-        }
-    }, [username]);
+  useEffect(() => {
+    if (username) {
+      ws.onopen = () =>
+        ws.send(
+          JSON.stringify({
+            type: 'PlayerConnected',
+            payload: { playerName: username },
+          }),
+        );
+    }
+  }, [username]);
 
   const findUserByUsername = (userName) =>
     users.find((element) => element.name === userName);
