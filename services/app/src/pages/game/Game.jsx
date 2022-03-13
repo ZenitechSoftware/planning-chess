@@ -13,9 +13,7 @@ function Room() {
   const { username } = useUserFromLocalStorage();
   return (
     <div>
-      <div>
-        <Header />
-      </div>
+      <Header />
       <div id="game">
         <h1>GAME</h1>
         <span id="game-url">{roomUrl}</span>

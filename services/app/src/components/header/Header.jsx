@@ -6,19 +6,23 @@ import Settings from '../../components/header/headerComponents/Settings.svg';
 import Info from '../../components/header/headerComponents/Info.svg';
 import '../../static/style/header.css';
 
-const Header = () => {
-  return (
-    <div id="header">
-      <img src={Logo} id="logo" />
-      <img src={Separator} id="separator" />
+const Header = () => (
+  <div id="header" className="px-xl">
+    <div className="flex-row gap-md">
+      <img src={Logo} />
+      <img src={Separator} />
       <text id="roomName">RoomNameExample </text>
-      <img src={CopyLink} className="nav-items-container" />
-      <img src={Settings} className="nav-items-container" />
-      <img src={Info} className="nav-items-container" />
-      <span class="avatar">M</span>
-      <text id="username">Mike</text>
+      <img src={CopyLink} />
+      <img src={Settings} />
+      <img src={Info} />
     </div>
-  );
-};
+    <div className="flex-row">
+      <span className="avatar">M</span>
+      <text id="username" className="font-md">
+        Mike
+      </text>
+    </div>
+  </div>
+);
 
 export default Header;

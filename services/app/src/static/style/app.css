@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.font-md {
+  font-size: 16px;
+}
+/* .font-lg { } */
+
+/* .gap-xs { }
+.gap-sm { } */
+.gap-md {
+  gap: 16px;
+}
+/* .gap-lg { } */
+
+/* .mx-xs { }
+.mx-sm { }
+.mx-md { }
+.mx-lg { }
+.mx-xl { }
+.mx-xxl { } */
+
+/* .px-xs { }
+.px-md { }
+.px-lg { } */
+
+.px-xl {
+  padding-left: 64px;
+  padding-right: 64px;
+}
+
+/* .px-xxl { } */
