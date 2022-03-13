@@ -1,15 +1,10 @@
 import React from 'react';
-import {Navigate} from "react-router";
-import {Route} from "react-router-dom";
-import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
+import {Navigate, Outlet} from "react-router";
+import {useUserFromLocalStorage} from "../../hooks/useUserFromLocalStorage";
 
-const LoginRoute = (routeProps) => {
-  const { authentication } = useUserFromLocalStorage();
-  if (authentication) {
-    return <Route {...routeProps} />;
-  }
-
-  return <Navigate to="/login" />
+const LoginRoute = () => {
+  const {authentication} = useUserFromLocalStorage();
+  return authentication ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default LoginRoute;

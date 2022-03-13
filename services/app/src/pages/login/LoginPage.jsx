@@ -1,11 +1,10 @@
 import React from "react";
-import {useNavigate, Navigate} from "react-router";
-import {useUserFromLocalStorage} from "../../hooks/useUserFromLocalStorage";
+import {Navigate, useNavigate} from "react-router";
 
 const LoginPage = () => {
 
     const navigate = useNavigate();
-    const {authentication} = useUserFromLocalStorage();
+    const authentication = localStorage.getItem('user');
     const navigateUrl = "/game/test"
 
     const submitInfo = (event) => {

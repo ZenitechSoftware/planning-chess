@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 export const useUserFromLocalStorage = () => {
+  const isUserInLocalStorage = !!localStorage.getItem('user');
   const [user, setUser] = useState('');
-  const [auth, setAuth] = useState(false);
-
+  const [auth, setAuth] = useState(isUserInLocalStorage);
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('user');
     if (userFromLocalStorage) {
