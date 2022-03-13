@@ -25,14 +25,12 @@ function Room() {
 
     useEffect(() => {
         if (username) {
-            ws.onOpen = () => {
-                ws.send(
-                    JSON.stringify({
-                        type: 'PlayerConnected',
-                        payload: { playerName: username },
-                    }),
-                );
-            };
+            ws.onopen = () => ws.send(
+                JSON.stringify({
+                    type: 'PlayerConnected',
+                    payload: { playerName: username },
+                }),
+            );
         }
     }, [username]);
 
