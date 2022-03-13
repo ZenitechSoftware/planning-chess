@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate, useNavigate } from 'react-router';
+import { WsContext } from '../../contexts/ws-context';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const authentication = localStorage.getItem('user');
+  const { ws } = useContext(WsContext);
   const navigateUrl = '/game/test';
 
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
     navigate(navigateUrl);
+    ws.send(
+      JSON.stringify({
+        type: 'PlayerConnected',
+        payload: { playerName: event.target.username.value },
+      }),
+    );
   };
 
   return authentication ? (
