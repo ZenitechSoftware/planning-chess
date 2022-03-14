@@ -2,8 +2,8 @@ table {
   text-align: center;
 }
 
-.border-tile,
-.non-border-tile {
+.non-border-tile,
+.border-tile {
   border: 1px solid black;
 }
 
