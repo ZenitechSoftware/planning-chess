@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
-import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
+import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 
@@ -15,12 +15,14 @@ function Room() {
 
   useEffect(() => {
     if (username) {
-      ws.send(
-        JSON.stringify({
-          type: 'PlayerConnected',
-          payload: { playerName: username },
-        }),
-      );
+      ws.open = () => {
+        ws.send(
+          JSON.stringify({
+            type: 'PlayerConnected',
+            payload: { playerName: username },
+          }),
+        );
+      };
     }
   }, [username]);
 
@@ -56,7 +58,7 @@ function Room() {
         submit
       </button>
       <ChessBoard numberOfColumns={6} numberOfRows={6} />
-      <ChessBoardPieces />
+      <GameFooter />
     </div>
   );
 }
