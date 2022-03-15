@@ -1,7 +1,18 @@
-import logger from '../logger';
+import { PlaceFigureMessage } from '../domain/messages';
 
-export const figureMoved = (payload: unknown): any => {
-  //  TODO implement game logic
-  logger.info(`Figure moved to ${payload}`);
-  return {};
+export const turns: PlaceFigureMessage[] = [];
+
+export const figureMoved = (
+  payload: PlaceFigureMessage,
+): PlaceFigureMessage[] => {
+  turns.push(payload);
+  return turns;
+};
+
+export const clearBoard = (): void => {
+  turns.length = 0;
+};
+
+export const findMoveByPlayerName = (name: string) => {
+  return turns.find((turn) => turn.player === name);
 };

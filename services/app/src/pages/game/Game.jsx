@@ -1,42 +1,41 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useGameId } from '../../hooks/useGameId';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
 import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-
-  const { id } = useParams();
-  const { saveGameId } = useGameId();
-
-  useEffect(() => {
-    saveGameId(id);
-  }, []);
-
-  const { users } = useWebSockets();
+  const { users, movedBy } = useWebSockets();
   const { ws } = useContext(WsContext);
+  const { finishMove, clearBoard } = useContext(ChessBoardContext);
 
   useEffect(() => {
     if (username) {
-      ws.onopen = () =>
-        ws.send(
-          JSON.stringify({
-            type: 'PlayerConnected',
-            payload: { playerName: username },
-          }),
-        );
+      ws.send(
+        JSON.stringify({
+          type: 'PlayerConnected',
+          payload: { playerName: username },
+        }),
+      );
     }
   }, [username]);
 
   const findUserByUsername = (userName) =>
     users.find((element) => element.name === userName);
+
+  const team = users
+    .filter((user) => user.id !== findUserByUsername(username).id)
+    .map((player) =>
+      movedBy.includes(player.name)
+        ? `${player.name} (finished move)`
+        : player.name,
+    );
 
   return (
     <div>
@@ -48,13 +47,15 @@ function Room() {
       <Player name={username} />
       <div>
         <h2>Team</h2>
-        <div>
-          {users.map(
-            (user) => user.id !== findUserByUsername(username).id && user.name,
-          )}
-        </div>
+        <div>{team}</div>
       </div>
-      <ChessBoard numberOfColumns={6} numberOfRows={6} />
+      <button type="submit" onClick={finishMove}>
+        submit
+      </button>
+      <button type="submit" onClick={clearBoard}>
+        Clear Board
+      </button>
+      <ChessBoard />
       <ChessBoardPieces />
     </div>
   );

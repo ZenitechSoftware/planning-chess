@@ -5,12 +5,22 @@ export enum MessageType {
   NewPlayer = 'NewPlayer',
   PlayerDisconnected = 'PlayerDisconnected',
   FigureMoved = 'FigureMoved',
+  PlayerFinishMove = 'PlayerFinishMove',
   NewBoardState = 'NewBoardState',
+  ClearBoard = 'ClearBoard',
+  SetMyTurn = 'SetMyTurn',
 }
 
 export interface Message {
   type: MessageType;
   payload: unknown;
+}
+
+export interface PlaceFigureMessage {
+  row: number;
+  tile: number;
+  figure: string;
+  player: string;
 }
 
 export interface NewPlayerMessage {
