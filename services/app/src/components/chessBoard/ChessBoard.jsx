@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useContext } from 'react';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
