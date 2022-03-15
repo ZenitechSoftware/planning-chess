@@ -7,15 +7,21 @@ import {
   Message,
   MessageType,
   NewPlayerMessage,
+  PlaceFigureMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
 
-const figureMoved: Handler = (ws, payload): void => {
+const figureMoved: Handler = (ws, payload: PlaceFigureMessage | string): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
+  players.get(ws).status = 'done';
   const newBoardState = gameService.figureMoved(payload);
-  publish({ type: MessageType.NewBoardState, payload: newBoardState });
+  const areAllPlayersDone = Array.from(players.values()).every((player:any) => player.status === 'done');
+  if (areAllPlayersDone) {
+    publish({ type: MessageType.NewBoardState, payload: newBoardState });
+    gameService.figureMoved(null);
+  }
 };
 
 const playerConnected: Handler = (ws, payload: NewPlayerMessage): void => {
@@ -43,6 +49,7 @@ export const subscribe = (
   const newPlayer: Player = {
     id: uuidv4(),
     name: playerName,
+    status: 'active',
   };
   players.set(ws, newPlayer);
 };

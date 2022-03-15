@@ -1,7 +1,11 @@
-import logger from '../logger';
+const turns: any = [];
 
 export const figureMoved = (payload: unknown): any => {
-  //  TODO implement game logic
-  logger.info(`Figure moved to ${payload}`);
-  return {};
+  if (payload) {
+    turns.push(payload);
+  } else {
+    turns.length = 0;
+  }
+
+  return turns;
 };

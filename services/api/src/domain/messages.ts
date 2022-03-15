@@ -13,6 +13,13 @@ export interface Message {
   payload: unknown;
 }
 
+export interface PlaceFigureMessage {
+  row: number,
+  tile: number,
+  figure: string,
+  player: string,
+}
+
 export interface NewPlayerMessage {
   playerName: string;
 }
