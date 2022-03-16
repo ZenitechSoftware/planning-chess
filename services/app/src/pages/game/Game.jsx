@@ -17,30 +17,36 @@ import {
   buildMoveSkippedEventMessage,
   buildPlayerConnectedEventMessage,
 } from '../../api/playerApi';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-  const { users } = useWebSockets();
+  const { users, movedBy } = useWebSockets();
   const currentUser = useMemo(
     () => users.find((user) => user.name === username),
     [users],
   );
   const team = useMemo(
-    () => users.filter((user) => user.id !== currentUser.id),
-    [users, currentUser],
+    () =>
+      users
+        .filter((user) => user.id !== currentUser.id)
+        .map((player) =>
+          movedBy.includes(player.name)
+            ? { ...player, name: `${player.name} (finished move)` }
+            : player,
+        ),
+    [users, currentUser, movedBy],
   );
+
   const { ws } = useContext(WsContext);
+  const { finishMove, clearBoard } = useContext(ChessBoardContext);
 
   useEffect(() => {
     if (username) {
       ws.send(buildPlayerConnectedEventMessage(username));
     }
   }, [username]);
-
-  const handleSubmit = () => {
-    ws.send(buildPlayerConnectedEventMessage(username));
-  };
 
   const skipMove = useCallback((userId) => {
     if (userId) {
@@ -57,10 +63,13 @@ function Room() {
       </CopyToClipboard>
       <Player user={currentUser} skipMove={skipMove} />
       <Team title="Team" users={team} skipMove={skipMove} />
-      <button type="submit" onClick={handleSubmit}>
+      <button type="button" onClick={finishMove}>
         submit
       </button>
-      <ChessBoard numberOfColumns={6} numberOfRows={6} />
+      <button type="button" onClick={clearBoard}>
+        Clear Board
+      </button>
+      <ChessBoard />
       <ChessBoardPieces />
     </div>
   );

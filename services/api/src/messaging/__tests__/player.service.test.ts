@@ -68,6 +68,18 @@ describe('player.service', () => {
     expect(sendMock).not.toBeCalled();
   });
 
+  it('should set a turn if user`s move already exist', () => {
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.checkIfUserAlreadyExists(ws);
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should clear the board', async () => {
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.clearBoard();
+    expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
   it('should disconnect a player', async () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.playerDisconnected();

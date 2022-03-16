@@ -7,6 +7,8 @@ import {
   Message,
   MessageType,
   NewPlayerMessage,
+  PlaceFigureMessage,
+  MoveSkippedMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
@@ -21,14 +23,42 @@ const findPlayerById = (id: string): [WebSocket, Player] | [null, null] => {
   );
 };
 
-const figureMoved: Handler = (ws, payload): void => {
+const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
+  players.set(ws, {
+    ...players.get(ws),
+    status: PlayerStatus.FigurePlaced,
+  });
   const newBoardState = gameService.figureMoved(payload);
-  publish({ type: MessageType.NewBoardState, payload: newBoardState });
+  const areAllPlayersDone = Array.from(players.values()).every(
+    (player: any) => player.status === 'FigurePlaced',
+  );
+
+  publish({ type: MessageType.FigureMoved, payload: newBoardState });
+  if (areAllPlayersDone) {
+    publish({ type: MessageType.NewBoardState, payload: newBoardState });
+  }
 };
 
-const moveSkipped: Handler = (ws, payload): void => {
-  const { userId } = payload as { userId: string };
+export const clearBoard = (): void => {
+  gameService.clearBoard();
+  publish({ type: MessageType.ClearBoard, payload: [] });
+  publish({ type: MessageType.NewBoardState, payload: [] });
+};
+
+export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
+  const myTurn = gameService.findMoveByPlayerName(players.get(ws).name);
+
+  if (myTurn) {
+    players.set(ws, {
+      ...players.get(ws),
+      status: PlayerStatus.FigurePlaced,
+    });
+    publish({ type: MessageType.SetMyTurn, payload: myTurn });
+  }
+};
+
+const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   const [playerConnection, player] = findPlayerById(userId);
   try {
     if (!player) {
@@ -79,6 +109,8 @@ export const subscribe = (
     status: PlayerStatus.ActionNotTaken,
   };
   players.set(ws, newPlayer);
+
+  checkIfUserAlreadyExists(ws);
 };
 
 export const unsubscribe = (ws: WebSocket): void => {
@@ -98,6 +130,7 @@ const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
+  [MessageType.ClearBoard]: clearBoard,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
