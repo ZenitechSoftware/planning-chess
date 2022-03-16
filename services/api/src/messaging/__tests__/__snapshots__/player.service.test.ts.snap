@@ -40,4 +40,10 @@ Array [
 
 exports[`player.service should set a turn if user\`s move already exist 1`] = `Array []`;
 
-exports[`player.service should skip a move for a player 1`] = `Array []`;
+exports[`player.service should skip a move for a player 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"MoveSkipped\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"status\\":\\"MoveSkipped\\"}]}",
+  ],
+]
+`;

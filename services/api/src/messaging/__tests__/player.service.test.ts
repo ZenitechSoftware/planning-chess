@@ -34,15 +34,6 @@ describe('player.service', () => {
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
-  it('should move a chess figure', () => {
-    const payload = { move: 'test' };
-    const message = { type: MessageType.FigureMoved, payload };
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock.mock.calls).toMatchSnapshot();
-    expect(gameService.figureMoved).toBeCalledWith(payload);
-  });
-
   it('should skip a move for a player', () => {
     const payload = { userId: 'some-short-v4-uuid-0' };
     const message = { type: MessageType.MoveSkipped, payload };
@@ -72,6 +63,15 @@ describe('player.service', () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.checkIfUserAlreadyExists(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should move a chess figure', () => {
+    const payload = { move: 'test' };
+    const message = { type: MessageType.FigureMoved, payload };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock.mock.calls).toMatchSnapshot();
+    expect(gameService.figureMoved).toBeCalledWith(payload);
   });
 
   it('should clear the board', async () => {
