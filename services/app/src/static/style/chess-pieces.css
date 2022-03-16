@@ -46,6 +46,7 @@
 
 /*-----Chess Board Pieces-----*/
 #chess-pieces-container {
+  box-sizing: border-box;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
@@ -53,6 +54,7 @@
 }
 
 .piece-field {
+  width: 3.625em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,6 +65,12 @@
 
 .piece-field:hover {
   background-color: #e8edf9;
+}
+
+.piece-field-selected {
+  background-color: #e8edf9;
+  border: 2px solid #6547fd;
+  border-radius: 4px;
 }
 
 .figure-title {
