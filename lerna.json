@@ -1,6 +1,9 @@
 {
   "packages": [
-    "services/*"
+    "services/shared",
+    "services/api",
+    "services/app"
+
   ],
   "version": "1.0.0"
 }

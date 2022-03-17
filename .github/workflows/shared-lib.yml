@@ -1,14 +1,14 @@
-name: WEB Application
+name: Shared lib
 
 on:
   push:
     paths:
-      - "services/app/**"
+      - "services/shared/**"
     branches:
       - main
   pull_request:
     paths:
-      - "services/app/**"
+      - "services/shared/**"
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: services/app
+        working-directory: services/shared
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
