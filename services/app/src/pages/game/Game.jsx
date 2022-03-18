@@ -6,12 +6,14 @@ import { useWebSockets } from '../../utils/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-  const { users } = useWebSockets();
+  const { users, movedBy } = useWebSockets();
   const { ws } = useContext(WsContext);
+  const { finishMove, clearBoard } = useContext(ChessBoardContext);
 
   useEffect(() => {
     if (username) {
@@ -26,17 +28,16 @@ function Room() {
     }
   }, [username]);
 
-  const handleSubmit = () => {
-    ws.send(
-      JSON.stringify({
-        type: 'PlayerConnected',
-        payload: { playerName: username },
-      }),
-    );
-  };
-
   const findUserByUsername = (userName) =>
     users.find((element) => element.name === userName);
+
+  const team = users
+    .filter((user) => user.id !== findUserByUsername(username).id)
+    .map((player) =>
+      movedBy.includes(player.name)
+        ? `${player.name} (finished move)`
+        : player.name,
+    );
 
   return (
     <div>
@@ -48,16 +49,15 @@ function Room() {
       <Player name={username} />
       <div>
         <h2>Team</h2>
-        <div>
-          {users.map(
-            (user) => user.id !== findUserByUsername(username).id && user.name,
-          )}
-        </div>
+        <div>{team}</div>
       </div>
-      <button type="submit" onClick={handleSubmit}>
+      <button type="submit" onClick={finishMove}>
         submit
       </button>
-      <ChessBoard numberOfColumns={6} numberOfRows={6} />
+      <button type="submit" onClick={clearBoard}>
+        Clear Board
+      </button>
+      <ChessBoard />
       <GameFooter />
     </div>
   );

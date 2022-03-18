@@ -1,21 +1,51 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { Player } from '../domain';
+import { Player, PlayerStatus } from '../domain';
 import logger from '../logger';
 import {
   Handler,
   Message,
   MessageType,
   NewPlayerMessage,
+  PlaceFigureMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
 
-const figureMoved: Handler = (ws, payload): void => {
+const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
+  players.set(ws, {
+    ...players.get(ws),
+    status: PlayerStatus.FigurePlaced,
+  });
   const newBoardState = gameService.figureMoved(payload);
-  publish({ type: MessageType.NewBoardState, payload: newBoardState });
+  const areAllPlayersDone = Array.from(players.values()).every(
+    (player: any) => player.status === 'FigurePlaced',
+  );
+
+  publish({ type: MessageType.FigureMoved, payload: newBoardState });
+  if (areAllPlayersDone) {
+    publish({ type: MessageType.NewBoardState, payload: newBoardState });
+  }
+};
+
+export const clearBoard = (): void => {
+  gameService.clearBoard();
+  publish({ type: MessageType.ClearBoard, payload: [] });
+  publish({ type: MessageType.NewBoardState, payload: [] });
+};
+
+export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
+  const myTurn = gameService.findMoveByPlayerName(players.get(ws).name);
+
+  if (myTurn) {
+    players.set(ws, {
+      ...players.get(ws),
+      status: PlayerStatus.FigurePlaced,
+    });
+    publish({ type: MessageType.SetMyTurn, payload: myTurn });
+  }
 };
 
 const playerConnected: Handler = (ws, payload: NewPlayerMessage): void => {
@@ -43,8 +73,11 @@ export const subscribe = (
   const newPlayer: Player = {
     id: uuidv4(),
     name: playerName,
+    status: PlayerStatus.ActionNotTaken,
   };
   players.set(ws, newPlayer);
+
+  checkIfUserAlreadyExists(ws);
 };
 
 export const unsubscribe = (ws: WebSocket): void => {
@@ -63,6 +96,7 @@ export const publish = (message: Message): void => {
 const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
+  [MessageType.ClearBoard]: clearBoard,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
