@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import ChessBoardPieces from './ChessBoardPieces';
 
 function GameFooter() {
-  const [moveMade, setMoveMade] = useState(false);
+  const { lastTurn } = useContext(ChessBoardContext);
 
   return (
     <div id="game-footer">
@@ -13,7 +14,7 @@ function GameFooter() {
         <ChessBoardPieces />
       </div>
       <div id="btn-field">
-        <button type="button" className="finish-btn" disabled={!moveMade}>
+        <button type="button" className="finish-btn" disabled={!lastTurn}>
           Finish Move
         </button>
         <button type="button" className="skip-btn">
