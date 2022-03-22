@@ -1,11 +1,13 @@
 import { PlaceFigureMessage } from '../domain/messages';
+import { calculateScore } from '../helpers/calculateScore';
 
 export const turns: PlaceFigureMessage[] = [];
 
 export const figureMoved = (
   payload: PlaceFigureMessage,
 ): PlaceFigureMessage[] => {
-  turns.push(payload);
+  const score = calculateScore(payload);
+  turns.push({ ...payload, score });
   return turns;
 };
 

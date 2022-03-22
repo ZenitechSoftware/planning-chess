@@ -23,30 +23,35 @@ function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
   const { users, movedBy } = useWebSockets();
-  const currentUser = useMemo(
-    () => users.find((user) => user.name === username),
-    [users],
-  );
-  const team = useMemo(
-    () =>
-      users
-        .filter((user) => user.id !== currentUser.id)
-        .map((player) =>
-          movedBy.includes(player.name)
-            ? { ...player, name: `${player.name} (finished move)` }
-            : player,
-        ),
-    [users, currentUser, movedBy],
-  );
-
   const { ws } = useContext(WsContext);
   const { finishMove, clearBoard } = useContext(ChessBoardContext);
+  const [playerNames, setPlayerName] = useState([]);
 
   useEffect(() => {
     if (username) {
       ws.send(buildPlayerConnectedEventMessage(username));
     }
   }, [username]);
+
+  useEffect(() => {
+    setPlayerName(movedBy.map((moved) => moved.player));
+  }, [movedBy]);
+
+  const findUserByUsername = (userName) =>
+    users.find((element) => element.name === userName);
+
+  const currentUser = useMemo(
+    () => users.find((user) => user.name === username),
+    [users],
+  );
+
+  const team = users
+    .filter((user) => user.id !== findUserByUsername(username).id)
+    .map((player) =>
+      playerNames.includes(player.name)
+        ? `${player.name} (finished move)`
+        : player.name,
+    );
 
   const skipMove = useCallback((userId) => {
     if (userId) {
