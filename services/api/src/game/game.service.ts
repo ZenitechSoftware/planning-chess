@@ -13,6 +13,6 @@ export const clearBoard = (): void => {
   turns.length = 0;
 };
 
-export const findMoveByPlayerName = (name: string) => {
-  return turns.find((turn) => turn.player === name);
-};
+export const findMoveByPlayerName = (
+  name: string,
+): PlaceFigureMessage | undefined => turns.find((turn) => turn.player === name);

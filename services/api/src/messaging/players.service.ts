@@ -31,7 +31,7 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   });
   const newBoardState = gameService.figureMoved(payload);
   const areAllPlayersDone = Array.from(players.values()).every(
-    (player: any) => player.status === 'FigurePlaced',
+    (player) => player.status === 'FigurePlaced',
   );
 
   publish({ type: MessageType.FigureMoved, payload: newBoardState });
