@@ -22,6 +22,8 @@ export const useWebSockets = () => {
         return setMovedBy([]);
       case 'SetMyTurn':
         return setMyTurn(payload);
+      case 'MoveSkipped':
+        return setUsers(payload);
       default:
         return null;
     }

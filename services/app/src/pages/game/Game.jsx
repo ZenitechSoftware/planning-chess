@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
@@ -6,37 +12,47 @@ import { useWebSockets } from '../../utils/useWebSockets';
 import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
+import Team from '../../components/team/Team';
+import {
+  buildMoveSkippedEventMessage,
+  buildPlayerConnectedEventMessage,
+} from '../../api/playerApi';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
   const { users, movedBy } = useWebSockets();
+  const currentUser = useMemo(
+    () => users.find((user) => user.name === username),
+    [users],
+  );
+  const team = useMemo(
+    () =>
+      users
+        .filter((user) => user.id !== currentUser.id)
+        .map((player) =>
+          movedBy.includes(player.name)
+            ? { ...player, name: `${player.name} (finished move)` }
+            : player,
+        ),
+    [users, currentUser, movedBy],
+  );
+
   const { ws } = useContext(WsContext);
   const { finishMove, clearBoard } = useContext(ChessBoardContext);
 
   useEffect(() => {
     if (username) {
-      ws.onconnect = () =>
-        ws.send(
-          JSON.stringify({
-            type: 'PlayerConnected',
-            payload: { playerName: username },
-          }),
-        );
+      ws.send(buildPlayerConnectedEventMessage(username));
     }
   }, [username]);
 
-  const findUserByUsername = (userName) =>
-    users.find((element) => element.name === userName);
-
-  const team = users
-    .filter((user) => user.id !== findUserByUsername(username).id)
-    .map((player) =>
-      movedBy.includes(player.name)
-        ? `${player.name} (finished move)`
-        : player.name,
-    );
+  const skipMove = useCallback((userId) => {
+    if (userId) {
+      ws.send(buildMoveSkippedEventMessage(userId));
+    }
+  }, []);
 
   return (
     <div>
@@ -45,15 +61,12 @@ function Room() {
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <Player name={username} />
-      <div>
-        <h2>Team</h2>
-        <div>{team}</div>
-      </div>
-      <button type="submit" onClick={finishMove}>
+      <Player user={currentUser} skipMove={skipMove} />
+      <Team title="Team" users={team} skipMove={skipMove} />
+      <button type="button" onClick={finishMove}>
         submit
       </button>
-      <button type="submit" onClick={clearBoard}>
+      <button type="button" onClick={clearBoard}>
         Clear Board
       </button>
       <ChessBoard />

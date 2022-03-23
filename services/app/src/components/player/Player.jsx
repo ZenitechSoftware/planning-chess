@@ -1,17 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import playerStatuses from '../../constants/playerStatuses';
+import userPropType from '../../prop-types/user';
 import '../../static/style/username.css';
 
-const Player = ({ name }) => (
-  <div id="userName">
-    <span>{name}</span>
-  </div>
-);
+const Player = ({ user, skipMove }) =>
+  user && (
+    <>
+      <div id="userName">
+        <span>{user.name}</span>
+      </div>
+      <button
+        type="button"
+        disabled={user.status !== playerStatuses.ActionNotTaken}
+        onClick={() => skipMove(user.id)}
+      >
+        skip
+      </button>
+    </>
+  );
 Player.defaultProps = {
-  name: '',
+  user: null,
 };
 Player.propTypes = {
-  name: PropTypes.string,
+  user: userPropType,
+  skipMove: PropTypes.func.isRequired,
 };
 
 export default Player;
