@@ -24,7 +24,7 @@ function Room() {
   const { username } = useUserFromLocalStorage();
   const { users, movedBy } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const { finishMove, clearBoard } = useContext(ChessBoardContext);
+  const { finishMove, clearBoard, finished } = useContext(ChessBoardContext);
   const [playerNames, setPlayerName] = useState([]);
 
   useEffect(() => {

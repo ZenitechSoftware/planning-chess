@@ -96,6 +96,7 @@ const ChessBoardContextProvider = ({ children }) => {
         board,
         finishMove,
         clearBoard,
+        finished,
       }}
     >
       {children}

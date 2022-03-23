@@ -54,7 +54,7 @@ export const clearBoard = (): void => {
 };
 
 export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
-  const myTurn = gameService.findMoveByPlayerName(players.get(ws).id);
+  const myTurn = gameService.findMoveByPlayerName(players.get(ws).name);
 
   if (myTurn) {
     players.set(ws, {
