@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import ChessBoardPieces from './ChessBoardPieces';
+import './chess-pieces.css';
 
 function GameFooter() {
   const { lastTurn } = useContext(ChessBoardContext);
@@ -13,7 +14,7 @@ function GameFooter() {
       <div className="figure-field">
         <ChessBoardPieces />
       </div>
-      <div id="btn-field">
+      <div className="btn-field">
         <button type="button" className="finish-btn" disabled={!lastTurn}>
           Finish Move
         </button>
