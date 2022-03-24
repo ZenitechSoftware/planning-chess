@@ -68,7 +68,7 @@ function Room() {
       </CopyToClipboard>
       <Player user={currentUser} skipMove={skipMove} />
       <Team title="Team" users={team} skipMove={skipMove} />
-      <button type="button" onClick={finishMove}>
+      <button disabled={finished} type="button" onClick={finishMove}>
         submit
       </button>
       <button type="button" onClick={clearBoard}>
