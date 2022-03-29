@@ -3,6 +3,7 @@ export enum PlayerStatus {
   FigurePlaced = 'FigurePlaced',
   ActionNotTaken = 'ActionNotTaken',
 }
+
 export interface Player {
   id: string;
   name: string;

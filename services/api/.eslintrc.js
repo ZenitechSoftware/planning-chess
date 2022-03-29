@@ -36,5 +36,6 @@ module.exports = {
     'require-atomic-updates': [0],
     '@typescript-eslint/ban-ts-ignore': 'off',
     'no-multiple-empty-lines': ['error', { max: 2 }],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
 };

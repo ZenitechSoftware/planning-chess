@@ -8,10 +8,20 @@ import {
   MessageType,
   NewPlayerMessage,
   PlaceFigureMessage,
+  MoveSkippedMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
 const players = new Map<WebSocket, Player>();
+
+const findPlayerById = (id: string): [WebSocket, Player] | [null, null] => {
+  return (
+    Array.from(players.entries()).find(([_, player]) => player.id === id) || [
+      null,
+      null,
+    ]
+  );
+};
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
@@ -21,7 +31,7 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   });
   const newBoardState = gameService.figureMoved(payload);
   const areAllPlayersDone = Array.from(players.values()).every(
-    (player: any) => player.status === 'FigurePlaced',
+    (player) => player.status === 'FigurePlaced',
   );
 
   publish({ type: MessageType.FigureMoved, payload: newBoardState });
@@ -45,6 +55,29 @@ export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
       status: PlayerStatus.FigurePlaced,
     });
     publish({ type: MessageType.SetMyTurn, payload: myTurn });
+  }
+};
+
+const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
+  const [playerConnection, player] = findPlayerById(userId);
+  try {
+    if (!player) {
+      throw new Error(`Player with id ${userId} not found`);
+    }
+    if (player.status !== PlayerStatus.ActionNotTaken) {
+      throw new Error(`Player ${userId} cannot skip a move`);
+    }
+    logger.info(`Player ${player?.name} skips a move.`);
+    players.set(playerConnection, {
+      ...players.get(playerConnection),
+      status: PlayerStatus.MoveSkipped,
+    });
+    publish({
+      type: MessageType.MoveSkipped,
+      payload: Array.from(players.values()),
+    });
+  } catch (err) {
+    logger.error(err?.message);
   }
 };
 
@@ -96,6 +129,7 @@ export const publish = (message: Message): void => {
 const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
+  [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
 };
 

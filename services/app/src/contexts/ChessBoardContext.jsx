@@ -61,22 +61,18 @@ const ChessBoardContextProvider = ({ children }) => {
 
   const finishMove = () => {
     if (lastTurn) {
-      ws.send(
-        JSON.stringify({
-          type: 'FigureMoved',
-          payload: { ...lastTurn, player: username },
-        }),
-      );
+      ws.send({
+        type: 'FigureMoved',
+        payload: { ...lastTurn, player: username },
+      });
       setFinished(true);
     }
   };
 
   const clearBoard = () => {
-    ws.send(
-      JSON.stringify({
-        type: 'ClearBoard',
-      }),
-    );
+    ws.send({
+      type: 'ClearBoard',
+    });
   };
 
   return (

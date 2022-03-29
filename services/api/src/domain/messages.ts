@@ -7,6 +7,7 @@ export enum MessageType {
   FigureMoved = 'FigureMoved',
   PlayerFinishMove = 'PlayerFinishMove',
   NewBoardState = 'NewBoardState',
+  MoveSkipped = 'MoveSkipped',
   ClearBoard = 'ClearBoard',
   SetMyTurn = 'SetMyTurn',
 }
@@ -21,6 +22,10 @@ export interface PlaceFigureMessage {
   tile: number;
   figure: string;
   player: string;
+}
+
+export interface MoveSkippedMessage {
+  userId: string;
 }
 
 export interface NewPlayerMessage {
