@@ -12,6 +12,7 @@ const ChessBoardPieces = () => {
     <div id="chess-pieces-container">
       {PIECES.map((figure) => (
         <div
+          key={figure.name}
           role="button"
           tabIndex={0}
           aria-hidden="true"
