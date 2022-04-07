@@ -2,18 +2,18 @@ table {
   text-align: center;
 }
 
-.white-tile,
-.black-tile {
+.non-border-tile,
+.border-tile {
   border: 1px solid black;
 }
 
-#chess-board .white-tile {
+#chess-board .border-tile {
   background-color: white;
   width: 30px;
   height: 30px;
 }
 
-#chess-board .black-tile {
+#chess-board .non-border-tile {
   color: white;
   background-color: black;
   width: 30px;
