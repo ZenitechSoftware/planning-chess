@@ -10,12 +10,13 @@ export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns, myTurn } = useWebSockets();
+  const { turns, myTurn, movedBy } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [finished, setFinished] = useState(false);
+  const [score, setScore] = useState(0);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...board];
@@ -27,6 +28,7 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const clearBoardItems = () => {
+    setScore(0);
     setBoard(defaultBoard);
     setFinished(false);
   };
@@ -38,6 +40,14 @@ const ChessBoardContextProvider = ({ children }) => {
       clearBoardItems();
     }
   }, [turns]);
+
+  useEffect(() => {
+    if (movedBy.length) {
+      const myMove = movedBy.find((moved) => moved.player === username);
+      const myScore = myMove ? myMove.score : 0;
+      setScore(myScore);
+    }
+  }, [movedBy]);
 
   const placeItemOnBoard = (row, tile, figure) => {
     if (!finished) {
@@ -56,6 +66,7 @@ const ChessBoardContextProvider = ({ children }) => {
       const { row, tile, figure } = myTurn;
       placeItemOnBoard(row, tile, figure);
       setFinished(true);
+      setScore(myTurn.score);
     }
   }, [myTurn]);
 
@@ -79,12 +90,14 @@ const ChessBoardContextProvider = ({ children }) => {
     <ChessBoardContext.Provider
       value={{
         lastTurn,
+        score,
         setSelectedItem,
         selectedItem,
         placeItemOnBoard,
         board,
         finishMove,
         clearBoard,
+        finished,
       }}
     >
       {children}

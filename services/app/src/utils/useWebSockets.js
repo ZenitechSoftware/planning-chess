@@ -17,7 +17,7 @@ export const useWebSockets = () => {
       case 'NewBoardState':
         return setTurns(payload);
       case 'FigureMoved':
-        return setMovedBy(payload.map((player) => player.player));
+        return setMovedBy(payload);
       case 'ClearBoard':
         return setMovedBy([]);
       case 'SetMyTurn':

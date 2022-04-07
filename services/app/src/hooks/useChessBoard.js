@@ -10,7 +10,7 @@ export const useChessBoard = () => {
       { attribute: NUMBER_OF_ROWS - rowIndex },
       ...range(NUMBER_OF_COLUMNS).map((_tile, tileIndex) => ({
         items: [],
-        isFilled:
+        filled:
           (rowIndex % 2 && !(tileIndex % 2)) ||
           (!(rowIndex % 2) && tileIndex % 2),
       })),

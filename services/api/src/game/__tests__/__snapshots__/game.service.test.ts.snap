@@ -6,9 +6,12 @@ Array [
     "figure": "rock",
     "player": "test",
     "row": 1,
+    "score": NaN,
     "tile": 1,
   },
-  null,
+  Object {
+    "score": NaN,
+  },
 ]
 `;
 
@@ -18,6 +21,7 @@ Array [
     "figure": "rock",
     "player": "test",
     "row": 1,
+    "score": NaN,
     "tile": 1,
   },
 ]
