@@ -14,7 +14,7 @@ Array [
 exports[`player.service should disconnect a player 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"status\\":\\"ActionNotTaken\\"}]}",
+    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"status\\":\\"ActionNotTaken\\"}]}",
   ],
 ]
 `;
