@@ -41,8 +41,15 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   }
 };
 
+const setDefaultStatusForPlayers = (): void => {
+  for (const values of players.values()) {
+    values.status = PlayerStatus.ActionNotTaken;
+  }
+};
+
 export const clearBoard = (): void => {
   gameService.clearBoard();
+  setDefaultStatusForPlayers();
   publish({ type: MessageType.ClearBoard, payload: [] });
   publish({ type: MessageType.NewBoardState, payload: [] });
 };

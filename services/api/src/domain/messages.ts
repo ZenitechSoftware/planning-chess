@@ -23,6 +23,7 @@ export interface PlaceFigureMessage {
   tile: number;
   figure: string;
   player: string;
+  score?: number;
 }
 
 export interface MoveSkippedMessage {

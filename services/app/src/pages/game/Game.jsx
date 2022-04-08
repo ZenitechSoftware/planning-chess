@@ -23,15 +23,30 @@ import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
+
   const { users, movedBy, playerDeleted } = useWebSockets();
+  const { ws } = useContext(WsContext);
+  const { finishMove, clearBoard, finished, score } =
+    useContext(ChessBoardContext);
+
+  useEffect(() => {
+    if (username && ws) {
+      ws.send(buildPlayerConnectedEventMessage(username));
+    }
+  }, [username]);
+
+  const findUserByUsername = (userName) =>
+    users.find((element) => element.name === userName);
+
   const currentUser = useMemo(
     () => users.find((user) => user.name === username),
     [users],
   );
+
   const team = useMemo(
     () =>
       users
-        .filter((user) => user.id !== currentUser.id)
+        .filter((user) => user.id !== findUserByUsername(username).id)
         .map((player) =>
           movedBy.includes(player.name)
             ? { ...player, name: `${player.name} (finished move)` }
@@ -39,15 +54,6 @@ function Room() {
         ),
     [users, currentUser, movedBy],
   );
-
-  const { ws } = useContext(WsContext);
-  const { finishMove, clearBoard } = useContext(ChessBoardContext);
-
-  useEffect(() => {
-    if (username) {
-      ws.send(buildPlayerConnectedEventMessage(username));
-    }
-  }, [username]);
 
   useEffect(() => {
     if (playerDeleted && playerDeleted === currentUser.id) {
@@ -75,14 +81,14 @@ function Room() {
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <Player user={currentUser} skipMove={skipMove} />
+      <Player score={score} user={currentUser} skipMove={skipMove} />
       <Team
         title="Team"
         users={team}
         skipMove={skipMove}
         removePlayer={removePlayer}
       />
-      <button type="button" onClick={finishMove}>
+      <button disabled={finished} type="button" onClick={finishMove}>
         submit
       </button>
       <button type="button" onClick={clearBoard}>
