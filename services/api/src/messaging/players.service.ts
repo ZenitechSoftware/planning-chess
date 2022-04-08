@@ -9,6 +9,7 @@ import {
   NewPlayerMessage,
   PlaceFigureMessage,
   MoveSkippedMessage,
+  RemovePlayerMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
@@ -47,7 +48,7 @@ export const clearBoard = (): void => {
 };
 
 export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
-  const myTurn = gameService.findMoveByPlayerName(players.get(ws).name);
+  const myTurn = gameService.findMoveByPlayerName(players.get(ws)?.name);
 
   if (myTurn) {
     players.set(ws, {
@@ -74,6 +75,28 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
     });
     publish({
       type: MessageType.MoveSkipped,
+      payload: Array.from(players.values()),
+    });
+  } catch (err) {
+    logger.error(err?.message);
+  }
+};
+
+const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
+  const [playerConnection, player] = findPlayerById(userId);
+  try {
+    if (!player) {
+      throw new Error(`Player with id ${userId} not found`);
+    }
+    publish({
+      type: MessageType.RemovePlayer,
+      payload: userId,
+    });
+
+    players.delete(playerConnection);
+    logger.info(`Player ${player?.name} removed`);
+    publish({
+      type: MessageType.NewPlayer,
       payload: Array.from(players.values()),
     });
   } catch (err) {
@@ -131,6 +154,7 @@ const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
+  [MessageType.RemovePlayer]: removePlayer,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
