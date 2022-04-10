@@ -89,6 +89,7 @@ const ChessBoardContextProvider = ({ children }) => {
   return (
     <ChessBoardContext.Provider
       value={{
+        lastTurn,
         score,
         setSelectedItem,
         selectedItem,
