@@ -68,7 +68,7 @@ function Room() {
       </CopyToClipboard>
       <span>{score}</span>
       <Team title="Team" users={team} skipMove={skipMove}>
-        <Player score={score} user={currentUser} skipMove={skipMove} />
+        <Player user={currentUser} skipMove={skipMove} />
       </Team>
       <button disabled={finished} type="button" onClick={finishMove}>
         submit
