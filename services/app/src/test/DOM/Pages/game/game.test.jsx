@@ -22,5 +22,5 @@ test('test Player page elements', () => {
       skipMove={() => {}}
     />,
   );
-  expect(screen.getByText('username')).toBeInTheDocument();
+  expect(screen.getByText('username (you)')).toBeInTheDocument();
 });

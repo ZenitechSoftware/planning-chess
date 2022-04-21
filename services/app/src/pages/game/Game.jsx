@@ -66,8 +66,10 @@ function Room() {
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <Player score={score} user={currentUser} skipMove={skipMove} />
-      <Team title="Team" users={team} skipMove={skipMove} />
+      <span>{score}</span>
+      <Team title="Team" users={team} skipMove={skipMove}>
+        <Player user={currentUser} skipMove={skipMove} />
+      </Team>
       <button disabled={finished} type="button" onClick={finishMove}>
         submit
       </button>
