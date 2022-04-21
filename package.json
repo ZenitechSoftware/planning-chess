@@ -2,6 +2,7 @@
   "name": "planning-chess",
   "version": "1.0.0",
   "description": "The consensus-based chess inspired estimation game",
+  "workspaces": ["services/shared", "services/api", "services/app"],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean:dist": "rimraf services/*/dist",
@@ -10,11 +11,13 @@
     "clean": "run-s clean:lerna clean:dist clean:build clean:root",
     "dev": "lerna run dev --parallel",
     "start": "lerna run start --parallel",
-    "build": "lerna run build",
+    "build": "lerna run build --scope @planning-chess/shared && lerna run build --ignore @planning-chess/shared",
+    "build:shared": "lerna run build --scope @planning-chess/shared",
     "lint": "lerna run lint --concurrency 1",
     "package": "docker build -t planning-chess .",
-    "ci": "npm run bootstrap && lerna run ci",
-    "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest"
+    "ci": "lerna run ci",
+    "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest",
+    "nuke": "lerna run nuke --parallel && npm run clean:root"
   },
   "repository": {
     "type": "git",
