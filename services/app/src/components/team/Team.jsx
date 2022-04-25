@@ -4,10 +4,11 @@ import TeamMember from './TeamMember';
 import userPropType from '../../prop-types/user';
 import '../../static/style/team.css';
 
-function Team({ title, users, skipMove, removePlayer }) {
+function Team({ title, users, skipMove, children, removePlayer }) {
   return (
     <div className="team-container">
       <h2>{title}</h2>
+      <div className="team-list-item">{children}</div>
       {users.map((user) => (
         <TeamMember
           key={user.id}
@@ -27,5 +28,6 @@ Team.propTypes = {
   users: PropTypes.arrayOf(userPropType).isRequired,
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
 };
 export default Team;

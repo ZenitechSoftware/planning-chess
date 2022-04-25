@@ -9,7 +9,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
-import ChessBoardPieces from '../../components/chessBoard/ChessBoardPieces';
+import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
@@ -81,13 +81,14 @@ function Room() {
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <Player score={score} user={currentUser} skipMove={skipMove} />
-      <Team
-        title="Team"
-        users={team}
-        skipMove={skipMove}
-        removePlayer={removePlayer}
-      />
+      <span>{score}</span>
+      <Team title="Team" users={team} skipMove={skipMove}>
+        <Player
+          user={currentUser}
+          skipMove={skipMove}
+          removePlayer={removePlayer}
+        />
+      </Team>
       <button disabled={finished} type="button" onClick={finishMove}>
         submit
       </button>
@@ -95,7 +96,7 @@ function Room() {
         Clear Board
       </button>
       <ChessBoard />
-      <ChessBoardPieces />
+      <GameFooter />
     </div>
   );
 }
