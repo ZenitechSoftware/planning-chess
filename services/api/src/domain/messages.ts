@@ -2,7 +2,7 @@ import WebSocket from 'ws';
 
 export enum MessageType {
   PlayerConnected = 'PlayerConnected',
-  NewPlayer = 'NewPlayer',
+  UpdatePlayerList = 'UpdatePlayerList',
   PlayerDisconnected = 'PlayerDisconnected',
   FigureMoved = 'FigureMoved',
   PlayerFinishMove = 'PlayerFinishMove',
@@ -34,7 +34,7 @@ export interface RemovePlayerMessage {
   userId: string;
 }
 
-export interface NewPlayerMessage {
+export interface UpdatePlayerListMessage {
   playerName: string;
 }
 

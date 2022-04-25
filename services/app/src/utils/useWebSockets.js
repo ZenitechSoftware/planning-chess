@@ -14,7 +14,7 @@ export const useWebSockets = () => {
 
   const websocketReducer = (type, payload) => {
     switch (type) {
-      case 'NewPlayer':
+      case 'UpdatePlayerList':
         return setUsers(payload);
       case 'NewBoardState':
         return setTurns(payload);

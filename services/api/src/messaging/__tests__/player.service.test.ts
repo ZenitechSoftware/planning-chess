@@ -62,7 +62,6 @@ describe('player.service', () => {
   it('should remove a player', () => {
     const payload = { userId: 'some-short-v4-uuid-0' };
     const message = { type: MessageType.RemovePlayer, payload };
-    playerService.newMessageReceived(ws, message);
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock).toBeCalled();

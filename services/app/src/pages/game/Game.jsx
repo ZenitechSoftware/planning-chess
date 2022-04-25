@@ -58,7 +58,7 @@ function Room() {
   useEffect(() => {
     if (playerDeleted && playerDeleted === currentUser.id) {
       localStorage.removeItem('user');
-      window.location.reload();
+      window.location.replace('/');
     }
   }, [playerDeleted]);
 

@@ -6,7 +6,7 @@ import {
   Handler,
   Message,
   MessageType,
-  NewPlayerMessage,
+  UpdatePlayerListMessage,
   PlaceFigureMessage,
   MoveSkippedMessage,
   RemovePlayerMessage,
@@ -103,7 +103,7 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
     players.delete(playerConnection);
     logger.info(`Player ${player?.name} removed`);
     publish({
-      type: MessageType.NewPlayer,
+      type: MessageType.UpdatePlayerList,
       payload: Array.from(players.values()),
     });
   } catch (err) {
@@ -111,7 +111,10 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   }
 };
 
-const playerConnected: Handler = (ws, payload: NewPlayerMessage): void => {
+const playerConnected: Handler = (
+  ws,
+  payload: UpdatePlayerListMessage,
+): void => {
   subscribe(ws, payload);
   newPlayerJoined();
 };
@@ -125,12 +128,12 @@ export const playerDisconnected = (): void => {
 export const newPlayerJoined = (): void => {
   logger.info('Publishing: new player joined the game.');
   const allPlayers = Array.from(players.values());
-  publish({ type: MessageType.NewPlayer, payload: allPlayers });
+  publish({ type: MessageType.UpdatePlayerList, payload: allPlayers });
 };
 
 export const subscribe = (
   ws: WebSocket,
-  { playerName }: NewPlayerMessage,
+  { playerName }: UpdatePlayerListMessage,
 ): void => {
   logger.info(`New player "${playerName}" joined the game.`);
   const newPlayer: Player = {
