@@ -82,7 +82,12 @@ function Room() {
         <button type="button">Copy link</button>
       </CopyToClipboard>
       <span>{score}</span>
-      <Team title="Team" users={team} skipMove={skipMove}>
+      <Team
+        title="Team"
+        users={team}
+        skipMove={skipMove}
+        removePlayer={removePlayer}
+      >
         <Player
           user={currentUser}
           skipMove={skipMove}
