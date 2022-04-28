@@ -2,19 +2,25 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from '../../../../pages/game/Game';
 import Player from '../../../../components/player/Player';
-import { PIECES } from '../../../../constants/board';
+import ChessGameProvider from '../../../../contexts/ChessBoardContext';
 
 test('test Game page elements', () => {
-  render(<Game />);
+  render(
+    <ChessGameProvider>
+      <Game />
+    </ChessGameProvider>,
+  );
   expect(screen.getByText('GAME')).toBeInTheDocument();
   expect(screen.getByText('http://localhost/')).toBeInTheDocument();
   fireEvent.click(screen.getByText('Copy link'));
-  PIECES.forEach((p) => {
-    expect(screen.getByText(p)).toBeInTheDocument();
-  });
 });
 
 test('test Player page elements', () => {
-  render(<Player name="username" />);
-  expect(screen.getByText('username')).toBeInTheDocument();
+  render(
+    <Player
+      user={{ name: 'username', id: '1', status: 'ActionNotTaken' }}
+      skipMove={() => {}}
+    />,
+  );
+  expect(screen.getByText('username (you)')).toBeInTheDocument();
 });

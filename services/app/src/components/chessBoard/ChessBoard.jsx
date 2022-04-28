@@ -1,11 +1,11 @@
-import React from 'react';
-import { useChessBoardContext } from '../../hooks/useChessBoardContext';
+import React, { useContext } from 'react';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 import Tile from './Tile';
-import '../../static/style/chess-board.css';
+import './chess-board.css';
 
 const ChessBoard = () => {
-  const { placeItemOnBoard, board } = useChessBoardContext();
+  const { placeItemOnBoard, board } = useContext(ChessBoardContext);
 
   return (
     <table id="chess-board">

@@ -1,3 +1,4 @@
 .env.example
 dist
 coverage
+.DS_Store

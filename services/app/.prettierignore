@@ -1,3 +1,4 @@
 *.png
 *.ico
+*.svg
 package-lock.json

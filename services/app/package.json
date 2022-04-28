@@ -1,20 +1,35 @@
 {
-  "name": "planning-chess-app",
+  "name": "@planning-chess/app",
   "version": "1.0.0",
   "description": "Planning Chess WEB Application",
   "scripts": {
     "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
-    "format": "prettier --check \"src/**\" \"*.js\" \"*.json\"",
+    "format": "prettier --check \"src/**\" \"*.js\" \"*.json\" '!package-lock.json' '!webpack.config.js' ",
+    "format:write": "prettier --write \"src/**\" \"*.js\" \"*.json\" '!package-lock.json' ",
     "lint": "eslint . --ext js,jsx",
     "build": "cross-env NODE_ENV=production webpack",
+    "build:shared": "cd ../shared && npm install && npm run build",
     "test": "jest",
     "dev": "webpack serve",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "ci": "npm run spell && npm run format && npm run lint && npm run build && npm test"
+    "ci": "npm run spell && npm run build:shared && npm run lint && npm run build && npm test",
+    "nuke": "rm -fr ./node_modules"
   },
   "author": "Planning Chess",
   "license": "MIT",
+  "dependencies": {
+    "@planning-chess/shared": "file:../shared",
+    "bootstrap": "^5.1.3",
+    "classnames": "^2.3.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.0.4",
+    "react-dom": "^17.0.2",
+    "react-modal": "^3.14.4",
+    "react-router": "^6.2.1",
+    "react-router-dom": "^6.0.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
@@ -42,13 +57,5 @@
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0"
-  },
-  "dependencies": {
-    "classnames": "^2.3.1",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-copy-to-clipboard": "^5.0.4",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^6.0.2"
   }
 }

@@ -1,10 +1,9 @@
-/* eslint-disable no-underscore-dangle */
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 const Tile = ({
-  tile: { attribute, items, isFilled },
+  tile: { attribute, items, filled },
   onClick,
   row,
   column,
@@ -13,6 +12,7 @@ const Tile = ({
   const isTileWithBorder = () =>
     !attribute && row !== boardLength - 1 && column !== 0;
 
+  /* eslint-disable-next-line */
   const _onClick = useCallback(() => {
     onClick(row, column);
   }, [onClick, row, column]);
@@ -22,8 +22,8 @@ const Tile = ({
       onClick={_onClick}
       role="presentation"
       className={classNames({
-        'black-tile': isFilled,
-        'white-tile': isTileWithBorder(),
+        'non-border-tile': filled,
+        'border-tile': isTileWithBorder(),
       })}
     >
       {attribute || items}
@@ -39,7 +39,7 @@ Tile.propTypes = {
       PropTypes.number,
     ]),
     items: PropTypes.arrayOf(PropTypes.string),
-    isFilled: PropTypes.oneOfType([
+    filled: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.object,
       PropTypes.number,
