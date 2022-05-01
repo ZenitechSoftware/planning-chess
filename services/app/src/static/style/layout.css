@@ -1,0 +1,23 @@
+.align-c { align-items: center }
+.align-end { align-items: flex-end }
+.align-start { align-items: flex-start }
+
+.justify-c { justify-content: center }
+.justify-end { justify-content: flex-end }
+.justify-start { justify-content: flex-start }
+
+.f-1 {
+  display: flex;
+  flex: 1;
+}
+
+.f-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.f-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

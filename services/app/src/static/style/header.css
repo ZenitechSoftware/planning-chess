@@ -1,36 +1,15 @@
 #header {
-  width: 103%;
-  height: 80px;
-  bottom: 8px;
-  right: 2%;
   display: flex;
   flex-direction: row;
-  align-items: center;
   background: #f3f6fa;
-  position: relative;
-  flex-grow: 1;
+  height: 80px;
   min-width: 700px;
+  padding: 0 64px;
 }
-#logo {
-  margin-left: 64px;
-}
-#separator {
-  margin-left: 16.5px;
-  margin-right: 16.5px;
-}
-#roomName {
-  margin-right: 18px;
-}
-.nav-items-container {
-  display: flex;
-  flex-direction: row;
-  margin-right: 20.28px;
-}
+
 .avatar {
   height: 40px;
   width: 40px;
-  line-height: 40px;
-  right: 110px;
   border-radius: 30px; /* or 50% */
   background-color: #ecf0f7;
   color: #3c64b1;
@@ -39,15 +18,10 @@
   font-weight: 500;
   font-size: 20px;
   text-transform: uppercase;
-  position: absolute;
 }
+
 #username {
   font-family: 'Lato', sans-serif;
-  font-style: normal;
-  font-weight: normal;
   font-size: 16px;
-  line-height: 16px;
   color: #212121;
-  position: absolute;
-  right: 64px;
 }
