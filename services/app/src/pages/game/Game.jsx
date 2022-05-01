@@ -62,7 +62,7 @@ function Room() {
 
   return (
     <div>
-      <Header />
+      <Header username='Mike' />
       <h1>GAME</h1>
       <span id="game-url">{roomUrl}</span>
       <CopyToClipboard text={roomUrl}>
