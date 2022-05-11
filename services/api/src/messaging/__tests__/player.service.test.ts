@@ -59,6 +59,22 @@ describe('player.service', () => {
     expect(sendMock).not.toBeCalled();
   });
 
+  it('should remove a player', () => {
+    const payload = { userId: 'some-short-v4-uuid-0' };
+    const message = { type: MessageType.RemovePlayer, payload };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).toBeCalled();
+  });
+
+  it('should not remove a player, because user do not exist', () => {
+    const payload = { userId: 'some-short-v4-' };
+    const message = { type: MessageType.RemovePlayer, payload };
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).not.toBeCalled();
+  });
+
   it('should set a turn if user`s move already exist', () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.checkIfUserAlreadyExists(ws);

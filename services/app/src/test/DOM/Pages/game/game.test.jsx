@@ -20,6 +20,7 @@ test('test Player page elements', () => {
     <Player
       user={{ name: 'username', id: '1', status: 'ActionNotTaken' }}
       skipMove={() => {}}
+      score={0}
     />,
   );
   expect(screen.getByText('username (you)')).toBeInTheDocument();

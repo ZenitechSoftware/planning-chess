@@ -4,7 +4,7 @@ import TeamMember from './TeamMember';
 import userPropType from '../../prop-types/user';
 import '../../static/style/team.css';
 
-function Team({ title, users, skipMove, children }) {
+function Team({ title, users, skipMove, children, removePlayer }) {
   return (
     <div className="team-container">
       <h2>{title}</h2>
@@ -16,6 +16,7 @@ function Team({ title, users, skipMove, children }) {
           id={user.id}
           skipMove={skipMove}
           status={user.status}
+          removePlayer={removePlayer}
         />
       ))}
     </div>
@@ -25,6 +26,7 @@ function Team({ title, users, skipMove, children }) {
 Team.propTypes = {
   title: PropTypes.string.isRequired,
   users: PropTypes.arrayOf(userPropType).isRequired,
+  removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };

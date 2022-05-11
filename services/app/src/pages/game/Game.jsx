@@ -16,13 +16,15 @@ import Team from '../../components/team/Team';
 import {
   buildMoveSkippedEventMessage,
   buildPlayerConnectedEventMessage,
+  buildRemovePlayerEventMessage,
 } from '../../api/playerApi';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-  const { users, movedBy } = useWebSockets();
+
+  const { users, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
   const { finishMove, clearBoard, finished, score } =
     useContext(ChessBoardContext);
@@ -53,9 +55,22 @@ function Room() {
     [users, currentUser, movedBy],
   );
 
+  useEffect(() => {
+    if (playerDeleted && playerDeleted === currentUser.id) {
+      localStorage.removeItem('user');
+      window.location.replace('/');
+    }
+  }, [playerDeleted]);
+
   const skipMove = useCallback((userId) => {
     if (userId) {
       ws.send(buildMoveSkippedEventMessage(userId));
+    }
+  }, []);
+
+  const removePlayer = useCallback((userId) => {
+    if (userId) {
+      ws.send(buildRemovePlayerEventMessage(userId));
     }
   }, []);
 
@@ -67,8 +82,17 @@ function Room() {
         <button type="button">Copy link</button>
       </CopyToClipboard>
       <span>{score}</span>
-      <Team title="Team" users={team} skipMove={skipMove}>
-        <Player user={currentUser} skipMove={skipMove} />
+      <Team
+        title="Team"
+        users={team}
+        skipMove={skipMove}
+        removePlayer={removePlayer}
+      >
+        <Player
+          user={currentUser}
+          skipMove={skipMove}
+          removePlayer={removePlayer}
+        />
       </Team>
       <button disabled={finished} type="button" onClick={finishMove}>
         submit

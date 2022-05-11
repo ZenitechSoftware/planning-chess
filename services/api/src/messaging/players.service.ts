@@ -6,9 +6,10 @@ import {
   Handler,
   Message,
   MessageType,
-  NewPlayerMessage,
+  UpdatePlayerListMessage,
   PlaceFigureMessage,
   MoveSkippedMessage,
+  RemovePlayerMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
@@ -54,7 +55,7 @@ export const clearBoard = (): void => {
 };
 
 export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
-  const myTurn = gameService.findMoveByPlayerName(players.get(ws).name);
+  const myTurn = gameService.findMoveByPlayerName(players.get(ws)?.name);
 
   if (myTurn) {
     players.set(ws, {
@@ -88,7 +89,32 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   }
 };
 
-const playerConnected: Handler = (ws, payload: NewPlayerMessage): void => {
+const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
+  const [playerConnection, player] = findPlayerById(userId);
+  try {
+    if (!player) {
+      throw new Error(`Player with id ${userId} not found`);
+    }
+    publish({
+      type: MessageType.RemovePlayer,
+      payload: userId,
+    });
+
+    players.delete(playerConnection);
+    logger.info(`Player ${player?.name} removed`);
+    publish({
+      type: MessageType.UpdatePlayerList,
+      payload: Array.from(players.values()),
+    });
+  } catch (err) {
+    logger.error(err?.message);
+  }
+};
+
+const playerConnected: Handler = (
+  ws,
+  payload: UpdatePlayerListMessage,
+): void => {
   subscribe(ws, payload);
   newPlayerJoined();
 };
@@ -102,12 +128,12 @@ export const playerDisconnected = (): void => {
 export const newPlayerJoined = (): void => {
   logger.info('Publishing: new player joined the game.');
   const allPlayers = Array.from(players.values());
-  publish({ type: MessageType.NewPlayer, payload: allPlayers });
+  publish({ type: MessageType.UpdatePlayerList, payload: allPlayers });
 };
 
 export const subscribe = (
   ws: WebSocket,
-  { playerName }: NewPlayerMessage,
+  { playerName }: UpdatePlayerListMessage,
 ): void => {
   logger.info(`New player "${playerName}" joined the game.`);
   const newPlayer: Player = {
@@ -138,6 +164,7 @@ const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
+  [MessageType.RemovePlayer]: removePlayer,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
