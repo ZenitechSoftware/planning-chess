@@ -104,4 +104,7 @@ const ChessBoardContextProvider = ({ children }) => {
     </ChessBoardContext.Provider>
   );
 };
+
+export const useChessBoardContext = () => useContext(ChessBoardContext);
+
 export default ChessBoardContextProvider;
