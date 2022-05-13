@@ -2,7 +2,11 @@
   "name": "planning-chess",
   "version": "1.0.0",
   "description": "The consensus-based chess inspired estimation game",
-  "workspaces": ["services/shared", "services/api", "services/app"],
+  "workspaces": [
+    "services/shared",
+    "services/api",
+    "services/app"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean:dist": "rimraf services/*/dist",
@@ -27,5 +31,8 @@
   "license": "MIT",
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "react-scripts": "^5.0.1"
   }
 }

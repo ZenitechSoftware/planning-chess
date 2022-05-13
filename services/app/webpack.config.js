@@ -25,7 +25,6 @@ module.exports = {
     port: DEV_PORT,
     proxy: {
       '/api': 'http://localhost:8081',
-      ws: true,
     },
   },
   output: {

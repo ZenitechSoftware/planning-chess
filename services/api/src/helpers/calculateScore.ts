@@ -14,7 +14,7 @@ const defaultPayload = {
   figure: '',
 };
 
-export const calculateScore = (payload: PlaceFigureMessage) => {
+export const calculateScore = (payload: PlaceFigureMessage): number => {
   const NUMBER_OF_ROWS = 6;
   const {
     row,

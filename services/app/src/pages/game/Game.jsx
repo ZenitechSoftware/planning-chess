@@ -19,6 +19,7 @@ import {
   buildRemovePlayerEventMessage,
 } from '../../api/playerApi';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import Header from '../../components/header/Header';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
@@ -76,6 +77,7 @@ function Room() {
 
   return (
     <div>
+      <Header username='Mike' />
       <h1>GAME</h1>
       <span id="game-url">{roomUrl}</span>
       <CopyToClipboard text={roomUrl}>
