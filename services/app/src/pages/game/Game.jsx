@@ -27,7 +27,7 @@ function Room() {
 
   const { users, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const { finishMove, clearBoard, finished, score } =
+  const { finishMove, clearBoard, finished, score, canPlay } =
     useContext(ChessBoardContext);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ function Room() {
 
   return (
     <div>
-      <Header username='Mike' />
+      <Header username="Mike" />
       <h1>GAME</h1>
       <span id="game-url">{roomUrl}</span>
       <CopyToClipboard text={roomUrl}>
@@ -96,10 +96,17 @@ function Room() {
           removePlayer={removePlayer}
         />
       </Team>
-      <button disabled={finished} type="button" onClick={finishMove}>
+      {!canPlay && (
+        <h4>Waiting for at least one more player to join the game</h4>
+      )}
+      <button
+        disabled={finished || !canPlay}
+        type="button"
+        onClick={finishMove}
+      >
         submit
       </button>
-      <button type="button" onClick={clearBoard}>
+      <button type="button" disabled={!canPlay} onClick={clearBoard}>
         Clear Board
       </button>
       <ChessBoard />

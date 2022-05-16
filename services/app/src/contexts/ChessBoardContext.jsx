@@ -10,13 +10,14 @@ export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns, myTurn, movedBy } = useWebSockets();
+  const { turns, myTurn, movedBy, users, playerDeleted } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
+  const [canPlay, setCanPlay] = useState(false);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...board];
@@ -26,6 +27,11 @@ const ChessBoardContextProvider = ({ children }) => {
     });
     setBoard(copyOfBoard);
   };
+
+  useEffect(() => {
+    if (users.length > 1) setCanPlay(true);
+    else setCanPlay(false);
+  }, [users, playerDeleted]);
 
   const clearBoardItems = () => {
     setScore(0);
@@ -98,6 +104,7 @@ const ChessBoardContextProvider = ({ children }) => {
         finishMove,
         clearBoard,
         finished,
+        canPlay,
       }}
     >
       {children}
