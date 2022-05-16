@@ -25,7 +25,7 @@ function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
 
-  const { users, movedBy, playerDeleted } = useWebSockets();
+  const { players, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
   const { finishMove, clearBoard, finished, score, canPlay } =
     useContext(ChessBoardContext);
@@ -37,23 +37,23 @@ function Room() {
   }, [username]);
 
   const findUserByUsername = (userName) =>
-    users.find((element) => element.name === userName);
+    players.find((element) => element.name === userName);
 
   const currentUser = useMemo(
-    () => users.find((user) => user.name === username),
-    [users],
+    () => players.find((user) => user.name === username),
+    [players],
   );
 
   const team = useMemo(
     () =>
-      users
+      players
         .filter((user) => user.id !== findUserByUsername(username).id)
         .map((player) =>
           movedBy.includes(player.name)
             ? { ...player, name: `${player.name} (finished move)` }
             : player,
         ),
-    [users, currentUser, movedBy],
+    [players, currentUser, movedBy],
   );
 
   useEffect(() => {
@@ -86,7 +86,7 @@ function Room() {
       <span>{score}</span>
       <Team
         title="Team"
-        users={team}
+        players={team}
         skipMove={skipMove}
         removePlayer={removePlayer}
       >
