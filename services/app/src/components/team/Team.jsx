@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
-import userPropType from '../../prop-types/user';
+import playerPropType from '../../prop-types/player';
 import '../../static/style/team.css';
 
 function Team({ title, players, skipMove, children, removePlayer }) {
@@ -25,7 +25,7 @@ function Team({ title, players, skipMove, children, removePlayer }) {
 
 Team.propTypes = {
   title: PropTypes.string.isRequired,
-  players: PropTypes.arrayOf(userPropType).isRequired,
+  players: PropTypes.arrayOf(playerPropType).isRequired,
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,

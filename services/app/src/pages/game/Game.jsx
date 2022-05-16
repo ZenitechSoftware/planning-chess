@@ -39,7 +39,7 @@ function Room() {
   const findUserByUsername = (userName) =>
     players.find((element) => element.name === userName);
 
-  const currentUser = useMemo(
+  const currentPlayer = useMemo(
     () => players.find((user) => user.name === username),
     [players],
   );
@@ -53,11 +53,11 @@ function Room() {
             ? { ...player, name: `${player.name} (finished move)` }
             : player,
         ),
-    [players, currentUser, movedBy],
+    [players, currentPlayer, movedBy],
   );
 
   useEffect(() => {
-    if (playerDeleted && playerDeleted === currentUser.id) {
+    if (playerDeleted && playerDeleted === currentPlayer.id) {
       localStorage.removeItem('user');
       window.location.replace('/');
     }
@@ -91,7 +91,7 @@ function Room() {
         removePlayer={removePlayer}
       >
         <Player
-          user={currentUser}
+          player={currentPlayer}
           skipMove={skipMove}
           removePlayer={removePlayer}
         />

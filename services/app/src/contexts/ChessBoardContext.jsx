@@ -1,6 +1,12 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/prop-types */
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../utils/useWebSockets';
@@ -10,14 +16,15 @@ export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns, myTurn, movedBy, players, playerDeleted } = useWebSockets();
+  const { turns, myTurn, movedBy, players } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
-  const [canPlay, setCanPlay] = useState(false);
+
+  const canPlay = useMemo(() => players.length > 1, [players]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...board];
@@ -27,11 +34,6 @@ const ChessBoardContextProvider = ({ children }) => {
     });
     setBoard(copyOfBoard);
   };
-
-  useEffect(() => {
-    if (players.length > 1) setCanPlay(true);
-    else setCanPlay(false);
-  }, [players, playerDeleted]);
 
   const clearBoardItems = () => {
     setScore(0);
