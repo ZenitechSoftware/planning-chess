@@ -31,9 +31,11 @@ function Room() {
     useContext(ChessBoardContext);
 
   useEffect(() => {
-    if (username && ws) {
-      ws.send(buildPlayerConnectedEventMessage(username));
-    }
+      setTimeout(() => {
+          if (username && ws) {
+              ws.send(buildPlayerConnectedEventMessage(username));
+          }
+      })
   }, [username]);
 
   const findUserByUsername = (userName) =>
