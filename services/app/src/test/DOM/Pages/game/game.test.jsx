@@ -23,5 +23,13 @@ test('test Player page elements', () => {
       score={0}
     />,
   );
-  expect(screen.getByText('username (you)')).toBeInTheDocument();
+  expect(screen.getByText('U', {
+    selector: ".team-list-item-avatar-text"
+  })).toBeInTheDocument();
+  expect(screen.getByText('username', {
+    selector: ".team-list-item-name"
+  })).toBeInTheDocument();
+  expect(screen.getByText('(you)', {
+    selector: ".team-list-item-name > span"
+  })).toBeInTheDocument();
 });
