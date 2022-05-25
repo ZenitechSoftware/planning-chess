@@ -103,3 +103,84 @@ table {
   text-transform: uppercase;
   color: #666666;
 }
+
+#chess-board .square {
+  display: flex;
+  position: relative;
+  height: 78px;
+  width: 78px;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#chess-board .square .bubble {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background: #ECF0F7;
+  border: 1px solid #3C64B1;
+  border-radius: 50%;
+}
+
+#chess-board .square .bubble-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1px;
+}
+
+#chess-board .square .name {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #3C64B1;
+}
+
+#chess-board .square .figure-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 0px 3px
+}
+
+#chess-board .square .figure-img {
+  height: 23px;
+}
+
+#chess-board .square .figure-text {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  color: #212121;
+}
+
+#chess-board .square .number {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #B7C0D8;
+  position: absolute;
+  text-transform: uppercase;
+}
+
+#chess-board .square .number-filled {
+  color: #E8EDF9;
+}
+
+#chess-board .square .number-row {
+  left: 2px;
+  top: 2px
+}
+
+#chess-board .square .number-column {
+  right: 2px;
+  bottom: 2px;
+}
