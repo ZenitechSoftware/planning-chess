@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import Attribute from './Attribute';
 
 const Tile = ({
-  tile: { attribute, items, filled },
+  tile: { attribute, items, filled, points },
   onClick,
   row,
   column,
@@ -16,7 +17,7 @@ const Tile = ({
   const _onClick = useCallback(() => {
     onClick(row, column);
   }, [onClick, row, column]);
-
+  
   return (
     <td
       onClick={_onClick}
@@ -24,9 +25,10 @@ const Tile = ({
       className={classNames({
         'non-border-tile': filled,
         'border-tile': isTileWithBorder(),
+        'is-empty-tile': items && !items.length
       })}
     >
-      {attribute || items}
+      {attribute ? <Attribute tile={{ attribute, points }} /> : items}
     </td>
   );
 };
@@ -38,6 +40,7 @@ Tile.propTypes = {
       PropTypes.object,
       PropTypes.number,
     ]),
+    points: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.string),
     filled: PropTypes.oneOfType([
       PropTypes.bool,

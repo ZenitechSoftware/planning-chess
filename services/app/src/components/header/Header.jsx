@@ -16,7 +16,7 @@ const Header = ({ username }) => {
       <div className="f-row align-c gap-m">
         <img src={Logo} alt="logo" />
         <img src={Separator} alt="separator" />
-        <text>RoomNameExample </text>
+        <span>RoomNameExample </span>
         <img src={CopyLink} alt="nav-item" />
         <img src={Settings} alt="nav-item" />
         <img src={Info} alt="nav-item" />
@@ -24,7 +24,7 @@ const Header = ({ username }) => {
 
       <div className="f-1 justify-end align-c gap-s">
         <span className="f-center avatar">{avatarLetter}</span>
-        <text id="username">{username}</text>
+        <span id="username">{username}</span>
       </div>
     </div>
   );

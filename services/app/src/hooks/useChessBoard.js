@@ -3,11 +3,12 @@ import { NUMBER_OF_ROWS, NUMBER_OF_COLUMNS } from '../constants/board';
 import { range } from '../helpers/array';
 
 const alphabetArray = [...'abcdefghijklmnopqrstuvwxyz'];
+const pointsArray = [1, 2, 3, 5, 8, 13];
 
 export const useChessBoard = () => {
   const defaultBoard = [
     ...range(NUMBER_OF_ROWS).map((_row, rowIndex) => [
-      { attribute: NUMBER_OF_ROWS - rowIndex },
+      { attribute: NUMBER_OF_ROWS - rowIndex, points: pointsArray[pointsArray.length - 1 - rowIndex] },
       ...range(NUMBER_OF_COLUMNS).map((_tile, tileIndex) => ({
         items: [],
         filled:
@@ -15,7 +16,7 @@ export const useChessBoard = () => {
           (!(rowIndex % 2) && tileIndex % 2),
       })),
     ]),
-    [{}, ...range(6).map((key) => ({ attribute: alphabetArray[key] }))],
+    [{}, ...range(6).map((key) => ({ attribute: alphabetArray[key], points: pointsArray[key] }))],
   ];
   const [board, setBoard] = useState(defaultBoard);
 
