@@ -1,6 +1,158 @@
 .team-container {
-  margin-bottom: 10px;
+  box-sizing: border-box;
+
+  /* White / Full */
+
+  background: #FFFFFF;
+  /* Black/Outline */
+
+
+  border: 1px solid rgba(33, 33, 33, 0.12);
+  border-radius: 4px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 1;
 }
+
+.team-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 4px 4px 0px 0px;
+  justify-content: center;
+  padding: 0px 24px;
+  gap: 10px;
+  height: 56px;
+  background: #3C64B1;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 28px;
+  /* identical to box height, or 140% */
+
+  letter-spacing: -0.15px;
+
+  /* White / Full */
+
+  color: #FFFFFF;
+}
+
+.team-list-count {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 13px 24px;
+  gap: 4px;
+
+  left: 0px;
+  top: 56px;
+
+  background: #FFFFFF;
+  /* Divider/Bottom */
+
+  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  /* identical to box height, or 157% */
+
+
+  /* Black/Full */
+
+  color: #212121;
+}
+
+.team-list-items {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 24px;
+}
+
 .team-list-item {
-  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 0px;
+  gap: 16px;
+
+  background: #FFFFFF;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+
+  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+}
+
+.team-list-item:last-child {
+  box-shadow: none;
+}
+
+.team-list-item-actions {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.team-list-item-actions button {
+  margin-left: 10px;
+  background-color: transparent;
+  border: 0;
+}
+
+.team-container button:hover {
+  cursor: pointer;
+}
+
+.team-list-item-avatar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  /* Avatars/Violet Blue/Background */
+  border-radius: 64px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.team-list-footer {
+  box-shadow: inset 0px 1px 0px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  padding: 15px 0px;
+}
+
+.team-list-footer button {
+  border: 1px solid rgba(60, 100, 177, 0.52);
+  border-radius: 4px;
+  padding: 8px 12px;
+  background-color: transparent;
+  color: #3C64B1;
+  font-weight: 500;
+}
+
+.team-list-footer img {
+  width: 20px;
+  height: 16px;
+}
+
+.team-list-item-name span {
+  color: #636363;
+  font-size: 14px;;
 }
