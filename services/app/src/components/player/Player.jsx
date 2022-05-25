@@ -9,22 +9,33 @@ const Player = ({ user, skipMove }) => {
   const playerColor = getPlayerAvatarColor();
   return user && (
     <>
-      <div className="team-list-item-avatar" style={{
+      <div
+        className="team-list-item-avatar"
+        style={{
         backgroundColor: `rgb(${playerColor.background.r}, ${playerColor.background.g}, ${playerColor.background.b})`
-      }}>
-          <div className="team-list-item-avatar-text"
-            style={{
+      }}
+      >
+        <div
+          className="team-list-item-avatar-text"
+          style={{
               color: `rgb(${playerColor.text.r}, ${playerColor.text.g}, ${playerColor.text.b})`
             }}
-          >{user.name[0].toUpperCase()}</div>
+        >
+          {user.name[0].toUpperCase()}
+        </div>
       </div>
-      <div className="team-list-item-name">{user.name} <span>(you)</span></div>
+      <div className="team-list-item-name">
+        {user.name} 
+        {' '}
+        <span>(you)</span>
+      </div>
       <div className="team-list-item-actions">
         <button 
-          onClick={() => skipMove(id)}
+          type="button"
+          onClick={() => skipMove(user.id)}
           disabled={user.status !== playerStatuses.ActionNotTaken}
         >
-          <img src={Skip} />
+          <img alt="" src={Skip} />
         </button>
       </div>
     </>

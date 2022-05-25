@@ -31,7 +31,11 @@ function Team({ title, users, skipMove, children, removePlayer }) {
         ))}
       </div>
       <div className="team-list-footer">
-        <button><img src={Return} /> Restart game</button>
+        <button type="button">
+          <img alt="" src={Return} />
+          {' '}
+          Restart game
+        </button>
       </div>
     </div>
   );

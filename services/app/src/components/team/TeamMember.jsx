@@ -10,20 +10,36 @@ function TeamMember({ name, id, skipMove, status, removePlayer }) {
   const playerColor = getPlayerAvatarColor();
   return (
     <div className="team-list-item">
-      <div className="team-list-item-avatar" style={{
+      <div
+        className="team-list-item-avatar"
+        style={{
         backgroundColor: `rgb(${playerColor.background.r}, ${playerColor.background.g}, ${playerColor.background.b})`
-      }}>
-          <div 
-            style={{
+      }}
+      >
+        <div 
+          style={{
               color: `rgb(${playerColor.text.r}, ${playerColor.text.g}, ${playerColor.text.b})`
             }}
-          >{name[0].toUpperCase()}</div>
+        >
+          {name[0].toUpperCase()}
+        </div>
       </div>
       {name}
       <div className="team-list-item-actions">
-          <button onClick={() => skipMove(id)}><img src={Skip} /></button>
-          <button onClick={() => removePlayer(id)}><img src={Remove} /></button>
-        </div>
+        <button
+          type="button"
+          onClick={() => skipMove(id)}
+          disabled={status !== playerStatuses.ActionNotTaken}
+        >
+          <img alt="" src={Skip} />
+        </button>
+        <button
+          type="button"
+          onClick={() => removePlayer(id)}
+        >
+          <img alt="" src={Remove} />
+        </button>
+      </div>
     </div>
   );
 }
