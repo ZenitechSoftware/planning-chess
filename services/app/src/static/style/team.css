@@ -1,17 +1,8 @@
 .team-container {
   box-sizing: border-box;
-
-  /* White / Full */
-
   background: #FFFFFF;
-  /* Black/Outline */
-
-
   border: 1px solid rgba(33, 33, 33, 0.12);
   border-radius: 4px;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 1;
   flex-grow: 1;
@@ -30,12 +21,7 @@
   font-style: normal;
   font-size: 20px;
   line-height: 28px;
-  /* identical to box height, or 140% */
-
   letter-spacing: -0.15px;
-
-  /* White / Full */
-
   color: #FFFFFF;
 }
 
@@ -45,25 +31,14 @@
   align-items: center;
   padding: 13px 24px;
   gap: 4px;
-
   left: 0px;
   top: 56px;
-
   background: #FFFFFF;
-  /* Divider/Bottom */
-
   box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
-
-
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  /* identical to box height, or 157% */
-
-
-  /* Black/Full */
-
   color: #212121;
 }
 
@@ -79,15 +54,10 @@
   align-items: center;
   padding: 12px 0px;
   gap: 16px;
-
   background: #FFFFFF;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 0;
   flex-grow: 0;
-
   box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
 }
 
@@ -118,15 +88,8 @@
   align-items: center;
   padding: 0px;
   gap: 10px;
-
   width: 40px;
   height: 40px;
-
-  /* Avatars/Violet Blue/Background */
-  border-radius: 64px;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 0;
   flex-grow: 0;
