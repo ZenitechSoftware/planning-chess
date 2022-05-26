@@ -71,7 +71,7 @@ The consensus-based chess inspired estimation game.
 
 Make sure you have:
 
-- Node.js
+- Node.js (v16 or later)
 - Docker
 
 Please run:
@@ -87,6 +87,8 @@ This starts all micro-services in watch mode.
 `npm install` - installs tools that help to manage this mono repo.
 
 `npm run bootstrap` - installs all required dependencies in all packages and services. You will not need to go to each service and install npm dependencies separately and it links local packages.
+
+`npm run build` - builds all all services.
 
 `npm run dev` - starts all services in "watch" mode.
 
