@@ -1,21 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
+import GameStatus from '../gameStatus/GameStatus';
+import GameInfo from '../gameStatus/GameInfo';
 import userPropType from '../../prop-types/user';
 import Return from './teamComponents/Return.svg';
 import '../../static/style/team.css';
 
-function Team({ title, users, skipMove, children, removePlayer }) {
-
-  const playerCount = Array.isArray(users) && users.length > 0 ? `${users.length + 1} players` : '1 player';
+function Team({ users, skipMove, children, removePlayer }) {
 
   return (
     <div className="team-container">
-
-      <div className="team-heading">{title}</div>
-      <div className="team-list-count">
-        {playerCount}
-      </div>
+      <GameStatus />
+      <GameInfo userCount={users.length} />
 
       <div className="team-list-items">
         <div className="team-list-item">{children}</div>
@@ -42,7 +39,6 @@ function Team({ title, users, skipMove, children, removePlayer }) {
 }
 
 Team.propTypes = {
-  title: PropTypes.string.isRequired,
   users: PropTypes.arrayOf(userPropType).isRequired,
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,

@@ -87,7 +87,6 @@ function Room() {
       </CopyToClipboard>
       <span>{score}</span>
       <Team
-        title="Team"
         users={team}
         skipMove={skipMove}
         removePlayer={removePlayer}
