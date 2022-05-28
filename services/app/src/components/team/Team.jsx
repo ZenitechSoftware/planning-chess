@@ -7,12 +7,12 @@ import userPropType from '../../prop-types/user';
 import Return from './teamComponents/Return.svg';
 import '../../static/style/team.css';
 
-function Team({ users, skipMove, children, removePlayer }) {
+function Team({ users, skipMove, children, removePlayer, userCount }) {
 
   return (
     <div className="team-container">
       <GameStatus />
-      <GameInfo userCount={users.length} />
+      <GameInfo userCount={userCount} />
 
       <div className="team-list-items">
         <div className="team-list-item">{children}</div>
@@ -43,5 +43,6 @@ Team.propTypes = {
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
+  userCount: PropTypes.number.isRequired,
 };
 export default Team;
