@@ -27,11 +27,10 @@ const Tile = ({
       role="presentation"
       className={classNames({
         'non-border-tile': filled,
-        'border-tile': isTileWithBorder(),
-        'is-empty-tile': !items.length
+        'border-tile': isTileWithBorder()
       })}
     >
-      {attribute ? <Attribute tile={{ attribute, points }} /> : <Square filled={filled} row={row} column={column} items={items} />}
+      {attribute ? <Attribute tile={{ attribute, points }} /> : <Square filled={!!filled} row={row} column={column} items={items} />}
     </td>
   );
 };
