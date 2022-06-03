@@ -1,31 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
+import GameStatus from '../gameStatus/GameStatus';
+import GameInfo from '../gameStatus/GameInfo';
 import userPropType from '../../prop-types/user';
 import Return from './teamComponents/Return.svg';
 import '../../static/style/team.css';
 
-function Team({ title, users, skipMove, children, removePlayer }) {
-
-  const playerCount = Array.isArray(users) && users.length > 0 ? `${users.length + 1} players` : '1 player';
+function Team({ players, skipMove, children, removePlayer, playerCount }) {
 
   return (
     <div className="team-container">
-
-      <div className="team-heading">{title}</div>
-      <div className="team-list-count">
-        {playerCount}
-      </div>
+      <GameStatus />
+      <GameInfo playerCount={playerCount} />
 
       <div className="team-list-items">
         <div className="team-list-item">{children}</div>
-        {users.map((user) => (
+        {players.map((player) => (
           <TeamMember
-            key={user.id}
-            name={user.name}
-            id={user.id}
+            key={player.id}
+            name={player.name}
+            id={player.id}
             skipMove={skipMove}
-            status={user.status}
+            status={player.status}
             removePlayer={removePlayer}
           />
         ))}
@@ -42,10 +39,10 @@ function Team({ title, users, skipMove, children, removePlayer }) {
 }
 
 Team.propTypes = {
-  title: PropTypes.string.isRequired,
-  users: PropTypes.arrayOf(userPropType).isRequired,
+  players: PropTypes.arrayOf(userPropType).isRequired,
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
+  playerCount: PropTypes.number.isRequired,
 };
 export default Team;
