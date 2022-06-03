@@ -81,18 +81,18 @@ function Room() {
   return (
     <div>
       <Header username={localStorage.getItem('user')} />
-      {/* <h1>GAME</h1>
+      <h1>GAME</h1>
       <span id="game-url">{roomUrl}</span>
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <span>{score}</span> */}
+      <span>{score}</span>
       <button disabled={finished} type="button" onClick={finishMove}>
-          submit
-        </button>
-        <button type="button" onClick={clearBoard}>
-          Clear Board
-        </button>
+        submit
+      </button>
+      <button type="button" onClick={clearBoard}>
+        Clear Board
+      </button>
       <div className="game-content">
         <Team
           playerCount={users.length}
