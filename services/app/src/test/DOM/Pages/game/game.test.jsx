@@ -5,6 +5,7 @@ import Player from '../../../../components/player/Player';
 import ChessGameProvider from '../../../../contexts/ChessBoardContext';
 
 test('test Game page elements', () => {
+  localStorage.setItem('user', 'TestUser')
   render(
     <ChessGameProvider>
       <Game />
