@@ -25,23 +25,6 @@
   color: #FFFFFF;
 }
 
-.team-list-count {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 13px 24px;
-  gap: 4px;
-  left: 0px;
-  top: 56px;
-  background: #FFFFFF;
-  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  color: #212121;
-}
-
 .team-list-items {
   display: flex;
   flex-direction: column;
@@ -59,6 +42,7 @@
   order: 0;
   flex-grow: 0;
   box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+  font-family: 'Rubik';
 }
 
 .team-list-item:last-child {
@@ -94,6 +78,10 @@
   order: 0;
   flex-grow: 0;
   border-radius: 64px;
+}
+
+.team-list-item-avatar-text {
+  font-family: 'Poppins';
 }
 
 .team-list-footer {

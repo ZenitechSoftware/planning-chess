@@ -4,7 +4,7 @@ import playerStatuses from '../../constants/playerStatuses';
 import { getPlayerAvatarColor } from '../../helpers/getPlayerAvatarColor';
 import Skip from './teamComponents/Skip.svg';
 import Remove from './teamComponents/Remove.svg';
-import '../../static/style/team.css';
+import './team.css';
 
 function TeamMember({ name, id, skipMove, status, removePlayer }) {
   const playerColor = getPlayerAvatarColor();
