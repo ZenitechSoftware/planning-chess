@@ -6,7 +6,7 @@ import CheckMark from './statusComponents/checkmark.svg';
 import SkippedIcon from './statusComponents/skippedIcon.svg';
 import BulletDot from './statusComponents/bulletDot.svg';
 
-const GameInfo = ({ userCount }) => {
+const GameInfo = ({ playerCount }) => {
   const playersDone = 50;
   const playersSkipped = 10;
 
@@ -14,9 +14,9 @@ const GameInfo = ({ userCount }) => {
     <div className="game-info-row">
       <div className="game-info-status player-count">
         <p>
-          {userCount === 1
+          {playerCount === 1
             ? "1 player"
-            : `${userCount} players`}
+            : `${playerCount} players`}
         </p>
       </div>
 
@@ -44,7 +44,7 @@ const GameInfo = ({ userCount }) => {
 }
 
 GameInfo.propTypes = {
-  userCount: PropTypes.number.isRequired,
+  playerCount: PropTypes.number.isRequired,
 };
 
 export default GameInfo;
