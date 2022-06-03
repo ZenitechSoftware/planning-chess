@@ -93,6 +93,7 @@
   flex: none;
   order: 0;
   flex-grow: 0;
+  border-radius: 64px;
 }
 
 .team-list-footer {
