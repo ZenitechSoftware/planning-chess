@@ -20,6 +20,7 @@ import {
 } from '../../api/playerApi';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import Header from '../../components/header/Header';
+import '../../static/style/game.css';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
@@ -31,11 +32,11 @@ function Room() {
     useContext(ChessBoardContext);
 
   useEffect(() => {
-      setTimeout(() => {
-          if (username && ws) {
-              ws.send(buildPlayerConnectedEventMessage(username));
-          }
-      })
+    setTimeout(() => {
+      if (username && ws) {
+        ws.send(buildPlayerConnectedEventMessage(username));
+      }
+    })
   }, [username]);
 
   const findUserByUsername = (userName) =>
@@ -79,32 +80,34 @@ function Room() {
 
   return (
     <div>
-      <Header username='Mike' />
-      <h1>GAME</h1>
+      <Header username={localStorage.getItem('user')} />
+      {/* <h1>GAME</h1>
       <span id="game-url">{roomUrl}</span>
       <CopyToClipboard text={roomUrl}>
         <button type="button">Copy link</button>
       </CopyToClipboard>
-      <span>{score}</span>
-      <Team
-        playerCount={users.length}
-        players={team}
-        skipMove={skipMove}
-        removePlayer={removePlayer}
-      >
-        <Player
-          user={currentUser}
+      <span>{score}</span> */}
+      <button disabled={finished} type="button" onClick={finishMove}>
+          submit
+        </button>
+        <button type="button" onClick={clearBoard}>
+          Clear Board
+        </button>
+      <div className="game-content">
+        <Team
+          playerCount={users.length}
+          players={team}
           skipMove={skipMove}
           removePlayer={removePlayer}
-        />
-      </Team>
-      <button disabled={finished} type="button" onClick={finishMove}>
-        submit
-      </button>
-      <button type="button" onClick={clearBoard}>
-        Clear Board
-      </button>
-      <ChessBoard />
+        >
+          <Player
+            user={currentUser}
+            skipMove={skipMove}
+            removePlayer={removePlayer}
+          />
+        </Team>
+        <ChessBoard />
+      </div>
       <GameFooter />
     </div>
   );
