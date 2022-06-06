@@ -5,7 +5,9 @@
   border-radius: 4px;
   flex: none;
   order: 1;
-  flex-grow: 1;
+  width: 384px;
+  display: flex;
+  flex-direction: column;
 }
 
 .team-heading {
@@ -29,6 +31,7 @@
   display: flex;
   flex-direction: column;
   padding: 0px 24px;
+  flex-grow: 1;
 }
 
 .team-list-item {

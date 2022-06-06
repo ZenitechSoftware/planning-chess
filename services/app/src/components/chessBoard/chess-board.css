@@ -4,7 +4,6 @@ table {
 }
 
 .chess-board-container {
-  margin: 24px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -91,6 +90,7 @@ table {
   line-height: 28px;
   letter-spacing: -0.15px;
   color: #212121;
+  text-transform: uppercase;
 }
 
 #chess-board .attribute .points {
