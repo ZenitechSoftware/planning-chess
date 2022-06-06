@@ -19,7 +19,7 @@ const Header = ({ username, roomUrl }) => {
         <img src={Separator} alt="separator" />
         {/* <span>RoomNameExample </span> */}
         <CopyToClipboard text={roomUrl}>
-          <img src={CopyLink} alt="nav-item" data-testid={'header-copy-link-icon'} />
+          <img src={CopyLink} alt="copy link" />
         </CopyToClipboard>
         {/* <img src={Settings} alt="nav-item" /> */}
         {/* <img src={Info} alt="nav-item" /> */}
