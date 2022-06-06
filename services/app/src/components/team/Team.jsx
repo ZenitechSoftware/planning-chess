@@ -5,7 +5,7 @@ import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
 import userPropType from '../../prop-types/user';
 import Return from './teamComponents/Return.svg';
-import '../../static/style/team.css';
+import './team.css';
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
 

@@ -36,6 +36,7 @@
     border: 1px solid grey;
     padding: 12px 24px;
     font-size: 0.875rem;
+    font-family: 'Rubik';
 }
 
 .game-info-status{
