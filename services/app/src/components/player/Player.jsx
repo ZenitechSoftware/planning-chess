@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
-import userPropType from '../../prop-types/user';
+import playerPropType from '../../prop-types/player';
 import { getPlayerAvatarColor } from '../../helpers/getPlayerAvatarColor';
 import Skip from '../team/teamComponents/Skip.svg';
 
-const Player = ({ user, skipMove }) => {
+const Player = ({ player, skipMove }) => {
   const playerColor = getPlayerAvatarColor();
   return (
-    user && (
+    player && (
       <>
         <div
           className="team-list-item-avatar"
@@ -22,17 +22,19 @@ const Player = ({ user, skipMove }) => {
               color: `rgb(${playerColor.text.r}, ${playerColor.text.g}, ${playerColor.text.b})`,
             }}
           >
-            {user.name[0].toUpperCase()}
+            {player.name[0].toUpperCase()}
           </div>
         </div>
         <div className="team-list-item-name">
-          {user.name} <span>(you)</span>
+          {player.name} 
+          {' '}
+          <span>(you)</span>
         </div>
         <div className="team-list-item-actions">
           <button
             type="button"
-            onClick={() => skipMove(user.id)}
-            disabled={user.status !== playerStatuses.ActionNotTaken}
+            onClick={() => skipMove(player.id)}
+            disabled={player.status !== playerStatuses.ActionNotTaken}
           >
             <img alt="" src={Skip} />
           </button>
@@ -42,10 +44,10 @@ const Player = ({ user, skipMove }) => {
   );
 };
 Player.defaultProps = {
-  user: null,
+  player: null,
 };
 Player.propTypes = {
-  user: userPropType,
+  player: playerPropType,
   skipMove: PropTypes.func.isRequired,
 };
 

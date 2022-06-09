@@ -94,13 +94,13 @@ function Room() {
       </button>
       <div className="game-content">
         <Team
-          playerCount={users.length}
+          playerCount={players.length}
           players={team}
           skipMove={skipMove}
           removePlayer={removePlayer}
         >
           <Player
-            user={currentUser}
+            user={currentPlayer}
             skipMove={skipMove}
             removePlayer={removePlayer}
           />
