@@ -5,7 +5,6 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
@@ -28,8 +27,12 @@ function Room() {
 
   const { users, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const { finishMove, clearBoard, finished, score } =
-    useContext(ChessBoardContext);
+  const { 
+    finishMove,
+    clearBoard,
+    finished,
+    score
+  } = useContext(ChessBoardContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,12 +83,7 @@ function Room() {
 
   return (
     <div>
-      <Header username={localStorage.getItem('user')} />
-      <h1>GAME</h1>
-      <span id="game-url">{roomUrl}</span>
-      <CopyToClipboard text={roomUrl}>
-        <button type="button">Copy link</button>
-      </CopyToClipboard>
+      <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
       <button disabled={finished} type="button" onClick={finishMove}>
         submit

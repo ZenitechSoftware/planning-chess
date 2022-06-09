@@ -11,9 +11,10 @@ test('test Game page elements', () => {
       <Game />
     </ChessGameProvider>,
   );
-  expect(screen.getByText('GAME')).toBeInTheDocument();
-  expect(screen.getByText('http://localhost/')).toBeInTheDocument();
-  fireEvent.click(screen.getByText('Copy link'));
+  expect(screen.getByText('Annotation of Work')).toBeInTheDocument();
+  expect(screen.getByText('Uncertainty')).toBeInTheDocument();
+  expect(screen.getByText('Complexity | Select and place the figure on the board')).toBeInTheDocument();
+  fireEvent.click(screen.getByAltText('copy link'));
 });
 
 test('test Player page elements', () => {
