@@ -1,21 +1,291 @@
 table {
   text-align: center;
+  border-spacing: 0px;
 }
 
-.non-border-tile,
-.border-tile {
-  border: 1px solid black;
+.chess-board-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 16px 8px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(33, 33, 33, 0.12);
+  background-color: white;
+  width: fit-content;
+}
+
+.chess-board-container .rotated-outer {
+  position: relative;
+  width: 24px;
+  height: 120px;
+}
+
+.chess-board-container .rotated-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+.chess-board-container .axis-title {
+  font-size: 14px;
+  line-height: 24px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  white-space: nowrap;
+  color: #212121;
+}
+
+#chess-board .border-tile, .non-border-tile {
+  cursor: pointer;
+  width: 80px;
+  height: 80px;
+  position: relative;
 }
 
 #chess-board .border-tile {
-  background-color: white;
-  width: 30px;
-  height: 30px;
+  background: #E8EDF9;
 }
 
 #chess-board .non-border-tile {
-  color: white;
-  background-color: black;
-  width: 30px;
-  height: 30px;
+  background: #B7C0D8;
+}
+
+#chess-board .border-tile:hover, .non-border-tile:hover {
+  border: 1px solid #6547FD;
+  width: 78px;
+  height: 78px;
+}
+
+#chess-board .is-empty-tile:hover::before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  background: #6547FD;
+  opacity: 0.5;
+  border-radius: 40px;
+  position: absolute;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  left: 50%;
+}
+
+#chess-board .attribute {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 8px;
+}
+
+#chess-board .attribute .index {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.15px;
+  color: #212121;
+  text-transform: uppercase;
+}
+
+#chess-board .attribute .points {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #666666;
+}
+
+#chess-board .square {
+  display: flex;
+  position: relative;
+  height: 78px;
+  width: 78px;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#chess-board .square .bubble {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background: #ECF0F7;
+  border: 1px solid #3C64B1;
+  border-radius: 50%;
+}
+
+#chess-board .square .bubble-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+#chess-board .square .nth-bubble {
+  margin-left: -8px;
+}
+
+#chess-board .square .multiple-bubbles {
+  width: 24px;
+  height: 24px;
+}
+
+#chess-board .square .name {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #3C64B1;
+}
+
+#chess-board .square .figure-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 0px 3px
+}
+
+#chess-board .square .figure-container-centered {
+  justify-content: center;
+}
+
+#chess-board .square .figure-img {
+  height: 23px;
+}
+
+#chess-board .square .figure-img-nth {
+  margin-left: -4px;
+}
+
+#chess-board .square .figure-text {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  color: #212121;
+}
+
+#chess-board .square .figure-text-margin {
+  margin-left: 3px;
+}
+
+#chess-board .square .number {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #B7C0D8;
+  position: absolute;
+  text-transform: uppercase;
+}
+
+#chess-board .square .number-filled {
+  color: #E8EDF9;
+}
+
+#chess-board .square .number-row {
+  left: 2px;
+  top: 2px
+}
+
+#chess-board .square .number-column {
+  right: 2px;
+  bottom: 2px;
+}
+
+#chess-board .pop-over {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 16px;
+  position: absolute;
+  min-width: 242px;
+  width: max-content;
+  left: 0px;
+  top: 6px;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.06), 0px 1px 18px rgba(0, 0, 0, 0.04), 0px 3px 5px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  cursor: default;
+  z-index: 1;
+  top: 89px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+
+#chess-board .pop-over:before {
+  position: absolute;
+  z-index: 1;
+  content: "";
+  right: calc(50% - 10px);
+  top: -6px;
+  border-style: solid;
+  border-width: 0 9px 6px 9px;
+  border-color: transparent transparent #fff transparent;
+}
+
+#chess-board .pop-over-opened {
+  display: flex;
+}
+
+#chess-board .pop-over .header {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 24px;
+  font-feature-settings: 'ordn' on;
+  color: #212121;
+}
+
+#chess-board .pop-over .move-info {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+#chess-board .pop-over .move-info .text {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 26px;
+  color: #212121;
+  margin-left: 8px;
+}
+
+#chess-board .pop-over .move-info .text-bold {
+  font-weight: 600;
+}
+
+#chess-board .pop-over .move-info .score {
+  display: flex;
+  padding: 0px 6px;
+  background: #3C64B1;
+  border-radius: 20px;
+  margin-left: 8px;
+}
+
+#chess-board .pop-over .move-info .score span {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+  color: #FFFFFF;
 }

@@ -1,12 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/prop-types */
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../utils/useWebSockets';
@@ -58,12 +53,13 @@ const ChessBoardContextProvider = ({ children }) => {
   }, [movedBy]);
 
   const placeItemOnBoard = (row, tile, figure) => {
-    if (!finished) {
+    if (!finished && selectedItem) {
       const copyOfBoard = [...board];
+      const figureName = figure || selectedItem;
       if (lastTurn) {
         copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
       }
-      copyOfBoard[row][tile].items.push(figure || selectedItem);
+      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), user: username });
       setLastTurn({ row, tile, figure: selectedItem });
       setBoard(copyOfBoard);
     }

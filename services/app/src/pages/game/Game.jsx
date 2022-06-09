@@ -5,7 +5,6 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
@@ -20,6 +19,7 @@ import {
 } from '../../api/playerApi';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import Header from '../../components/header/Header';
+import '../../static/style/game.css';
 
 function Room() {
   const [roomUrl] = useState(window.location.href);
@@ -27,13 +27,20 @@ function Room() {
 
   const { players, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const { finishMove, clearBoard, finished, score, canPlay } =
-    useContext(ChessBoardContext);
+  const { 
+    finishMove,
+    clearBoard,
+    finished,
+    score,
+    canPlay
+  } = useContext(ChessBoardContext);
 
   useEffect(() => {
-    if (username && ws) {
-      ws.send(buildPlayerConnectedEventMessage(username));
-    }
+    setTimeout(() => {
+      if (username && ws) {
+        ws.send(buildPlayerConnectedEventMessage(username));
+      }
+    })
   }, [username]);
 
   const findUserByUsername = (userName) =>
@@ -77,39 +84,29 @@ function Room() {
 
   return (
     <div>
-      <Header username="Mike" />
-      <h1>GAME</h1>
-      <span id="game-url">{roomUrl}</span>
-      <CopyToClipboard text={roomUrl}>
-        <button type="button">Copy link</button>
-      </CopyToClipboard>
+      <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
-      <Team
-        title="Team"
-        players={team}
-        skipMove={skipMove}
-        removePlayer={removePlayer}
-      >
-        <Player
-          player={currentPlayer}
-          skipMove={skipMove}
-          removePlayer={removePlayer}
-        />
-      </Team>
-      {!canPlay && (
-        <h4>Waiting for at least one more player to join the game</h4>
-      )}
-      <button
-        disabled={finished || !canPlay}
-        type="button"
-        onClick={finishMove}
-      >
+      <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
         submit
       </button>
       <button type="button" disabled={!canPlay} onClick={clearBoard}>
         Clear Board
       </button>
-      <ChessBoard />
+      <div className="game-content">
+        <Team
+          playerCount={users.length}
+          players={team}
+          skipMove={skipMove}
+          removePlayer={removePlayer}
+        >
+          <Player
+            user={currentUser}
+            skipMove={skipMove}
+            removePlayer={removePlayer}
+          />
+        </Team>
+        <ChessBoard />
+      </div>
       <GameFooter />
     </div>
   );

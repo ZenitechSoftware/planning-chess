@@ -1,33 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
-import playerPropType from '../../prop-types/player';
-import '../../static/style/team.css';
+import GameStatus from '../gameStatus/GameStatus';
+import GameInfo from '../gameStatus/GameInfo';
+import userPropType from '../../prop-types/user';
+import Return from './teamComponents/Return.svg';
+import './team.css';
 
-function Team({ title, players, skipMove, children, removePlayer }) {
+function Team({ players, skipMove, children, removePlayer, playerCount }) {
   return (
     <div className="team-container">
-      <h2>{title}</h2>
-      <div className="team-list-item">{children}</div>
-      {players.map((user) => (
-        <TeamMember
-          key={user.id}
-          name={user.name}
-          id={user.id}
-          skipMove={skipMove}
-          status={user.status}
-          removePlayer={removePlayer}
-        />
-      ))}
+      <GameStatus />
+      <GameInfo playerCount={playerCount} />
+
+      <div className="team-list-items">
+        <div className="team-list-item">{children}</div>
+        {players.map((player) => (
+          <TeamMember
+            key={player.id}
+            name={player.name}
+            id={player.id}
+            skipMove={skipMove}
+            status={player.status}
+            removePlayer={removePlayer}
+          />
+        ))}
+      </div>
+      <div className="team-list-footer">
+        <button type="button">
+          <img alt="" src={Return} />
+          {' '}
+          Restart game
+        </button>
+      </div>
     </div>
   );
 }
 
 Team.propTypes = {
-  title: PropTypes.string.isRequired,
-  players: PropTypes.arrayOf(playerPropType).isRequired,
+  players: PropTypes.arrayOf(userPropType).isRequired,
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
+  playerCount: PropTypes.number.isRequired,
 };
 export default Team;

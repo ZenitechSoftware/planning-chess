@@ -32,6 +32,7 @@
   font-size: 1rem;
   border-radius: 4px;
   padding: 9px, 16px;
+  font-family: 'Rubik';
 }
 
 .finish-btn {
@@ -80,6 +81,7 @@
   font-size: 1.25rem;
   line-height: 2rem;
   letter-spacing: 0.3px;
+  font-family: 'Rubik';
 }
 
 .figure-strength-container {
@@ -88,6 +90,7 @@
   background-color: #3c64b1;
   border-radius: 20px;
   padding: 0px 2px;
+  font-family: 'Rubik';
 }
 
 .figure-strength-container p {

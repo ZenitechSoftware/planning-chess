@@ -1,4 +1,20 @@
+@font-face {
+  font-family: Lato;
+  src: url('../font/Lato-Regular.ttf');
+}
+
+@font-face {
+  font-family: Rubik;
+  src: url('../font/Rubik-VariableFont.ttf');
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url('../font/Poppins-Regular.ttf');
+}
+
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Lato', sans-serif;
 };

@@ -5,14 +5,16 @@ import Player from '../../../../components/player/Player';
 import ChessGameProvider from '../../../../contexts/ChessBoardContext';
 
 test('test Game page elements', () => {
+  localStorage.setItem('user', 'TestUser')
   render(
     <ChessGameProvider>
       <Game />
     </ChessGameProvider>,
   );
-  expect(screen.getByText('GAME')).toBeInTheDocument();
-  expect(screen.getByText('http://localhost/')).toBeInTheDocument();
-  fireEvent.click(screen.getByText('Copy link'));
+  expect(screen.getByText('Annotation of Work')).toBeInTheDocument();
+  expect(screen.getByText('Uncertainty')).toBeInTheDocument();
+  expect(screen.getByText('Complexity | Select and place the figure on the board')).toBeInTheDocument();
+  fireEvent.click(screen.getByAltText('copy link'));
 });
 
 test('test Player page elements', () => {
@@ -23,5 +25,13 @@ test('test Player page elements', () => {
       score={0}
     />,
   );
-  expect(screen.getByText('username (you)')).toBeInTheDocument();
+  expect(screen.getByText('U', {
+    selector: ".team-list-item-avatar-text"
+  })).toBeInTheDocument();
+  expect(screen.getByText('username', {
+    selector: ".team-list-item-name"
+  })).toBeInTheDocument();
+  expect(screen.getByText('(you)', {
+    selector: ".team-list-item-name > span"
+  })).toBeInTheDocument();
 });

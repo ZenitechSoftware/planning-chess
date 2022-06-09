@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import Attribute from './Attribute';
+import Square from './Square';
 
 const Tile = ({
-  tile: { attribute, items, filled },
+  tile: { attribute, items = [], filled, points },
   onClick,
   row,
   column,
@@ -14,7 +16,9 @@ const Tile = ({
 
   /* eslint-disable-next-line */
   const _onClick = useCallback(() => {
-    onClick(row, column);
+    if (!attribute) {
+      onClick(row, column);
+    }
   }, [onClick, row, column]);
 
   return (
@@ -23,10 +27,10 @@ const Tile = ({
       role="presentation"
       className={classNames({
         'non-border-tile': filled,
-        'border-tile': isTileWithBorder(),
+        'border-tile': isTileWithBorder()
       })}
     >
-      {attribute || items}
+      {attribute ? <Attribute tile={{ attribute, points }} /> : <Square filled={!!filled} row={row} column={column} items={items} />}
     </td>
   );
 };
@@ -38,7 +42,14 @@ Tile.propTypes = {
       PropTypes.object,
       PropTypes.number,
     ]),
-    items: PropTypes.arrayOf(PropTypes.string),
+    points: PropTypes.number,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        figure: PropTypes.string,
+        score: PropTypes.number,
+        user: PropTypes.string
+      })
+    ),
     filled: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.object,
