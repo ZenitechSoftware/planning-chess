@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/prop-types */
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
 import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
@@ -11,13 +11,15 @@ export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns, myTurn, movedBy } = useWebSockets();
+  const { turns, myTurn, movedBy, players } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
+
+  const canPlay = useMemo(() => players.length > 1, [players]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...board];
@@ -100,6 +102,7 @@ const ChessBoardContextProvider = ({ children }) => {
         finishMove,
         clearBoard,
         finished,
+        canPlay,
       }}
     >
       {children}

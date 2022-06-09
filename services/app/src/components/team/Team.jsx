@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
-import userPropType from '../../prop-types/user';
+import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
-
   return (
     <div className="team-container">
       <GameStatus />
@@ -39,7 +38,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
 }
 
 Team.propTypes = {
-  players: PropTypes.arrayOf(userPropType).isRequired,
+  players: PropTypes.arrayOf(playerPropType).isRequired,
   removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,

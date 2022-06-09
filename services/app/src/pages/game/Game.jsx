@@ -25,13 +25,14 @@ function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
 
-  const { users, movedBy, playerDeleted } = useWebSockets();
+  const { players, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
   const { 
     finishMove,
     clearBoard,
     finished,
-    score
+    score,
+    canPlay
   } = useContext(ChessBoardContext);
 
   useEffect(() => {
@@ -43,27 +44,27 @@ function Room() {
   }, [username]);
 
   const findUserByUsername = (userName) =>
-    users.find((element) => element.name === userName);
+    players.find((element) => element.name === userName);
 
-  const currentUser = useMemo(
-    () => users.find((user) => user.name === username),
-    [users],
+  const currentPlayer = useMemo(
+    () => players.find((user) => user.name === username),
+    [players],
   );
 
   const team = useMemo(
     () =>
-      users
+      players
         .filter((user) => user.id !== findUserByUsername(username).id)
         .map((player) =>
           movedBy.includes(player.name)
             ? { ...player, name: `${player.name} (finished move)` }
             : player,
         ),
-    [users, currentUser, movedBy],
+    [players, currentPlayer, movedBy],
   );
 
   useEffect(() => {
-    if (playerDeleted && playerDeleted === currentUser.id) {
+    if (playerDeleted && playerDeleted === currentPlayer.id) {
       localStorage.removeItem('user');
       window.location.replace('/');
     }
@@ -85,21 +86,21 @@ function Room() {
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
-      <button disabled={finished} type="button" onClick={finishMove}>
+      <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
         submit
       </button>
-      <button type="button" onClick={clearBoard}>
+      <button type="button" disabled={!canPlay} onClick={clearBoard}>
         Clear Board
       </button>
       <div className="game-content">
         <Team
-          playerCount={users.length}
+          playerCount={players.length}
           players={team}
           skipMove={skipMove}
           removePlayer={removePlayer}
         >
           <Player
-            user={currentUser}
+            user={currentPlayer}
             skipMove={skipMove}
             removePlayer={removePlayer}
           />

@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from 'react';
 import { WsContext } from '../contexts/ws-context';
 
 export const useWebSockets = () => {
-  const [users, setUsers] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [turns, setTurns] = useState([]);
   const [movedBy, setMovedBy] = useState([]);
   const [myTurn, setMyTurn] = useState(null);
@@ -15,7 +15,7 @@ export const useWebSockets = () => {
   const websocketReducer = (type, payload) => {
     switch (type) {
       case 'UpdatePlayerList':
-        return setUsers(payload);
+        return setPlayers(payload);
       case 'NewBoardState':
         return setTurns(payload);
       case 'FigureMoved':
@@ -25,7 +25,7 @@ export const useWebSockets = () => {
       case 'SetMyTurn':
         return setMyTurn(payload);
       case 'MoveSkipped':
-        return setUsers(payload);
+        return setPlayers(payload);
       case 'RemovePlayer':
         return setPlayerDeleted(payload);
       default:
@@ -42,5 +42,5 @@ export const useWebSockets = () => {
     }
   }, [ws]);
 
-  return { users, turns, movedBy, myTurn, playerDeleted };
+  return { players, turns, movedBy, myTurn, playerDeleted };
 };
