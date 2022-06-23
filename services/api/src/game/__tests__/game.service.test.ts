@@ -22,7 +22,8 @@ describe('game.service', () => {
   });
   it('should return empty list when all players are done', async () => {
     const newState = gameService.figureMoved(null);
-    expect(newState).toMatchSnapshot(newState);
+    clearBoard();
+    expect(newState).toMatchObject([]);
   });
   it('should clear the board', function () {
     const emptyArr: PlaceFigureMessage[] = [];
