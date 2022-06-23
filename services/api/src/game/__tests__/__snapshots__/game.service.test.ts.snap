@@ -15,14 +15,7 @@ Object {
 exports[`game.service should return empty list when all players are done 1`] = `
 Array [
   Object {
-    "figure": "rock",
-    "player": "test",
-    "row": 1,
-    "score": NaN,
-    "tile": 1,
-  },
-  Object {
-    "score": NaN,
+    "score": undefined,
   },
 ]
 `;
@@ -33,7 +26,7 @@ Array [
     "figure": "rock",
     "player": "test",
     "row": 1,
-    "score": NaN,
+    "score": 1,
     "tile": 1,
   },
 ]
