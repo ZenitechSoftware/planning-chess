@@ -71,5 +71,7 @@ const roundUp = (score: number) => {
     secondNumber = thirdNumber;
     thirdNumber = firstNumber + secondNumber;
   }
-  return Math.abs(thirdNumber - score) >= Math.abs(secondNumber - score) ? secondNumber : thirdNumber;
+  return Math.abs(thirdNumber - score) >= Math.abs(secondNumber - score)
+    ? secondNumber
+    : thirdNumber;
 };
