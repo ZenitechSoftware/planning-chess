@@ -57,12 +57,15 @@ export const calculateScore = (moveValues: PlaceFigureMessage): number => {
   return roundUp(avg);
 };
 
-const calculateAverage = (moveValues: number[]) => {
+const calculateAverage = (moveValues: number[]) : number => {
   const sum = moveValues.reduce((val, res) => val + res);
   return sum / moveValues.length;
 };
 
-const roundUp = (score: number) => {
+export const roundUp = (score: number) : number => {
+  if (score == 0) {
+    return 0;
+  }
   let firstNumber = 0;
   let secondNumber = 1;
   let thirdNumber = firstNumber + secondNumber;

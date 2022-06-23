@@ -6,7 +6,10 @@ export const turns: PlaceFigureMessage[] = [];
 export const figureMoved = (
   payload: PlaceFigureMessage,
 ): PlaceFigureMessage[] => {
-  const score = calculateScore(payload);
+  let score;
+  if (payload !== null) {
+    score = calculateScore(payload);
+  }
   turns.push({ ...payload, score });
   return turns;
 };

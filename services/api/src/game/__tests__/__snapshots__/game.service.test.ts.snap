@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`game.service should clear the board 1`] = `Array []`;
+
+exports[`game.service should find player move by player name 1`] = `
+Object {
+  "figure": "rock",
+  "player": "test",
+  "row": 1,
+  "score": 1,
+  "tile": 1,
+}
+`;
+
 exports[`game.service should return empty list when all players are done 1`] = `
 Array [
   Object {
