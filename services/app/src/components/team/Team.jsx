@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import PropTypes from 'prop-types';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import TeamMember from './TeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
