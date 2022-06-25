@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import PropTypes from 'prop-types';
 import TeamMember from './TeamMember';
 import GameStatus from '../gameStatus/GameStatus';
@@ -7,7 +8,14 @@ import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
 
-function Team({ players, skipMove, children, removePlayer, playerCount }) {
+function Team({ players, skipMove, children, removePlayer, playerCount, canPlay, clearBoard }) {
+  const { turns } = useContext(ChessBoardContext);
+
+  const restartBtnChecker = () => {
+    if(!canPlay || turns !== players.length) return true;
+    return false;
+  }
+
   return (
     <div className="team-container">
       <GameStatus />
@@ -27,7 +35,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
         ))}
       </div>
       <div className="team-list-footer">
-        <button type="button">
+        <button type="button" disabled={restartBtnChecker()} onClick={clearBoard}>
           <img alt="" src={Return} />
           {' '}
           Restart game
@@ -43,5 +51,7 @@ Team.propTypes = {
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
   playerCount: PropTypes.number.isRequired,
+  canPlay: PropTypes.bool.isRequired,
+  clearBoard: PropTypes.func.isRequired,
 };
 export default Team;

@@ -89,15 +89,14 @@ function Room() {
       <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
         submit
       </button>
-      <button type="button" disabled={!canPlay} onClick={clearBoard}>
-        Clear Board
-      </button>
       <div className="game-content">
         <Team
           playerCount={players.length}
           players={team}
           skipMove={skipMove}
           removePlayer={removePlayer}
+          canPlay={canPlay}
+          clearBoard={clearBoard}
         >
           <Player
             user={currentPlayer}
