@@ -8,13 +8,10 @@ import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
 
-function Team({ players, skipMove, children, removePlayer, playerCount, canPlay, clearBoard }) {
-  const { turns } = useContext(ChessBoardContext);
+function Team({ players, skipMove, children, removePlayer, playerCount }) {
+  const { isAllTurnsMade, clearBoard, turns, canPlay } = useContext(ChessBoardContext);
 
-  const restartBtnChecker = () => {
-    if(!canPlay || turns !== players.length) return true;
-    return false;
-  }
+  const isRestartBtnEnabled = (() => isAllTurnsMade(), [turns, canPlay])
 
   return (
     <div className="team-container">
@@ -35,7 +32,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount, canPlay,
         ))}
       </div>
       <div className="team-list-footer">
-        <button type="button" disabled={restartBtnChecker()} onClick={clearBoard}>
+        <button type="button" disabled={!isRestartBtnEnabled} onClick={clearBoard}>
           <img alt="" src={Return} />
           {' '}
           Restart game
@@ -51,7 +48,5 @@ Team.propTypes = {
   skipMove: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
   playerCount: PropTypes.number.isRequired,
-  canPlay: PropTypes.bool.isRequired,
-  clearBoard: PropTypes.func.isRequired,
 };
 export default Team;

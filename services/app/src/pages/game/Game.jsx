@@ -29,7 +29,6 @@ function Room() {
   const { ws } = useContext(WsContext);
   const { 
     finishMove,
-    clearBoard,
     finished,
     score,
     canPlay
@@ -96,7 +95,6 @@ function Room() {
           skipMove={skipMove}
           removePlayer={removePlayer}
           canPlay={canPlay}
-          clearBoard={clearBoard}
         >
           <Player
             user={currentPlayer}

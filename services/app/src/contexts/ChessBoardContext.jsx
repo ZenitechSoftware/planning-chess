@@ -88,7 +88,13 @@ const ChessBoardContextProvider = ({ children }) => {
     ws.send({
       type: 'ClearBoard',
     });
+    setLastTurn(null);
   };
+
+  const isAllTurnsMade = () => {
+    if (!canPlay || turns !== players.length) return false;
+    return true;
+  }
 
   return (
     <ChessBoardContext.Provider
@@ -103,6 +109,7 @@ const ChessBoardContextProvider = ({ children }) => {
         clearBoard,
         finished,
         canPlay,
+        isAllTurnsMade,
       }}
     >
       {children}
