@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import TeamMember from './TeamMember';
@@ -9,9 +9,9 @@ import Return from './teamComponents/Return.svg';
 import './team.css';
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
-  const { isAllTurnsMade, clearBoard, turns, canPlay } = useContext(ChessBoardContext);
+  const { isAllTurnsMade, clearBoard, turns } = useContext(ChessBoardContext);
 
-  const isRestartBtnEnabled = (() => isAllTurnsMade(), [turns, canPlay])
+  const isRestartBtnEnabled = useMemo(() => isAllTurnsMade, [turns])
 
   return (
     <div className="team-container">

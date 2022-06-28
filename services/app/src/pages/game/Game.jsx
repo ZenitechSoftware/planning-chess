@@ -94,7 +94,6 @@ function Room() {
           players={team}
           skipMove={skipMove}
           removePlayer={removePlayer}
-          canPlay={canPlay}
         >
           <Player
             user={currentPlayer}

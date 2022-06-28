@@ -91,10 +91,7 @@ const ChessBoardContextProvider = ({ children }) => {
     setLastTurn(null);
   };
 
-  const isAllTurnsMade = () => {
-    if (!canPlay || turns !== players.length) return false;
-    return true;
-  }
+  const isAllTurnsMade = useMemo(() => turns === players.length ? true : false, [players, turns]);
 
   return (
     <ChessBoardContext.Provider
