@@ -29,11 +29,11 @@ describe('game.service', () => {
     const emptyArr: PlaceFigureMessage[] = [];
     turns.push(newTurn);
     clearBoard();
-    expect(emptyArr).toMatchSnapshot(turns);
+    expect(turns).toMatchSnapshot(emptyArr);
   });
   it('should find player move by player name', function () {
     turns.push(newTurn);
     const move = findMoveByPlayerName(newTurn.player);
-    expect(move).toMatchSnapshot(newTurn);
+    expect(move).toEqual(newTurn);
   });
 });
