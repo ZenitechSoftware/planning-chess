@@ -86,9 +86,6 @@ function Room() {
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
-      <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
-        submit
-      </button>
       <button type="button" disabled={!canPlay} onClick={clearBoard}>
         Clear Board
       </button>
