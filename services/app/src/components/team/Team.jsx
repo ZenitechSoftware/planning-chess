@@ -11,8 +11,6 @@ import './team.css';
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
   const { isAllTurnsMade, clearBoard, turns } = useContext(ChessBoardContext);
 
-  const isRestartBtnEnabled = useMemo(() => isAllTurnsMade, [turns])
-
   return (
     <div className="team-container">
       <GameStatus />
@@ -32,7 +30,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
         ))}
       </div>
       <div className="team-list-footer">
-        <button type="button" disabled={!isRestartBtnEnabled} onClick={clearBoard}>
+        <button type="button" disabled={!isAllTurnsMade} onClick={clearBoard}>
           <img alt="" src={Return} />
           {' '}
           Restart game
