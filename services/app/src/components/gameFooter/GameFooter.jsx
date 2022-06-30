@@ -5,7 +5,7 @@ import ChessBoardPieces from './ChessBoardPieces';
 import './chess-pieces.css';
 
 function GameFooter({ skipCurrentPlayerMove }) {
-  const { lastTurn, finishMove, canPlay, finished } = useContext(ChessBoardContext);
+  const { lastTurn, finishMove, finished } = useContext(ChessBoardContext);
 
   return (
     <div id="game-footer">
@@ -19,7 +19,7 @@ function GameFooter({ skipCurrentPlayerMove }) {
         <button type="button" className="finish-btn" disabled={!lastTurn} onClick={finishMove}>
           Finish Move
         </button>
-        <button type="button" className="skip-btn" disabled={finished || !canPlay} onClick={() => skipCurrentPlayerMove()}>
+        <button type="button" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
           Skip Move
         </button>
       </div>

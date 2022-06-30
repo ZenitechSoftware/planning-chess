@@ -102,6 +102,10 @@
   font-weight: 500;
 }
 
+.team-list-footer button:disabled {
+  cursor: not-allowed;
+}
+
 .team-list-footer img {
   width: 20px;
   height: 16px;

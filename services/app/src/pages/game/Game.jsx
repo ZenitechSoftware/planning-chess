@@ -72,7 +72,7 @@ function Room() {
     }
   }, []);
   
-  const skipCurentPlayerMove = useCallback(() => {
+  const skipCurrentPlayerMove = useCallback(() => {
     skipMove(currentPlayer?.id);
   }, [skipMove, currentPlayer]);
 
@@ -81,12 +81,6 @@ function Room() {
       ws.send(buildRemovePlayerEventMessage(userId));
     }
   }, []);
-
-  const currentPlayerId = currentPlayer?.id;
-
-  const skipCurrentPlayerMove = () => {
-    skipMove(currentPlayerId)
-  }
 
   return (
     <div>
