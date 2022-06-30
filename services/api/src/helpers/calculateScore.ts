@@ -8,48 +8,73 @@ interface StringObjects {
   [index: string]: number;
 }
 
-const defaultPayload = {
+const defaultMoveValues = {
   row: 0,
   tile: 0,
   figure: '',
 };
 
-export const calculateScore = (payload: PlaceFigureMessage): number => {
+const xValueToScoreMap: NumberObjects = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 5,
+  5: 8,
+  6: 13,
+};
+
+const yValueToScoreMap: NumberObjects = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 5,
+  5: 8,
+  6: 13,
+};
+
+const pieceToScoreMap: StringObjects = {
+  pawn: 1,
+  knight: 2,
+  bishop: 3,
+  rook: 5,
+  king: 8,
+  queen: 13,
+};
+
+export const calculateScore = (moveValues: PlaceFigureMessage): number => {
   const NUMBER_OF_ROWS = 6;
   const {
     row,
     tile: column,
     figure: selectedPiece,
-  } = payload || defaultPayload;
-  const xValueToScoreMap: NumberObjects = {
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 5,
-    5: 8,
-    6: 13,
-  };
-  const yValueToScoreMap: NumberObjects = {
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 5,
-    5: 8,
-    6: 13,
-  };
+  } = moveValues || defaultMoveValues;
 
-  const pieceToScoreMap: StringObjects = {
-    pawn: 1,
-    knight: 2,
-    bishop: 3,
-    rook: 5,
-    king: 8,
-    queen: 13,
-  };
+  const moveValueArray: number[] = [];
+  moveValueArray.push(xValueToScoreMap[NUMBER_OF_ROWS - row]);
+  moveValueArray.push(yValueToScoreMap[column]);
+  moveValueArray.push(pieceToScoreMap[selectedPiece]);
+  const avg = calculateAverage(moveValueArray);
+  return roundUp(avg);
+};
 
-  const xScore = xValueToScoreMap[NUMBER_OF_ROWS - row];
-  const yScore = yValueToScoreMap[column];
-  const pieceScore = pieceToScoreMap[selectedPiece];
+const calculateAverage = (moveValues: number[]): number => {
+  const sum = moveValues.reduce((val, res) => val + res);
+  return sum / moveValues.length;
+};
 
-  return xScore + yScore + pieceScore;
+export const roundUp = (score: number): number => {
+  if (score == 0) {
+    return 0;
+  }
+  let firstNumber = 0;
+  let secondNumber = 1;
+  let thirdNumber = firstNumber + secondNumber;
+  while (thirdNumber <= score) {
+    firstNumber = secondNumber;
+    secondNumber = thirdNumber;
+    thirdNumber = firstNumber + secondNumber;
+  }
+  return Math.abs(thirdNumber - score) >= Math.abs(secondNumber - score)
+    ? secondNumber
+    : thirdNumber;
 };
