@@ -29,7 +29,6 @@ function Room() {
   const { ws } = useContext(WsContext);
   const { 
     finishMove,
-    clearBoard,
     finished,
     score,
     canPlay
@@ -88,9 +87,6 @@ function Room() {
       <span>{score}</span>
       <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
         submit
-      </button>
-      <button type="button" disabled={!canPlay} onClick={clearBoard}>
-        Clear Board
       </button>
       <div className="game-content">
         <Team
