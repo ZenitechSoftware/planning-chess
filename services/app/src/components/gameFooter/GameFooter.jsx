@@ -15,7 +15,7 @@ function GameFooter() {
         <ChessBoardPieces />
       </div>
       <div className="btn-field">
-        <button type="button" className="finish-btn" disabled={!lastTurn || !canPlay} onClick={() => finishMove()}>
+        <button type="button" className="finish-btn" disabled={!lastTurn} onClick={() => finishMove()}>
           Finish Move
         </button>
         <button type="button" className="skip-btn" disabled={finished || !canPlay}>

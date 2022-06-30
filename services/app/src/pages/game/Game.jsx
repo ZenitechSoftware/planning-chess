@@ -29,7 +29,6 @@ function Room() {
   const { ws } = useContext(WsContext);
   const { 
     finishMove,
-    clearBoard,
     finished,
     score,
     canPlay
@@ -86,8 +85,8 @@ function Room() {
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
-      <button type="button" disabled={!canPlay} onClick={clearBoard}>
-        Clear Board
+      <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
+        submit
       </button>
       <div className="game-content">
         <Team

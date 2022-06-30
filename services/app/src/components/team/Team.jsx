@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import TeamMember from './TeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
@@ -8,6 +9,8 @@ import Return from './teamComponents/Return.svg';
 import './team.css';
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
+  const { isAllTurnsMade, clearBoard } = useContext(ChessBoardContext);
+
   return (
     <div className="team-container">
       <GameStatus />
@@ -27,7 +30,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
         ))}
       </div>
       <div className="team-list-footer">
-        <button type="button">
+        <button type="button" disabled={!isAllTurnsMade} onClick={clearBoard}>
           <img alt="" src={Return} />
           {' '}
           Restart game
