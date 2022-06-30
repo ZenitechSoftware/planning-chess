@@ -6,6 +6,9 @@ module.exports = {
     browser: true,
     jest: true,
   },
+  parserOptions: {
+    ecmaVersion: 2021,
+  },
   extends: ['airbnb', 'prettier'],
   rules: {
     'no-throw-literal': 'off',
