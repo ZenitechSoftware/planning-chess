@@ -8,16 +8,16 @@ export interface Player {
   id: string;
   name: string;
   color: {
-    background:{
-      r: number,
-      g: number,
-      b: number
-    },
-    text:{
-      r: number,
-      g: number,
-      b: number
-    }
+    background: {
+      r: number;
+      g: number;
+      b: number;
+    };
+    text: {
+      r: number;
+      g: number;
+      b: number;
+    };
   };
   status: PlayerStatus;
 }

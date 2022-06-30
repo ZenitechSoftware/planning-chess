@@ -7,24 +7,24 @@ import Skip from '../team/teamComponents/Skip.svg';
 const Player = ({ player, skipMove }) => {
   return (
     player && (
-      <>
+    <>
         <div
           className="team-list-item-avatar"
           style={{
-            backgroundColor: `rgb(${player.background.r}, ${player.background.g}, ${player.background.b})`,
+            backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
           }}
         >
           <div
             className="team-list-item-avatar-text"
             style={{
-              color: `rgb(${player.text.r}, ${player.text.g}, ${player.text.b})`,
+              color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
             }}
           >
             {player.name[0].toUpperCase()}
           </div>
         </div>
         <div className="team-list-item-name">
-          {player.name} 
+          {player.name}
           {' '}
           <span>(you)</span>
         </div>
