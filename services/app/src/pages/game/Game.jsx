@@ -71,14 +71,16 @@ function Room() {
       ws.send(buildMoveSkippedEventMessage(userId));
     }
   }, []);
+  
+  const skipCurentPlayerMove = useCallback(() => {
+    skipMove(currentPlayer?.id);
+  }, [skipMove, currentPlayer]);
 
   const removePlayer = useCallback((userId) => {
     if (userId) {
       ws.send(buildRemovePlayerEventMessage(userId));
     }
   }, []);
-
-  const currentPlayerId = currentPlayer?.id;
 
   return (
     <div>
@@ -99,10 +101,7 @@ function Room() {
         </Team>
         <ChessBoard />
       </div>
-      <GameFooter 
-        skipMove={skipMove}
-        currentPlayerId={currentPlayerId}  
-      />
+      <GameFooter skipMove={skipCurentPlayerMove} />
     </div>
   );
 }
