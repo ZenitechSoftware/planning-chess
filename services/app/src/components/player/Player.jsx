@@ -4,18 +4,19 @@ import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
 import Skip from '../team/teamComponents/Skip.svg';
 
-const Player = ({ player, skipMove }) => (
+const Player = ({ player, skipMove }) => {
+  return (
     player && (
     <>
-      <div
-        className="team-list-item-avatar"
-        style={{
+        <div
+          className="team-list-item-avatar"
+          style={{
             backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
           }}
-      >
-        <div
-          className="team-list-item-avatar-text"
-          style={{
+        >
+          <div
+            className="team-list-item-avatar-text"
+            style={{
               color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
             }}
         >

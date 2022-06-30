@@ -43,7 +43,6 @@ function Room() {
     [players],
   );
 
-
   const team = useMemo(
     () =>
       players
@@ -68,7 +67,7 @@ function Room() {
       ws.send(buildMoveSkippedEventMessage(userId));
     }
   }, []);
-  
+
   const skipCurrentPlayerMove = useCallback(() => {
     skipMove(currentPlayer?.id);
   }, [skipMove, currentPlayer]);
@@ -96,7 +95,7 @@ function Room() {
         </Team>
         <ChessBoard />
       </div>
-      <GameFooter 
+      <GameFooter
         skipCurrentPlayerMove={skipCurrentPlayerMove}
       />
     </div>
