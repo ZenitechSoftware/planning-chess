@@ -80,6 +80,10 @@ function Room() {
 
   const currentPlayerId = currentPlayer?.id;
 
+  const skipCurrentPlayerMove = () => {
+    skipMove(currentPlayerId)
+  }
+
   return (
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
@@ -100,8 +104,7 @@ function Room() {
         <ChessBoard />
       </div>
       <GameFooter 
-        skipMove={skipMove}
-        currentPlayerId={currentPlayerId}  
+        skipCurrentPlayerMove={skipCurrentPlayerMove}
       />
     </div>
   );
