@@ -9,7 +9,6 @@ function GameFooter({ skipMove, currentPlayerId }) {
 
   return (
     <div id="game-footer">
-      {console.log(currentPlayerId)}
       <div>
         <p>Complexity | Select and place the figure on the board</p>
       </div>
@@ -20,7 +19,7 @@ function GameFooter({ skipMove, currentPlayerId }) {
         <button type="button" className="finish-btn" disabled={!lastTurn} onClick={() => finishMove()}>
           Finish Move
         </button>
-        <button type="button" className="skip-btn" disabled={finished || !canPlay} onClick={() => skipMove()}>
+        <button type="button" className="skip-btn" disabled={finished || !canPlay} onClick={() => skipMove(currentPlayerId)}>
           Skip Move
         </button>
       </div>
@@ -30,6 +29,10 @@ function GameFooter({ skipMove, currentPlayerId }) {
 
 GameFooter.propTypes = {
   skipMove: PropTypes.func.isRequired,
+  currentPlayerId: PropTypes.oneOf([
+    PropTypes.string,
+    PropTypes.object
+  ]).isRequired,
 };
 
 export default GameFooter;
