@@ -10,12 +10,12 @@ export function getPlayerAvatarColor() {
     background: {
       r: r + 128,
       g: g + 128,
-      b: b + 128
+      b: b + 128,
     },
     text: {
       r,
       g,
       b,
-    }
+    },
   };
 }

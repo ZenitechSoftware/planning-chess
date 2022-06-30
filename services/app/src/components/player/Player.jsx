@@ -2,24 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
-import { getPlayerAvatarColor } from '../../helpers/getPlayerAvatarColor';
 import Skip from '../team/teamComponents/Skip.svg';
 
 const Player = ({ player, skipMove }) => {
-  const playerColor = getPlayerAvatarColor();
   return (
     player && (
       <>
         <div
           className="team-list-item-avatar"
           style={{
-            backgroundColor: `rgb(${playerColor.background.r}, ${playerColor.background.g}, ${playerColor.background.b})`,
+            backgroundColor: `rgb(${player.background.r}, ${player.background.g}, ${player.background.b})`,
           }}
         >
           <div
             className="team-list-item-avatar-text"
             style={{
-              color: `rgb(${playerColor.text.r}, ${playerColor.text.g}, ${playerColor.text.b})`,
+              color: `rgb(${player.text.r}, ${player.text.g}, ${player.text.b})`,
             }}
           >
             {player.name[0].toUpperCase()}

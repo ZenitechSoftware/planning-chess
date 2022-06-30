@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
-import { getPlayerAvatarColor } from '../../helpers/getPlayerAvatarColor';
 import Skip from './teamComponents/Skip.svg';
 import Remove from './teamComponents/Remove.svg';
 import './team.css';
 
-function TeamMember({ name, id, skipMove, status, removePlayer }) {
-  const playerColor = getPlayerAvatarColor();
+function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
   return (
     <div className="team-list-item">
       <div
         className="team-list-item-avatar"
         style={{
-        backgroundColor: `rgb(${playerColor.background.r}, ${playerColor.background.g}, ${playerColor.background.b})`
+        backgroundColor: `rgb(${color.background.r}, ${color.background.g}, ${color.background.b})`
       }}
       >
-        <div 
+        <div
           style={{
-              color: `rgb(${playerColor.text.r}, ${playerColor.text.g}, ${playerColor.text.b})`
+              color: `rgb(${color.text.r}, ${color.text.g}, ${color.text.b})`
             }}
         >
           {name[0].toUpperCase()}
@@ -48,6 +46,18 @@ TeamMember.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   skipMove: PropTypes.func.isRequired,
+  color: PropTypes.shape({
+      background: PropTypes.shape({
+          r: PropTypes.number,
+          g: PropTypes.number,
+          b: PropTypes.number,
+      }),
+      text: PropTypes.shape({
+          r: PropTypes.number,
+          g: PropTypes.number,
+          b: PropTypes.number,
+      })
+  }).isRequired,
   removePlayer: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(playerStatuses)).isRequired,
 };
