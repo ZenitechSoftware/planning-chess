@@ -78,7 +78,7 @@ function Room() {
     }
   }, []);
 
-  const currentPlayerId = useMemo(() => currentPlayer?.id, [currentPlayer])
+  const currentPlayerId = currentPlayer?.id;
 
   return (
     <div>
