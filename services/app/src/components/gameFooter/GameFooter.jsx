@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import ChessBoardPieces from './ChessBoardPieces';
 import './chess-pieces.css';
 
-function GameFooter() {
-  const { lastTurn, finishMove } = useContext(ChessBoardContext);
+function GameFooter({ skipCurrentPlayerMove }) {
+  const { lastTurn, finishMove, finished } = useContext(ChessBoardContext);
 
   return (
     <div id="game-footer">
@@ -15,15 +16,19 @@ function GameFooter() {
         <ChessBoardPieces />
       </div>
       <div className="btn-field">
-        <button type="button" className="finish-btn" disabled={!lastTurn} onClick={() => finishMove()}>
+        <button type="button" className="finish-btn" disabled={!lastTurn} onClick={finishMove}>
           Finish Move
         </button>
-        <button type="button" className="skip-btn">
+        <button type="button" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
           Skip Move
         </button>
       </div>
     </div>
   );
 }
+
+GameFooter.propTypes = {
+  skipCurrentPlayerMove: PropTypes.func.isRequired,
+};
 
 export default GameFooter;
