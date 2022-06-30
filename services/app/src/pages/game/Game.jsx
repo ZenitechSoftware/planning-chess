@@ -71,6 +71,10 @@ function Room() {
       ws.send(buildMoveSkippedEventMessage(userId));
     }
   }, []);
+  
+  const skipCurentPlayerMove = useCallback(() => {
+    skipMove(currentPlayer?.id);
+  }, [skipMove, currentPlayer]);
 
   const removePlayer = useCallback((userId) => {
     if (userId) {
