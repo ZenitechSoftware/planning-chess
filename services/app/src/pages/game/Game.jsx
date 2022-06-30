@@ -78,7 +78,7 @@ function Room() {
     }
   }, []);
 
-  const currentPlayerId = currentPlayer;
+  const currentPlayerId = currentPlayer?.id;
 
   return (
     <div>
