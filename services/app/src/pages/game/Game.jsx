@@ -27,11 +27,8 @@ function Room() {
 
   const { players, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const { 
-    finishMove,
-    finished,
+  const {
     score,
-    canPlay
   } = useContext(ChessBoardContext);
 
   useEffect(() => {
@@ -81,13 +78,12 @@ function Room() {
     }
   }, []);
 
+  const currentPlayerId = currentPlayer;
+
   return (
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
-      <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
-        submit
-      </button>
       <div className="game-content">
         <Team
           playerCount={players.length}
@@ -103,7 +99,10 @@ function Room() {
         </Team>
         <ChessBoard />
       </div>
-      <GameFooter />
+      <GameFooter 
+        skipMove={skipMove}
+        currentPlayerId={currentPlayerId}  
+      />
     </div>
   );
 }
