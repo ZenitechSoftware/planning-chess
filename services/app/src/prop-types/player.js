@@ -4,7 +4,17 @@ import playerStatuses from '../constants/playerStatuses';
 export default PropTypes.shape({
   name: PropTypes.string,
   status: PropTypes.oneOf(Object.values(playerStatuses)),
-  // eslint-disable-next-line react/forbid-prop-types
-  color: PropTypes.object,
+  color: PropTypes.shape({
+    background: PropTypes.shape({
+      r: PropTypes.number,
+      g: PropTypes.number,
+      b: PropTypes.number,
+    }),
+    text: PropTypes.shape({
+      r: PropTypes.number,
+      g: PropTypes.number,
+      b: PropTypes.number,
+    })
+  }),
   id: PropTypes.string,
 });

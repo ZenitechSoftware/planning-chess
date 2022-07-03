@@ -1,8 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Player, PlayerStatus } from '../domain';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { getPlayerAvatarColor } from '../helpers/getPlayerAvatarColor';
 import logger from '../logger';
 import {
