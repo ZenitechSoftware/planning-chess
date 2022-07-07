@@ -46,8 +46,13 @@
 }
 
 .skip-btn {
-  color: #3c64b1;
+  color: #3C64B1;
   background-color: transparent;
+}
+
+.skip-btn:disabled {
+  color: rgba(60, 100, 177, 0.24);
+  cursor: not-allowed;
 }
 
 /*-----Chess Board Pieces-----*/
