@@ -27,12 +27,8 @@ function Room() {
 
   const { players, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const { 
-    finishMove,
-    clearBoard,
-    finished,
+  const {
     score,
-    canPlay
   } = useContext(ChessBoardContext);
 
   useEffect(() => {
@@ -77,6 +73,10 @@ function Room() {
       ws.send(buildMoveSkippedEventMessage(userId));
     }
   }, []);
+  
+  const skipCurrentPlayerMove = useCallback(() => {
+    skipMove(currentPlayer?.id);
+  }, [skipMove, currentPlayer]);
 
   const removePlayer = useCallback((userId) => {
     if (userId) {
@@ -88,12 +88,6 @@ function Room() {
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <span>{score}</span>
-      <button disabled={finished || !canPlay} type="button" onClick={finishMove}>
-        submit
-      </button>
-      <button type="button" disabled={!canPlay} onClick={clearBoard}>
-        Clear Board
-      </button>
       <div className="game-content">
         <Team
           playerCount={players.length}
@@ -108,7 +102,9 @@ function Room() {
         </Team>
         <ChessBoard />
       </div>
-      <GameFooter />
+      <GameFooter 
+        skipCurrentPlayerMove={skipCurrentPlayerMove}
+      />
     </div>
   );
 }
