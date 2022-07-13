@@ -47,7 +47,6 @@ function Room() {
     [players],
   );
 
-  console.log(currentPlayer);
 
   const team = useMemo(
     () =>
