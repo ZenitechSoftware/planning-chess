@@ -12,6 +12,7 @@ jest.mock('../../game/game.service');
 describe('player.service', () => {
   const ws = new WebSocket('');
   beforeAll(() => {
+    jest.spyOn(global.Math, 'random').mockReturnValue(1);
     Object.defineProperty(ws, 'readyState', { value: WebSocket.OPEN });
     playerService.subscribe(ws, { playerName: 'player1' });
   });
