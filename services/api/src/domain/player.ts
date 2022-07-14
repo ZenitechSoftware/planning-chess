@@ -7,17 +7,17 @@ export enum PlayerStatus {
 export interface Player {
   id: string;
   name: string;
-  color: {
-    background: {
-      r: number;
-      g: number;
-      b: number;
-    };
-    text: {
-      r: number;
-      g: number;
-      b: number;
-    };
-  };
+  color: PlayerAvatarColor;
   status: PlayerStatus;
+}
+
+interface RGB {
+  r: number;
+  g: number;
+  b: number;
+}
+
+export interface PlayerAvatarColor {
+  background: RGB;
+  text: RGB;
 }
