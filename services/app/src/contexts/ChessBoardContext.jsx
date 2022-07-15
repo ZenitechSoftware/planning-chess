@@ -25,7 +25,7 @@ const ChessBoardContextProvider = ({ children }) => {
     const copyOfBoard = [...board];
     finalTurns.forEach((turn) => {
       if (turn.player !== username)
-        copyOfBoard[turn.row][turn.tile].items.push(turn.figure);
+        copyOfBoard[turn.row][turn.tile].items.push(turn);
     });
     setBoard(copyOfBoard);
   };
@@ -59,7 +59,7 @@ const ChessBoardContextProvider = ({ children }) => {
       if (lastTurn) {
         copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
       }
-      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), user: username });
+      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: username });
       setLastTurn({ row, tile, figure: selectedItem });
       setBoard(copyOfBoard);
     }

@@ -47,7 +47,7 @@ Tile.propTypes = {
       PropTypes.shape({
         figure: PropTypes.string,
         score: PropTypes.number,
-        user: PropTypes.string
+        player: PropTypes.string
       })
     ),
     filled: PropTypes.oneOfType([

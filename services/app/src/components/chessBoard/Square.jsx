@@ -12,6 +12,7 @@ const Square = ({
   column,
   filled
 }) => {
+
   const { board } = useContext(ChessBoardContext);
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
@@ -27,7 +28,7 @@ const Square = ({
             "nth-bubble": key !== 0
           })}
         >
-          <span className="name">{item.user[0]}</span>
+          <span className="name">{item.player[0]}</span>
         </div>
       )
     } 
@@ -74,10 +75,10 @@ const Square = ({
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
               <div className={classNames(["bubble", "multiple-bubbles"])}>
-                <span className="name">{item.user[0]}</span>
+                <span className="name">{item.player[0]}</span>
               </div>
               <span className="text">
-                {`${item.user} - `}
+                {`${item.player} - `}
                 <span className="text-bold">{item.figure.charAt(0).toUpperCase() + item.figure.slice(1)}</span>
               </span>
               <div className="score">
@@ -96,7 +97,7 @@ Square.propTypes = {
     PropTypes.shape({
       figure: PropTypes.string,
       score: PropTypes.number,
-      user: PropTypes.string
+      player: PropTypes.string
     })
   ).isRequired,
   row: PropTypes.number.isRequired,
