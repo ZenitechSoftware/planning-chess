@@ -21,7 +21,7 @@ const ChessBoardContextProvider = ({ children }) => {
 
   const canPlay = useMemo(() => players.length > 1, [players]);
 
-  const isAllTurnsMade = useMemo(() => turns.length === players.length, [players, turns]);
+  const isAllTurnsMade = useMemo(() => turns.length === players.filter(p => p.status !== 'MoveSkipped' ).length, [players, turns]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
@@ -45,7 +45,7 @@ const ChessBoardContextProvider = ({ children }) => {
     } else {
       clearBoardItems();
     }
-  }, [turns]);
+  }, [turns, isAllTurnsMade]);
 
   useEffect(() => {
     if (movedBy.length) {

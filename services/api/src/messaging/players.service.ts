@@ -7,10 +7,10 @@ import {
   Handler,
   Message,
   MessageType,
-  UpdatePlayerListMessage,
-  PlaceFigureMessage,
   MoveSkippedMessage,
+  PlaceFigureMessage,
   RemovePlayerMessage,
+  UpdatePlayerListMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 
@@ -33,7 +33,7 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   });
   const newBoardState = gameService.figureMoved(payload);
   const areAllPlayersDone = Array.from(players.values()).every(
-    (player) => player.status === 'FigurePlaced',
+    (player) => player.status === PlayerStatus.FigurePlaced || player.status === PlayerStatus.MoveSkipped,
   );
 
   publish({ type: MessageType.FigureMoved, payload: newBoardState });
@@ -52,7 +52,8 @@ export const clearBoard = (): void => {
   gameService.clearBoard();
   setDefaultStatusForPlayers();
   publish({ type: MessageType.ClearBoard, payload: [] });
-  publish({ type: MessageType.NewBoardState, payload: [] });
+  publishBoard();
+  publishAllPlayers();
 };
 
 export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
@@ -85,6 +86,7 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
+    publishBoard();
   } catch (err) {
     logger.error(err?.message);
   }
@@ -103,10 +105,7 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
 
     players.delete(playerConnection);
     logger.info(`Player ${player?.name} removed`);
-    publish({
-      type: MessageType.UpdatePlayerList,
-      payload: Array.from(players.values()),
-    });
+    publishAllPlayers();
   } catch (err) {
     logger.error(err?.message);
   }
@@ -128,8 +127,15 @@ export const playerDisconnected = (): void => {
 
 export const newPlayerJoined = (): void => {
   logger.info('Publishing: new player joined the game.');
-  const allPlayers = Array.from(players.values());
-  publish({ type: MessageType.UpdatePlayerList, payload: allPlayers });
+  publishAllPlayers();
+  publishBoard();
+};
+
+const publishAllPlayers = () => {
+  publish({ type: MessageType.UpdatePlayerList, payload: Array.from(players.values()) });
+};
+
+const publishBoard = () => {
   publish({ type: MessageType.NewBoardState, payload: gameService.getBoard() });
 };
 
