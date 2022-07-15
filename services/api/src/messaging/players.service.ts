@@ -33,7 +33,9 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   });
   const newBoardState = gameService.figureMoved(payload);
   const areAllPlayersDone = Array.from(players.values()).every(
-    (player) => player.status === PlayerStatus.FigurePlaced || player.status === PlayerStatus.MoveSkipped,
+    (player) =>
+      player.status === PlayerStatus.FigurePlaced ||
+      player.status === PlayerStatus.MoveSkipped,
   );
 
   publish({ type: MessageType.FigureMoved, payload: newBoardState });
@@ -132,7 +134,10 @@ export const newPlayerJoined = (): void => {
 };
 
 const publishAllPlayers = () => {
-  publish({ type: MessageType.UpdatePlayerList, payload: Array.from(players.values()) });
+  publish({
+    type: MessageType.UpdatePlayerList,
+    payload: Array.from(players.values()),
+  });
 };
 
 const publishBoard = () => {
