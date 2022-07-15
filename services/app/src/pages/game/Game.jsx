@@ -47,6 +47,7 @@ function Room() {
     [players],
   );
 
+
   const team = useMemo(
     () =>
       players
@@ -94,9 +95,8 @@ function Room() {
           removePlayer={removePlayer}
         >
           <Player
-            user={currentPlayer}
+            player={currentPlayer}
             skipMove={skipMove}
-            removePlayer={removePlayer}
           />
         </Team>
         <ChessBoard />

@@ -22,7 +22,7 @@ Array [
 exports[`player.service should join a new player 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"status\\":\\"ActionNotTaken\\"}]}",
+    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"ActionNotTaken\\"}]}",
   ],
 ]
 `;
@@ -43,7 +43,7 @@ exports[`player.service should set a turn if user\`s move already exist 1`] = `A
 exports[`player.service should skip a move for a player 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"MoveSkipped\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"status\\":\\"MoveSkipped\\"}]}",
+    "{\\"type\\":\\"MoveSkipped\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"MoveSkipped\\"}]}",
   ],
 ]
 `;

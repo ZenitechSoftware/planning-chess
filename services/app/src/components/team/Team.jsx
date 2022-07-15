@@ -24,6 +24,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
             name={player.name}
             id={player.id}
             skipMove={skipMove}
+            color={player.color}
             status={player.status}
             removePlayer={removePlayer}
           />

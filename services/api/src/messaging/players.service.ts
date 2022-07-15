@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Player, PlayerStatus } from '../domain';
+import { getPlayerAvatarColor } from '../helpers/getPlayerAvatarColor';
 import logger from '../logger';
 import {
   Handler,
@@ -139,6 +140,7 @@ export const subscribe = (
   const newPlayer: Player = {
     id: uuidv4(),
     name: playerName,
+    color: getPlayerAvatarColor(),
     status: PlayerStatus.ActionNotTaken,
   };
   players.set(ws, newPlayer);
