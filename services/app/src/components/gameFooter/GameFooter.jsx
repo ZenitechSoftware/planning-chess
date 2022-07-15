@@ -6,9 +6,6 @@ import './chess-pieces.css';
 
 function GameFooter({ skipCurrentPlayerMove }) {
   const { lastTurn, finishMove, finished, isAllTurnsMade } = useContext(ChessBoardContext);
-
-  console.log(` lastTurn: ${lastTurn}, finished: ${finished} `);
-
   return (
     <div id="game-footer">
       <div>
