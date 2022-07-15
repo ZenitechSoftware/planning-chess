@@ -21,10 +21,12 @@ const ChessBoardContextProvider = ({ children }) => {
 
   const canPlay = useMemo(() => players.length > 1, [players]);
 
+  const isAllTurnsMade = useMemo(() => turns.length === players.length, [players, turns]);
+
   const generateFinalBoard = (finalTurns) => {
-    const copyOfBoard = [...board];
+    const copyOfBoard = [...defaultBoard];
     finalTurns.forEach((turn) => {
-      if (turn.player !== username)
+      if ((!isAllTurnsMade && turn.player === username) || isAllTurnsMade)
         copyOfBoard[turn.row][turn.tile].items.push(turn);
     });
     setBoard(copyOfBoard);
@@ -34,6 +36,7 @@ const ChessBoardContextProvider = ({ children }) => {
     setScore(0);
     setBoard(defaultBoard);
     setFinished(false);
+    setLastTurn(null);
   };
 
   useEffect(() => {
@@ -91,7 +94,6 @@ const ChessBoardContextProvider = ({ children }) => {
     setLastTurn(null);
   };
 
-  const isAllTurnsMade = useMemo(() => turns === players.length, [players, turns]);
 
   return (
     <ChessBoardContext.Provider
