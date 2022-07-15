@@ -9,7 +9,7 @@ import Return from './teamComponents/Return.svg';
 import './team.css';
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
-  const { isAllTurnsMade, clearBoard } = useContext(ChessBoardContext);
+  const { clearBoard } = useContext(ChessBoardContext);
 
   return (
     <div className="team-container">

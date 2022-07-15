@@ -22,4 +22,4 @@ export const findMoveByPlayerName = (
   name: string,
 ): PlaceFigureMessage | undefined => turns.find((turn) => turn.player === name);
 
-export const getBoard = (): PlaceFigureMessage[] =>  turns;
+export const getBoard = (): PlaceFigureMessage[] => turns;
