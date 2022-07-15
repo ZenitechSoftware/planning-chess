@@ -31,7 +31,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
         ))}
       </div>
       <div className="team-list-footer">
-        <button type="button" disabled={!isAllTurnsMade} onClick={clearBoard}>
+        <button type="button" disabled={false} onClick={clearBoard}>
           <img alt="" src={Return} />
           {' '}
           Restart game

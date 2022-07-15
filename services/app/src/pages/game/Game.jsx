@@ -17,7 +17,6 @@ import {
   buildPlayerConnectedEventMessage,
   buildRemovePlayerEventMessage,
 } from '../../api/playerApi';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import Header from '../../components/header/Header';
 import '../../static/style/game.css';
 
@@ -27,9 +26,6 @@ function Room() {
 
   const { players, movedBy, playerDeleted } = useWebSockets();
   const { ws } = useContext(WsContext);
-  const {
-    score,
-  } = useContext(ChessBoardContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -86,7 +82,6 @@ function Room() {
   return (
     <div>
       <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
-      <span>{score}</span>
       <div className="game-content">
         <Team
           playerCount={players.length}

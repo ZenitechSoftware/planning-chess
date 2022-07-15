@@ -130,6 +130,7 @@ export const newPlayerJoined = (): void => {
   logger.info('Publishing: new player joined the game.');
   const allPlayers = Array.from(players.values());
   publish({ type: MessageType.UpdatePlayerList, payload: allPlayers });
+  publish({ type: MessageType.NewBoardState, payload: gameService.getBoard() });
 };
 
 export const subscribe = (
