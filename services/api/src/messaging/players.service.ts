@@ -154,7 +154,9 @@ export const subscribe = (
     id: uuidv4(),
     name: playerName,
     color: getPlayerAvatarColor(),
-    status: gameService.findMoveByPlayerName(playerName) ? PlayerStatus.FigurePlaced : PlayerStatus.ActionNotTaken,
+    status: gameService.findMoveByPlayerName(playerName)
+      ? PlayerStatus.FigurePlaced
+      : PlayerStatus.ActionNotTaken,
   };
   players.set(ws, newPlayer);
 
