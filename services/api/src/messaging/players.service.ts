@@ -39,6 +39,7 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   );
 
   publish({ type: MessageType.FigureMoved, payload: newBoardState });
+  publishAllPlayers();
   if (areAllPlayersDone) {
     publish({ type: MessageType.NewBoardState, payload: newBoardState });
   }

@@ -4,6 +4,8 @@ import playerStatuses from '../../constants/playerStatuses';
 import Skip from './teamComponents/Skip.svg';
 import Remove from './teamComponents/Remove.svg';
 import './team.css';
+import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
+import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
 function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
   return (
@@ -23,6 +25,9 @@ function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
         </div>
       </div>
       {name}
+      { status === playerStatuses.FigurePlaced && <img src={CheckMark} alt="player done icon" /> }
+      { status === playerStatuses.MoveSkipped && <img src={SkippedIcon} alt="player skipped icon" /> }
+
       <div className="team-list-item-actions">
         <button
           type="button"
