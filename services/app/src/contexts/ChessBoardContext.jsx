@@ -6,6 +6,7 @@ import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../utils/useWebSockets';
 import { WsContext } from './ws-context';
+import playerStatuses from "../constants/playerStatuses";
 
 export const ChessBoardContext = createContext();
 
@@ -16,12 +17,15 @@ const ChessBoardContextProvider = ({ children }) => {
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
-  const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
 
   const canPlay = useMemo(() => players.length > 1, [players]);
 
   const isAllTurnsMade = useMemo(() => turns.length === players.filter(p => p.status !== 'MoveSkipped' ).length, [players, turns]);
+  const finished = useMemo(() => [
+      playerStatuses.FigurePlaced,
+    playerStatuses.MoveSkipped
+  ].includes(players.find(p => p.name === username)?.status), [players]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
@@ -35,7 +39,6 @@ const ChessBoardContextProvider = ({ children }) => {
   const clearBoardItems = () => {
     setScore(0);
     setBoard(defaultBoard);
-    setFinished(false);
     setLastTurn(null);
   };
 
@@ -72,7 +75,6 @@ const ChessBoardContextProvider = ({ children }) => {
     if (myTurn && myTurn.player === username) {
       const { row, tile, figure } = myTurn;
       placeItemOnBoard(row, tile, figure);
-      setFinished(true);
       setScore(myTurn.score);
     }
   }, [myTurn]);
@@ -83,7 +85,6 @@ const ChessBoardContextProvider = ({ children }) => {
         type: 'FigureMoved',
         payload: { ...lastTurn, player: username },
       });
-      setFinished(true);
     }
   };
 
