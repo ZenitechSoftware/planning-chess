@@ -109,6 +109,7 @@ const ChessBoardContextProvider = ({ children }) => {
         finished,
         canPlay,
         isAllTurnsMade,
+        players
       }}
     >
       {children}

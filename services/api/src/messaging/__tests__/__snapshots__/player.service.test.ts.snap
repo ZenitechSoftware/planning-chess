@@ -39,6 +39,9 @@ Array [
     "{\\"type\\":\\"FigureMoved\\"}",
   ],
   Array [
+    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"status\\":\\"FigurePlaced\\"}]}",
+  ],
+  Array [
     "{\\"type\\":\\"NewBoardState\\"}",
   ],
 ]
