@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
 import Skip from '../team/teamComponents/Skip.svg';
+import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
+import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
 const Player = ({ player, skipMove }) => (
         player && (
@@ -27,6 +29,9 @@ const Player = ({ player, skipMove }) => (
             {' '}
             <span>(you)</span>
           </div>
+            { player.status === playerStatuses.FigurePlaced && <img src={CheckMark} alt="player done icon" /> }
+            { player.status === playerStatuses.MoveSkipped && <img src={SkippedIcon} alt="player skipped icon" /> }
+
           <div className="team-list-item-actions">
             <button
               type="button"
