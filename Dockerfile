@@ -17,6 +17,7 @@ COPY --from=build /opt/planning-chess/services/shared /opt/planning-chess/servic
 COPY --from=build /opt/planning-chess/services/app/dist /opt/planning-chess/services/app/dist
 COPY --from=build /opt/planning-chess/services/api/dist/src /opt/planning-chess/services/api/dist/src
 COPY --from=build /opt/planning-chess/services/api/node_modules /opt/planning-chess/services/api/node_modules
+COPY --from=build /opt/planning-chess/node_modules /opt/planning-chess/node_modules
 # ADD services/api/.env api/
 
 EXPOSE 8081

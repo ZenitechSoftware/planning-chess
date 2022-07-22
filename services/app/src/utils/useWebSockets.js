@@ -34,7 +34,7 @@ export const useWebSockets = () => {
   };
 
   useEffect(() => {
-    if (ws !== undefined) {
+    if (ws) {
       ws.addEventListener('message', (event) => {
         const { type, payload } = JSON.parse(event.data);
         websocketReducer(type, payload);

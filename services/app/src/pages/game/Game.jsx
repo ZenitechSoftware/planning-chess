@@ -33,7 +33,7 @@ function Room() {
         ws.send(buildPlayerConnectedEventMessage(username));
       }
     })
-  }, [username]);
+  }, [username, ws]);
 
   const findUserByUsername = (userName) =>
     players.find((element) => element.name === userName);

@@ -12,7 +12,7 @@ app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname + '/../../../app/dist/index.html'));
 });
 
-const server = app.listen(process.env.APP_PORT || 8081);
+const server = app.listen(process.env.PORT || 8081);
 
 const wss = new WebSocketServer({
   noServer: true,
