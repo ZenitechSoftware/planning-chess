@@ -42,8 +42,8 @@ table {
 
 #chess-board .border-tile, .non-border-tile {
   cursor: pointer;
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   position: relative;
 }
 
@@ -57,8 +57,8 @@ table {
 
 #chess-board .border-tile:hover, .non-border-tile:hover {
   border: 1px solid #6547FD;
-  width: 78px;
-  height: 78px;
+  width: 70px;
+  height: 70px;
 }
 
 #chess-board .is-empty-tile:hover::before {
@@ -107,8 +107,8 @@ table {
 #chess-board .square {
   display: flex;
   position: relative;
-  height: 78px;
-  width: 78px;
+  height: 70px;
+  width: 70px;
   margin: auto;
   flex-direction: column;
   justify-content: center;

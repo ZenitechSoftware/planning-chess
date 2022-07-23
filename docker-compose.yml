@@ -1,8 +1,8 @@
 version: "3.7"
 services:
   node:
-    # image: mykolaszenitech/planning-chess:0.0.3
-    build: .
+    image: mykolaszenitech/planning-chess:0.0.7
+    # build: .
     ports:
       - 80:80
     environment:

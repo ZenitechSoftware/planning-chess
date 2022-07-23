@@ -5,6 +5,6 @@
 .game-content {
   display: flex;
   justify-content: space-between;
-  width: 1040px;
+  width: 960px;
   margin: 16px auto 0px auto;
 }
