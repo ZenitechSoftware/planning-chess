@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyIcon from './CopyIcon';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
-import CopyLink from "./headerComponents/CopyLink.svg";
 // import Settings from "./headerComponents/Settings.svg";
 // import Info from "./headerComponents/Info.svg";
 
@@ -18,9 +17,11 @@ const Header = ({ username, roomUrl }) => {
         <img src={Logo} alt="logo" />
         <img src={Separator} alt="separator" />
         {/* <span>RoomNameExample </span> */}
-        <CopyToClipboard text={roomUrl}>
-          <img src={CopyLink} alt="copy link" style={{ cursor: "pointer" }} />
-        </CopyToClipboard>
+
+        <div className="copy-section">
+          <CopyIcon roomUrl={roomUrl} />
+        </div>
+        
         {/* <img src={Settings} alt="nav-item" /> */}
         {/* <img src={Info} alt="nav-item" /> */}
       </div>

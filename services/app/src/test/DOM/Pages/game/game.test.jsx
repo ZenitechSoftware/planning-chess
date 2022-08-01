@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Game from '../../../../pages/game/Game';
 import Player from '../../../../components/player/Player';
 import ChessGameProvider from '../../../../contexts/ChessBoardContext';
@@ -15,7 +15,6 @@ describe('Game', () => {
     expect(screen.getByText('Annotation of Work')).toBeInTheDocument();
     expect(screen.getByText('Uncertainty')).toBeInTheDocument();
     expect(screen.getByText('Complexity | Select and place the figure on the board')).toBeInTheDocument();
-    fireEvent.click(screen.getByAltText('copy link'));
   });
 
   test('test Player page elements', () => {
