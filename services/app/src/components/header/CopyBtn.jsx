@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import CopyLink from "./headerComponents/CopyLink.svg";
-import '../../static/style/header.css';
+import './copyBtn.css';
 
-const CopyIcon = ({ roomUrl }) => {
+const CopyBtn = ({ roomUrl }) => {
     const [shouldRipple, setShouldRipple] = useState(false);
     const [clickCoords, setClickCoords] = useState({ x: -1, y: -1 })
 
@@ -36,8 +36,8 @@ const CopyIcon = ({ roomUrl }) => {
     )
 };
 
-CopyIcon.propTypes = {
+CopyBtn.propTypes = {
     roomUrl: PropTypes.string.isRequired,
 }
 
-export default CopyIcon;
+export default CopyBtn;

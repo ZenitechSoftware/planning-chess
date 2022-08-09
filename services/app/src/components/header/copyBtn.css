@@ -1,0 +1,42 @@
+.copy-icon-container {
+    cursor: pointer;
+    padding: 5px 7px 7px 7px;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .copy-icon-container:hover > .copy-icon {
+    filter: invert(26%) sepia(72%) saturate(1678%) hue-rotate(212deg)
+      brightness(91%) contrast(83%);
+  }
+  
+  .copy-icon-container > .ripple {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    background-color: #acaeb1;
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    animation: ripple-effect 1.3s ease 1 forwards;
+  }
+  
+  @keyframes ripple-effect {
+    0% {
+      width: 0px;
+      height: 0px;
+      opacity: 0.5;
+    }
+    100% {
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+    }
+  }
+  
+  .copy-icon-container > .copy-icon {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+  

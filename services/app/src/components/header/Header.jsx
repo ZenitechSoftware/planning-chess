@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import CopyIcon from './CopyIcon';
+import CopyBtn from './CopyBtn';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
 // import Settings from "./headerComponents/Settings.svg";
@@ -19,7 +19,7 @@ const Header = ({ username, roomUrl }) => {
         {/* <span>RoomNameExample </span> */}
 
         <div className="copy-section">
-          <CopyIcon roomUrl={roomUrl} />
+          <CopyBtn roomUrl={roomUrl} />
         </div>
         
         {/* <img src={Settings} alt="nav-item" /> */}
