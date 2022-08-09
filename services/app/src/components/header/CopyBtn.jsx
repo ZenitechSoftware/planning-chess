@@ -29,10 +29,10 @@ const CopyBtn = ({ roomUrl }) => {
 
 
     return (
-      <div className="copy-icon-container" role="button" onClick={(e) => handleClick(e)} aria-hidden="true">
+      <button type="button" className="copy-btn-container" onClick={(e) => handleClick(e)}>
         {shouldRipple && <span className='ripple' style={{ left: `${clickCoords.x}px`, top: `${clickCoords.y}px` }} />}
         <img src={CopyLink} alt="copy link" className="copy-icon" />
-      </div>
+      </button>
     )
 };
 

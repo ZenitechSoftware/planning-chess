@@ -1,24 +1,26 @@
-.copy-icon-container {
+.copy-btn-container {
     cursor: pointer;
-    padding: 5px 7px 7px 7px;
+    padding: 7px 7px 7px 7px;
     border-radius: 5px;
     position: relative;
     overflow: hidden;
-  }
+    border: none;
+    background-color: transparent;
+}
   
-  .copy-icon-container:hover > .copy-icon {
+  .copy-btn-container:hover > .copy-icon {
     filter: invert(26%) sepia(72%) saturate(1678%) hue-rotate(212deg)
       brightness(91%) contrast(83%);
   }
   
-  .copy-icon-container > .ripple {
+  .copy-btn-container > .ripple {
     width: 5px;
     height: 5px;
     position: absolute;
     background-color: #acaeb1;
     border-radius: 100%;
     transform: translate(-50%, -50%);
-    animation: ripple-effect 1.3s ease 1 forwards;
+    animation: ripple-effect 1s ease 1 forwards;
   }
   
   @keyframes ripple-effect {
@@ -34,7 +36,7 @@
     }
   }
   
-  .copy-icon-container > .copy-icon {
+  .copy-btn-container > .copy-icon {
     position: relative;
     z-index: 2;
     pointer-events: none;
