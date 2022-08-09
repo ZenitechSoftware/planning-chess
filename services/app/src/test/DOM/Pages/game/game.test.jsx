@@ -12,7 +12,7 @@ describe('Game', () => {
         <Game />
       </ChessGameProvider>,
     );
-    expect(screen.getByText('Annotation of Work')).toBeInTheDocument();
+    expect(screen.getByText('Amount of work')).toBeInTheDocument();
     expect(screen.getByText('Uncertainty')).toBeInTheDocument();
     expect(screen.getByText('Complexity | Select and place the figure on the board')).toBeInTheDocument();
     fireEvent.click(screen.getByAltText('copy link'));

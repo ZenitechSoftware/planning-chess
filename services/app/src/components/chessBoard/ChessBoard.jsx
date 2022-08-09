@@ -10,7 +10,7 @@ const ChessBoard = () => {
   return (
     <div className="chess-board-container">
       <div className="rotated-outer">
-        <span className="rotated-inner axis-title">Annotation of Work</span>
+        <span className="rotated-inner axis-title">Amount of work</span>
       </div>
       <table id="chess-board">
         <tbody>
