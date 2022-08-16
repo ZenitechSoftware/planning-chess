@@ -11,8 +11,6 @@ const WebSocketsContextProvider = ({ children }) => {
     window.location.host
   }/api/ws-game`;
   const [ws, setWs] = useState(null);
-  let type;
-  let dat;
 
   useEffect(() => {
     const WebSockets = wsWrapper(WebSocket);
