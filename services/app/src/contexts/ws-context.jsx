@@ -29,7 +29,6 @@ const WebSocketsContextProvider = ({ children }) => {
     });
 
     webSocket.addEventListener('close', () => {
-      window.location.reload(false);
       console.log('closed');
     });
 
