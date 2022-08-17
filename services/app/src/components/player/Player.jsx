@@ -6,7 +6,7 @@ import Skip from '../team/teamComponents/Skip.svg';
 import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
 import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
-const Player = ({ player, skipMove }) => (
+const Player = ({ player }) => (
         player && (
         <>
           <div
@@ -31,16 +31,6 @@ const Player = ({ player, skipMove }) => (
           </div>
             { player.status === playerStatuses.FigurePlaced && <img src={CheckMark} alt="player done icon" /> }
             { player.status === playerStatuses.MoveSkipped && <img src={SkippedIcon} alt="player skipped icon" /> }
-
-          <div className="team-list-item-actions">
-            <button
-              type="button"
-              onClick={() => skipMove(player.id)}
-              disabled={player.status !== playerStatuses.ActionNotTaken}
-            >
-              <img alt="" src={Skip} />
-            </button>
-          </div>
         </>
         )
     );
@@ -49,7 +39,6 @@ Player.defaultProps = {
 };
 Player.propTypes = {
   player: playerPropType,
-  skipMove: PropTypes.func.isRequired,
 };
 
 export default Player;

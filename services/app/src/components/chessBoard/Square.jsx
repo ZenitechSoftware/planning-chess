@@ -13,14 +13,26 @@ const Square = ({
   filled
 }) => {
 
-  const { board } = useContext(ChessBoardContext);
+  const { board, findUserByUsername } = useContext(ChessBoardContext);
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
   const renderBubble = useCallback((item, key) => {
+    
+    const playerAvatarColor = (username) => {
+      const player = findUserByUsername(username);
+      return {
+        color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
+        backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
+      }
+    }
+    
     if (key < 2) {
       return (
-        <div 
+        <div
+          style={
+            playerAvatarColor(item.player)
+          }
           key={`bubble-${key}`}
           className={classNames({
             "bubble": true,

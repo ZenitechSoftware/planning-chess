@@ -95,11 +95,13 @@ const ChessBoardContextProvider = ({ children }) => {
     setLastTurn(null);
   };
 
+  const findUserByUsername = (userName) => players.find((element) => element.name === userName);
 
   return (
     <ChessBoardContext.Provider
       value={{
         lastTurn,
+        findUserByUsername,
         score,
         setSelectedItem,
         selectedItem,
