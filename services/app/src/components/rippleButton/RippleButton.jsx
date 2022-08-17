@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
-import CopyLink from "./headerComponents/CopyLink.svg";
-import './copyBtn.css';
+import './styles.css';
 
-const CopyBtn = ({ roomUrl }) => {
+const RippleButton = ({ onClick, children }) => {
     const [shouldRipple, setShouldRipple] = useState(false);
     const [clickCoords, setClickCoords] = useState({ x: -1, y: -1 })
 
@@ -24,20 +23,24 @@ const CopyBtn = ({ roomUrl }) => {
             y: e.clientY - e.target.offsetTop,
         })
 
-        navigator.clipboard.writeText(roomUrl);
+        onClick();
     }
 
 
     return (
       <button type="button" className="copy-btn-container" onClick={(e) => handleClick(e)}>
         {shouldRipple && <span className='ripple' style={{ left: `${clickCoords.x}px`, top: `${clickCoords.y}px` }} />}
-        <img src={CopyLink} alt="copy link" className="copy-icon" />
+        {children}
       </button>
     )
 };
 
-CopyBtn.propTypes = {
-    roomUrl: PropTypes.string.isRequired,
+RippleButton.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+    ]).isRequired
 }
 
-export default CopyBtn;
+export default RippleButton;

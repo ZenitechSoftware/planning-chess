@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import CopyBtn from './CopyBtn';
+import RippleButton from '../rippleButton/RippleButton';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
+import CopyLink from "./headerComponents/CopyLink.svg";
 // import Settings from "./headerComponents/Settings.svg";
 // import Info from "./headerComponents/Info.svg";
 
@@ -10,6 +11,10 @@ import '../../static/style/header.css';
 
 const Header = ({ username, roomUrl }) => { 
   const avatarLetter = username[0];
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(roomUrl);
+  }
 
   return (
     <div className="align-c" id="header">
@@ -19,7 +24,9 @@ const Header = ({ username, roomUrl }) => {
         {/* <span>RoomNameExample </span> */}
 
         <div className="copy-section">
-          <CopyBtn roomUrl={roomUrl} />
+          <RippleButton roomUrl={roomUrl} onClick={copyUrl}>
+            <img src={CopyLink} alt="copy link" className="copy-icon" />
+          </RippleButton>
         </div>
         
         {/* <img src={Settings} alt="nav-item" /> */}
