@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import playerPropType from '../../prop-types/player';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import playerPropType from '../../prop-types/player';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
 import CopyLink from "./headerComponents/CopyLink.svg";
@@ -43,7 +43,9 @@ const Header = ({ player, username, roomUrl }) => {
     </div>
   );
 };
-
+Header.defaultProps = {
+  player: null,
+};
 Header.propTypes = {
   username: PropTypes.string.isRequired,
   roomUrl: PropTypes.string.isRequired,
