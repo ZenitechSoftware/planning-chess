@@ -24,7 +24,7 @@ const Header = ({ username, roomUrl }) => {
         {/* <span>RoomNameExample </span> */}
 
         <div className="copy-section">
-          <RippleButton roomUrl={roomUrl} onClick={copyUrl}>
+          <RippleButton onClick={copyUrl}>
             <img src={CopyLink} alt="copy link" className="copy-icon" />
           </RippleButton>
         </div>
