@@ -23,9 +23,6 @@ const WebSocketsContextProvider = ({ children }) => {
 
     webSocket.addEventListener('message', (event) => {
       console.log('message: ', event.data);
-      if (JSON.parse(event.data).type === 'PlayerDisconnected'){
-        window.location.reload(false);
-      }
     });
 
     webSocket.addEventListener('close', () => {
