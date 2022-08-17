@@ -171,8 +171,8 @@ table {
 #chess-board .square .figure-text {
   font-family: 'Rubik';
   font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
+  font-weight: 800;
+  font-size: 15px;
   line-height: 27px;
   color: #212121;
 }

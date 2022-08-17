@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import playerPropType from '../../prop-types/player';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
@@ -9,7 +10,7 @@ import CopyLink from "./headerComponents/CopyLink.svg";
 
 import '../../static/style/header.css';
 
-const Header = ({ username, roomUrl }) => { 
+const Header = ({ player, username, roomUrl }) => { 
   const avatarLetter = username[0];
 
   return (
@@ -25,10 +26,20 @@ const Header = ({ username, roomUrl }) => {
         {/* <img src={Info} alt="nav-item" /> */}
       </div>
 
-      <div className="f-1 justify-end align-c gap-s">
-        <span className="f-center avatar">{avatarLetter}</span>
-        <span id="username">{username}</span>
-      </div>
+      {player && (
+        <div className="f-1 justify-end align-c gap-s">
+          <span 
+            className="f-center avatar"
+            style={{
+              color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
+              backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
+            }}
+          >
+            {avatarLetter}
+          </span>
+          <span id="username">{username}</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -36,6 +47,7 @@ const Header = ({ username, roomUrl }) => {
 Header.propTypes = {
   username: PropTypes.string.isRequired,
   roomUrl: PropTypes.string.isRequired,
+  player: playerPropType,
 }
 
 export default Header;

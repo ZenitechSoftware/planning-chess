@@ -80,7 +80,7 @@ function Room() {
 
   return (
     <div>
-      <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
+      <Header player={currentPlayer} username={localStorage.getItem('user')} roomUrl={roomUrl} />
       <div className="game-content">
         <Team
           playerCount={players.length}
