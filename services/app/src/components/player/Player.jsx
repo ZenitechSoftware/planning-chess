@@ -3,6 +3,7 @@ import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
 import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
 import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
+import { rgbToColor } from '../../helpers/rgbToColor';
 
 const Player = ({ player }) => (
         player && (
@@ -10,13 +11,13 @@ const Player = ({ player }) => (
           <div
             className="team-list-item-avatar"
             style={{
-                        backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
+                        backgroundColor: rgbToColor(player.color.background),
                     }}
           >
             <div
               className="team-list-item-avatar-text"
               style={{
-                            color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
+                        color: rgbToColor(player.color.text),
                         }}
             >
               {player.name[0].toUpperCase()}

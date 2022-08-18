@@ -7,11 +7,12 @@ import Separator from "./headerComponents/SolidSeparator.svg";
 import CopyLink from "./headerComponents/CopyLink.svg";
 // import Settings from "./headerComponents/Settings.svg";
 // import Info from "./headerComponents/Info.svg";
+import { rgbToColor } from '../../helpers/rgbToColor';
 
 import '../../static/style/header.css';
 
-const Header = ({ player, username, roomUrl }) => { 
-  const avatarLetter = username[0];
+const Header = ({ player, roomUrl }) => { 
+  const avatarLetter = player?.name[0];
 
   return (
     <div className="align-c" id="header">
@@ -31,13 +32,13 @@ const Header = ({ player, username, roomUrl }) => {
           <span 
             className="f-center avatar"
             style={{
-              color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
-              backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
+              color: rgbToColor(player.color.text),
+              backgroundColor: rgbToColor(player.color.background),
             }}
           >
             {avatarLetter}
           </span>
-          <span id="username">{username}</span>
+          <span id="username">{player.name}</span>
         </div>
       )}
     </div>
@@ -47,7 +48,6 @@ Header.defaultProps = {
   player: null,
 };
 Header.propTypes = {
-  username: PropTypes.string.isRequired,
   roomUrl: PropTypes.string.isRequired,
   player: playerPropType,
 }

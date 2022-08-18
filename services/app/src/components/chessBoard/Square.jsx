@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { PIECES } from '../../constants/board';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { rgbToColor } from '../../helpers/rgbToColor';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -22,8 +23,8 @@ const Square = ({
     const playerAvatarColor = (username) => {
       const player = findUserByUsername(username);
       return {
-        color: `rgb(${player.color.text.r}, ${player.color.text.g}, ${player.color.text.b})`,
-        backgroundColor: `rgb(${player.color.background.r}, ${player.color.background.g}, ${player.color.background.b})`,
+        color: rgbToColor(player.color.text),
+        backgroundColor: rgbToColor(player.color.background),
       }
     }
     
