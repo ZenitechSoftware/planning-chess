@@ -18,15 +18,15 @@ const Square = ({
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  const renderBubble = useCallback((item, key) => {
-    
-    const playerAvatarColor = (username) => {
-      const player = findUserByUsername(username);
-      return {
-        color: rgbToColor(player.color.text),
-        backgroundColor: rgbToColor(player.color.background),
-      }
+  const playerAvatarColor = (username) => {
+    const player = findUserByUsername(username);
+    return {
+      color: rgbToColor(player.color.text),
+      backgroundColor: rgbToColor(player.color.background),
     }
+  }
+
+  const renderBubble = useCallback((item, key) => {
     
     if (key < 2) {
       return (
@@ -87,7 +87,12 @@ const Square = ({
           <span className="header">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
-              <div className={classNames(["bubble", "multiple-bubbles"])}>
+              <div 
+                className={classNames(["bubble", "multiple-bubbles"])}
+                style={
+                  playerAvatarColor(item.player)
+                }  
+              >
                 <span className="name">{item.player[0]}</span>
               </div>
               <span className="text">
