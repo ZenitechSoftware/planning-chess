@@ -38,6 +38,7 @@ function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
         </button>
         <button
           type="button"
+          style={{ display: 'none' }}
           onClick={() => removePlayer(id)}
         >
           <img alt="" src={Remove} />

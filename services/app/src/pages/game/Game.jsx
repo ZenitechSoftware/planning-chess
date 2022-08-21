@@ -66,7 +66,7 @@ function Room() {
     if (userId) {
       ws.send(buildMoveSkippedEventMessage(userId));
     }
-  }, []);
+  }, [ws]);
 
   const skipCurrentPlayerMove = useCallback(() => {
     skipMove(currentPlayer?.id);
@@ -80,7 +80,7 @@ function Room() {
 
   return (
     <div>
-      <Header username={localStorage.getItem('user')} roomUrl={roomUrl} />
+      <Header player={currentPlayer} roomUrl={roomUrl} />
       <div className="game-content">
         <Team
           playerCount={players.length}
@@ -90,7 +90,6 @@ function Room() {
         >
           <Player
             player={currentPlayer}
-            skipMove={skipMove}
           />
         </Team>
         <ChessBoard />

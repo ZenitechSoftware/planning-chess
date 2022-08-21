@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import playerPropType from '../../prop-types/player';
 import RippleButton from '../rippleButton/RippleButton';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
 import CopyLink from "./headerComponents/CopyLink.svg";
 // import Settings from "./headerComponents/Settings.svg";
 // import Info from "./headerComponents/Info.svg";
+import { rgbToColor } from '../../helpers/rgbToColor';
 
 import '../../static/style/header.css';
 
-const Header = ({ username, roomUrl }) => { 
-  const avatarLetter = username[0];
+const Header = ({ player, roomUrl }) => { 
+  const avatarLetter = player?.name[0];
 
   const copyUrl = () => {
     navigator.clipboard.writeText(roomUrl);
@@ -33,17 +35,29 @@ const Header = ({ username, roomUrl }) => {
         {/* <img src={Info} alt="nav-item" /> */}
       </div>
 
-      <div className="f-1 justify-end align-c gap-s">
-        <span className="f-center avatar">{avatarLetter}</span>
-        <span id="username">{username}</span>
-      </div>
+      {player && (
+        <div className="f-1 justify-end align-c gap-s">
+          <span 
+            className="f-center avatar"
+            style={{
+              color: rgbToColor(player.color.text),
+              backgroundColor: rgbToColor(player.color.background),
+            }}
+          >
+            {avatarLetter}
+          </span>
+          <span id="username">{player.name}</span>
+        </div>
+      )}
     </div>
   );
 };
-
+Header.defaultProps = {
+  player: null,
+};
 Header.propTypes = {
-  username: PropTypes.string.isRequired,
   roomUrl: PropTypes.string.isRequired,
+  player: playerPropType,
 }
 
 export default Header;
