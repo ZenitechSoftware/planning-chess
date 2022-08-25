@@ -64,7 +64,7 @@ const Square = ({
             <img src={figures[item.figure].img} alt={item.figure} className={classNames(["figure-img", key > 0 && "figure-img-nth"])} />
           </div>
         ))}
-        {filteredFigures.length === 1 && <span className="figure-text">{`${PIECES.find(piece => piece.name === items[0].figure).strength}`}</span>}
+        {filteredFigures.length === 1 && <span className="figure-text">{`${figures[items[0].figure].strength}`}</span>}
         {filteredFigures.length > 2 && <span className="figure-text figure-text-margin">{`+${items.length - 2}`}</span>}
       </div>
       {!!items.length &&
