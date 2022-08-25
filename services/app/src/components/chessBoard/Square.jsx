@@ -44,7 +44,7 @@ const Square = ({
           <span className="name">{item.player[0]}</span>
         </div>
       )
-    } 
+    }
     if (key === 2) {
       return (
         <div key={`bubble-${key}`} className="bubble nth-bubble multiple-bubbles">
@@ -62,7 +62,7 @@ const Square = ({
   }
 
   return (
-    <div 
+    <div
       className={classNames(["square", !items.length && row !== board.length - 1 && column !== 0 && 'is-empty-tile'])}
       onMouseEnter={() => updatePopover(true)}
       onMouseLeave={() => updatePopover(false)}
@@ -77,10 +77,10 @@ const Square = ({
             <img src={figures[item.figure].img} alt={item.figure} className={classNames(["figure-img", key > 0 && "figure-img-nth"])} />
           </div>
         ))}
-        {filteredFigures.length === 1 && <span className="figure-text">{`${items[0].score} SP`}</span>}
+        {filteredFigures.length === 1 && <span className="figure-text">{`${figures[items[0].figure].strength}`}</span>}
         {filteredFigures.length > 2 && <span className="figure-text figure-text-margin">{`+${items.length - 2}`}</span>}
       </div>
-      {!!items.length && 
+      {!!items.length &&
       <span className={classNames(["number", "number-column", filled && "number-filled"])}>{board[board.length - 1][column].attribute}</span>}
       {!!items.length && (
         <div className={classNames(["pop-over", showPopover && "pop-over-opened"])}>
