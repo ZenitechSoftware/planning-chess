@@ -1,4 +1,4 @@
-import { roundUp } from '../calculateScore';
+import { roundUp } from '@planning-chess/shared';
 
 describe('calculateScore.ts', function () {
   it('should return rounded number', function () {
