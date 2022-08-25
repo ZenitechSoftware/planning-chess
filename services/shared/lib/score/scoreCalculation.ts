@@ -15,7 +15,5 @@ export function roundUp(score: number): number {
     secondNumber = thirdNumber;
     thirdNumber = firstNumber + secondNumber;
   }
-  return thirdNumber - score >= secondNumber - score
-    ? thirdNumber
-    : secondNumber;
+  return secondNumber - score == 0 ? secondNumber : thirdNumber;
 }
