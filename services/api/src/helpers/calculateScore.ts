@@ -74,7 +74,7 @@ export const roundUp = (score: number): number => {
     secondNumber = thirdNumber;
     thirdNumber = firstNumber + secondNumber;
   }
-  return Math.abs(thirdNumber - score) >= Math.abs(secondNumber - score)
-    ? secondNumber
-    : thirdNumber;
+  return thirdNumber - score >= secondNumber - score
+    ? thirdNumber
+    : secondNumber;
 };

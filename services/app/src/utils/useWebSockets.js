@@ -16,6 +16,8 @@ export const useWebSockets = () => {
     switch (type) {
       case 'UpdatePlayerList':
         return setPlayers(payload);
+      case 'PlayerDisconnected' :
+        return setPlayers(payload);
       case 'NewBoardState':
         return setTurns(payload);
       case 'FigureMoved':

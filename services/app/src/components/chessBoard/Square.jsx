@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { PIECES } from '../../constants/board';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { rgbToColor } from '../../helpers/rgbToColor';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -13,14 +14,26 @@ const Square = ({
   filled
 }) => {
 
-  const { board } = useContext(ChessBoardContext);
+  const { board, findUserByUsername } = useContext(ChessBoardContext);
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
+  const playerAvatarColor = (username) => {
+    const player = findUserByUsername(username);
+    return {
+      color: rgbToColor(player.color.text),
+      backgroundColor: rgbToColor(player.color.background),
+    }
+  }
+
   const renderBubble = useCallback((item, key) => {
+    
     if (key < 2) {
       return (
         <div
+          style={
+            playerAvatarColor(item.player)
+          }
           key={`bubble-${key}`}
           className={classNames({
             "bubble": true,
@@ -74,7 +87,12 @@ const Square = ({
           <span className="header">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
-              <div className={classNames(["bubble", "multiple-bubbles"])}>
+              <div 
+                className={classNames(["bubble", "multiple-bubbles"])}
+                style={
+                  playerAvatarColor(item.player)
+                }  
+              >
                 <span className="name">{item.player[0]}</span>
               </div>
               <span className="text">
