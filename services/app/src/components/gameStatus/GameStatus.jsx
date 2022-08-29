@@ -6,9 +6,9 @@ import CompletedIcon from './statusComponents/completedIcon.svg';
 import {ChessBoardContext} from "../../contexts/ChessBoardContext";
 
 function GameStatus() {
-  const { isAllTurnsMade, score } = useContext(ChessBoardContext);
+  const { isAllTurnsMade, globalScore } = useContext(ChessBoardContext);
 
-  const gameStatusText = isAllTurnsMade ? `Game complete - ${score}SP` : "Game in progress...";
+  const gameStatusText = isAllTurnsMade ? `Game complete - ${globalScore}SP` : "Game in progress...";
   const iconScr = isAllTurnsMade ? CompletedIcon : ClockIcon;
 
   return (

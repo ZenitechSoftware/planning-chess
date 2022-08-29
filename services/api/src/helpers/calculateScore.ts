@@ -1,4 +1,5 @@
 import { PlaceFigureMessage } from '../domain/messages';
+import { calculateAverage, roundUp } from '@planning-chess/shared';
 
 interface NumberObjects {
   [index: number]: number;
@@ -55,26 +56,4 @@ export const calculateScore = (moveValues: PlaceFigureMessage): number => {
   moveValueArray.push(pieceToScoreMap[selectedPiece]);
   const avg = calculateAverage(moveValueArray);
   return roundUp(avg);
-};
-
-const calculateAverage = (moveValues: number[]): number => {
-  const sum = moveValues.reduce((val, res) => val + res);
-  return sum / moveValues.length;
-};
-
-export const roundUp = (score: number): number => {
-  if (score == 0) {
-    return 0;
-  }
-  let firstNumber = 0;
-  let secondNumber = 1;
-  let thirdNumber = firstNumber + secondNumber;
-  while (thirdNumber <= score) {
-    firstNumber = secondNumber;
-    secondNumber = thirdNumber;
-    thirdNumber = firstNumber + secondNumber;
-  }
-  return thirdNumber - score >= secondNumber - score
-    ? thirdNumber
-    : secondNumber;
 };

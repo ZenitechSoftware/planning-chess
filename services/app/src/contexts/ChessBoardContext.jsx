@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/prop-types */
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
@@ -18,6 +19,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [score, setScore] = useState(0);
+  const [globalScore, setGlobalScore] = useState(0);
 
   const canPlay = useMemo(() => players.length > 1, [players]);
 
@@ -29,10 +31,14 @@ const ChessBoardContextProvider = ({ children }) => {
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
+    const gameScore = [];
     finalTurns.forEach((turn) => {
       if ((!isAllTurnsMade && turn.player === username) || isAllTurnsMade)
         copyOfBoard[turn.row][turn.tile].items.push(turn);
+        gameScore.push(turn.score);
     });
+    const avg = calculateAverage(gameScore);
+    setGlobalScore(roundUp(avg))
     setBoard(copyOfBoard);
   };
 
@@ -112,7 +118,8 @@ const ChessBoardContextProvider = ({ children }) => {
         finished,
         canPlay,
         isAllTurnsMade,
-        players
+        players,
+        globalScore
       }}
     >
       {children}
