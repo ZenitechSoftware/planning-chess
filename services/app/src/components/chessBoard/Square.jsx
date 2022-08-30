@@ -20,6 +20,7 @@ const Square = ({
 
   const playerAvatarColor = (username) => {
     const player = findUserByUsername(username);
+    if(!player) return;
     return {
       color: rgbToColor(player.color.text),
       backgroundColor: rgbToColor(player.color.background),
