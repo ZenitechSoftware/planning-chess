@@ -1,0 +1,8 @@
+.login-screen {
+    background: #f3f6fa;
+    min-height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
