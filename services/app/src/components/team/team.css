@@ -32,6 +32,24 @@
   flex-direction: column;
   padding: 0px 24px;
   flex-grow: 1;
+  max-height: 392px;
+  overflow:hidden;
+  overflow-y:auto;
+}
+
+.team-list-items::-webkit-scrollbar {
+  width: 12px;
+}
+
+.team-list-items::-webkit-scrollbar-track {
+  background-color: #F9F9F9;
+}
+
+.team-list-items::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 100vw;
+  border-radius: 100vw;
+  background-color: #BDBDBD;
+  border: 3px solid #F9F9F9;
 }
 
 .team-list-item {
