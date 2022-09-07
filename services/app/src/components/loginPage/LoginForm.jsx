@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router';
 import { WsContext } from '../../contexts/ws-context';
 import './loginPage.css'
 import userInputIcon from './SVGs/userInputIcon.svg';
+import { gameRoomUrl } from '../../constants/urls';
+import { buildPlayerConnectedEventMessage } from '../../api/playerApi';
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const navigateUrl = '/game/test';
+  const navigateUrl = gameRoomUrl;
   const { ws } = useContext(WsContext);
 
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
@@ -16,10 +18,9 @@ const LoginForm = () => {
     window.localStorage.setItem('user', event.target.username.value);
     navigate(navigateUrl);
     ws.send(
-      JSON.stringify({
-        type: 'PlayerConnected',
-        payload: { playerName: event.target.username.value },
-      }),
+      JSON.stringify(
+        buildPlayerConnectedEventMessage(event.target.username.value)
+      ),
     );
   }
 
@@ -32,7 +33,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form id="login-form" onSubmit={(event) => submitInfo(event)}>
+    <form className="login-form" onSubmit={submitInfo}>
       <div className="form-text">
         <h2>Welcome! Let&rsquo;s begin.</h2>
         <p>Firstly, enter your name:</p>
@@ -48,14 +49,14 @@ const LoginForm = () => {
             id="username-input"
             autoFocus
             placeholder="Enter your name here"
-            onChange={(event) => checkInputLength(event)}
+            onChange={checkInputLength}
           />
         </div>
       </div>
 
       <button 
         type="submit" 
-        id="enter-game-btn"
+        className="enter-game-btn"
         disabled={btnIsDisabled}
       >
         Enter Game

@@ -1,14 +1,14 @@
 /*Header.jsx*/
-#login-page-header {
+.login-page-header {
     padding-top: 1rem;
     padding-left: 2rem;
 }
 
 /*LoginForm.jsx*/
-#login-form {
+.login-form {
     width: 40%;
     height: 40vh;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     border: 1px solid rgba(33, 33, 33, 0.12);
     border-radius: 4px;
     margin: auto;
@@ -56,9 +56,9 @@
     outline: none;
 }
 
-#enter-game-btn {
+.enter-game-btn {
     background-color: #3C64B1;
-    color: #ffffff;
+    color: #FFFFFF;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -70,7 +70,7 @@
 
 
 
-#enter-game-btn:disabled {
+.enter-game-btn:disabled {
     background-color: rgba(60, 100, 177, 0.24);
     cursor: not-allowed;
 }
