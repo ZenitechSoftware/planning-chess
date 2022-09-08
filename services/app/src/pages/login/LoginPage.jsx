@@ -9,10 +9,9 @@ import { gameRoomUrl } from '../../constants/urls';
 
 const LoginPage = () => {
   const authentication = localStorage.getItem('user');
-  const navigateUrl = gameRoomUrl;
 
   return authentication ? (
-    <Navigate to={navigateUrl} />
+    <Navigate to={gameRoomUrl} />
   ) : (
     <div className="login-screen f-column-between">
       <Header />

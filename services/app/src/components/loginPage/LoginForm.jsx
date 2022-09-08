@@ -18,10 +18,9 @@ const LoginForm = () => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
     navigate(navigateUrl);
+    console.log(event.target.username.value)
     ws.send(
-      JSON.stringify(
-        buildPlayerConnectedEventMessage(event.target.username.value)
-      ),
+      buildPlayerConnectedEventMessage(event.target.username.value)
     );
   }
 
@@ -34,14 +33,14 @@ const LoginForm = () => {
   }
 
   return (
-    <form className="login-form" onSubmit={submitInfo}>
+    <form className="login-form" onSubmit={(event) =>submitInfo(event)}>
       <div className="form-text">
         <h2>Welcome! Let&rsquo;s begin.</h2>
         <p>Firstly, enter your name:</p>
       </div>
 
       <div className='form-input-container'>
-        {/* eslint-disable-next-line */}
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor='username-input'>Name</label>
         <div className="user-input-container">
           <img src={userInputIcon} alt="userInputIcon" />
@@ -50,7 +49,7 @@ const LoginForm = () => {
             name="username" 
             id="username-input"
             className='login-input user-input-font'
-            /* eslint-disable-next-line */
+            /* eslint-disable-next-line jsx-a11y/no-autofocus */
             autoFocus
             placeholder="Enter your name here"
             onChange={checkInputLength}
