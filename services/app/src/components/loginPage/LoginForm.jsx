@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { WsContext } from '../../contexts/ws-context';
 import './loginPage.css'
+import '../../static/style/fonts.css'
 import userInputIcon from './SVGs/userInputIcon.svg';
 import { gameRoomUrl } from '../../constants/urls';
 import { buildPlayerConnectedEventMessage } from '../../api/playerApi';
@@ -40,6 +41,7 @@ const LoginForm = () => {
       </div>
 
       <div className='form-input-container'>
+        {/* eslint-disable-next-line */}
         <label htmlFor='username-input'>Name</label>
         <div className="user-input-container">
           <img src={userInputIcon} alt="userInputIcon" />
@@ -47,6 +49,8 @@ const LoginForm = () => {
             type="text" 
             name="username" 
             id="username-input"
+            className='login-input user-input-font'
+            /* eslint-disable-next-line */
             autoFocus
             placeholder="Enter your name here"
             onChange={checkInputLength}
@@ -56,7 +60,7 @@ const LoginForm = () => {
 
       <button 
         type="submit" 
-        className="enter-game-btn"
+        className="enter-game-btn login-input user-input-font"
         disabled={btnIsDisabled}
       >
         Enter Game

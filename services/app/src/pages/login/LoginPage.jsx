@@ -4,7 +4,7 @@ import '../../static/style/loginScreen.css'
 import '../../static/style/layout.css'
 import Header from '../../components/loginPage/Header'
 import LoginForm from '../../components/loginPage/LoginForm'
-import WebFooter from '../../components/webFooter/WebFooter'
+import Footer from '../../components/pageFooter/Footer'
 import { gameRoomUrl } from '../../constants/urls';
 
 const LoginPage = () => {
@@ -17,7 +17,7 @@ const LoginPage = () => {
     <div className="login-screen f-column-between">
       <Header />
       <LoginForm />
-      <WebFooter />
+      <Footer />
     </div>
   )
 }

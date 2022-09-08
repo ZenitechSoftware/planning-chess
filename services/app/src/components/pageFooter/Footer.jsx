@@ -1,7 +1,7 @@
 import React from 'react'
-import './webFooter.css'
+import './footer.css'
 
-const WebFooter = () => (
+const Footer = () => (
   <footer className='web-footer-container'>
     <p className='footer-p'>© Zenitech. All rights reserved</p>
     <a href="https://zenitech.co.uk" className='zenitech-link' target="_blank" rel="noreferrer">
@@ -10,4 +10,4 @@ const WebFooter = () => (
   </footer>
 )
 
-export default WebFooter
+export default Footer;

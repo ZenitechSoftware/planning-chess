@@ -17,11 +17,5 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'no-nested-ternary': 'off',
     'import/prefer-default-export': 'off',
-    'jsx-a11y/label-has-associated-control': [ 2, {
-      "required": {
-        "some": [ "nesting", "id" ]
-      },
-    }],
-    "jsx-a11y/no-autofocus": [ 0, {}],
   },
 };
