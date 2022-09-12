@@ -1,26 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { WsContext } from '../../contexts/ws-context';
 import './loginPage.css'
 import '../../static/style/fonts.css'
 import userInputIcon from './SVGs/userInputIcon.svg';
-import { gameRoomUrl } from '../../constants/urls';
-import { buildPlayerConnectedEventMessage } from '../../api/playerApi';
+import * as paths from '../../constants/urls'
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const navigateUrl = gameRoomUrl;
-  const { ws } = useContext(WsContext);
 
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
 
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
-    navigate(`/${navigateUrl}`);
-    ws.send(
-      buildPlayerConnectedEventMessage(event.target.username.value)
-    );
+    navigate(paths.gameRoomUrl);
   }
 
   const checkInputLength = (event) => {
