@@ -1,0 +1,72 @@
+/*Header.jsx*/
+.login-page-header {
+    padding-top: 1rem;
+    padding-left: 2rem;
+}
+
+/*LoginForm.jsx*/
+.login-form {
+    width: 40%;
+    height: 40vh;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(33, 33, 33, 0.12);
+    border-radius: 4px;
+    margin: auto;
+    padding: 3em 4em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-text {
+    width: 75%;
+}
+
+.form-text > p {
+    color: #666666;
+}
+
+.form-input-container {
+    width: 75%;
+}
+
+.user-input-container {
+    margin-top: .7em;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.user-input-container > * {
+    padding: 1em;
+}
+
+#username-input {
+    padding: 0;
+    border: none;
+    width: 100%;
+}
+
+#username-input:focus {
+    outline: none;
+}
+
+.enter-game-btn {
+    background-color: #3C64B1;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 75%;
+}
+
+.enter-game-btn:disabled {
+    background-color: rgba(60, 100, 177, 0.24);
+    cursor: not-allowed;
+}
+
+.login-input {
+    height: 48px;
+}

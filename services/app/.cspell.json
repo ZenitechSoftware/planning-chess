@@ -4,7 +4,8 @@
     "nosniff",
     "chunkhash",
     "abcdefghijklmnopqrstuvwxyz",
-    "evenodd"
+    "evenodd",
+    "zenitech"
   ],
   "ignorePaths": ["*.svg"]
 }

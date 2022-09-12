@@ -1,36 +1,24 @@
-import React, { useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router';
-import { WsContext } from '../../contexts/ws-context';
+import React from 'react';
+import { Navigate } from 'react-router';
+import '../../static/style/loginScreen.css'
+import '../../static/style/layout.css'
+import Header from '../../components/loginPage/Header'
+import LoginForm from '../../components/loginPage/LoginForm'
+import Footer from '../../components/pageFooter/Footer'
+import * as paths from '../../constants/urls'
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const authentication = localStorage.getItem('user');
-  const { ws } = useContext(WsContext);
-  const navigateUrl = '/game/test';
-
-  const submitInfo = (event) => {
-    event.preventDefault();
-    window.localStorage.setItem('user', event.target.username.value);
-    navigate(navigateUrl);
-    ws.send(
-      JSON.stringify({
-        type: 'PlayerConnected',
-        payload: { playerName: event.target.username.value },
-      }),
-    );
-  };
 
   return authentication ? (
-    <Navigate to={navigateUrl} />
+    <Navigate to={paths.gameRoomUrl} />
   ) : (
-    <div>
-      <div>Enter your name</div>
-      <form onSubmit={(event) => submitInfo(event)}>
-        <input type="text" name="username" />
-        <button type="submit">Enter Game</button>
-      </form>
+    <div className="login-screen f-column-between">
+      <Header />
+      <LoginForm />
+      <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

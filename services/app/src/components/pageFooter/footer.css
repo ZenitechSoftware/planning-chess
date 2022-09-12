@@ -1,0 +1,26 @@
+
+.web-footer-container {
+    background-color: #373F41;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #FFFFFF;
+    font-size: 1rem;
+}
+
+.footer-p {
+    letter-spacing: .1px;
+    padding-left: 2rem;
+}
+
+.zenitech-link {
+    text-decoration: none;
+    color: #FFFFFF;
+    padding-right: 2rem;
+}
+
+.zenitech-link:visited {
+    text-decoration: none;
+}
