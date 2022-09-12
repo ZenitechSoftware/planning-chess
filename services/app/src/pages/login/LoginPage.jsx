@@ -11,7 +11,7 @@ const LoginPage = () => {
   const authentication = localStorage.getItem('user');
 
   return authentication ? (
-    <Navigate to={gameRoomUrl} />
+    <Navigate to={`/${gameRoomUrl}`} />
   ) : (
     <div className="login-screen f-column-between">
       <Header />

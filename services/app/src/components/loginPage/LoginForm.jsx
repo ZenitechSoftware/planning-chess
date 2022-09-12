@@ -17,8 +17,7 @@ const LoginForm = () => {
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
-    navigate(navigateUrl);
-    console.log(event.target.username.value)
+    navigate(`/${navigateUrl}`);
     ws.send(
       buildPlayerConnectedEventMessage(event.target.username.value)
     );
@@ -33,7 +32,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form className="login-form" onSubmit={(event) =>submitInfo(event)}>
+    <form className="login-form" onSubmit={submitInfo}>
       <div className="form-text">
         <h2>Welcome! Let&rsquo;s begin.</h2>
         <p>Firstly, enter your name:</p>
