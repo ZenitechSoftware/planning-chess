@@ -7,6 +7,7 @@ import GameInfo from '../gameStatus/GameInfo';
 import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
+import '../../static/style/scrollbar.css'
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
   const { clearBoard } = useContext(ChessBoardContext);
@@ -16,7 +17,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
       <GameStatus />
       <GameInfo playerCount={playerCount} />
 
-      <div className="team-list-items">
+      <div className="team-list-items scrollbar-style">
         <div className="team-list-item">{children}</div>
         {players.map((player) => (
           <TeamMember

@@ -37,21 +37,6 @@
   overflow-y:auto;
 }
 
-.team-list-items::-webkit-scrollbar {
-  width: 12px;
-}
-
-.team-list-items::-webkit-scrollbar-track {
-  background-color: #F9F9F9;
-}
-
-.team-list-items::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 100vw;
-  border-radius: 100vw;
-  background-color: #BDBDBD;
-  border: 3px solid #F9F9F9;
-}
-
 .team-list-item {
   display: flex;
   flex-direction: row;
