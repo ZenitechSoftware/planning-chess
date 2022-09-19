@@ -17,7 +17,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
       <GameStatus />
       <GameInfo playerCount={playerCount} />
 
-      <div className="team-list-items scrollbar-style">
+      <div className="team-list-items">
         <div className="team-list-item">{children}</div>
         {players.map((player) => (
           <TeamMember
