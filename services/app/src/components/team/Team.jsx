@@ -7,7 +7,6 @@ import GameInfo from '../gameStatus/GameInfo';
 import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
-import '../../static/style/scrollbar.css'
 
 function Team({ players, skipMove, children, removePlayer, playerCount }) {
   const { clearBoard } = useContext(ChessBoardContext);
