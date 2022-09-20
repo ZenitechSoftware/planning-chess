@@ -32,6 +32,9 @@
   flex-direction: column;
   padding: 0px 24px;
   flex-grow: 1;
+  max-height: 392px;
+  overflow:hidden;
+  overflow-y:auto;
 }
 
 .team-list-item {
