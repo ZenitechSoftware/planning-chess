@@ -5,13 +5,15 @@ import '../../static/style/layout.css'
 import Header from '../../components/loginPage/Header'
 import LoginForm from '../../components/loginPage/LoginForm'
 import Footer from '../../components/pageFooter/Footer'
-import * as paths from '../../constants/urls'
+import { useGameId } from '../../hooks/useGameId';
+import * as paths from "../../constants/urls";
 
 const LoginPage = () => {
   const authentication = localStorage.getItem('user');
 
+  const { getGameId } = useGameId();
   return authentication ? (
-    <Navigate to={paths.gameRoomUrl} />
+    <Navigate to={paths.gameRoomUrl(getGameId())} />
   ) : (
     <div className="login-screen f-column-between">
       <Header />

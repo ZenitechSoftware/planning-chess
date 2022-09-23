@@ -2,6 +2,8 @@ import WebSocket from 'ws';
 import * as playerService from '../players.service';
 import { MessageType } from '../../domain/messages';
 import * as gameService from '../../game/game.service';
+import * as gameRoomService from '../../game/game-room.service';
+import { GameWebSocket } from '../../domain/GameRoom';
 
 jest.mock('ws');
 jest.mock('uuid', () => ({
@@ -10,8 +12,12 @@ jest.mock('uuid', () => ({
 jest.mock('../../game/game.service');
 
 describe('player.service', () => {
-  const ws = new WebSocket('');
+  const roomId = 'abcd-1234';
+  const ws: GameWebSocket = new WebSocket('') as GameWebSocket;
+  ws.roomId = roomId;
+
   beforeAll(() => {
+    gameRoomService.getOrCreateRoom(roomId);
     jest.spyOn(global.Math, 'random').mockReturnValue(1);
     Object.defineProperty(ws, 'readyState', { value: WebSocket.OPEN });
     playerService.subscribe(ws, { playerName: 'player1' });
@@ -30,6 +36,7 @@ describe('player.service', () => {
       type: MessageType.PlayerConnected,
       payload: { playerName: 'foo' },
     };
+
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
@@ -88,18 +95,18 @@ describe('player.service', () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
-    expect(gameService.figureMoved).toBeCalledWith(payload);
+    expect(gameService.figureMoved).toBeCalledWith(roomId, payload);
   });
 
   it('should clear the board', async () => {
     const sendMock = jest.spyOn(ws, 'send');
-    playerService.clearBoard();
+    playerService.clearBoard(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
   it('should disconnect a player', async () => {
     const sendMock = jest.spyOn(ws, 'send');
-    playerService.playerDisconnected();
+    playerService.playerDisconnected(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 

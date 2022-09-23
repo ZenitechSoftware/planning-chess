@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gameRoomService should create new room 1`] = `
+Object {
+  "players": Map {},
+  "roomId": "some-short-v4-uuid-0",
+  "server": WebSocketServer {
+    "_events": Object {},
+    "_eventsCount": 0,
+    "_maxListeners": undefined,
+    "_shouldEmitClose": false,
+    "_state": 0,
+    "clients": Set {},
+    "options": Object {
+      "WebSocket": [Function],
+      "backlog": null,
+      "clientTracking": true,
+      "handleProtocols": null,
+      "host": null,
+      "maxPayload": 104857600,
+      "noServer": true,
+      "path": null,
+      "perMessageDeflate": false,
+      "port": null,
+      "server": null,
+      "skipUTF8Validation": false,
+      "verifyClient": null,
+    },
+    Symbol(kCapture): false,
+  },
+  "turns": Array [],
+}
+`;
+
+exports[`gameRoomService should get existing room 1`] = `
+Object {
+  "players": Map {},
+  "roomId": "abcd-1234",
+  "server": WebSocketServer {
+    "_events": Object {},
+    "_eventsCount": 0,
+    "_maxListeners": undefined,
+    "_shouldEmitClose": false,
+    "_state": 0,
+    "clients": Set {},
+    "options": Object {
+      "WebSocket": [Function],
+      "backlog": null,
+      "clientTracking": true,
+      "handleProtocols": null,
+      "host": null,
+      "maxPayload": 104857600,
+      "noServer": true,
+      "path": null,
+      "perMessageDeflate": false,
+      "port": null,
+      "server": null,
+      "skipUTF8Validation": false,
+      "verifyClient": null,
+    },
+    Symbol(kCapture): false,
+  },
+  "turns": Array [],
+}
+`;

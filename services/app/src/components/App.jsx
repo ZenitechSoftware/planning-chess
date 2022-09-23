@@ -11,13 +11,13 @@ import '../static/style/index.css';
 
 function App() {
   return (
-    <WebSocketsContextProvider>
-      <ChessGameProvider>
-        <Router>
+    <Router>
+      <WebSocketsContextProvider>
+        <ChessGameProvider>
           <Content />
-        </Router>
-      </ChessGameProvider>
-    </WebSocketsContextProvider>
+        </ChessGameProvider>
+      </WebSocketsContextProvider>
+    </Router>
   );
 }
 
