@@ -5,11 +5,12 @@ import wsWrapper from '../helpers/wsWrapper';
 
 export const WsContext = createContext('');
 
+// TODO what if server is running on different port?
+const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.location.host;
+
 // eslint-disable-next-line react/prop-types
 const WebSocketsContextProvider = ({ children }) => {
-  const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${
-    window.location.host
-  }/api/ws-game`;
+  const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/ws-game`;
   const [ws, setWs] = useState(null);
 
   useEffect(() => {
