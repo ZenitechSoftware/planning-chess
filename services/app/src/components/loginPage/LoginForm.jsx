@@ -4,16 +4,17 @@ import './loginPage.css'
 import '../../static/style/fonts.css'
 import userInputIcon from './SVGs/userInputIcon.svg';
 import * as paths from '../../constants/urls'
+import {useGameId} from "../../hooks/useGameId";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
+  const { gameId } = useGameId();
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
 
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
-    navigate(paths.gameRoomUrl);
+    navigate(paths.gameRoomUrl(gameId));
   }
 
   const checkInputLength = (event) => {
@@ -36,9 +37,9 @@ const LoginForm = () => {
         <label htmlFor='username-input'>Name</label>
         <div className="user-input-container">
           <img src={userInputIcon} alt="userInputIcon" />
-          <input 
-            type="text" 
-            name="username" 
+          <input
+            type="text"
+            name="username"
             id="username-input"
             className='login-input user-input-font'
             /* eslint-disable-next-line jsx-a11y/no-autofocus */
@@ -49,8 +50,8 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         className="enter-game-btn login-input user-input-font"
         disabled={btnIsDisabled}
       >

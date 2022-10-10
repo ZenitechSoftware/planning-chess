@@ -11,9 +11,9 @@ import * as paths from "../../constants/urls";
 const LoginPage = () => {
   const authentication = localStorage.getItem('user');
 
-  const { getGameId } = useGameId();
+  const { gameId } = useGameId();
   return authentication ? (
-    <Navigate to={paths.gameRoomUrl(getGameId())} />
+    <Navigate to={paths.gameRoomUrl(gameId)} />
   ) : (
     <div className="login-screen f-column-between">
       <Header />

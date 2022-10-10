@@ -1,10 +1,10 @@
 import React from 'react';
-import {Navigate} from "react-router";
+import { Navigate } from 'react-router';
 import { useGameId } from '../../hooks/useGameId';
 
 const HomePage = () => {
-  const { getGameId } = useGameId();
-  return <Navigate to={`/game/${getGameId()}`} />
+  const { gameId } = useGameId();
+  return <Navigate to={`/game/${gameId}`} />
 };
 
 export default HomePage;
