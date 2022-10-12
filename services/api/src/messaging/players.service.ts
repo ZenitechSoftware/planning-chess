@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Player, PlayerStatus } from '../domain';
-import { getPlayerAvatarColor } from '../helpers/getPlayerAvatarColor';
+import { getPlayerAvatarColor } from '../helpers/player-avatar-color';
 import logger from '../logger';
 import {
   Handler,
@@ -13,10 +13,17 @@ import {
   UpdatePlayerListMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
+import { GameWebSocket } from '../domain/GameRoom';
+import * as gameRoomService from '../game/game-room.service';
 
-const players = new Map<WebSocket, Player>();
+const getPlayers = (roomId: string): Map<WebSocket, Player> =>
+  gameRoomService.getPlayers(roomId);
 
-const findPlayerById = (id: string): [WebSocket, Player] | [null, null] => {
+const findPlayerById = (
+  roomId: string,
+  id: string,
+): [WebSocket, Player] | [null, null] => {
+  const players = getPlayers(roomId);
   return (
     Array.from(players.entries()).find(([_, player]) => player.id === id) || [
       null,
@@ -26,53 +33,64 @@ const findPlayerById = (id: string): [WebSocket, Player] | [null, null] => {
 };
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
+  const players = getPlayers(ws.roomId);
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.set(ws, {
     ...players.get(ws),
     status: PlayerStatus.FigurePlaced,
   });
-  const newBoardState = gameService.figureMoved(payload);
+  const newBoardState = gameService.figureMoved(ws.roomId, payload);
   const areAllPlayersDone = Array.from(players.values()).every(
     (player) =>
       player.status === PlayerStatus.FigurePlaced ||
       player.status === PlayerStatus.MoveSkipped,
   );
 
-  publish({ type: MessageType.FigureMoved, payload: newBoardState });
-  publishAllPlayers();
+  publish(ws.roomId, { type: MessageType.FigureMoved, payload: newBoardState });
+  publishAllPlayers(ws.roomId);
   if (areAllPlayersDone) {
-    publish({ type: MessageType.NewBoardState, payload: newBoardState });
+    publish(ws.roomId, {
+      type: MessageType.NewBoardState,
+      payload: newBoardState,
+    });
   }
 };
 
-const setDefaultStatusForPlayers = (): void => {
+const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
+  const players = getPlayers(ws.roomId);
   for (const values of players.values()) {
     values.status = PlayerStatus.ActionNotTaken;
   }
 };
 
-export const clearBoard = (): void => {
-  gameService.clearBoard();
-  setDefaultStatusForPlayers();
-  publish({ type: MessageType.ClearBoard, payload: [] });
-  publishBoard();
-  publishAllPlayers();
+export const clearBoard = (ws: GameWebSocket): void => {
+  gameService.clearBoard(ws.roomId);
+  setDefaultStatusForPlayers(ws);
+  publish(ws.roomId, { type: MessageType.ClearBoard, payload: [] });
+  publishBoard(ws.roomId);
+  publishAllPlayers(ws.roomId);
 };
 
-export const checkIfUserAlreadyExists = (ws: WebSocket): void => {
-  const myTurn = gameService.findMoveByPlayerName(players.get(ws)?.name);
+export const checkIfUserAlreadyExists = (ws: GameWebSocket): void => {
+  const players = getPlayers(ws.roomId);
+  const myTurn = gameService.findMoveByPlayerName(
+    ws.roomId,
+    players.get(ws)?.name,
+  );
 
   if (myTurn) {
     players.set(ws, {
       ...players.get(ws),
       status: PlayerStatus.FigurePlaced,
     });
-    publish({ type: MessageType.SetMyTurn, payload: myTurn });
+    publish(ws.roomId, { type: MessageType.SetMyTurn, payload: myTurn });
   }
 };
 
 const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
-  const [playerConnection, player] = findPlayerById(userId);
+  const players = getPlayers(ws.roomId);
+
+  const [playerConnection, player] = findPlayerById(ws.roomId, userId);
   try {
     if (!player) {
       throw new Error(`Player with id ${userId} not found`);
@@ -85,30 +103,32 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       ...players.get(playerConnection),
       status: PlayerStatus.MoveSkipped,
     });
-    publish({
+    publish(ws.roomId, {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
-    publishBoard();
+    publishBoard(ws.roomId);
   } catch (err) {
     logger.error(err?.message);
   }
 };
 
 const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
-  const [playerConnection, player] = findPlayerById(userId);
+  const players = getPlayers(ws.roomId);
+
+  const [playerConnection, player] = findPlayerById(ws.roomId, userId);
   try {
     if (!player) {
       throw new Error(`Player with id ${userId} not found`);
     }
-    publish({
+    publish(ws.roomId, {
       type: MessageType.RemovePlayer,
       payload: userId,
     });
 
     players.delete(playerConnection);
     logger.info(`Player ${player?.name} removed`);
-    publishAllPlayers();
+    publishAllPlayers(ws.roomId);
   } catch (err) {
     logger.error(err?.message);
   }
@@ -119,42 +139,50 @@ const playerConnected: Handler = (
   payload: UpdatePlayerListMessage,
 ): void => {
   subscribe(ws, payload);
-  newPlayerJoined();
+  newPlayerJoined(ws.roomId);
 };
 
-export const playerDisconnected = (): void => {
+export const playerDisconnected = (ws: GameWebSocket): void => {
+  const players = getPlayers(ws.roomId);
   logger.info('Publishing: player disconnected the game.');
   const allPlayers = Array.from(players.values());
-  publish({ type: MessageType.PlayerDisconnected, payload: allPlayers });
-};
-
-export const newPlayerJoined = (): void => {
-  logger.info('Publishing: new player joined the game.');
-  publishAllPlayers();
-  publishBoard();
-};
-
-const publishAllPlayers = () => {
-  publish({
-    type: MessageType.UpdatePlayerList,
-    payload: Array.from(players.values()),
+  publish(ws.roomId, {
+    type: MessageType.PlayerDisconnected,
+    payload: allPlayers,
   });
 };
 
-const publishBoard = () => {
-  publish({ type: MessageType.NewBoardState, payload: gameService.getBoard() });
+export const newPlayerJoined = (roomId: string): void => {
+  logger.info('Publishing: new player joined the game.');
+  publishAllPlayers(roomId);
+  publishBoard(roomId);
+};
+
+const publishAllPlayers = (roomId: string) => {
+  publish(roomId, {
+    type: MessageType.UpdatePlayerList,
+    payload: Array.from(getPlayers(roomId).values()),
+  });
+};
+
+const publishBoard = (roomId: string) => {
+  publish(roomId, {
+    type: MessageType.NewBoardState,
+    payload: gameService.getBoard(roomId),
+  });
 };
 
 export const subscribe = (
-  ws: WebSocket,
+  ws: GameWebSocket,
   { playerName }: UpdatePlayerListMessage,
 ): void => {
+  const players = getPlayers(ws.roomId);
   logger.info(`New player "${playerName}" joined the game.`);
   const newPlayer: Player = {
     id: uuidv4(),
     name: playerName,
     color: getPlayerAvatarColor(),
-    status: gameService.findMoveByPlayerName(playerName)
+    status: gameService.findMoveByPlayerName(ws.roomId, playerName)
       ? PlayerStatus.FigurePlaced
       : PlayerStatus.ActionNotTaken,
   };
@@ -163,12 +191,14 @@ export const subscribe = (
   checkIfUserAlreadyExists(ws);
 };
 
-export const unsubscribe = (ws: WebSocket): void => {
+export const unsubscribe = (ws: GameWebSocket): void => {
+  const players = getPlayers(ws.roomId);
   logger.info(`Unsubscribing player ${players.get(ws)?.name}`);
   players.delete(ws);
 };
 
-export const publish = (message: Message): void => {
+export const publish = (roomId: string, message: Message): void => {
+  const players = getPlayers(roomId);
   for (const connection of players.keys()) {
     if (connection.readyState === WebSocket.OPEN) {
       connection.send(JSON.stringify(message));
@@ -186,6 +216,9 @@ const handlers: { [key in MessageType]?: Handler } = {
 
 const getHandler = (type: MessageType): Handler => handlers[type];
 
-export const newMessageReceived = (ws: WebSocket, message: Message): void => {
+export const newMessageReceived = (
+  ws: GameWebSocket,
+  message: Message,
+): void => {
   getHandler(message.type)(ws, message.payload);
 };

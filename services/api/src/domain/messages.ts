@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import { GameWebSocket } from './GameRoom';
 
 export enum MessageType {
   PlayerConnected = 'PlayerConnected',
@@ -39,5 +39,5 @@ export interface UpdatePlayerListMessage {
 }
 
 export interface Handler {
-  (ws: WebSocket, payload: unknown): void;
+  (ws: GameWebSocket, payload: unknown): void;
 }
