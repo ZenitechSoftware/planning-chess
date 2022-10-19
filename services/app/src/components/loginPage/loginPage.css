@@ -70,3 +70,13 @@
 .login-input {
     height: 48px;
 }
+
+.error-container {
+    margin-top: 3px;
+    display: inline-flex;
+    line-height: 12px;
+}
+
+.error-label {
+    color: #cc0000;
+}

@@ -1,5 +1,6 @@
 import express from 'express';
 import Joi from 'joi';
+import { getPlayers } from '../game/game-room.service';
 
 const router = express.Router();
 
@@ -18,6 +19,16 @@ router.get('/:id', async (req, res) => {
     .validateAsync(passedUUID)
     .then(() => res.status(200).send({ message: 'Validation Successful' }))
     .catch(() => res.status(400).send({ message: 'Validation Error' }));
+});
+
+router.get('/:id/players', async (req, res) => {
+  const gameId = req.params.id;
+  const playersMap = getPlayers(gameId);
+  const players = [...(playersMap?.values() || [])];
+
+  res.json({
+    players,
+  });
 });
 
 export default router;

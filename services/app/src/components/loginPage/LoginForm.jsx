@@ -4,20 +4,34 @@ import './loginPage.css'
 import '../../static/style/fonts.css'
 import userInputIcon from './SVGs/userInputIcon.svg';
 import * as paths from '../../constants/urls'
-import {useGameId} from "../../hooks/useGameId";
+import { useGameId } from '../../hooks/useGameId';
+import { get } from '../../http';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { gameId } = useGameId();
+  const [error, setError] = useState(null);
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
 
-  const submitInfo = (event) => {
+  const submitInfo = async (event) => {
     event.preventDefault();
+    setError(false);
+
+    const players = (await get(`api/game/${gameId}/players`))?.data?.players || [];
+    const playerNames = players.map(({ name }) => name);
+    const username = event.target.username.value;
+
+    if (playerNames.includes(username)) {
+      setError('Username is already taken.');
+      return;
+    }
+
     window.localStorage.setItem('user', event.target.username.value);
     navigate(paths.gameRoomUrl(gameId));
   }
 
   const checkInputLength = (event) => {
+    setError(false);
     if(event.target.value.length) {
       setBtnIsDisabled(false)
       return;
@@ -48,6 +62,9 @@ const LoginForm = () => {
             onChange={checkInputLength}
           />
         </div>
+        <div className="error-container">
+          {error && <span className="error-label">{error}</span>}
+        </div>
       </div>
 
       <button
@@ -61,4 +78,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default LoginForm;
