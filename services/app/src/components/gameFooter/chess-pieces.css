@@ -15,6 +15,7 @@
 
 .figure-field {
   width: 100%;
+  user-select: none;
 }
 
 .btn-field {
@@ -23,6 +24,7 @@
   display: flex;
   justify-content: center;
   gap: 1em;
+  user-select: none;
 }
 
 .btn-field button {

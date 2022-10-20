@@ -25,10 +25,10 @@ function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
         </div>
       </div>
       {name}
-      { status === playerStatuses.FigurePlaced && <img src={CheckMark} alt="player done icon" /> }
-      { status === playerStatuses.MoveSkipped && <img src={SkippedIcon} alt="player skipped icon" /> }
+      { status === playerStatuses.FigurePlaced && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" /> }
+      { status === playerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
 
-      <div className="team-list-item-actions">
+      <div className="team-list-item-actions team-list-item-icon">
         <button
           type="button"
           onClick={() => skipMove(id)}

@@ -28,8 +28,8 @@ const GameInfo = ({ playerCount }) => {
           hide: playersDone === 0,
         })}
       >
-        <img src={BulletDot} alt="bullet-dot" />
-        <img src={CheckMark} alt="players done icon" />
+        <img src={BulletDot} className="game-info-icon" alt="bullet-dot" />
+        <img src={CheckMark} className="game-info-icon" alt="players done icon" />
         <p className="players-done-color">{`${playersDone}`}</p>
       </div>
 
@@ -38,8 +38,8 @@ const GameInfo = ({ playerCount }) => {
           hide: playersSkipped === 0,
         })}
       >
-        <img src={BulletDot} alt="bullet-dot" />
-        <img src={SkippedIcon} alt="players skipped icon" />
+        <img src={BulletDot} className="game-info-icon" alt="bullet-dot" />
+        <img src={SkippedIcon} className="game-info-icon" alt="players skipped icon" />
         <p className="players-skipped-color">{`${playersSkipped}`}</p>
       </div>
     </div>
