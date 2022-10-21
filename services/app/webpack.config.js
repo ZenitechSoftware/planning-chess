@@ -68,6 +68,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      favicon: './src/static/favicon.ico',
       template: './src/index.html',
       meta: {
         'csp-nonce': {
