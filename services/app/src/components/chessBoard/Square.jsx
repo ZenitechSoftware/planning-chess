@@ -14,12 +14,12 @@ const Square = ({
   filled
 }) => {
 
-  const { board, findUserByUsername } = useContext(ChessBoardContext);
+  const { board, findUserById } = useContext(ChessBoardContext);
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  function playerAvatarColor(username) {
-    const player = findUserByUsername(username);
+  function playerAvatarColor(id) {
+    const player = findUserById(id);
     if(!player) return {};
     return {
       color: rgbToColor(player.color.text),
@@ -28,12 +28,11 @@ const Square = ({
   }
 
   const renderBubble = useCallback((item, key) => {
-    
     if (key < 2) {
       return (
         <div
           style={
-            playerAvatarColor(item.player)
+            playerAvatarColor(item.id)
           }
           key={`bubble-${key}`}
           className={classNames({
@@ -91,7 +90,7 @@ const Square = ({
               <div 
                 className={classNames(["bubble", "multiple-bubbles"])}
                 style={
-                  playerAvatarColor(item.player)
+                  playerAvatarColor(item.id)
                 }  
               >
                 <span className="name">{item.player[0]}</span>

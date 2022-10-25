@@ -1,3 +1,5 @@
+import { UpdatePlayerListMessage } from '../domain/messages';
+
 export enum PlayerStatus {
   MoveSkipped = 'MoveSkipped',
   FigurePlaced = 'FigurePlaced',
@@ -6,7 +8,7 @@ export enum PlayerStatus {
 
 export interface Player {
   id: string;
-  name: string;
+  name: string | UpdatePlayerListMessage;
   color: PlayerAvatarColor;
   status: PlayerStatus;
 }

@@ -13,7 +13,7 @@ export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns, myTurn, movedBy, players } = useWebSockets();
+  const { turns, myTurn, movedBy, players, currentPlayerId } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
@@ -27,13 +27,13 @@ const ChessBoardContextProvider = ({ children }) => {
   const finished = useMemo(() => [
       playerStatuses.FigurePlaced,
     playerStatuses.MoveSkipped
-  ].includes(players.find(p => p.name === username)?.status), [players]);
+  ].includes(players.find(p => p.id === currentPlayerId)?.status), [players]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
     const gameScore = [];
     finalTurns.forEach((turn) => {
-      if ((!isAllTurnsMade && turn.player === username) || isAllTurnsMade)
+      if ((!isAllTurnsMade && turn.id === currentPlayerId) || isAllTurnsMade)
         copyOfBoard[turn.row][turn.tile].items.push(turn);
         gameScore.push(turn.score);
     });
@@ -71,7 +71,7 @@ const ChessBoardContextProvider = ({ children }) => {
       if (lastTurn) {
         copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
       }
-      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: username });
+      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: username, id: currentPlayerId });
       setLastTurn({ row, tile, figure: selectedItem });
       setBoard(copyOfBoard);
     }
@@ -89,7 +89,7 @@ const ChessBoardContextProvider = ({ children }) => {
     if (lastTurn) {
       ws.send({
         type: 'FigureMoved',
-        payload: { ...lastTurn, player: username },
+        payload: { ...lastTurn, player: username, id: currentPlayerId },
       });
     }
   };
@@ -101,13 +101,13 @@ const ChessBoardContextProvider = ({ children }) => {
     setLastTurn(null);
   };
 
-  const findUserByUsername = (userName) => players.find((element) => element.name === userName);
+  const findUserById = (id) => players.find((element) => element.id === id);
 
   return (
     <ChessBoardContext.Provider
       value={{
         lastTurn,
-        findUserByUsername,
+        findUserById,
         score,
         setSelectedItem,
         selectedItem,

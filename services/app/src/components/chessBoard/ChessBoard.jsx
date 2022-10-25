@@ -6,7 +6,7 @@ import './chess-board.css';
 
 const ChessBoard = () => {
   const { placeItemOnBoard, board } = useContext(ChessBoardContext);
-
+  
   return (
     <div className="chess-board-container">
       <div className="rotated-outer">
