@@ -22,12 +22,11 @@ describe('player.service', () => {
     gameRoomService.getOrCreateRoom(roomId);
     jest.spyOn(global.Math, 'random').mockReturnValue(1);
     Object.defineProperty(ws, 'readyState', { value: WebSocket.OPEN });
-    // playerService.subscribe(ws, { playerName: 'player1' });
     playerService.subscribe(ws, {
-        id: 'testId',
-        name: 'player1',
-        color: getPlayerAvatarColor(),
-        status: PlayerStatus.ActionNotTaken,
+      id: 'testId',
+      name: 'player1',
+      color: getPlayerAvatarColor(),
+      status: PlayerStatus.ActionNotTaken,
     });
   });
 
