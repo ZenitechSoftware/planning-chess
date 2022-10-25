@@ -1,9 +1,11 @@
 import WebSocket from 'ws';
 import * as playerService from '../players.service';
 import { MessageType } from '../../domain/messages';
+import { PlayerStatus } from '../../domain/player';
 import * as gameService from '../../game/game.service';
 import * as gameRoomService from '../../game/game-room.service';
 import { GameWebSocket } from '../../domain/GameRoom';
+import { getPlayerAvatarColor } from '../../helpers/player-avatar-color';
 
 jest.mock('ws');
 jest.mock('uuid', () => ({
@@ -20,7 +22,13 @@ describe('player.service', () => {
     gameRoomService.getOrCreateRoom(roomId);
     jest.spyOn(global.Math, 'random').mockReturnValue(1);
     Object.defineProperty(ws, 'readyState', { value: WebSocket.OPEN });
-    playerService.subscribe(ws, { playerName: 'player1' });
+    // playerService.subscribe(ws, { playerName: 'player1' });
+    playerService.subscribe(ws, {
+        id: 'testId',
+        name: 'player1',
+        color: getPlayerAvatarColor(),
+        status: PlayerStatus.ActionNotTaken,
+    });
   });
 
   afterEach(() => {
