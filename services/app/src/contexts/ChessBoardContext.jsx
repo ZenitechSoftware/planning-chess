@@ -38,7 +38,11 @@ const ChessBoardContextProvider = ({ children }) => {
         gameScore.push(turn.score);
     });
     const avg = calculateAverage(gameScore);
-    setGlobalScore(roundUp(avg))
+    if (players.length === 1) {
+      setGlobalScore(0)
+    } else {
+      setGlobalScore(roundUp(avg))
+    }
     setBoard(copyOfBoard);
   };
 
