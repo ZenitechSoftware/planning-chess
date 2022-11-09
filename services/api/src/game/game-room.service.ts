@@ -37,12 +37,12 @@ export const getOrCreateRoom = (id?: string): GameRoom => {
   return newRoom;
 };
 
-export const getClients = (id: string) => rooms.get(id)?.server.clients;
+export const getClients = (id: string): Set<WebSocket> => rooms.get(id)?.server.clients;
 
 export const getPlayers = (id: string): Map<WebSocket, Player> =>
   rooms.get(id)?.players;
 
-export const getTurns = (id: string) => rooms.get(id)?.turns;
+export const getTurns = (id: string): Array<PlaceFigureMessage> => rooms.get(id)?.turns;
 
 export const printRooms = (): void => {
   for (const entry of rooms.entries()) {
@@ -50,7 +50,7 @@ export const printRooms = (): void => {
   }
 };
 
-export const cleanUp = (id: string) => {
+export const cleanUp = (id: string): void => {
   if (getClients(id)?.size === 0) {
     logger.info(`Closing game room ${id}`);
     rooms.get(id)?.server.close();

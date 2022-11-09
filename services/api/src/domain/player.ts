@@ -1,5 +1,3 @@
-import { UpdatePlayerListMessage } from '../domain/messages';
-
 export enum PlayerStatus {
   MoveSkipped = 'MoveSkipped',
   FigurePlaced = 'FigurePlaced',

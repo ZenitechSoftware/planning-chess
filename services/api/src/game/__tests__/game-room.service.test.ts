@@ -1,6 +1,5 @@
 import * as gameRoomService from '../game-room.service';
 import logger from '../../logger';
-import Mock = jest.Mock;
 
 jest.mock('uuid', () => ({
   v4: () => 'some-short-v4-uuid-0',
