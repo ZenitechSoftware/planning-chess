@@ -13,6 +13,8 @@ export const figureMoved = (
     score = calculateScore(payload);
   }
   getTurns(roomId).push({ ...payload, score });
+  console.log('Turns in figure moved')
+  console.log(getTurns(roomId))
   return getTurns(roomId);
 };
 

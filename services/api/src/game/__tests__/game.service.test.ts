@@ -33,7 +33,7 @@ describe('game.service', () => {
       player: 'test',
       id: 'testId',
     });
-    expect(newState).toMatchSnapshot(newState);
+    expect(newState).toMatchSnapshot();
   });
   it('should clear the board', function () {
     const emptyArr: PlaceFigureMessage[] = [];
