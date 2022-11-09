@@ -8,7 +8,6 @@ export enum PlayerStatus {
 
 export interface Player {
   id: string;
-  // name: string | UpdatePlayerListMessage;
   name: string;
   color: PlayerAvatarColor;
   status: PlayerStatus;
