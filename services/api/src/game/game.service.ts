@@ -20,11 +20,11 @@ export const clearBoard = (roomId: string): void => {
   getTurns(roomId).length = 0;
 };
 
-export const findMoveByPlayerName = (
+export const findMoveByPlayerId = (
   roomId: string,
-  name: string,
+  id: string,
 ): PlaceFigureMessage | undefined =>
-  getTurns(roomId).find((turn) => turn.player === name);
+  getTurns(roomId).find((turn) => turn.id === id);
 
 export const getBoard = (roomId: string): PlaceFigureMessage[] =>
   getTurns(roomId);

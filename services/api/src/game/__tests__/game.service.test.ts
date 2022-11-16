@@ -1,5 +1,5 @@
 import * as gameService from '../game.service';
-import { clearBoard, findMoveByPlayerName } from '../game.service';
+import { clearBoard, findMoveByPlayerId } from '../game.service';
 import { PlaceFigureMessage } from '../../domain/messages';
 import * as gameRoomService from '../game-room.service';
 import Mock = jest.Mock;
@@ -11,6 +11,7 @@ const newTurn: PlaceFigureMessage = {
   tile: 1,
   figure: 'rock',
   player: 'test',
+  id: 'testId',
   score: 1,
 };
 
@@ -30,8 +31,9 @@ describe('game.service', () => {
       tile: 1,
       figure: 'rock',
       player: 'test',
+      id: 'testId',
     });
-    expect(newState).toMatchSnapshot(newState);
+    expect(newState).toMatchSnapshot();
   });
   it('should clear the board', function () {
     const emptyArr: PlaceFigureMessage[] = [];
@@ -40,7 +42,7 @@ describe('game.service', () => {
   });
   it('should find player move by player name', function () {
     (gameRoomService.getTurns as Mock).mockReturnValue([newTurn]);
-    const move = findMoveByPlayerName(roomId, newTurn.player);
+    const move = findMoveByPlayerId(roomId, newTurn.id);
     expect(move).toEqual(newTurn);
   });
 });

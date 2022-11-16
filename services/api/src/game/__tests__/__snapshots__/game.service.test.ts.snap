@@ -6,6 +6,7 @@ exports[`game.service should return new game state 1`] = `
 Array [
   Object {
     "figure": "rock",
+    "id": "testId",
     "player": "test",
     "row": 1,
     "score": 1,
