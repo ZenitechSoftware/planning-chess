@@ -18,9 +18,12 @@ function GameFooter({ skipCurrentPlayerMove }) {
         <button type="button" className="finish-btn" disabled={!lastTurn || isAllTurnsMade || (finished && !isAllTurnsMade)} onClick={finishMove}>
           Finish Move
         </button>
-        <button type="button" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
-          Skip Move
-        </button>
+        <div className='hoverText'>
+          <button type="button" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
+            Skip Move
+          </button>
+          <div className="explText">Skips your move. The game continues</div>
+        </div>
       </div>
     </div>
   );
