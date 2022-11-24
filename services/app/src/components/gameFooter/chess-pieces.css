@@ -56,31 +56,6 @@
   cursor: not-allowed;
 }
 
-.explText{
-  display:none;
-  position: absolute;
-  border: 1px solid black;
-  background: black;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 2px;
-  font-size: 0.8em;
-  margin-left: 100px;
-}
-
-.hoverText{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-}
-
-.skip-btn:hover {
-  display: inline-block;
-}
-.skip-btn:hover + .explText {
-  display: inline-block;
-}
-
 
 /*-----Chess Board Pieces-----*/
 #chess-pieces-container {
