@@ -104,7 +104,6 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
-    publishBoard(ws.roomId);
   } catch (err) {
     logger.error(err?.message);
   }
@@ -172,7 +171,6 @@ export const playerDisconnected = (ws: GameWebSocket): void => {
 export const newPlayerJoined = (roomId: string): void => {
   logger.info('Publishing: new player joined the game.');
   publishAllPlayers(roomId);
-  publishBoard(roomId);
 };
 
 const publishAllPlayers = (roomId: string) => {
