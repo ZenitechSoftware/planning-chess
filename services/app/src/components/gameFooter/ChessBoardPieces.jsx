@@ -11,27 +11,26 @@ const ChessBoardPieces = () => {
   return (
     <div id="chess-pieces-container">
       {PIECES.map((figure) => (
-          <div
-            key={figure.name}
-            role="button"
-            data-testid={`${figure.name}-piece-btn`}
-            tabIndex={0}
-            aria-hidden="true"
-            onClick={() => setSelectedItem(figure.name)}
-            className={classnames('piece-field flex-center', {
-              'piece-field-selected': selectedItem === figure.name,
-            })}
-          >
-            <img src={figure.img} alt={figure} className="figure-img" />
-            <p key={figure.name} className="figure-title">
-              {figure.name}
-            </p>
-            <div className="figure-strength-container flex-center">
-              <p className="figure-strength">{figure.strength}</p>
-            </div>
+        <div
+          key={figure.name}
+          role="button"
+          data-testid={`${figure.name}-piece-btn`}
+          tabIndex={0}
+          aria-hidden="true"
+          onClick={() => setSelectedItem(figure.name)}
+          className={classnames('piece-field flex-center', {
+            'piece-field-selected': selectedItem === figure.name,
+          })}
+        >
+          <img src={figure.img} alt={figure} className="figure-img" />
+          <p key={figure.name} className="figure-title">
+            {figure.name}
+          </p>
+          <div className="figure-strength-container flex-center">
+            <p className="figure-strength">{figure.strength}</p>
           </div>
-        )
-      )}
+        </div>
+      ))}
     </div>
   );
 };

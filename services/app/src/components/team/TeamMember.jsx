@@ -68,6 +68,7 @@ TeamMember.propTypes = {
   }).isRequired,
   removePlayer: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(playerStatuses)).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default React.memo(TeamMember);
