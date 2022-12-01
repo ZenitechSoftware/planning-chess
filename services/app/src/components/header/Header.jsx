@@ -26,7 +26,7 @@ const Header = ({ player, roomUrl }) => {
         {/* <span>RoomNameExample </span> */}
 
         <div className="copy-section">
-          <RippleButton onClick={copyUrl}>
+          <RippleButton onClick={copyUrl} testId={"copy-link-btn"}>
             <img src={CopyLink} alt="copy link" className="copy-icon" />
           </RippleButton>
         </div>
