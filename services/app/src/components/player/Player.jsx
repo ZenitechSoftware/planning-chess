@@ -28,8 +28,8 @@ const Player = ({ player }) => (
             {' '}
             <span>(you)</span>
           </div>
-            { player.status === playerStatuses.FigurePlaced && <img src={CheckMark} alt="player done icon" /> }
-            { player.status === playerStatuses.MoveSkipped && <img src={SkippedIcon} alt="player skipped icon" /> }
+            { player.status === playerStatuses.FigurePlaced && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" /> }
+            { player.status === playerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
         </>
         )
     );
