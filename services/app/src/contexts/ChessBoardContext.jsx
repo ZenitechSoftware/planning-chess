@@ -51,6 +51,7 @@ const ChessBoardContextProvider = ({ children }) => {
     setGlobalScore(0);
     setBoard(defaultBoard);
     setLastTurn(null);
+    setSelectedItem('');
   };
 
   useEffect(() => {
