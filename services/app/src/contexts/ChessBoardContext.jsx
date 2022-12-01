@@ -48,6 +48,7 @@ const ChessBoardContextProvider = ({ children }) => {
 
   const clearBoardItems = () => {
     setScore(0);
+    setGlobalScore(0);
     setBoard(defaultBoard);
     setLastTurn(null);
   };
