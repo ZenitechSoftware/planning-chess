@@ -32,8 +32,13 @@ const findPlayerById = (
   );
 };
 
-const checkIfGameComplete = (ws: any, players: Map<WebSocket, Player>): void => {
-  const areAllPlayersDone = Array.from(players.values()).every((players) => players.status !== "ActionNotTaken");
+const checkIfGameComplete = (
+  ws: any,
+  players: Map<WebSocket, Player>,
+): void => {
+  const areAllPlayersDone = Array.from(players.values()).every(
+    (players) => players.status !== 'ActionNotTaken',
+  );
   const newBoardState = gameRoomService.getTurns(ws.roomId);
 
   if (areAllPlayersDone) {
@@ -42,7 +47,7 @@ const checkIfGameComplete = (ws: any, players: Map<WebSocket, Player>): void => 
       payload: newBoardState,
     });
   }
-}
+};
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   const players = getPlayers(ws.roomId);
