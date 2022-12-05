@@ -11,7 +11,7 @@ import { rgbToColor } from '../../helpers/rgbToColor';
 
 import '../../static/style/header.css';
 
-const Header = ({ player, roomUrl }) => { 
+const Header = ({ player, roomUrl }) => {
   const avatarLetter = player?.name[0];
 
   const copyUrl = () => {
@@ -20,7 +20,7 @@ const Header = ({ player, roomUrl }) => {
 
   return (
     <div className="align-c" id="header">
-      <div className="f-row align-c gap-m">
+      <div className="f-row align-c gap-m header-info">
         <img src={Logo} alt="logo" />
         <img src={Separator} alt="separator" />
         {/* <span>RoomNameExample </span> */}
@@ -30,14 +30,14 @@ const Header = ({ player, roomUrl }) => {
             <img src={CopyLink} alt="copy link" className="copy-icon" />
           </RippleButton>
         </div>
-        
+
         {/* <img src={Settings} alt="nav-item" /> */}
         {/* <img src={Info} alt="nav-item" /> */}
       </div>
 
       {player && (
         <div className="f-1 justify-end align-c gap-s">
-          <span 
+          <span
             className="f-center avatar"
             style={{
               color: rgbToColor(player.color.text),

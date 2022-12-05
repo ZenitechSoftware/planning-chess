@@ -21,6 +21,7 @@
 
 .game-status-icon {
     width: 20px;
+    user-select: none;
 }
 
 .status-text {
@@ -42,6 +43,10 @@
 .game-info-status{
     display: flex;
     line-height: 2px;
+}
+
+.game-info-icon {
+  user-select: none;
 }
 
 .player-count {
