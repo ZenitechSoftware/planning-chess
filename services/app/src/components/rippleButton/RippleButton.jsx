@@ -37,7 +37,7 @@ const RippleButton = ({ onClick, 'data-testid': dataTestId, children }) => {
 
 RippleButton.propTypes = {
     onClick: PropTypes.func.isRequired,
-    dataTestId: PropTypes.string.isRequired,
+    'data-testid': PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element,
