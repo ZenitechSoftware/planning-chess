@@ -9,7 +9,7 @@ import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
 function TeamMember({ name, id, skipMove, color, status, removePlayer, index }) {
   return (
-    <div className="team-list-item" data-testid={`list-${name}-${index+1}`}>
+    <div className="team-list-item" data-testid={`list-${name}-${index}`}>
       <div
         className="team-list-item-avatar"
         style={{

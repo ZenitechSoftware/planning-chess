@@ -63,7 +63,7 @@ const Square = ({
 
   return (
     <div
-      data-testid={`chess-tile-${row+1}-${column}`}
+      data-testid={`chess-tile-${row}-${column}`}
       className={classNames(["square", !items.length && row !== board.length - 1 && column !== 0 && 'is-empty-tile'])}
       onMouseEnter={() => updatePopover(true)}
       onMouseLeave={() => updatePopover(false)}

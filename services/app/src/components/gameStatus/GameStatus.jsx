@@ -13,7 +13,7 @@ function GameStatus() {
 
   return (
     <div
-      data-testid="game-status-id"
+      data-testid="game-status"
       className={classnames("game-status-field", {
         "game-status-in-progress": !isAllTurnsMade,
         "game-status-completed": isAllTurnsMade,

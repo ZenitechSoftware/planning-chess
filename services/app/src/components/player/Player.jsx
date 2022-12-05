@@ -7,7 +7,6 @@ import { rgbToColor } from '../../helpers/rgbToColor';
 
 const Player = ({ player }) => (
         player && (
-        // <div data-testid="list-current-player">
         <>
           <div
             className="team-list-item-avatar"
