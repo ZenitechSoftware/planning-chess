@@ -32,8 +32,8 @@ const findPlayerById = (
   );
 };
 
-const checkIfGameComplete = (
-  ws: any,
+const publishFinalBoard = (
+  ws: GameWebSocket,
   players: Map<WebSocket, Player>,
 ): void => {
   const areAllPlayersDone = Array.from(players.values()).every(
@@ -60,7 +60,7 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
 
   publish(ws.roomId, { type: MessageType.FigureMoved, payload: newBoardState });
   publishAllPlayers(ws.roomId);
-  checkIfGameComplete(ws, players);
+  publishFinalBoard(ws, players);
 };
 
 const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
@@ -111,7 +111,7 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
-    checkIfGameComplete(ws, players);
+    publishFinalBoard(ws, players);
   } catch (err) {
     logger.error(err?.message);
   }
