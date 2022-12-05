@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import './styles.css';
 
-const RippleButton = ({ onClick, dataTestId, children }) => {
+const RippleButton = ({ onClick, 'data-testid': dataTestId, children }) => {
     const [shouldRipple, setShouldRipple] = useState(false);
     const [clickCoords, setClickCoords] = useState({ x: -1, y: -1 })
 
