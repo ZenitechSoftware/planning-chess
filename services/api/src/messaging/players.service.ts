@@ -58,7 +58,6 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   });
   const newBoardState = gameService.figureMoved(ws.roomId, payload);
 
-
   /*TODO check these 3 methods, maybe we don't need all 3*/
   publish(ws.roomId, { type: MessageType.FigureMoved, payload: newBoardState });
   publishAllPlayers(ws.roomId);
