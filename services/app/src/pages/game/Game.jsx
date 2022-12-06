@@ -40,9 +40,6 @@ function Room() {
     [players],
   );
 
-  const findUserByUsername = (userName) =>
-    players.find((element) => element.name === userName);
-
   const team = useMemo(
     () =>
       players
