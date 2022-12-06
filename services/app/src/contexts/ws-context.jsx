@@ -4,7 +4,7 @@ import React, { useEffect, useState, createContext } from 'react';
 import { useLocation } from 'react-router';
 import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
-import { wsDebugMessages } from '../helpers/wsDebugMessages';
+import { wsDebugMessages } from '../utils/wsDebugMessages';
 
 export const WsContext = createContext('');
 

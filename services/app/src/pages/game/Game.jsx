@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
-import { useWebSockets } from '../../utils/useWebSockets';
+import { useWebSockets } from '../../hooks/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
