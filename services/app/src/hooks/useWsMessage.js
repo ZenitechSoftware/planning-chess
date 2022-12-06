@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export const useWsMessage = (ws) => {
 
   ws.addEventListener('message', (event) => {
