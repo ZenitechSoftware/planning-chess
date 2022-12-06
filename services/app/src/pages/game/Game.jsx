@@ -24,7 +24,7 @@ function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
 
-  const { players, movedBy, playerDeleted } = useWebSockets();
+  const { players, movedBy, playerDeleted, currentPlayerId } = useWebSockets();
   const { ws } = useContext(WsContext);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function Room() {
   }, [username, ws]);
 
   const currentPlayer = useMemo(
-    () => players.find((user) => user.name === username),
+    () => players.find((user) => user.id === currentPlayerId),
     [players],
   );
 
@@ -46,7 +46,7 @@ function Room() {
   const team = useMemo(
     () =>
       players
-        .filter((user) => user.id !== findUserByUsername(username).id)
+        .filter((user) => user.id !== currentPlayerId)
         .map((player) =>
           movedBy.includes(player.name)
             ? { ...player, name: `${player.name} (finished move)` }
@@ -56,7 +56,7 @@ function Room() {
   );
 
   useEffect(() => {
-    if (playerDeleted && playerDeleted === currentPlayer.id) {
+    if (playerDeleted && playerDeleted === currentPlayerId) {
       localStorage.removeItem('user');
       window.location.replace('/');
     }

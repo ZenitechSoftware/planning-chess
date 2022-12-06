@@ -1,6 +1,7 @@
 import { GameWebSocket } from './GameRoom';
 
 export enum MessageType {
+  PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
   PlayerConnected = 'PlayerConnected',
   UpdatePlayerList = 'UpdatePlayerList',
   PlayerDisconnected = 'PlayerDisconnected',
@@ -23,6 +24,7 @@ export interface PlaceFigureMessage {
   tile: number;
   figure: string;
   player: string;
+  id: string;
   score?: number;
 }
 

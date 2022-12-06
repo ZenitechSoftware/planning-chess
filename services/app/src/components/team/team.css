@@ -84,6 +84,11 @@
   order: 0;
   flex-grow: 0;
   border-radius: 64px;
+  user-select: none;
+}
+
+.team-list-item-icon {
+  user-select: none;
 }
 
 .team-list-item-avatar-text {

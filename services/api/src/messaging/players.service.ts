@@ -73,10 +73,7 @@ export const clearBoard = (ws: GameWebSocket): void => {
 
 export const checkIfUserAlreadyExists = (ws: GameWebSocket): void => {
   const players = getPlayers(ws.roomId);
-  const myTurn = gameService.findMoveByPlayerName(
-    ws.roomId,
-    players.get(ws)?.name,
-  );
+  const myTurn = gameService.findMoveByPlayerId(ws.roomId, players.get(ws)?.id);
 
   if (myTurn) {
     players.set(ws, {
@@ -107,7 +104,6 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
-    publishBoard(ws.roomId);
   } catch (err) {
     logger.error(err?.message);
   }
@@ -134,11 +130,31 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   }
 };
 
+const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
+  ws.send(
+    JSON.stringify({
+      type: MessageType.PlayerSuccessfullyJoined,
+      payload: playerId,
+    }),
+  );
+};
+
 const playerConnected: Handler = (
   ws,
-  payload: UpdatePlayerListMessage,
+  { playerName }: UpdatePlayerListMessage,
 ): void => {
-  subscribe(ws, payload);
+  const newPlayerId = uuidv4();
+  const newPlayer: Player = {
+    id: newPlayerId,
+    name: playerName,
+    color: getPlayerAvatarColor(),
+    status: gameService.findMoveByPlayerId(ws.roomId, newPlayerId)
+      ? PlayerStatus.FigurePlaced
+      : PlayerStatus.ActionNotTaken,
+  };
+
+  successfullyJoined(ws, newPlayer.id);
+  subscribe(ws, newPlayer);
   newPlayerJoined(ws.roomId);
 };
 
@@ -155,7 +171,6 @@ export const playerDisconnected = (ws: GameWebSocket): void => {
 export const newPlayerJoined = (roomId: string): void => {
   logger.info('Publishing: new player joined the game.');
   publishAllPlayers(roomId);
-  publishBoard(roomId);
 };
 
 const publishAllPlayers = (roomId: string) => {
@@ -172,20 +187,9 @@ const publishBoard = (roomId: string) => {
   });
 };
 
-export const subscribe = (
-  ws: GameWebSocket,
-  { playerName }: UpdatePlayerListMessage,
-): void => {
+export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   const players = getPlayers(ws.roomId);
-  logger.info(`New player "${playerName}" joined the game.`);
-  const newPlayer: Player = {
-    id: uuidv4(),
-    name: playerName,
-    color: getPlayerAvatarColor(),
-    status: gameService.findMoveByPlayerName(ws.roomId, playerName)
-      ? PlayerStatus.FigurePlaced
-      : PlayerStatus.ActionNotTaken,
-  };
+  logger.info(`New player "${newPlayer.name}" joined the game.`);
   players.set(ws, newPlayer);
 
   checkIfUserAlreadyExists(ws);

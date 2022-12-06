@@ -5,6 +5,7 @@ import { useEffect, useState, useContext } from 'react';
 import { WsContext } from '../contexts/ws-context';
 
 export const useWebSockets = () => {
+  const [currentPlayerId, setCurrentPlayerId] = useState(null);
   const [players, setPlayers] = useState([]);
   const [turns, setTurns] = useState([]);
   const [movedBy, setMovedBy] = useState([]);
@@ -14,6 +15,8 @@ export const useWebSockets = () => {
 
   const websocketReducer = (type, payload) => {
     switch (type) {
+      case 'PlayerSuccessfullyJoined':
+        return setCurrentPlayerId(payload);
       case 'UpdatePlayerList':
         return setPlayers(payload);
       case 'PlayerDisconnected' :
@@ -44,5 +47,5 @@ export const useWebSockets = () => {
     }
   }, [ws]);
 
-  return { players, turns, movedBy, myTurn, playerDeleted };
+  return { players, turns, movedBy, myTurn, playerDeleted, currentPlayerId };
 };
