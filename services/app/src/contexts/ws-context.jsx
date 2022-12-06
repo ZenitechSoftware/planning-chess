@@ -4,6 +4,7 @@ import React, { useEffect, useState, createContext } from 'react';
 import { useLocation } from 'react-router';
 import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
+import { useWsMessage } from '../hooks/useWsMessage';
 
 export const WsContext = createContext('');
 
@@ -37,22 +38,12 @@ const WebSocketsContextProvider = ({ children }) => {
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
-      console.log('opened');
       setWs(webSocket);
     });
 
-    webSocket.addEventListener('message', (event) => {
-      console.log('message: ', event.data);
-    });
-
-    webSocket.addEventListener('close', () => {
-      console.log('closed');
-    });
-
-    webSocket.addEventListener('error', (err) => {
-      console.log('connection failed');
-      console.error(err);
-    });
+    if(window.location.protocol !== 'https:') {
+      useWsMessage(webSocket, setWs)
+    };
   }, [roomId]);
 
   return (
