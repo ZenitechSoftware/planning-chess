@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-export const useWsMessage = (ws) => {
+export const wsDebugMessages = (ws) => {
 
   ws.addEventListener('message', (event) => {
     const { type, payload } = JSON.parse(event.data);

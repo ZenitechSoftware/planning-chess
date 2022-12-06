@@ -4,7 +4,7 @@ import React, { useEffect, useState, createContext } from 'react';
 import { useLocation } from 'react-router';
 import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
-import { useWsMessage } from '../hooks/useWsMessage';
+import { wsDebugMessages } from '../helpers/wsDebugMessages';
 
 export const WsContext = createContext('');
 
@@ -41,8 +41,8 @@ const WebSocketsContextProvider = ({ children }) => {
       setWs(webSocket);
     });
 
-    if(window.location.protocol !== 'https:') {
-      useWsMessage(webSocket, setWs)
+    if(process.env.NODE_ENV === 'development') {
+      wsDebugMessages(webSocket)
     };
   }, [roomId]);
 
