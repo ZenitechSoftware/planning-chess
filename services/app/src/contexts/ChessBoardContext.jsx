@@ -88,10 +88,6 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if(players.length === 1) setSelectedItem('');
-  }, [players]);
-
-  useEffect(() => {
     if (myTurn && myTurn.player === username) {
       const { row, tile, figure } = myTurn;
       placeItemOnBoard(row, tile, figure);
