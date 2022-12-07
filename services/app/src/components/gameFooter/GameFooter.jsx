@@ -1,5 +1,5 @@
 import React from 'react';
-import './chess-pieces.css';
+import './gameFooter.css';
 import PropTypes from 'prop-types';
 import { useWebSockets } from '../../utils/useWebSockets';
 import GameFooterActive from './GameFooterActive';

@@ -1,39 +1,38 @@
 import React, { useContext } from 'react';
 import './gameStatus.css';
-import classnames from 'classnames';
 import ClockIcon from './statusComponents/clock.svg';
 import CompletedIcon from './statusComponents/completedIcon.svg';
 import WaitingPlayersIcon from './statusComponents/waitingPlayersIcon.svg';
 import {ChessBoardContext} from "../../contexts/ChessBoardContext";
-import { useWebSockets } from "../../utils/useWebSockets";
 
 function GameStatus() {
-  const { isAllTurnsMade, globalScore } = useContext(ChessBoardContext);
-  const { players } = useWebSockets();
-
-  const iconSrc = () => {
-    if(players.length === 1)
-      return WaitingPlayersIcon;
-    return isAllTurnsMade ? CompletedIcon : ClockIcon;
+  const { isAllTurnsMade, globalScore, isGameInProgress } = useContext(ChessBoardContext);
+  
+  if(isGameInProgress) {
+    return (
+      <div className='game-status-field game-status-in-progress'>
+        <img src={ClockIcon} alt="game status icon" className="game-status-icon" />
+        <p className="status-text">Game in progress...</p>
+      </div>
+    )
   }
-
-  const gameStatusText = () => {
-    if(players.length === 1) 
-      return 'Waiting for more players';
-    return isAllTurnsMade ? `Game complete - ${globalScore}SP` : "Game in progress...";
+  
+  if(isAllTurnsMade) {
+    return (
+      <div className='game-status-field game-status-completed'>
+        <img src={CompletedIcon} alt="game status icon" className="game-status-icon" />
+        {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+        <p className="status-text">Game complete - {globalScore}SP</p>
+      </div>
+    )
   }
-
+  
   return (
-    <div
-      className={classnames("game-status-field", {
-        "game-status-in-progress": !isAllTurnsMade,
-        "game-status-completed": isAllTurnsMade,
-      })}
-    >
-      <img src={iconSrc()} alt="game status icon" className="game-status-icon" />
-      <p className="status-text">{gameStatusText()}</p>
+    <div className='game-status-field game-status-in-progress'>
+      <img src={WaitingPlayersIcon} alt="game status icon" className="game-status-icon" />
+      <p className="status-text">Waiting for more players</p>
     </div>
-  );
+  )
 }
 
 export default GameStatus;

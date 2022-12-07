@@ -1,6 +1,6 @@
 import React from 'react';
 import CopyIcon from '../header/headerComponents/CopyLink.svg';
-import './chess-pieces.css';
+import './gameFooter.css';
 
 const GameFooterInactive = () => {
   const copyUrl = () => {
@@ -9,7 +9,7 @@ const GameFooterInactive = () => {
 
   return (
     <>
-      <p className='footer-inactive-p'>Waiting for more players to join the game</p>
+      <p className='footer-inactive'>Waiting for more players to join the game</p>
       <button type="button" className='copy-btn' onClick={copyUrl}>
         <img src={CopyIcon} alt="copy link" className="copy-icon" />
         <p>Copy Link</p>

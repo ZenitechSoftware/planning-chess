@@ -26,7 +26,7 @@ const ChessBoardContextProvider = ({ children }) => {
     return playersWhoDidNotMoved.length === 0;
   }, [players, turns]);
 
-  const canPlay = useMemo(() => players.length > 1 && !isAllTurnsMade, [players, isAllTurnsMade]);
+  const isGameInProgress = useMemo(() => players.length > 1 && !isAllTurnsMade, [players, isAllTurnsMade]);
   
   const finished = useMemo(() => [
       playerStatuses.FigurePlaced,
@@ -130,7 +130,7 @@ const ChessBoardContextProvider = ({ children }) => {
         finishMove,
         clearBoard,
         finished,
-        canPlay,
+        isGameInProgress,
         isAllTurnsMade,
         players,
         globalScore
