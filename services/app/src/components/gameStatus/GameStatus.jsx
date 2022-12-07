@@ -3,13 +3,25 @@ import './gameStatus.css';
 import classnames from 'classnames';
 import ClockIcon from './statusComponents/clock.svg';
 import CompletedIcon from './statusComponents/completedIcon.svg';
+import WaitingPlayersIcon from './statusComponents/waitingPlayersIcon.svg';
 import {ChessBoardContext} from "../../contexts/ChessBoardContext";
+import { useWebSockets } from "../../utils/useWebSockets";
 
 function GameStatus() {
   const { isAllTurnsMade, globalScore } = useContext(ChessBoardContext);
+  const { players } = useWebSockets();
 
-  const gameStatusText = isAllTurnsMade ? `Game complete - ${globalScore}SP` : "Game in progress...";
-  const iconScr = isAllTurnsMade ? CompletedIcon : ClockIcon;
+  const iconSrc = () => {
+    if(players.length === 1)
+      return WaitingPlayersIcon;
+    return isAllTurnsMade ? CompletedIcon : ClockIcon;
+  }
+
+  const gameStatusText = () => {
+    if(players.length === 1) 
+      return 'Waiting for more players';
+    return isAllTurnsMade ? `Game complete - ${globalScore}SP` : "Game in progress...";
+  }
 
   return (
     <div
@@ -18,8 +30,8 @@ function GameStatus() {
         "game-status-completed": isAllTurnsMade,
       })}
     >
-      <img src={iconScr} alt="game status icon" className="game-status-icon" />
-      <p className="status-text">{gameStatusText}</p>
+      <img src={iconSrc()} alt="game status icon" className="game-status-icon" />
+      <p className="status-text">{gameStatusText()}</p>
     </div>
   );
 }

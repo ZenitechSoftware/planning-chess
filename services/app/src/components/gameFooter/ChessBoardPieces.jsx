@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import './chess-pieces.css';
 import classnames from 'classnames';
-
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
 

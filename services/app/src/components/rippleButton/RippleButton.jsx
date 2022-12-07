@@ -28,7 +28,7 @@ const RippleButton = ({ onClick, children }) => {
 
 
     return (
-      <button type="button" className="copy-btn-container" onClick={(e) => handleClick(e)}>
+      <button type="button" className="ripple-btn-container" onClick={(e) => handleClick(e)}>
         {shouldRipple && <span className='ripple' style={{ left: `${clickCoords.x}px`, top: `${clickCoords.y}px` }} />}
         {children}
       </button>

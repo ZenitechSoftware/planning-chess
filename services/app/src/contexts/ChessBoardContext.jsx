@@ -21,9 +21,14 @@ const ChessBoardContextProvider = ({ children }) => {
   const [score, setScore] = useState(0);
   const [globalScore, setGlobalScore] = useState(0);
 
-  const canPlay = useMemo(() => players.length > 1, [players]);
+  const isAllTurnsMade = useMemo(() => {
+    const playersWhoDidNotMoved = players.filter(p => p.status === "ActionNotTaken");
+    return playersWhoDidNotMoved.length === 0;
+  }, [players, turns]);
 
-  const isAllTurnsMade = useMemo(() => turns.length === players.filter(p => p.status !== 'MoveSkipped' ).length, [players, turns]);
+  const canPlay = useMemo(() => players.length > 1 && !isAllTurnsMade, [players, isAllTurnsMade]);
+
+  console.log(canPlay);
   const finished = useMemo(() => [
       playerStatuses.FigurePlaced,
     playerStatuses.MoveSkipped
@@ -82,6 +87,10 @@ const ChessBoardContextProvider = ({ children }) => {
       setBoard(copyOfBoard);
     }
   };
+
+  useEffect(() => {
+    if(players.length === 1) setSelectedItem('');
+  }, [players]);
 
   useEffect(() => {
     if (myTurn && myTurn.player === username) {
