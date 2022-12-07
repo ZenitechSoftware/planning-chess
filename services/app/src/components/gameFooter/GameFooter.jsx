@@ -10,9 +10,9 @@ const GameFooter = ({ skipCurrentPlayerMove }) => {
 
   return (
     <div id="game-footer">
-        {
-            players.length < 2 ? <GameFooterInactive /> : <GameFooterActive skipCurrentPlayerMove={skipCurrentPlayerMove} />
-        }
+      {
+        players.length < 2 ? <GameFooterInactive /> : <GameFooterActive skipCurrentPlayerMove={skipCurrentPlayerMove} />
+      }
     </div>
   )
 }

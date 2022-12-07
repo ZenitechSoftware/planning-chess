@@ -27,8 +27,7 @@ const ChessBoardContextProvider = ({ children }) => {
   }, [players, turns]);
 
   const canPlay = useMemo(() => players.length > 1 && !isAllTurnsMade, [players, isAllTurnsMade]);
-
-  console.log(canPlay);
+  
   const finished = useMemo(() => [
       playerStatuses.FigurePlaced,
     playerStatuses.MoveSkipped

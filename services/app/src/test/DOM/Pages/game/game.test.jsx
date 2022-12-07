@@ -14,7 +14,6 @@ describe('Game', () => {
     );
     expect(screen.getByText('Amount of work')).toBeInTheDocument();
     expect(screen.getByText('Uncertainty')).toBeInTheDocument();
-    expect(screen.getByText('Complexity | Select and place the figure on the board')).toBeInTheDocument();
   });
 
   test('test Player page elements', () => {
