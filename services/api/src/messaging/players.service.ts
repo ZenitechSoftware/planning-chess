@@ -32,6 +32,23 @@ const findPlayerById = (
   );
 };
 
+const publishFinalBoard = (
+  ws: GameWebSocket,
+  players: Map<WebSocket, Player>,
+): void => {
+  const areAllPlayersDone = Array.from(players.values()).every(
+    (players) => players.status !== 'ActionNotTaken',
+  );
+  const newBoardState = gameRoomService.getTurns(ws.roomId);
+
+  if (areAllPlayersDone) {
+    publish(ws.roomId, {
+      type: MessageType.NewBoardState,
+      payload: newBoardState,
+    });
+  }
+};
+
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   const players = getPlayers(ws.roomId);
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
@@ -40,20 +57,11 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
     status: PlayerStatus.FigurePlaced,
   });
   const newBoardState = gameService.figureMoved(ws.roomId, payload);
-  const areAllPlayersDone = Array.from(players.values()).every(
-    (player) =>
-      player.status === PlayerStatus.FigurePlaced ||
-      player.status === PlayerStatus.MoveSkipped,
-  );
 
+  /*TODO check these 3 methods, maybe we don't need all 3*/
   publish(ws.roomId, { type: MessageType.FigureMoved, payload: newBoardState });
   publishAllPlayers(ws.roomId);
-  if (areAllPlayersDone) {
-    publish(ws.roomId, {
-      type: MessageType.NewBoardState,
-      payload: newBoardState,
-    });
-  }
+  publishFinalBoard(ws, players);
 };
 
 const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
@@ -104,6 +112,7 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
+    publishFinalBoard(ws, players);
   } catch (err) {
     logger.error(err?.message);
   }
