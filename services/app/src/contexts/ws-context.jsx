@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
 import { wsDebugMessages } from '../utils/wsDebugMessages';
+import { DEBUG } from '../env';
 
 export const WsContext = createContext('');
 
@@ -41,7 +42,7 @@ const WebSocketsContextProvider = ({ children }) => {
       setWs(webSocket);
     });
 
-    if(process.env.NODE_ENV === 'development') {
+    if (DEBUG) {
       wsDebugMessages(webSocket)
     };
   }, [roomId]);
