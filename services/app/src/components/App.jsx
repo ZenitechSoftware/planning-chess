@@ -10,16 +10,14 @@ import '../static/style/spacing.css';
 import '../static/style/index.css';
 import '../static/style/fonts.css';
 
-const App = () => {
-  return (
-    <Router>
-      <WebSocketsContextProvider>
-        <ChessGameProvider>
-          <Content />
-        </ChessGameProvider>
-      </WebSocketsContextProvider>
-    </Router>
-  );
-}
+const App = () => (
+  <Router>
+    <WebSocketsContextProvider>
+      <ChessGameProvider>
+        <Content />
+      </ChessGameProvider>
+    </WebSocketsContextProvider>
+  </Router>
+);
 
 export default App;
