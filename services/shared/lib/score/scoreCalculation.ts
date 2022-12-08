@@ -12,12 +12,18 @@ export function roundUp(score: number): number {
   let secondNum = 1;
   let thirdNum = firstNum + secondNum;
 
-  while(thirdNum <= score) {
+  while (thirdNum <= score) {
     firstNum = secondNum;
     secondNum = thirdNum;
     thirdNum = firstNum + secondNum;
   }
 
-  if(Math.abs(thirdNum - score) === Math.abs(secondNum - score)) return thirdNum;
-  return (Math.abs(thirdNum - score) >= Math.abs(secondNum - score)) ? secondNum : thirdNum;
+  const thirdNumberDelta = Math.abs(thirdNum - score);
+  const secondNumberDelta = Math.abs(secondNum - score);
+
+  if (thirdNumberDelta > secondNumberDelta) {
+    return secondNum;
+  } else {
+    return thirdNum;
+  }
 }
