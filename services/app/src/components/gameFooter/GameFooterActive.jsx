@@ -8,12 +8,8 @@ function GameFooterActive({ skipCurrentPlayerMove }) {
 
   return (
     <>
-      <div>
-        <p>Complexity | Select and place the figure on the board</p>
-      </div>
-      <div className="figure-field">
-        <ChessBoardPieces />
-      </div>
+      <p>Complexity | Select and place the figure on the board</p>
+      <ChessBoardPieces />
       <GameFooterButtons skipCurrentPlayerMove={skipCurrentPlayerMove} />
     </>
   );

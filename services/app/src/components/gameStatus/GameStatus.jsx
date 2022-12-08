@@ -21,8 +21,7 @@ function GameStatus() {
     return (
       <div className='game-status-field game-status-completed'>
         <img src={CompletedIcon} alt="game status icon" className="game-status-icon" />
-        {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-        <p className="status-text">Game complete - {globalScore}SP</p>
+        <p className="status-text">Game complete - {globalScore} SP</p>
       </div>
     )
   }

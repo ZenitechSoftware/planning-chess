@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  user-select: none;
 }
 
 .piece-field {
@@ -15,12 +16,12 @@
 }
 
 .piece-field:hover {
-  background-color: #e8edf9;
+  background-color: #E8EDF9;
 }
 
 .piece-field-selected {
-  background-color: #e8edf9;
-  border-color: #6547fd;
+  background-color: #E8EDF9;
+  border-color: #6547FD;
   border-radius: 4px;
 }
 
@@ -37,14 +38,14 @@
 .figure-strength-container {
   width: 2.5em;
   height: 24px;
-  background-color: #3c64b1;
+  background-color: #3C64B1;
   border-radius: 20px;
   padding: 0px 2px;
   font-family: 'Rubik';
 }
 
 .figure-strength-container p {
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 0.75rem;
   letter-spacing: -0.1px;
   font-weight: bold;
