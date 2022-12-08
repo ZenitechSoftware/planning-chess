@@ -4,7 +4,7 @@ import ChessBoardPieces from './ChessBoardPieces';
 import GameFooterButtons from './GameFooterButtons';
 import './gameFooter.css';
 
-function GameFooterActive({ skipCurrentPlayerMove }) {
+const GameFooterActive = ({ skipCurrentPlayerMove }) => {
 
   return (
     <>

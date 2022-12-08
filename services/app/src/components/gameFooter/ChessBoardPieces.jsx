@@ -16,7 +16,7 @@ const ChessBoardPieces = () => {
           tabIndex={0}
           aria-hidden="true"
           onClick={() => setSelectedItem(figure.name)}
-          className={classnames('piece-field f-center', {
+          className={classnames('piece-field f-center rubik-font', {
             'piece-field-selected': selectedItem === figure.name,
           })}
         >

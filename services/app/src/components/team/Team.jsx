@@ -8,7 +8,7 @@ import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
 
-function Team({ players, skipMove, children, removePlayer, playerCount }) {
+const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
   const { clearBoard } = useContext(ChessBoardContext);
 
   return (
@@ -17,7 +17,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
       <GameInfo playerCount={playerCount} />
 
       <div className="team-list-items">
-        <div className="team-list-item">{children}</div>
+        <div className="team-list-item rubik-font">{children}</div>
         {players.map((player) => (
           <TeamMember
             key={player.id}

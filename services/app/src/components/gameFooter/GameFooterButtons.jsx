@@ -11,7 +11,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
     <div className="btn-field margin-t-m gap-l">
       <button 
         type="button" 
-        className="finish-btn padding-x-m padding-y-s" 
+        className="finish-btn padding-x-m padding-y-s rubik-font" 
         disabled={isAllTurnsMade || finished || !lastTurn} 
         onClick={finishMove}
       >
@@ -19,7 +19,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
       </button>
       <button 
         type="button"
-        className="skip-btn padding-x-m padding-y-s" 
+        className="skip-btn padding-x-m padding-y-s rubik-font" 
         disabled={finished} 
         onClick={() => skipCurrentPlayerMove()}
       >

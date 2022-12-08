@@ -8,8 +8,9 @@ import '../static/style/scrollbar.css';
 import '../static/style/layout.css';
 import '../static/style/spacing.css';
 import '../static/style/index.css';
+import '../static/style/fonts.css';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <WebSocketsContextProvider>

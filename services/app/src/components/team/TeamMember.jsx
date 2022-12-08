@@ -7,9 +7,9 @@ import './team.css';
 import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
 import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
-function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
+const TeamMember = ({ name, id, skipMove, color, status, removePlayer }) => {
   return (
-    <div className="team-list-item">
+    <div className="team-list-item rubik-font">
       <div
         className="team-list-item-avatar"
         style={{

@@ -5,7 +5,7 @@ import CompletedIcon from './statusComponents/completedIcon.svg';
 import WaitingPlayersIcon from './statusComponents/waitingPlayersIcon.svg';
 import {ChessBoardContext} from "../../contexts/ChessBoardContext";
 
-function GameStatus() {
+const GameStatus = () => {
   const { isAllTurnsMade, globalScore, isGameInProgress } = useContext(ChessBoardContext);
   
   if(isGameInProgress) {

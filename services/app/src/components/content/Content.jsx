@@ -5,7 +5,7 @@ import LoginRoute from '../loginRoute/LoginRoute';
 import LoginPage from '../../pages/login/LoginPage';
 import HomePage from '../../pages/home/HomePage';
 
-function Content() {
+const Content = () => {
   return (
     <Routes>
       <Route element={<LoginRoute />}>
