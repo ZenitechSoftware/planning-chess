@@ -157,7 +157,6 @@ const playerConnected: Handler = (
 ): void => {
   const newPlayerId = id ? id : uuidv4();
   const doesSamePlayerExists = findPlayerById(ws.roomId, id)[0] ? true : false;
-  console.log(doesSamePlayerExists);
 
   if (doesSamePlayerExists) {
     ws.send(
