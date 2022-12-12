@@ -7,6 +7,7 @@ import { WsContext } from '../contexts/ws-context';
 export const useWebSockets = () => {
   const [currentPlayerId, setCurrentPlayerId] = useState(null);
   const [players, setPlayers] = useState([]);
+  const [doesPlayerAlreadyExists, setDoesPlayerAlreadyExists] = useState(false);
   const [turns, setTurns] = useState([]);
   const [movedBy, setMovedBy] = useState([]);
   const [myTurn, setMyTurn] = useState(null);
@@ -15,6 +16,8 @@ export const useWebSockets = () => {
 
   const websocketReducer = (type, payload) => {
     switch (type) {
+      case 'PlayerAlreadyExists':
+        return setDoesPlayerAlreadyExists(true);
       case 'PlayerSuccessfullyJoined':
         return setCurrentPlayerId(payload);
       case 'UpdatePlayerList':
@@ -47,5 +50,5 @@ export const useWebSockets = () => {
     }
   }, [ws]);
 
-  return { players, turns, movedBy, myTurn, playerDeleted, currentPlayerId };
+  return { players, turns, movedBy, myTurn, playerDeleted, currentPlayerId, doesPlayerAlreadyExists };
 };

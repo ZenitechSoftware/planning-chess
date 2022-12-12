@@ -2,6 +2,7 @@ import { GameWebSocket } from './GameRoom';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
+  PlayerAlreadyExists = 'PlayerAlreadyExists',
   PlayerConnected = 'PlayerConnected',
   UpdatePlayerList = 'UpdatePlayerList',
   PlayerDisconnected = 'PlayerDisconnected',
@@ -38,6 +39,7 @@ export interface RemovePlayerMessage {
 
 export interface UpdatePlayerListMessage {
   playerName: string;
+  id: string | undefined;
 }
 
 export interface Handler {

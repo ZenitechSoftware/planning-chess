@@ -139,7 +139,10 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   }
 };
 
-const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
+const successfullyJoined = (
+  ws: GameWebSocket,
+  playerId: string | undefined,
+): void => {
   ws.send(
     JSON.stringify({
       type: MessageType.PlayerSuccessfullyJoined,
@@ -150,9 +153,27 @@ const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
 
 const playerConnected: Handler = (
   ws,
-  { playerName }: UpdatePlayerListMessage,
+  { playerName, id }: UpdatePlayerListMessage,
 ): void => {
-  const newPlayerId = uuidv4();
+  const newPlayerId = id ? id : uuidv4();
+  const doesSamePlayerExists = findPlayerById(ws.roomId, id)[0] ? true : false;
+  console.log(doesSamePlayerExists);
+
+  if (doesSamePlayerExists) {
+    ws.send(
+      JSON.stringify({
+        type: MessageType.PlayerAlreadyExists,
+      }),
+    );
+    ws.send(
+      JSON.stringify({
+        type: MessageType.UpdatePlayerList,
+        payload: Array.from(getPlayers(ws.roomId).values()),
+      }),
+    );
+    return;
+  }
+
   const newPlayer: Player = {
     id: newPlayerId,
     name: playerName,
@@ -162,7 +183,7 @@ const playerConnected: Handler = (
       : PlayerStatus.ActionNotTaken,
   };
 
-  successfullyJoined(ws, newPlayer.id);
+  successfullyJoined(ws, newPlayerId);
   subscribe(ws, newPlayer);
   newPlayerJoined(ws.roomId);
 };

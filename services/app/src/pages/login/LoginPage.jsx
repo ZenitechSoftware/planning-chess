@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate } from 'react-router';
-import '../../static/style/loginScreen.css'
-import '../../static/style/layout.css'
-import Header from '../../components/loginPage/Header'
-import LoginForm from '../../components/loginPage/LoginForm'
-import Footer from '../../components/pageFooter/Footer'
+import '../../static/style/loginScreen.css';
+import '../../static/style/layout.css';
+import Header from '../../components/loginPage/Header';
+import LoginForm from '../../components/loginPage/LoginForm';
+import Footer from '../../components/pageFooter/Footer';
 import { useGameId } from '../../hooks/useGameId';
 import * as paths from "../../constants/urls";
 
@@ -23,4 +23,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default LoginPage;

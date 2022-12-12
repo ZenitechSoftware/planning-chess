@@ -5,7 +5,7 @@
     "chunkhash",
     "abcdefghijklmnopqrstuvwxyz",
     "evenodd",
-    "zenitech",
+    "zenitech"
   ],
   "ignorePaths": ["*.svg"]
 }

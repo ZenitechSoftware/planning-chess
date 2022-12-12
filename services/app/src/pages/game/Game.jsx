@@ -5,11 +5,13 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
+import { Navigate } from 'react-router';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
+import { useIdFromLocalStorage } from '../../hooks/useIdFromLocalStorage';
 import { WsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
 import {
@@ -23,17 +25,25 @@ import '../../static/style/game.css';
 function Room() {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
+  const [userId, isIdInLocalStorage, setUserId] = useIdFromLocalStorage();
 
-  const { players, movedBy, playerDeleted, currentPlayerId } = useWebSockets();
+  const { players, movedBy, playerDeleted, currentPlayerId, doesPlayerAlreadyExists } = useWebSockets();
   const { ws } = useContext(WsContext);
 
   useEffect(() => {
     setTimeout(() => {
       if (username && ws) {
-        ws.send(buildPlayerConnectedEventMessage(username));
+        ws.send(buildPlayerConnectedEventMessage(username, userId));
       }
     })
   }, [username, ws]);
+
+  useEffect(() => {
+    if(!isIdInLocalStorage && currentPlayerId) {
+      setUserId(currentPlayerId);
+      localStorage.setItem('userId', currentPlayerId);
+    }
+  }, [currentPlayerId]);
 
   const currentPlayer = useMemo(
     () => players.find((user) => user.id === currentPlayerId),
@@ -59,9 +69,9 @@ function Room() {
     }
   }, [playerDeleted]);
 
-  const skipMove = useCallback((userId) => {
-    if (userId) {
-      ws.send(buildMoveSkippedEventMessage(userId));
+  const skipMove = useCallback((playerId) => {
+    if (playerId) {
+      ws.send(buildMoveSkippedEventMessage(playerId));
     }
   }, [ws]);
 
@@ -69,14 +79,15 @@ function Room() {
     skipMove(currentPlayer?.id);
   }, [skipMove, currentPlayer]);
 
-  const removePlayer = useCallback((userId) => {
-    if (userId) {
-      ws.send(buildRemovePlayerEventMessage(userId));
+  const removePlayer = useCallback((playerId) => {
+    if (playerId) {
+      ws.send(buildRemovePlayerEventMessage(playerId));
     }
   }, []);
 
   return (
     <div>
+      {doesPlayerAlreadyExists && <Navigate to='/user-taken' />}
       <Header player={currentPlayer} roomUrl={roomUrl} />
       <div className="game-content">
         <Team
