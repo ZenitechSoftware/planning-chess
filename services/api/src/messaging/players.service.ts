@@ -138,7 +138,7 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
 };
 
 const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
-  sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId)
+  sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId);
 };
 
 const playerConnected: Handler = (
@@ -230,7 +230,7 @@ export const sendJSON = (
 type MessagePayloads = {
   [MessageType.PlayerAlreadyExists]: void;
   [MessageType.UpdatePlayerList]: Player[];
-  [MessageType.PlayerSuccessfullyJoined]: string,
+  [MessageType.PlayerSuccessfullyJoined]: string;
 };
 
 export const sendMessage = <T extends keyof MessagePayloads>(
