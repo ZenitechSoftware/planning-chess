@@ -1,11 +1,10 @@
-import React from 'react'
-import Footer from '../../components/pageFooter/Footer'
+import React from 'react';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 const UserTakenPage = () => (
-  <div>
-    <p>User taken</p>
-    <Footer />
-  </div>
+  <ErrorPage 
+    errorMsg="You have another session active"
+  />
 );
 
 export default UserTakenPage

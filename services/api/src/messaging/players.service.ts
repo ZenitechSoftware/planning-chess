@@ -10,7 +10,7 @@ import {
   MoveSkippedMessage,
   PlaceFigureMessage,
   RemovePlayerMessage,
-  UpdatePlayerListMessage,
+  PlayerConnectedMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 import { GameWebSocket } from '../domain/GameRoom';
@@ -25,10 +25,8 @@ const findPlayerById = (
 ): [WebSocket, Player] | [null, null] => {
   const players = getPlayers(roomId);
   return (
-    Array.from(players.entries()).find(([_, player]) => player.id === id) || [
-      null,
-      null,
-    ]
+    Array.from(players.entries()).find(([_, player]) => player.id === id) ||
+    null
   );
 };
 
@@ -139,37 +137,19 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   }
 };
 
-const successfullyJoined = (
-  ws: GameWebSocket,
-  playerId: string | undefined,
-): void => {
-  ws.send(
-    JSON.stringify({
-      type: MessageType.PlayerSuccessfullyJoined,
-      payload: playerId,
-    }),
-  );
+const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
+  sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId)
 };
 
 const playerConnected: Handler = (
   ws,
-  { playerName, id }: UpdatePlayerListMessage,
+  { playerName, id }: PlayerConnectedMessage,
 ): void => {
   const newPlayerId = id ? id : uuidv4();
-  const doesSamePlayerExists = findPlayerById(ws.roomId, id)[0] ? true : false;
+  const doesSamePlayerExists = !!findPlayerById(ws.roomId, id);
 
   if (doesSamePlayerExists) {
-    ws.send(
-      JSON.stringify({
-        type: MessageType.PlayerAlreadyExists,
-      }),
-    );
-    ws.send(
-      JSON.stringify({
-        type: MessageType.UpdatePlayerList,
-        payload: Array.from(getPlayers(ws.roomId).values()),
-      }),
-    );
+    sendMessage(ws, MessageType.PlayerAlreadyExists);
     return;
   }
 
@@ -237,6 +217,29 @@ export const publish = (roomId: string, message: Message): void => {
       connection.send(JSON.stringify(message));
     }
   }
+};
+
+export const sendJSON = (
+  ws: GameWebSocket,
+  data: Record<string, unknown>,
+): void => {
+  const jsonPayload = JSON.stringify(data);
+  ws.send(jsonPayload);
+};
+
+type MessagePayloads = {
+  [MessageType.PlayerAlreadyExists]: void;
+  [MessageType.UpdatePlayerList]: Player[];
+  [MessageType.PlayerSuccessfullyJoined]: string,
+};
+
+export const sendMessage = <T extends keyof MessagePayloads>(
+  ws: GameWebSocket,
+  type: T,
+  payload?: MessagePayloads[T],
+): void => {
+  const messagePayload = { type, payload };
+  sendJSON(ws, messagePayload);
 };
 
 const handlers: { [key in MessageType]?: Handler } = {

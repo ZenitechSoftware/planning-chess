@@ -1,17 +1,17 @@
 import React, {
-  useState,
   useContext,
   useEffect,
   useMemo,
   useCallback,
 } from 'react';
 import { Navigate } from 'react-router';
+import { ROUTES } from '../routes';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import Player from '../../components/player/Player';
 import { useWebSockets } from '../../utils/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
-import { useIdFromLocalStorage } from '../../hooks/useIdFromLocalStorage';
+import { useUserId } from '../../hooks/useUserId';
 import { WsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
 import {
@@ -23,11 +23,10 @@ import Header from '../../components/header/Header';
 import '../../static/style/game.css';
 
 function Room() {
-  const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
-  const [userId, isIdInLocalStorage, setUserId] = useIdFromLocalStorage();
+  const { userId, setUserId } = useUserId();
 
-  const { players, movedBy, playerDeleted, currentPlayerId, doesPlayerAlreadyExists } = useWebSockets();
+  const { players, movedBy, playerDeleted, currentPlayerId, isAnotherSessionActive } = useWebSockets();
   const { ws } = useContext(WsContext);
 
   useEffect(() => {
@@ -39,7 +38,7 @@ function Room() {
   }, [username, ws]);
 
   useEffect(() => {
-    if(!isIdInLocalStorage && currentPlayerId) {
+    if(currentPlayerId) {
       setUserId(currentPlayerId);
       localStorage.setItem('userId', currentPlayerId);
     }
@@ -87,8 +86,8 @@ function Room() {
 
   return (
     <div>
-      {doesPlayerAlreadyExists && <Navigate to='/user-taken' />}
-      <Header player={currentPlayer} roomUrl={roomUrl} />
+      {isAnotherSessionActive && <Navigate to={ROUTES.user_taken} />}
+      <Header isGameMode />
       <div className="game-content">
         <Team
           playerCount={players.length}

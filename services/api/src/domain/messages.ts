@@ -36,8 +36,7 @@ export interface MoveSkippedMessage {
 export interface RemovePlayerMessage {
   userId: string;
 }
-
-export interface UpdatePlayerListMessage {
+export interface PlayerConnectedMessage {
   playerName: string;
   id: string | undefined;
 }

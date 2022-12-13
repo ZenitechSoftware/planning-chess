@@ -15,7 +15,6 @@ function Content() {
         <Route path="/user-taken" element={<UserTakenPage />} />
       </Route>
       <Route path="/login" element={<LoginPage />} />
-      {/* <Route path="/user-taken" element={<UserTakenPage />} /> */}
     </Routes>
   );
 }
