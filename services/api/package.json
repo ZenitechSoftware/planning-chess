@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "spell": "cspell \"src/**\" \"*.js\" \"*.json\"",
-    "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\" \"*.json\" '!package-lock.json' ",
+    "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\" \"*.json\" !package-lock.json ",
     "format:write": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\" \"*.json\" '!package-lock.json'",
     "lint": "eslint .",
     "build": "tsc",

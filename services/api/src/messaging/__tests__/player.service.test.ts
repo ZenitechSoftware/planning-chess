@@ -31,7 +31,7 @@ describe('player.service', () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
   afterAll(() => {
