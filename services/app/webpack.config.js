@@ -80,6 +80,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css?v=[chunkhash]',
     }),
-    new Dotenv(),
+    new Dotenv({
+      path: `./.env.${dev ? 'dev' : 'prod'}`,
+    }),
   ],
 };
