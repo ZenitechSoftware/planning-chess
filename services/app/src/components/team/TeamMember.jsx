@@ -7,8 +7,8 @@ import './team.css';
 import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
 import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
-const TeamMember = ({ name, id, skipMove, color, status, removePlayer }) => (
-  <div className="team-list-item rubik-font">
+const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) => (
+  <div className="team-list-item" data-testid={`list-${name}-${index}`}>
     <div
       className="team-list-item-avatar"
       style={{
@@ -64,6 +64,7 @@ TeamMember.propTypes = {
   }).isRequired,
   removePlayer: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(playerStatuses)).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default React.memo(TeamMember);

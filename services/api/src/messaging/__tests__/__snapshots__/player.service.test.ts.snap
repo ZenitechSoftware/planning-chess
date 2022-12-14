@@ -42,7 +42,7 @@ Array [
     "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"status\\":\\"FigurePlaced\\"}]}",
   ],
   Array [
-    "{\\"type\\":\\"NewBoardState\\"}",
+    "{\\"type\\":\\"NewBoardState\\",\\"payload\\":[]}",
   ],
 ]
 `;
@@ -53,6 +53,9 @@ exports[`player.service should skip a move for a player 1`] = `
 Array [
   Array [
     "{\\"type\\":\\"MoveSkipped\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"MoveSkipped\\"}]}",
+  ],
+  Array [
+    "{\\"type\\":\\"NewBoardState\\",\\"payload\\":[]}",
   ],
 ]
 `;

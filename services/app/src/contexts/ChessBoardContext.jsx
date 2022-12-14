@@ -5,7 +5,7 @@ import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
-import { useWebSockets } from '../utils/useWebSockets';
+import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
 import playerStatuses from "../constants/playerStatuses";
 

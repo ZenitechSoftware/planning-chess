@@ -13,6 +13,7 @@ const ChessBoardPieces = () => {
         <div
           key={figure.name}
           role="button"
+          data-testid={`${figure.name}-piece-btn`}
           tabIndex={0}
           aria-hidden="true"
           onClick={() => setSelectedItem(figure.name)}

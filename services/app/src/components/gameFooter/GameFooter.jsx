@@ -1,7 +1,7 @@
 import React from 'react';
 import './gameFooter.css';
 import PropTypes from 'prop-types';
-import { useWebSockets } from '../../utils/useWebSockets';
+import { useWebSockets } from '../../hooks/useWebSockets';
 import GameFooterActive from './GameFooterActive';
 import GameFooterInactive from './GameFooterInactive';
 
