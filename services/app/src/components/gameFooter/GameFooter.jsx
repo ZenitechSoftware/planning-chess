@@ -15,10 +15,10 @@ function GameFooter({ skipCurrentPlayerMove }) {
         <ChessBoardPieces />
       </div>
       <div className="btn-field">
-        <button type="button" className="finish-btn" disabled={!lastTurn || isAllTurnsMade || (finished && !isAllTurnsMade)} onClick={finishMove}>
+        <button type="button" data-testid="finish-move-btn" className="finish-btn" disabled={!lastTurn || isAllTurnsMade || (finished && !isAllTurnsMade)} onClick={finishMove}>
           Finish Move
         </button>
-        <button type="button" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
+        <button type="button" data-testid="skip-move-btn" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
           Skip Move
         </button>
       </div>

@@ -6,6 +6,7 @@
     "abcdefghijklmnopqrstuvwxyz",
     "evenodd",
     "zenitech",
+    "testid",
   ],
   "ignorePaths": ["*.svg"]
 }

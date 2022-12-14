@@ -7,9 +7,9 @@ import './team.css';
 import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
 import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
 
-function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
+function TeamMember({ name, id, skipMove, color, status, removePlayer, index }) {
   return (
-    <div className="team-list-item">
+    <div className="team-list-item" data-testid={`list-${name}-${index}`}>
       <div
         className="team-list-item-avatar"
         style={{
@@ -31,6 +31,7 @@ function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
       <div className="team-list-item-actions team-list-item-icon">
         <button
           type="button"
+          data-testid="skip-other-btn"
           onClick={() => skipMove(id)}
           disabled={status !== playerStatuses.ActionNotTaken}
         >
@@ -38,6 +39,7 @@ function TeamMember({ name, id, skipMove, color, status, removePlayer }) {
         </button>
         <button
           type="button"
+          data-testid="remove-other-player-btn"
           style={{ display: 'none' }}
           onClick={() => removePlayer(id)}
         >
@@ -66,6 +68,7 @@ TeamMember.propTypes = {
   }).isRequired,
   removePlayer: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(playerStatuses)).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default React.memo(TeamMember);

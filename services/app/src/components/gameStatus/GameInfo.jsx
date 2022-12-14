@@ -14,9 +14,9 @@ const GameInfo = ({ playerCount }) => {
     const playersSkipped = players?.filter(p => p.status === playerStatuses.MoveSkipped)?.length || 0;
 
   return (
-    <div className="game-info-row">
+    <div className="game-info-row" data-testid="game-info-field">
       <div className="game-info-status player-count">
-        <p>
+        <p data-testid="players-count">
           {playerCount === 1
             ? "1 player"
             : `${playerCount} players`}
@@ -24,6 +24,7 @@ const GameInfo = ({ playerCount }) => {
       </div>
 
       <div
+        data-testid="players-done-count"
         className={classnames("game-info-status", {
           hide: playersDone === 0,
         })}
@@ -34,6 +35,7 @@ const GameInfo = ({ playerCount }) => {
       </div>
 
       <div
+        data-testid="players-skipped-count"
         className={classnames("game-info-status", {
           hide: playersSkipped === 0,
         })}
