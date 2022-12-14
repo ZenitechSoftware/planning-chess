@@ -20,7 +20,7 @@ import {
 import Header from '../../components/header/Header';
 import '../../static/style/game.css';
 
-function Room() {
+const Room = () => {
   const [roomUrl] = useState(window.location.href);
   const { username } = useUserFromLocalStorage();
 

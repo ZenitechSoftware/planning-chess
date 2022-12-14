@@ -18,7 +18,7 @@ const Square = ({
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  function playerAvatarColor(id) {
+  const playerAvatarColor = (id) => {
     const player = findUserById(id);
     if(!player) return {};
     return {

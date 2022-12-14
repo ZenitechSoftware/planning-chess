@@ -17,5 +17,6 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'no-nested-ternary': 'off',
     'import/prefer-default-export': 'off',
+    'react/jsx-one-expression-per-line': 'off',
   },
 };

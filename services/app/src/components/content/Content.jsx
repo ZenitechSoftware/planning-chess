@@ -5,16 +5,14 @@ import LoginRoute from '../loginRoute/LoginRoute';
 import LoginPage from '../../pages/login/LoginPage';
 import HomePage from '../../pages/home/HomePage';
 
-function Content() {
-  return (
-    <Routes>
-      <Route element={<LoginRoute />}>
-        <Route path="/" element={<HomePage />} />
-        <Route exact path="/game/:id" element={<Game />} />
-      </Route>
-      <Route path="/login" element={<LoginPage />} />
-    </Routes>
-  );
-}
+const Content = () => (
+  <Routes>
+    <Route element={<LoginRoute />}>
+      <Route path="/" element={<HomePage />} />
+      <Route exact path="/game/:id" element={<Game />} />
+    </Route>
+    <Route path="/login" element={<LoginPage />} />
+  </Routes>
+);
 
 export default Content;
