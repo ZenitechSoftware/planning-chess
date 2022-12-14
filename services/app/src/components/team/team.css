@@ -48,7 +48,6 @@
   order: 0;
   flex-grow: 0;
   box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
-  font-family: 'Rubik';
 }
 
 .team-list-item:last-child {

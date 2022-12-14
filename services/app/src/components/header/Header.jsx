@@ -38,7 +38,7 @@ const Header = ({ isGameMode }) => {
         {/* <span>RoomNameExample </span> */}
 
         <div className="copy-section">
-          <RippleButton onClick={copyUrl}>
+          <RippleButton onClick={copyUrl} data-testid="copy-link-btn">
             <img src={CopyLink} alt="copy link" className="copy-icon" />
           </RippleButton>
         </div>

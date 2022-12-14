@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import './chess-pieces.css';
+import './chessBoardPieces.css';
 import classnames from 'classnames';
-
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
 
@@ -14,10 +13,11 @@ const ChessBoardPieces = () => {
         <div
           key={figure.name}
           role="button"
+          data-testid={`${figure.name}-piece-btn`}
           tabIndex={0}
           aria-hidden="true"
           onClick={() => setSelectedItem(figure.name)}
-          className={classnames('piece-field flex-center', {
+          className={classnames('piece-field padding-y-s padding-x-m f-center rubik-font', {
             'piece-field-selected': selectedItem === figure.name,
           })}
         >
@@ -25,7 +25,7 @@ const ChessBoardPieces = () => {
           <p key={figure.name} className="figure-title">
             {figure.name}
           </p>
-          <div className="figure-strength-container flex-center">
+          <div className="figure-strength-container f-center">
             <p className="figure-strength">{figure.strength}</p>
           </div>
         </div>

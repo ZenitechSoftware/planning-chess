@@ -1,4 +1,4 @@
-.copy-btn-container {
+.ripple-btn-container {
     cursor: pointer;
     padding: 7px;
     border-radius: 5px;
@@ -8,12 +8,12 @@
     background-color: transparent;
 }
   
-  .copy-btn-container:hover > .copy-icon {
+  .ripple-btn-container:hover > .copy-icon {
     filter: invert(26%) sepia(72%) saturate(1678%) hue-rotate(212deg)
       brightness(91%) contrast(83%);
   }
   
-  .copy-btn-container > .ripple {
+  .ripple-btn-container > .ripple {
     width: 5px;
     height: 5px;
     position: absolute;
@@ -36,7 +36,7 @@
     }
   }
   
-  .copy-btn-container > .copy-icon {
+  .ripple-btn-container > .copy-icon {
     position: relative;
     z-index: 2;
     pointer-events: none;

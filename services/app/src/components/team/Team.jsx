@@ -8,7 +8,7 @@ import playerPropType from '../../prop-types/player';
 import Return from './teamComponents/Return.svg';
 import './team.css';
 
-function Team({ players, skipMove, children, removePlayer, playerCount }) {
+const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
   const { clearBoard } = useContext(ChessBoardContext);
 
   return (
@@ -17,10 +17,11 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
       <GameInfo playerCount={playerCount} />
 
       <div className="team-list-items">
-        <div className="team-list-item">{children}</div>
-        {players.map((player) => (
+        <div className="team-list-item rubik-font" data-testid="list-current-player">{children}</div>
+        {players.map((player, index) => (
           <TeamMember
             key={player.id}
+            index={index}
             name={player.name}
             id={player.id}
             skipMove={skipMove}
@@ -31,7 +32,7 @@ function Team({ players, skipMove, children, removePlayer, playerCount }) {
         ))}
       </div>
       <div className="team-list-footer">
-        <button type="button" disabled={false} onClick={clearBoard}>
+        <button type="button" data-testid="restart-game-btn" disabled={false} onClick={clearBoard}>
           <img alt="" src={Return} />
           {' '}
           Restart game

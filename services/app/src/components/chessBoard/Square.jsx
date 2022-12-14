@@ -18,7 +18,7 @@ const Square = ({
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  function playerAvatarColor(id) {
+  const playerAvatarColor = (id) => {
     const player = findUserById(id);
     if(!player) return {};
     return {
@@ -63,6 +63,7 @@ const Square = ({
 
   return (
     <div
+      data-testid={`chess-tile-${row}-${column}`}
       className={classNames(["square", !items.length && row !== board.length - 1 && column !== 0 && 'is-empty-tile'])}
       onMouseEnter={() => updatePopover(true)}
       onMouseLeave={() => updatePopover(false)}

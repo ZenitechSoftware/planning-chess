@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import './styles.css';
 
-const RippleButton = ({ onClick, children }) => {
+const RippleButton = ({ onClick, 'data-testid': dataTestId, children }) => {
     const [shouldRipple, setShouldRipple] = useState(false);
     const [clickCoords, setClickCoords] = useState({ x: -1, y: -1 })
 
@@ -28,7 +28,7 @@ const RippleButton = ({ onClick, children }) => {
 
 
     return (
-      <button type="button" className="copy-btn-container" onClick={(e) => handleClick(e)}>
+      <button type="button" data-testid={dataTestId} className="ripple-btn-container" onClick={(e) => handleClick(e)}>
         {shouldRipple && <span className='ripple' style={{ left: `${clickCoords.x}px`, top: `${clickCoords.y}px` }} />}
         {children}
       </button>
@@ -37,6 +37,7 @@ const RippleButton = ({ onClick, children }) => {
 
 RippleButton.propTypes = {
     onClick: PropTypes.func.isRequired,
+    'data-testid': PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element,

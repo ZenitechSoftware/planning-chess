@@ -54,6 +54,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
+        data-testid="login-btn"
         className="enter-game-btn login-input user-input-font"
         disabled={btnIsDisabled}
       >
