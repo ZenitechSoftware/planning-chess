@@ -19,15 +19,24 @@ import * as gameRoomService from '../game/game-room.service';
 const getPlayers = (roomId: string): Map<WebSocket, Player> =>
   gameRoomService.getPlayers(roomId);
 
-const findPlayerById = (
-  roomId: string,
-  id: string,
-): [WebSocket, Player] | null => {
+const findPlayerById = (roomId: string, id: string): [WebSocket, Player] => {
   const players = getPlayers(roomId);
-  if (!players) {
-    return null;
+  const player = Array.from(players.entries()).find(
+    ([_, player]) => player.id === id,
+  );
+  if (!player) {
+    throw new Error(`player with id ${id} not found`);
   }
-  return Array.from(players.entries()).find(([_, player]) => player.id === id);
+  return player;
+};
+
+const playerExists = (roomId: string, playerId: string): boolean => {
+  try {
+    findPlayerById(roomId, playerId);
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 const publishFinalBoard = (
@@ -93,17 +102,14 @@ export const checkIfUserAlreadyExists = (ws: GameWebSocket): void => {
 const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   const players = getPlayers(ws.roomId);
 
-  const result = findPlayerById(ws.roomId, userId);
-
-  if (!result) {
-    return;
-  }
-
-  if (result) {
+  try {
+    const result = findPlayerById(ws.roomId, userId);
     const [playerConnection, player] = result;
+
     if (player.status !== PlayerStatus.ActionNotTaken) {
-      return;
+      throw new Error(`Player ${userId} cannot skip a move`);
     }
+
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
       ...players.get(playerConnection),
@@ -114,27 +120,32 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       payload: Array.from(players.values()),
     });
     publishFinalBoard(ws, players);
+  } catch (err) {
+    logger.error(err?.message);
   }
 };
 
 const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   const players = getPlayers(ws.roomId);
 
-  const result = findPlayerById(ws.roomId, userId);
-
-  if (!result) {
-    return;
-  }
-
-  if (result) {
+  try {
+    const result = findPlayerById(ws.roomId, userId);
     const [playerConnection, player] = result;
+
+    if (!player) {
+      throw new Error(`Player with id ${userId} not found`);
+    }
+
     publish(ws.roomId, {
       type: MessageType.RemovePlayer,
       payload: userId,
     });
+
     players.delete(playerConnection);
     logger.info(`Player ${player?.name} removed`);
     publishAllPlayers(ws.roomId);
+  } catch (err) {
+    logger.error(err?.message);
   }
 };
 
@@ -147,7 +158,7 @@ const playerConnected: Handler = (
   { playerName, id }: PlayerConnectedMessage,
 ): void => {
   const newPlayerId = id ? id : uuidv4();
-  const doesSamePlayerExists = !!findPlayerById(ws.roomId, id);
+  const doesSamePlayerExists = playerExists(ws.roomId, id);
 
   if (doesSamePlayerExists) {
     sendMessage(ws, MessageType.PlayerAlreadyExists);

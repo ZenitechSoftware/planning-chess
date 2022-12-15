@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import * as playerService from '../players.service';
-import { MessageType } from '../../domain/messages';
+import { MessageType, PlaceFigureMessage } from '../../domain/messages';
 import { PlayerStatus } from '../../domain/player';
 import * as gameService from '../../game/game.service';
 import * as gameRoomService from '../../game/game-room.service';
@@ -12,6 +12,7 @@ jest.mock('uuid', () => ({
   v4: () => 'some-short-v4-uuid-0',
 }));
 jest.mock('../../game/game.service');
+// jest.mock('../../game/game.service');
 
 describe('player.service', () => {
   const roomId = 'abcd-1234';
@@ -95,7 +96,7 @@ describe('player.service', () => {
   });
 
   it('should set a turn if user`s move already exist', () => {
-    const turnValue = {
+    const turnValue: PlaceFigureMessage = {
       row: 2,
       tile: 5,
       figure: 'rook',
