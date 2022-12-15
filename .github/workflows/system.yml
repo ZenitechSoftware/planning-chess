@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -15,11 +14,29 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v2
+      - name: Install Utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq unzip
+      - name: Install AWS Client
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install || true
+          aws --version
+          curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "lightsailctl"
+          sudo mv "lightsailctl" "/usr/local/bin/lightsailctl"
+          sudo chmod +x /usr/local/bin/lightsailctl
       - uses: docker/build-push-action@v2
         with:
-          tags: planning-chess:latest
+          context: .
+          file: ./Dockerfile
+          tags: planning-chess
           push: false
-      - uses: addnab/docker-run-action@v3
+      - uses: aws-actions/configure-aws-credentials@v1
         with:
-          image: planning-chess:latest
-          run: echo "Container runs..."
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+      - run: aws lightsail push-container-image --service-name planning-chess-servic --image planning-chess --label node --region eu-west-2
+      - run: aws lightsail create-container-service-deployment --service-name planning-chess-servic --containers="{\"node\":{\"image\":\":planning-chess-servic.node.latest\",\"environment\":{\"PORT\":\"80\"},\"ports\":{\"80\":\"HTTP\"}}}" --public-endpoint="{\"containerName\":\"node\",\"containerPort\":80}" --region eu-west-2

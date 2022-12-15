@@ -18,8 +18,6 @@
     "build": "lerna run build --scope @planning-chess/shared && lerna run build --ignore @planning-chess/shared",
     "build:shared": "lerna run build --scope @planning-chess/shared",
     "lint": "lerna run lint --concurrency 1",
-    "package": "docker build -t mykolaszenitech/planning-chess:$VERSION .",
-    "publish": "aws lightsail push-container-image --region eu-west-2 --service-name planning-chess-servic --image mykolaszenitech/planning-chess:$VERSION --label node --profile planningchess",
     "ci": "lerna run ci",
     "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest",
     "nuke": "lerna run nuke --parallel && npm run clean:root"
