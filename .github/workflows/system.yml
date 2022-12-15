@@ -39,4 +39,5 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
-      - run: aws lightsail push-container-image --region eu-west-2 --service-name planning-chess-servic --image planning-chess --label node
+      - run: aws lightsail push-container-image --service-name planning-chess-servic --image planning-chess --label node --region eu-west-2
+      - run: aws lightsail create-container-service-deployment --service-name planning-chess-servic --containers="{\"node\":{\"image\":\":planning-chess-servic.node.latest\",\"environment\":{\"PORT\":\"80\"},\"ports\":{\"80\":\"HTTP\"}}}" --public-endpoint="{\"containerName\":\"node\",\"containerPort\":80}" --region eu-west-2
