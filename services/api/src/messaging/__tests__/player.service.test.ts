@@ -12,6 +12,7 @@ jest.mock('uuid', () => ({
   v4: () => 'some-short-v4-uuid-0',
 }));
 jest.mock('../../game/game.service');
+// jest.mock('../../game/game.service');
 
 describe('player.service', () => {
   const roomId = 'abcd-1234';
@@ -90,8 +91,9 @@ describe('player.service', () => {
     expect(sendMock).not.toBeCalled();
   });
 
-  it('should set a turn if user`s move already exist', () => {
+  it.only('should set a turn if user`s move already exist', () => {
     const sendMock = jest.spyOn(ws, 'send');
+    jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(true as any);
     playerService.checkIfUserAlreadyExists(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
