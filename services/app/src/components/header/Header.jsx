@@ -10,7 +10,7 @@ import CopyLink from "./headerComponents/CopyLink.svg";
 import { rgbToColor } from '../../helpers/rgbToColor';
 import '../../static/style/layout.css';
 import './header.css';
-import { useWebSockets } from '../../utils/useWebSockets';
+import { useWebSockets } from '../../hooks/useWebSockets';
 
 const Header = ({ isGameMode }) => {
   const { players, currentPlayerId } = useWebSockets();

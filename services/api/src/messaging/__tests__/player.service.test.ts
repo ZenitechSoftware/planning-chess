@@ -41,12 +41,24 @@ describe('player.service', () => {
   it('should join a new player', () => {
     const message = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo' },
+      payload: { playerName: 'foo', id: 'some-short-v4-uuid-0' },
     };
 
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should not join the game, because another session is active', () => {
+    const message = {
+      type: MessageType.PlayerConnected,
+      payload: { playerName: 'foo', id: 'some-short-v4-uuid-0' },
+    };
+
+    playerService.newMessageReceived(ws, message);
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).toBeCalled();
   });
 
   it('should skip a move for a player', () => {
@@ -55,14 +67,6 @@ describe('player.service', () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
-  });
-
-  it('should not skip a move, because user do not exist', () => {
-    const payload = { userId: 'some-short-v4-' };
-    const message = { type: MessageType.MoveSkipped, payload };
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
   });
 
   it('should not skip a move, because user state is not ActionNotTaken', () => {
@@ -91,6 +95,16 @@ describe('player.service', () => {
   });
 
   it('should set a turn if user`s move already exist', () => {
+    const turnValue = {
+      row: 2,
+      tile: 5,
+      figure: 'rook',
+      player: 'player1',
+      id: 'some-short-v4-uuid-0',
+      score: 8,
+    };
+
+    jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(turnValue);
     const sendMock = jest.spyOn(ws, 'send');
     playerService.checkIfUserAlreadyExists(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
@@ -109,6 +123,18 @@ describe('player.service', () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.clearBoard(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should not skip a move, because user do not exist', () => {
+    const payload = { userId: 'some-short-v4-' };
+    const message = { type: MessageType.MoveSkipped, payload };
+
+    jest.spyOn(gameRoomService, 'getPlayers').mockReturnValue(null);
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).not.toBeCalled();
+    jest.restoreAllMocks();
+    jest.resetAllMocks();
   });
 
   it('should disconnect a player', async () => {

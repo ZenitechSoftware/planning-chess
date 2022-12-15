@@ -22,12 +22,12 @@ const getPlayers = (roomId: string): Map<WebSocket, Player> =>
 const findPlayerById = (
   roomId: string,
   id: string,
-): [WebSocket, Player] | [null, null] => {
+): [WebSocket, Player] | null => {
   const players = getPlayers(roomId);
-  return (
-    Array.from(players.entries()).find(([_, player]) => player.id === id) ||
-    null
-  );
+  if (!players) {
+    return null;
+  }
+  return Array.from(players.entries()).find(([_, player]) => player.id === id);
 };
 
 const publishFinalBoard = (
@@ -95,28 +95,25 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
 
   const result = findPlayerById(ws.roomId, userId);
 
+  if (!result) {
+    return;
+  }
+
   if (result) {
     const [playerConnection, player] = result;
-    try {
-      if (!player) {
-        throw new Error(`Player with id ${userId} not found`);
-      }
-      if (player.status !== PlayerStatus.ActionNotTaken) {
-        throw new Error(`Player ${userId} cannot skip a move`);
-      }
-      logger.info(`Player ${player?.name} skips a move.`);
-      players.set(playerConnection, {
-        ...players.get(playerConnection),
-        status: PlayerStatus.MoveSkipped,
-      });
-      publish(ws.roomId, {
-        type: MessageType.MoveSkipped,
-        payload: Array.from(players.values()),
-      });
-      publishFinalBoard(ws, players);
-    } catch (err) {
-      logger.error(err?.message);
+    if (player.status !== PlayerStatus.ActionNotTaken) {
+      return;
     }
+    logger.info(`Player ${player?.name} skips a move.`);
+    players.set(playerConnection, {
+      ...players.get(playerConnection),
+      status: PlayerStatus.MoveSkipped,
+    });
+    publish(ws.roomId, {
+      type: MessageType.MoveSkipped,
+      payload: Array.from(players.values()),
+    });
+    publishFinalBoard(ws, players);
   }
 };
 
@@ -125,23 +122,19 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
 
   const result = findPlayerById(ws.roomId, userId);
 
+  if (!result) {
+    return;
+  }
+
   if (result) {
     const [playerConnection, player] = result;
-    try {
-      if (!player) {
-        throw new Error(`Player with id ${userId} not found`);
-      }
-      publish(ws.roomId, {
-        type: MessageType.RemovePlayer,
-        payload: userId,
-      });
-
-      players.delete(playerConnection);
-      logger.info(`Player ${player?.name} removed`);
-      publishAllPlayers(ws.roomId);
-    } catch (err) {
-      logger.error(err?.message);
-    }
+    publish(ws.roomId, {
+      type: MessageType.RemovePlayer,
+      payload: userId,
+    });
+    players.delete(playerConnection);
+    logger.info(`Player ${player?.name} removed`);
+    publishAllPlayers(ws.roomId);
   }
 };
 
