@@ -5,13 +5,15 @@ import { getPlayerAvatarColor } from '../helpers/player-avatar-color';
 import logger from '../logger';
 import {
   Handler,
-  Message,
   MessageType,
   MoveSkippedMessage,
   PlaceFigureMessage,
   RemovePlayerMessage,
   PlayerConnectedMessage,
-  MessagePayloads,
+  SendMessagePayloads,
+  SendMessage,
+  ReceivedMessagePayloads,
+  ReceivedMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 import { GameWebSocket } from '../domain/GameRoom';
@@ -223,7 +225,10 @@ export const unsubscribe = (ws: GameWebSocket): void => {
   players.delete(ws);
 };
 
-export const publish = <T extends keyof MessagePayloads>(roomId: string, message: Message<T>): void => {
+export const publish = <T1 extends keyof SendMessagePayloads>(
+  roomId: string,
+  message: SendMessage<T1>,
+): void => {
   const players = getPlayers(roomId);
   for (const connection of players.keys()) {
     if (connection.readyState === WebSocket.OPEN) {
@@ -240,10 +245,10 @@ export const sendJSON = (
   ws.send(jsonPayload);
 };
 
-export const sendMessage = <T extends keyof MessagePayloads>(
+export const sendMessage = <T1 extends keyof SendMessagePayloads>(
   ws: GameWebSocket,
-  type: T,
-  payload?: MessagePayloads[T],
+  type: T1,
+  payload?: SendMessagePayloads[T1],
 ): void => {
   const messagePayload = { type, payload };
   sendJSON(ws, messagePayload);
@@ -259,9 +264,16 @@ const handlers: { [key in MessageType]?: Handler } = {
 
 const getHandler = (type: MessageType): Handler => handlers[type];
 
-export const newMessageReceived = <T extends keyof MessagePayloads>(
+// export const newMessageReceived = <T extends keyof MessagePayloads>(
+//   ws: GameWebSocket,
+//   message: Message<T>,
+// ): void => {
+//   getHandler(message.type)(ws, message.payload);
+// };
+
+export const newMessageReceived = <T extends keyof ReceivedMessagePayloads>(
   ws: GameWebSocket,
-  message: Message<T>,
+  message: ReceivedMessage<T>,
 ): void => {
   getHandler(message.type)(ws, message.payload);
 };

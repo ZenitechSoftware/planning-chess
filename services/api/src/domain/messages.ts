@@ -16,7 +16,7 @@ export enum MessageType {
   SetMyTurn = 'SetMyTurn',
 }
 
-export type MessagePayloads = {
+export type SendMessagePayloads = {
   [MessageType.NewBoardState]: PlaceFigureMessage[];
   [MessageType.FigureMoved]: PlaceFigureMessage[];
   [MessageType.ClearBoard]: void;
@@ -30,9 +30,22 @@ export type MessagePayloads = {
   [MessageType.PlayerSuccessfullyJoined]: string;
 };
 
-export interface Message<T extends keyof MessagePayloads> {
+export interface SendMessage<T1 extends keyof SendMessagePayloads> {
+  type: T1;
+  payload?: SendMessagePayloads[T1];
+}
+
+export type ReceivedMessagePayloads = {
+  [MessageType.PlayerConnected]: PlayerConnectedMessage;
+  [MessageType.FigureMoved]: PlaceFigureMessage;
+  [MessageType.MoveSkipped]: MoveSkippedMessage;
+  [MessageType.RemovePlayer]: RemovePlayerMessage;
+  [MessageType.ClearBoard]: void;
+};
+
+export interface ReceivedMessage<T extends keyof ReceivedMessagePayloads> {
   type: T;
-  payload?: MessagePayloads[T];
+  payload?: ReceivedMessagePayloads[T];
 }
 
 export interface PlaceFigureMessage {

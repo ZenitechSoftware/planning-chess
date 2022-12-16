@@ -3,7 +3,7 @@
 exports[`player.service should clear the board 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"ClearBoard\\",\\"payload\\":[]}",
+    "{\\"type\\":\\"ClearBoard\\"}",
   ],
   Array [
     "{\\"type\\":\\"NewBoardState\\"}",
