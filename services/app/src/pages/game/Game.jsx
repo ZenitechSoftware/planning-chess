@@ -19,10 +19,10 @@ import {
   buildPlayerConnectedEventMessage,
   buildRemovePlayerEventMessage,
 } from '../../api/playerApi';
-import Header from '../../components/header/Header';
+import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 
-function Room() {
+const Game = () => {
   const { username } = useUserFromLocalStorage();
   const { userId, setUserId } = useUserId();
 
@@ -40,7 +40,6 @@ function Room() {
   useEffect(() => {
     if(currentPlayerId) {
       setUserId(currentPlayerId);
-      localStorage.setItem('userId', currentPlayerId);
     }
   }, [currentPlayerId]);
 
@@ -87,7 +86,7 @@ function Room() {
   return (
     <div>
       {isAnotherSessionActive && <Navigate to={ROUTES.user_taken} />}
-      <Header isGameMode />
+      <GameHeader />
       <div className="game-content">
         <Team
           playerCount={players.length}
@@ -108,4 +107,4 @@ function Room() {
   );
 }
 
-export default Room;
+export default Game;

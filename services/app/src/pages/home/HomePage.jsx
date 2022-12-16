@@ -5,7 +5,7 @@ import { useGameId } from '../../hooks/useGameId';
 
 const HomePage = () => {
   const { gameId } = useGameId();
-  return <Navigate to={ROUTES.game+gameId} />
+  return <Navigate to={`${ROUTES.game}${gameId}`} />
 };
 
 export default HomePage;

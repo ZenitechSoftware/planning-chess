@@ -11,6 +11,7 @@ import {
   PlaceFigureMessage,
   RemovePlayerMessage,
   PlayerConnectedMessage,
+  MessagePayloads,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 import { GameWebSocket } from '../domain/GameRoom';
@@ -81,7 +82,7 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
 export const clearBoard = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
   setDefaultStatusForPlayers(ws);
-  publish(ws.roomId, { type: MessageType.ClearBoard, payload: [] });
+  publish(ws.roomId, { type: MessageType.ClearBoard });
   publishBoard(ws.roomId);
   publishAllPlayers(ws.roomId);
 };
@@ -222,7 +223,7 @@ export const unsubscribe = (ws: GameWebSocket): void => {
   players.delete(ws);
 };
 
-export const publish = (roomId: string, message: Message): void => {
+export const publish = <T extends keyof MessagePayloads>(roomId: string, message: Message<T>): void => {
   const players = getPlayers(roomId);
   for (const connection of players.keys()) {
     if (connection.readyState === WebSocket.OPEN) {
@@ -237,12 +238,6 @@ export const sendJSON = (
 ): void => {
   const jsonPayload = JSON.stringify(data);
   ws.send(jsonPayload);
-};
-
-type MessagePayloads = {
-  [MessageType.PlayerAlreadyExists]: void;
-  [MessageType.UpdatePlayerList]: Player[];
-  [MessageType.PlayerSuccessfullyJoined]: string;
 };
 
 export const sendMessage = <T extends keyof MessagePayloads>(
@@ -264,9 +259,9 @@ const handlers: { [key in MessageType]?: Handler } = {
 
 const getHandler = (type: MessageType): Handler => handlers[type];
 
-export const newMessageReceived = (
+export const newMessageReceived = <T extends keyof MessagePayloads>(
   ws: GameWebSocket,
-  message: Message,
+  message: Message<T>,
 ): void => {
   getHandler(message.type)(ws, message.payload);
 };

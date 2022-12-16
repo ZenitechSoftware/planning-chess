@@ -1,12 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Game from '../../pages/game/Game';
-import LoginRoute from '../loginRoute/LoginRoute';
-import LoginPage from '../../pages/login/LoginPage';
-import HomePage from '../../pages/home/HomePage';
-import UserTakenPage from '../../pages/userTakenPage/UserTakenPage';
+import Game from './game/Game';
+import LoginRoute from '../components/loginRoute/LoginRoute';
+import LoginPage from './login/LoginPage';
+import HomePage from './home/HomePage';
+import UserTakenPage from './userTakenPage/UserTakenPage';
 
-function Content() {
+const CustomRouter = () => {
   return (
     <Routes>
       <Route element={<LoginRoute />}>
@@ -19,4 +19,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default CustomRouter;

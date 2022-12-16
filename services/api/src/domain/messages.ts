@@ -1,4 +1,5 @@
 import { GameWebSocket } from './GameRoom';
+import { Player } from './player';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
@@ -15,9 +16,23 @@ export enum MessageType {
   SetMyTurn = 'SetMyTurn',
 }
 
-export interface Message {
-  type: MessageType;
-  payload: unknown;
+export type MessagePayloads = {
+  [MessageType.NewBoardState]: PlaceFigureMessage[];
+  [MessageType.FigureMoved]: PlaceFigureMessage[];
+  [MessageType.ClearBoard]: void;
+  [MessageType.SetMyTurn]: PlaceFigureMessage;
+  [MessageType.PlayerConnected]: Player[];
+  [MessageType.PlayerDisconnected]: Player[];
+  [MessageType.MoveSkipped]: Player[];
+  [MessageType.RemovePlayer]: string;
+  [MessageType.PlayerAlreadyExists]: void;
+  [MessageType.UpdatePlayerList]: Player[];
+  [MessageType.PlayerSuccessfullyJoined]: string;
+};
+
+export interface Message<T extends keyof MessagePayloads> {
+  type: T;
+  payload?: MessagePayloads[T];
 }
 
 export interface PlaceFigureMessage {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Content from './content/Content';
+import CustomRouter from '../pages/CustomRouter';
 import WebSocketsContextProvider from '../contexts/ws-context';
 import ChessGameProvider from '../contexts/ChessBoardContext';
 
@@ -14,7 +14,7 @@ const App = () => (
   <Router>
     <WebSocketsContextProvider>
       <ChessGameProvider>
-        <Content />
+        <CustomRouter />
       </ChessGameProvider>
     </WebSocketsContextProvider>
   </Router>

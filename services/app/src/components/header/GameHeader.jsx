@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react';
-import PropTypes from "prop-types";
-import classNames from 'classnames';
 import RippleButton from '../rippleButton/RippleButton';
 import Logo from "./headerComponents/PlanningChessLogo.svg";
 import Separator from "./headerComponents/SolidSeparator.svg";
@@ -12,7 +10,7 @@ import '../../static/style/layout.css';
 import './header.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
 
-const Header = ({ isGameMode }) => {
+const GameHeader = () => {
   const { players, currentPlayerId } = useWebSockets();
 
   const currentPlayer = useMemo(
@@ -27,12 +25,10 @@ const Header = ({ isGameMode }) => {
   }
 
   return (
-    <div className="align-c" id="header">
+    <div className="align-c header">
       <img src={Logo} alt="logo" className='margin-r-m' />
       <div 
-        className={classNames('f-row align-c gap-m header-info', {
-          'display-none-i': !isGameMode,
-        })}
+        className='f-row align-c gap-m header-info'
       >
         <img src={Separator} alt="separator" />
         {/* <span>RoomNameExample </span> */}
@@ -47,7 +43,7 @@ const Header = ({ isGameMode }) => {
         {/* <img src={Info} alt="nav-item" /> */}
       </div>
 
-      {currentPlayer && isGameMode && (
+      {currentPlayer && (
         <div className="f-1 justify-end align-c gap-s">
           <span
             className="f-center avatar"
@@ -65,8 +61,4 @@ const Header = ({ isGameMode }) => {
   );
 };
 
-Header.propTypes = {
-  isGameMode: PropTypes.bool.isRequired,
-}
-
-export default Header;
+export default GameHeader;

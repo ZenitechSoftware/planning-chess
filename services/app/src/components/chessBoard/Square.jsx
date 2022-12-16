@@ -85,7 +85,7 @@ const Square = ({
       <span className={classNames(["number", "number-column", filled && "number-filled"])}>{board[board.length - 1][column].attribute}</span>}
       {!!items.length && (
         <div className={classNames(["pop-over", showPopover && "pop-over-opened"])}>
-          <span className="header">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
+          <span className="pop-over-header">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
               <div 
