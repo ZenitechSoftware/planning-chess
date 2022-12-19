@@ -8,9 +8,9 @@ import CheckMark from "../../static/svg/Checkmark.svg";
 import SkippedIcon from "../../static/svg/SkippedIcon.svg";
 
 const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) => (
-  <div className="team-list-item" data-testid={`list-${name}-${index}`}>
+  <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
     <div
-      className="team-list-item-avatar"
+      className="team-list-item-avatar align-c"
       style={{
       backgroundColor: `rgb(${color.background.r}, ${color.background.g}, ${color.background.b})`
     }}

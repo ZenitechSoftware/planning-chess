@@ -14,7 +14,7 @@ const GameInfo = ({ playerCount }) => {
     const playersSkipped = players?.filter(p => p.status === playerStatuses.MoveSkipped)?.length || 0;
 
   return (
-    <div className="game-info-row rubik-font" data-testid="game-info-field">
+    <div className="game-info-row rubik-font align-c" data-testid="game-info-field">
       <div className="game-info-status player-count">
         <p data-testid="players-count">
           {playerCount === 1

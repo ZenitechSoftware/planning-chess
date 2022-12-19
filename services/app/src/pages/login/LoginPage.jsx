@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router';
 import '../../static/style/loginScreen.css';
-import '../../static/style/layout.css';
 import Header from '../../components/header/Header';
 import LoginForm from '../../components/loginPage/LoginForm';
 import Footer from '../../components/pageFooter/Footer';

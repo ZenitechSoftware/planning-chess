@@ -10,7 +10,7 @@ const GameStatus = () => {
   
   if(isGameInProgress) {
     return (
-      <div className='game-status-field game-status-in-progress'>
+      <div className='game-status-field game-status-in-progress align-c'>
         <img src={ClockIcon} alt="game status icon" className="game-status-icon" />
         <p className="status-text">Game in progress...</p>
       </div>
@@ -19,7 +19,7 @@ const GameStatus = () => {
   
   if(isAllTurnsMade) {
     return (
-      <div className='game-status-field game-status-completed'>
+      <div className='game-status-field game-status-completed align-c'>
         <img src={CompletedIcon} alt="game status icon" className="game-status-icon" />
         <p className="status-text">Game complete - {globalScore} SP</p>
       </div>
@@ -27,7 +27,7 @@ const GameStatus = () => {
   }
   
   return (
-    <div className='game-status-field game-status-in-progress'>
+    <div className='game-status-field game-status-in-progress align-c'>
       <img src={WaitingPlayersIcon} alt="game status icon" className="game-status-icon" />
       <p className="status-text">Waiting for more players</p>
     </div>

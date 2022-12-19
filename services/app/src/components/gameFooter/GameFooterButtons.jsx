@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import './gameFooter.css';
-import '../../static/style/spacing.css'
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {

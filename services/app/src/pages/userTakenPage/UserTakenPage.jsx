@@ -3,7 +3,7 @@ import ErrorPage from '../ErrorPage/ErrorPage';
 
 const UserTakenPage = () => (
   <ErrorPage 
-    errorMsg="You have another session active"
+    errorMsg="You have another active session"
   />
 );
 

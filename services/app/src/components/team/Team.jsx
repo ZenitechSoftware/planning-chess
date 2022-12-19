@@ -17,7 +17,7 @@ const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
       <GameInfo playerCount={playerCount} />
 
       <div className="team-list-items">
-        <div className="team-list-item rubik-font" data-testid="list-current-player">{children}</div>
+        <div className="team-list-item align-c rubik-font" data-testid="list-current-player">{children}</div>
         {players.map((player, index) => (
           <TeamMember
             key={player.id}

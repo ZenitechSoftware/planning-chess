@@ -3,10 +3,7 @@ import Header from './Header';
 import RippleButton from '../rippleButton/RippleButton';
 import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyLink from "../../static/svg/CopyLink.svg";
-// import Settings from "../../static/svg/Settings.svg";
-// import Info from "../../static/svg/Info.svg";
 import { rgbToColor } from '../../helpers/rgbToColor';
-import '../../static/style/layout.css';
 import './header.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
 
@@ -30,16 +27,12 @@ const GameHeader = () => {
         className='f-row align-c gap-m header-info'
       >
         <img src={Separator} alt="separator" />
-        {/* <span>RoomNameExample </span> */}
 
         <div className="copy-section">
           <RippleButton onClick={copyUrl} data-testid="copy-link-btn">
             <img src={CopyLink} alt="copy link" className="copy-icon" />
           </RippleButton>
         </div>
-
-        {/* <img src={Settings} alt="nav-item" /> */}
-        {/* <img src={Info} alt="nav-item" /> */}
       </div>
 
       {currentPlayer && (

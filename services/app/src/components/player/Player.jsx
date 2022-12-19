@@ -9,7 +9,7 @@ const Player = ({ player }) => (
         player && (
         <>
           <div
-            className="team-list-item-avatar"
+            className="team-list-item-avatar align-c"
             style={{
                         backgroundColor: rgbToColor(player.color.background),
                     }}

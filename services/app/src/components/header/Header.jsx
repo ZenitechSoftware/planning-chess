@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Logo from "../../static/svg/PlanningChessLogo.svg";
-import '../../static/style/layout.css';
 import './header.css';
 
 
@@ -17,7 +16,7 @@ Header.defaultProps = {
 }
 
 Header.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.array,
 };
 
 export default Header;

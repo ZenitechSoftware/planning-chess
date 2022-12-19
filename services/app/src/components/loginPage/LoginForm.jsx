@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import './loginPage.css'
-import '../../static/style/fonts.css'
-import '../../static/style/spacing.css'
-import '../../static/style/layout.css'
+import './loginPage.css';
 import userInputIcon from '../../static/svg/UserInputIcon.svg';
 import * as paths from '../../constants/urls'
 import {useGameId} from "../../hooks/useGameId";
@@ -28,7 +25,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form className="login-form margin-auto f-column-between" onSubmit={submitInfo}>
+    <form className="login-form align-c margin-auto f-column-between" onSubmit={submitInfo}>
       <div className="form-text">
         <h2>Welcome! Let&rsquo;s begin.</h2>
         <p>Firstly, enter your name:</p>

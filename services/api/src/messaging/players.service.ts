@@ -106,8 +106,7 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   const players = getPlayers(ws.roomId);
 
   try {
-    const result = findPlayerById(ws.roomId, userId);
-    const [playerConnection, player] = result;
+    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
 
     if (player.status !== PlayerStatus.ActionNotTaken) {
       throw new Error(`Player ${userId} cannot skip a move`);
@@ -132,8 +131,7 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   const players = getPlayers(ws.roomId);
 
   try {
-    const result = findPlayerById(ws.roomId, userId);
-    const [playerConnection, player] = result;
+    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
 
     if (!player) {
       throw new Error(`Player with id ${userId} not found`);
