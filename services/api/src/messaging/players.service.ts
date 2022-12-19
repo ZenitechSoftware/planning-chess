@@ -156,7 +156,7 @@ const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
   sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId);
 };
 
-const playerConnected: Handler = (
+export const playerConnected: Handler = (
   ws,
   { playerName, id }: PlayerConnectedMessage,
 ): void => {
@@ -225,9 +225,9 @@ export const unsubscribe = (ws: GameWebSocket): void => {
   players.delete(ws);
 };
 
-export const publish = <T1 extends keyof SendMessagePayloads>(
+export const publish = <T extends keyof SendMessagePayloads>(
   roomId: string,
-  message: SendMessage<T1>,
+  message: SendMessage<T>,
 ): void => {
   const players = getPlayers(roomId);
   for (const connection of players.keys()) {
@@ -245,10 +245,10 @@ export const sendJSON = (
   ws.send(jsonPayload);
 };
 
-export const sendMessage = <T1 extends keyof SendMessagePayloads>(
+export const sendMessage = <T extends keyof SendMessagePayloads>(
   ws: GameWebSocket,
-  type: T1,
-  payload?: SendMessagePayloads[T1],
+  type: T,
+  payload?: SendMessagePayloads[T],
 ): void => {
   const messagePayload = { type, payload };
   sendJSON(ws, messagePayload);
@@ -263,13 +263,6 @@ const handlers: { [key in MessageType]?: Handler } = {
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
-
-// export const newMessageReceived = <T extends keyof MessagePayloads>(
-//   ws: GameWebSocket,
-//   message: Message<T>,
-// ): void => {
-//   getHandler(message.type)(ws, message.payload);
-// };
 
 export const newMessageReceived = <T extends keyof ReceivedMessagePayloads>(
   ws: GameWebSocket,

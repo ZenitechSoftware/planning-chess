@@ -5,7 +5,7 @@ import TeamMember from './TeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
 import playerPropType from '../../prop-types/player';
-import Return from './teamComponents/Return.svg';
+import Return from '../../static/svg/Return.svg';
 import './team.css';
 
 const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {

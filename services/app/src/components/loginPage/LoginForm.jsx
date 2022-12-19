@@ -4,7 +4,7 @@ import './loginPage.css'
 import '../../static/style/fonts.css'
 import '../../static/style/spacing.css'
 import '../../static/style/layout.css'
-import userInputIcon from './SVGs/userInputIcon.svg';
+import userInputIcon from '../../static/svg/UserInputIcon.svg';
 import * as paths from '../../constants/urls'
 import {useGameId} from "../../hooks/useGameId";
 

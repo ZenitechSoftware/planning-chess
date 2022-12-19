@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import BrokenPieceIllustration from './svg/BrokenPieceIllustration.svg';
+import BrokenPieceIllustration from '../../static/svg/BrokenPieceIllustration.svg';
 import './errorPage.css'
 import '../../static/style/spacing.css'
 import '../../static/style/layout.css'

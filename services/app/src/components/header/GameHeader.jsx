@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
+import Header from './Header';
 import RippleButton from '../rippleButton/RippleButton';
-import Logo from "./headerComponents/PlanningChessLogo.svg";
-import Separator from "./headerComponents/SolidSeparator.svg";
-import CopyLink from "./headerComponents/CopyLink.svg";
-// import Settings from "./headerComponents/Settings.svg";
-// import Info from "./headerComponents/Info.svg";
+import Separator from "../../static/svg/SolidSeparator.svg";
+import CopyLink from "../../static/svg/CopyLink.svg";
+// import Settings from "../../static/svg/Settings.svg";
+// import Info from "../../static/svg/Info.svg";
 import { rgbToColor } from '../../helpers/rgbToColor';
 import '../../static/style/layout.css';
 import './header.css';
@@ -25,8 +25,7 @@ const GameHeader = () => {
   }
 
   return (
-    <div className="align-c header">
-      <img src={Logo} alt="logo" className='margin-r-m' />
+    <Header>
       <div 
         className='f-row align-c gap-m header-info'
       >
@@ -57,7 +56,8 @@ const GameHeader = () => {
           <span id="username">{currentPlayer.name}</span>
         </div>
       )}
-    </div>
+    </Header>
+    
   );
 };
 

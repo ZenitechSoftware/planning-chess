@@ -1,4 +1,4 @@
-.header {
+#header {
   display: flex;
   flex-direction: row;
   background: #F3F6FA;

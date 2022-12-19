@@ -4,6 +4,7 @@ import {
   MessageType,
   PlaceFigureMessage,
   ReceivedMessage,
+  PlayerConnectedMessage,
 } from '../../domain/messages';
 import { PlayerStatus } from '../../domain/player';
 import * as gameService from '../../game/game.service';
@@ -54,15 +55,19 @@ describe('player.service', () => {
   });
 
   it('should not join the game, because another session is active', () => {
-    const message: ReceivedMessage<MessageType.PlayerConnected> = {
-      type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo', id: 'some-short-v4-uuid-0' },
+    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
+    const playerConnectedMessagePayload: PlayerConnectedMessage = {
+      playerName: 'foo',
+      id: 'some-short-v4-uuid-0',
     };
 
-    playerService.newMessageReceived(ws, message);
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).toBeCalled();
+    playerService.playerConnected(ws, playerConnectedMessagePayload);
+    playerService.playerConnected(ws, playerConnectedMessagePayload);
+
+    expect(sendMessageSpy).toHaveBeenCalledWith(
+      ws,
+      MessageType.PlayerAlreadyExists,
+    );
   });
 
   it('should skip a move for a player', () => {
@@ -159,12 +164,13 @@ describe('player.service', () => {
       payload,
     };
 
-    jest.spyOn(gameRoomService, 'getPlayers').mockReturnValue(null);
-    const sendMock = jest.spyOn(ws, 'send');
+    const publishMessageSpy = jest.spyOn(playerService, 'publish');
+    const mock = jest
+      .spyOn(gameRoomService, 'getPlayers')
+      .mockReturnValue(null);
     playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
-    jest.restoreAllMocks();
-    jest.resetAllMocks();
+    expect(publishMessageSpy).not.toBeCalledWith(ws, MessageType.MoveSkipped);
+    mock.mockRestore();
   });
 
   it('should disconnect a player', async () => {

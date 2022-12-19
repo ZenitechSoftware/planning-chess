@@ -85,7 +85,7 @@ const Game = () => {
 
   return (
     <div>
-      {isAnotherSessionActive && <Navigate to={ROUTES.user_taken} />}
+      {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
       <GameHeader />
       <div className="game-content">
         <Team

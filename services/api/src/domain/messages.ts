@@ -30,9 +30,9 @@ export type SendMessagePayloads = {
   [MessageType.PlayerSuccessfullyJoined]: string;
 };
 
-export interface SendMessage<T1 extends keyof SendMessagePayloads> {
-  type: T1;
-  payload?: SendMessagePayloads[T1];
+export interface SendMessage<T extends keyof SendMessagePayloads> {
+  type: T;
+  payload?: SendMessagePayloads[T];
 }
 
 export type ReceivedMessagePayloads = {

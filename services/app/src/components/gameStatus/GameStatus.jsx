@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import './gameStatus.css';
-import ClockIcon from './statusComponents/clock.svg';
-import CompletedIcon from './statusComponents/completedIcon.svg';
-import WaitingPlayersIcon from './statusComponents/waitingPlayersIcon.svg';
+import ClockIcon from '../../static/svg/Clock.svg';
+import CompletedIcon from '../../static/svg/CompletedIcon.svg';
+import WaitingPlayersIcon from '../../static/svg/WaitingPlayersIcon.svg';
 import {ChessBoardContext} from "../../contexts/ChessBoardContext";
 
 const GameStatus = () => {

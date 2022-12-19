@@ -4,7 +4,7 @@ import { ROUTES } from '../../pages/routes';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { useGameId } from '../../hooks/useGameId';
 
-const LoginRoute = () => {
+const LoginRedirect = () => {
   const { pathname } = useLocation();
 
   const gameRoomId = matchPath('/game/:id', pathname ) ? pathname.split('/')[2] : undefined
@@ -14,4 +14,4 @@ const LoginRoute = () => {
   return authentication ? <Outlet /> : <Navigate to={ROUTES.login} />;
 };
 
-export default LoginRoute;
+export default LoginRedirect;

@@ -1,7 +1,7 @@
 .error-screen {
-    background: #FFFFFF;
-    min-height: 100vh;
-    max-height: 100vh;
+  background: #FFFFFF;
+  min-height: 100vh;
+  max-height: 100vh;
 }
 
 .error-page-content {
