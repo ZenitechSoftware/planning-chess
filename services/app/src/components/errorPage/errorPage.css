@@ -4,10 +4,6 @@
   max-height: 100vh;
 }
 
-.error-page-content {
-  align-items: center;
-}
-
 .error-page-content > p {
   font-size: 2rem;
   font-weight: 800;

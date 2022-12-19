@@ -12,7 +12,7 @@ const ChessBoard = () => {
       <div className="rotated-outer">
         <span className="rotated-inner axis-title">Amount of work</span>
       </div>
-      <table id="chess-board" className='align-c'>
+      <table id="chess-board">
         <tbody>
           {board.map((row, rowIndex) => (
             <tr key={rowIndex}>

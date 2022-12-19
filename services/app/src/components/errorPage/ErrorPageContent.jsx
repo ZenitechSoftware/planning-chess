@@ -4,7 +4,7 @@ import BrokenPieceIllustration from '../../static/svg/BrokenPieceIllustration.sv
 import './errorPage.css';
 
 const ErrorPageContent = ({ errorMsg }) => (
-  <div className='margin-auto f-column-between error-page-content'>
+  <div className='margin-auto align-c f-column-between error-page-content'>
     <img src={BrokenPieceIllustration} alt="broken chess icon" className='broken-chess-icon' />
     <p>{errorMsg}</p>
   </div>
