@@ -16,10 +16,7 @@ Header.defaultProps = {
 }
 
 Header.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element,
-  ])
+  children: PropTypes.node,
 };
 
 export default Header;
