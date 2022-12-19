@@ -20,6 +20,7 @@ jest.mock('../../game/game.service');
 
 describe('player.service', () => {
   const roomId = 'abcd-1234';
+  const playerTestId = 'some-short-v4-uuid-0';
   const ws: GameWebSocket = new WebSocket('') as GameWebSocket;
   ws.roomId = roomId;
 
@@ -46,7 +47,7 @@ describe('player.service', () => {
   it('should join a new player', () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo', id: 'some-short-v4-uuid-0' },
+      payload: { playerName: 'foo', id: playerTestId },
     };
 
     const sendMock = jest.spyOn(ws, 'send');
@@ -58,7 +59,7 @@ describe('player.service', () => {
     const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
     const playerConnectedMessagePayload: PlayerConnectedMessage = {
       playerName: 'foo',
-      id: 'some-short-v4-uuid-0',
+      id: playerTestId,
     };
 
     playerService.playerConnected(ws, playerConnectedMessagePayload);
@@ -71,7 +72,7 @@ describe('player.service', () => {
   });
 
   it('should skip a move for a player', () => {
-    const payload = { userId: 'some-short-v4-uuid-0' };
+    const payload = { userId: playerTestId };
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
       payload,
@@ -82,7 +83,7 @@ describe('player.service', () => {
   });
 
   it('should not skip a move, because user state is not ActionNotTaken', () => {
-    const payload = { userId: 'some-short-v4-uuid-0' };
+    const payload = { userId: playerTestId };
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
       payload,
@@ -94,7 +95,7 @@ describe('player.service', () => {
   });
 
   it('should remove a player', () => {
-    const payload = { userId: 'some-short-v4-uuid-0' };
+    const payload = { userId: playerTestId };
     const message: ReceivedMessage<MessageType.RemovePlayer> = {
       type: MessageType.RemovePlayer,
       payload,
@@ -105,7 +106,7 @@ describe('player.service', () => {
   });
 
   it('should not remove a player, because user do not exist', () => {
-    const payload = { userId: 'some-short-v4-' };
+    const payload = { userId: playerTestId };
     const message: ReceivedMessage<MessageType.RemovePlayer> = {
       type: MessageType.RemovePlayer,
       payload,
@@ -121,7 +122,7 @@ describe('player.service', () => {
       tile: 5,
       figure: 'rook',
       player: 'player1',
-      id: 'some-short-v4-uuid-0',
+      id: playerTestId,
       score: 8,
     };
 
@@ -137,7 +138,7 @@ describe('player.service', () => {
       tile: 5,
       figure: 'rook',
       player: 'player1',
-      id: 'some-short-v4-uuid-0',
+      id: playerTestId,
       score: 8,
     };
 
@@ -158,7 +159,7 @@ describe('player.service', () => {
   });
 
   it('should not skip a move, because user do not exist', () => {
-    const payload = { userId: 'some-short-v4-' };
+    const payload = { userId: playerTestId };
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
       payload,
