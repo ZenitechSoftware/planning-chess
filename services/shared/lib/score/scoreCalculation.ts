@@ -7,13 +7,23 @@ export function roundUp(score: number): number {
   if (score == 0) {
     return 0;
   }
-  let firstNumber = 0;
-  let secondNumber = 1;
-  let thirdNumber = firstNumber + secondNumber;
-  while (thirdNumber <= score) {
-    firstNumber = secondNumber;
-    secondNumber = thirdNumber;
-    thirdNumber = firstNumber + secondNumber;
+
+  let firstNum = 0;
+  let secondNum = 1;
+  let thirdNum = firstNum + secondNum;
+
+  while (thirdNum <= score) {
+    firstNum = secondNum;
+    secondNum = thirdNum;
+    thirdNum = firstNum + secondNum;
   }
-  return secondNumber - score == 0 ? secondNumber : thirdNumber;
+
+  const thirdNumberDelta = Math.abs(thirdNum - score);
+  const secondNumberDelta = Math.abs(secondNum - score);
+
+  if (thirdNumberDelta > secondNumberDelta) {
+    return secondNum;
+  } else {
+    return thirdNum;
+  }
 }
