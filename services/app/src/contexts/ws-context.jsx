@@ -35,6 +35,10 @@ const WebSocketsContextProvider = ({ children }) => {
       return;
     }
 
+    if(ws) {
+      return;
+    }
+
     const WebSockets = wsWrapper(WebSocket);
     const webSocket = new WebSockets(url);
 
@@ -47,6 +51,22 @@ const WebSocketsContextProvider = ({ children }) => {
     };
   }, [roomId]);
 
+  useEffect(() => {
+    let pingInterval;
+    if(ws) {
+      pingInterval = setInterval(() => {
+        
+        ws.send({
+          type: 'Ping',
+        });
+      }, 30 * 1000);
+    }
+
+    return () => {
+      clearInterval(pingInterval);
+    }
+  }, [ws])
+
   return (
     <WsContext.Provider
       /* eslint-disable-next-line react/jsx-no-constructed-context-values */
@@ -58,4 +78,5 @@ const WebSocketsContextProvider = ({ children }) => {
     </WsContext.Provider>
   );
 };
+
 export default WebSocketsContextProvider;

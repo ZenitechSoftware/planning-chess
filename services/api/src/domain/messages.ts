@@ -12,6 +12,8 @@ export enum MessageType {
   RemovePlayer = 'RemovePlayer',
   ClearBoard = 'ClearBoard',
   SetMyTurn = 'SetMyTurn',
+  Ping = 'Ping',
+  Pong = 'Pong',
 }
 
 export interface Message {
