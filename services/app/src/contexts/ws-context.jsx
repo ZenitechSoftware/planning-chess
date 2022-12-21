@@ -6,6 +6,8 @@ import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
 import { wsDebugMessages } from '../utils/wsDebugMessages';
 import { DEBUG } from '../env';
+import { PingIntervalDuration } from '../constants/pingTime';
+import { buildPingMessage } from '../api/appApi';
 
 export const WsContext = createContext('');
 
@@ -35,10 +37,6 @@ const WebSocketsContextProvider = ({ children }) => {
       return;
     }
 
-    if(ws) {
-      return;
-    }
-
     const WebSockets = wsWrapper(WebSocket);
     const webSocket = new WebSockets(url);
 
@@ -56,10 +54,8 @@ const WebSocketsContextProvider = ({ children }) => {
     if(ws) {
       pingInterval = setInterval(() => {
         
-        ws.send({
-          type: 'Ping',
-        });
-      }, 30 * 1000);
+        ws.send(buildPingMessage());
+      }, PingIntervalDuration);
     }
 
     return () => {
