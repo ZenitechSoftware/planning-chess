@@ -1,1 +1,1 @@
-export const PingIntervalDuration = 3 * 1000;
+export const PingIntervalDuration = 30 * 1000;
