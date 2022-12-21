@@ -1,1 +1,0 @@
-export const PingIntervalDuration = 30 * 1000;

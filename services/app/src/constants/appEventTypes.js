@@ -1,4 +1,4 @@
 export default {
-  Ping: 'Ping',
+  PING: 'Ping',
 };
   
