@@ -11,7 +11,7 @@ const LoginRedirect = () => {
   useGameId(gameRoomId);
 
   const { authentication } = useUserFromLocalStorage();
-  return authentication ? <Outlet /> : <Navigate to={ROUTES.login} />;
+  return authentication ? <Outlet replace={true} /> : <Navigate to={ROUTES.login} replace={true} />;
 };
 
 export default LoginRedirect;
