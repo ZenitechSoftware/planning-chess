@@ -196,6 +196,14 @@ const publishBoard = (roomId: string) => {
   });
 };
 
+const ping: Handler = (ws: GameWebSocket): void => {
+  ws.send(
+    JSON.stringify({
+      type: MessageType.Pong,
+    }),
+  );
+};
+
 export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   const players = getPlayers(ws.roomId);
   logger.info(`New player "${newPlayer.name}" joined the game.`);
@@ -225,6 +233,7 @@ const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
   [MessageType.RemovePlayer]: removePlayer,
+  [MessageType.Ping]: ping,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];

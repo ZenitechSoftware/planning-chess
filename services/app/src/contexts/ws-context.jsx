@@ -6,6 +6,8 @@ import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
 import { wsDebugMessages } from '../utils/wsDebugMessages';
 import { DEBUG } from '../env';
+import { PING_INTERVAL_DURATION } from '../constants/appConstants';
+import { buildPingMessage } from '../api/appApi';
 
 export const WsContext = createContext('');
 
@@ -47,6 +49,16 @@ const WebSocketsContextProvider = ({ children }) => {
     };
   }, [roomId]);
 
+  useEffect(() => {
+    const pingInterval = setInterval(() => {
+      ws?.send(buildPingMessage());
+    }, PING_INTERVAL_DURATION);
+
+    return () => {
+      clearInterval(pingInterval);
+    }
+  }, [ws])
+
   return (
     <WsContext.Provider
       /* eslint-disable-next-line react/jsx-no-constructed-context-values */
@@ -58,4 +70,5 @@ const WebSocketsContextProvider = ({ children }) => {
     </WsContext.Provider>
   );
 };
+
 export default WebSocketsContextProvider;
