@@ -36,7 +36,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.10.15",
+    "antd": "^5.1.0",
     "react-scripts": "^5.0.1"
   }
 }
