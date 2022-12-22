@@ -7,7 +7,7 @@ import { useGameId } from '../../hooks/useGameId';
 const HomePage = () => {
   const { gameId } = useGameId();
   const gameUrl = generatePath(ROUTES.game, { id: gameId });
-  return <Navigate to={gameUrl} replace={true}/>
+  return <Navigate to={gameUrl} replace />
 };
 
 export default HomePage;

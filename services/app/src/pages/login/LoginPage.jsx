@@ -13,7 +13,7 @@ const LoginPage = () => {
   const { gameId } = useGameId();
   
   return authentication ? (
-    <Navigate to={paths.gameRoomUrl(gameId)} replace={true}/>
+    <Navigate to={paths.gameRoomUrl(gameId)} replace />
   ) : (
     <div className="login-screen f-column-between">
       <Header />
