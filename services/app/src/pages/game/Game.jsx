@@ -28,7 +28,7 @@ const Game = () => {
 
   const { players, movedBy, playerDeleted, currentPlayerId, isAnotherSessionActive } = useWebSockets();
   const { ws } = useContext(WsContext);
-
+  
   useEffect(() => {
     setTimeout(() => {
       if (username && ws) {

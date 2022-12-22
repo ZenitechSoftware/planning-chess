@@ -13,7 +13,7 @@ const LoginForm = () => {
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
-    navigate(paths.gameRoomUrl(gameId));
+    navigate(paths.gameRoomUrl(gameId), { replace: true });
   }
 
   const checkInputLength = (event) => {
