@@ -12,8 +12,8 @@ const PlanningChessRouter = () => (
     <Route element={<LoginRedirect />}>
       <Route path={ROUTES.home} element={<HomePage />} />
       <Route exact path={ROUTES.game} element={<Game />} />
-      <Route path={ROUTES.userTaken} element={<UserTakenPage />} />
     </Route>
+    <Route path={ROUTES.userTaken} element={<UserTakenPage />} />
     <Route path={ROUTES.login} element={<LoginPage />} />
   </Routes>
 );
