@@ -6,8 +6,12 @@ describe('Score calculation lib test', () => {
     expect(calculateAverage(arr)).toBe(2.5);
   });
   it('should return rounded number to higher value', () => {
-    const roundUpNumber = roundUp(6);
-    expect(roundUpNumber).toBe(8);
+    const roundUpNumber = roundUp(10.5);
+    expect(roundUpNumber).toBe(13);
+  });
+  it('should return rounded number to lower value', () => {
+    const roundUpNumber = roundUp(3.3);
+    expect(roundUpNumber).toBe(3);
   });
   it('should return rounded same number', () => {
     const roundUpNumber = roundUp(5);

@@ -8,7 +8,7 @@ const ChessBoard = () => {
   const { placeItemOnBoard, board } = useContext(ChessBoardContext);
   
   return (
-    <div className="chess-board-container">
+    <div className="chess-board-container align-c">
       <div className="rotated-outer">
         <span className="rotated-inner axis-title">Amount of work</span>
       </div>

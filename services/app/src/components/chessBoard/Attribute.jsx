@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Attribute = ({
   tile: { attribute, points }
 }) => (
-  <div className="attribute">
+  <div className="attribute align-c">
     <span className="index">{attribute}</span>
     <span className="points">{`${points} SP`}</span>
   </div>

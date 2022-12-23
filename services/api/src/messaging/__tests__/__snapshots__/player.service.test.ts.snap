@@ -3,7 +3,7 @@
 exports[`player.service should clear the board 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"ClearBoard\\",\\"payload\\":[]}",
+    "{\\"type\\":\\"ClearBoard\\"}",
   ],
   Array [
     "{\\"type\\":\\"NewBoardState\\"}",
@@ -30,9 +30,6 @@ Array [
   Array [
     "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"ActionNotTaken\\"}]}",
   ],
-  Array [
-    "{\\"type\\":\\"NewBoardState\\"}",
-  ],
 ]
 `;
 
@@ -45,12 +42,18 @@ Array [
     "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"status\\":\\"FigurePlaced\\"}]}",
   ],
   Array [
-    "{\\"type\\":\\"NewBoardState\\"}",
+    "{\\"type\\":\\"NewBoardState\\",\\"payload\\":[]}",
   ],
 ]
 `;
 
-exports[`player.service should set a turn if user\`s move already exist 1`] = `Array []`;
+exports[`player.service should set a turn if user\`s move already exist 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"SetMyTurn\\",\\"payload\\":{\\"row\\":2,\\"tile\\":5,\\"figure\\":\\"rook\\",\\"player\\":\\"player1\\",\\"id\\":\\"some-short-v4-uuid-0\\",\\"score\\":8}}",
+  ],
+]
+`;
 
 exports[`player.service should skip a move for a player 1`] = `
 Array [
@@ -58,7 +61,7 @@ Array [
     "{\\"type\\":\\"MoveSkipped\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"MoveSkipped\\"}]}",
   ],
   Array [
-    "{\\"type\\":\\"NewBoardState\\"}",
+    "{\\"type\\":\\"NewBoardState\\",\\"payload\\":[]}",
   ],
 ]
 `;

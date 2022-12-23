@@ -68,6 +68,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      favicon: './src/static/favicon.ico',
       template: './src/index.html',
       meta: {
         'csp-nonce': {
@@ -79,6 +80,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css?v=[chunkhash]',
     }),
-    new Dotenv(),
+    new Dotenv({
+      path: `./.env.${dev ? 'dev' : 'prod'}`,
+    }),
   ],
 };

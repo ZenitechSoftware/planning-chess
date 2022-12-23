@@ -7,7 +7,6 @@
 .game-status-field {
     color: #ffffff;
     display: flex;
-    align-items: center;
     padding: 14px 24px;
     border-radius: 5px 5px 0 0;
 }
@@ -21,6 +20,7 @@
 
 .game-status-icon {
     width: 20px;
+    user-select: none;
 }
 
 .status-text {
@@ -32,16 +32,18 @@
 /*-----GameInfo.jsx-----*/
 .game-info-row {
     display: flex;
-    align-items: center;
     border-bottom: 1px solid rgba(33, 33, 33, 0.12);
     padding: 12px 24px;
     font-size: 0.875rem;
-    font-family: 'Rubik';
 }
 
 .game-info-status{
     display: flex;
     line-height: 2px;
+}
+
+.game-info-icon {
+  user-select: none;
 }
 
 .player-count {

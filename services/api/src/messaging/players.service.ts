@@ -5,12 +5,15 @@ import { getPlayerAvatarColor } from '../helpers/player-avatar-color';
 import logger from '../logger';
 import {
   Handler,
-  Message,
   MessageType,
   MoveSkippedMessage,
   PlaceFigureMessage,
   RemovePlayerMessage,
-  UpdatePlayerListMessage,
+  PlayerConnectedMessage,
+  SendMessagePayloads,
+  SendMessage,
+  ReceivedMessagePayloads,
+  ReceivedMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 import { GameWebSocket } from '../domain/GameRoom';
@@ -19,17 +22,41 @@ import * as gameRoomService from '../game/game-room.service';
 const getPlayers = (roomId: string): Map<WebSocket, Player> =>
   gameRoomService.getPlayers(roomId);
 
-const findPlayerById = (
-  roomId: string,
-  id: string,
-): [WebSocket, Player] | [null, null] => {
+const findPlayerById = (roomId: string, id: string): [WebSocket, Player] => {
   const players = getPlayers(roomId);
-  return (
-    Array.from(players.entries()).find(([_, player]) => player.id === id) || [
-      null,
-      null,
-    ]
+  const player = Array.from(players.entries()).find(
+    ([_, player]) => player.id === id,
   );
+  if (!player) {
+    throw new Error(`player with id ${id} not found`);
+  }
+  return player;
+};
+
+const playerExists = (roomId: string, playerId: string): boolean => {
+  try {
+    findPlayerById(roomId, playerId);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const publishFinalBoard = (
+  ws: GameWebSocket,
+  players: Map<WebSocket, Player>,
+): void => {
+  const areAllPlayersDone = Array.from(players.values()).every(
+    (players) => players.status !== 'ActionNotTaken',
+  );
+  const newBoardState = gameRoomService.getTurns(ws.roomId);
+
+  if (areAllPlayersDone) {
+    publish(ws.roomId, {
+      type: MessageType.NewBoardState,
+      payload: newBoardState,
+    });
+  }
 };
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
@@ -40,20 +67,11 @@ const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
     status: PlayerStatus.FigurePlaced,
   });
   const newBoardState = gameService.figureMoved(ws.roomId, payload);
-  const areAllPlayersDone = Array.from(players.values()).every(
-    (player) =>
-      player.status === PlayerStatus.FigurePlaced ||
-      player.status === PlayerStatus.MoveSkipped,
-  );
 
+  /*TODO check these 3 methods, maybe we don't need all 3*/
   publish(ws.roomId, { type: MessageType.FigureMoved, payload: newBoardState });
   publishAllPlayers(ws.roomId);
-  if (areAllPlayersDone) {
-    publish(ws.roomId, {
-      type: MessageType.NewBoardState,
-      payload: newBoardState,
-    });
-  }
+  publishFinalBoard(ws, players);
 };
 
 const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
@@ -66,7 +84,7 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
 export const clearBoard = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
   setDefaultStatusForPlayers(ws);
-  publish(ws.roomId, { type: MessageType.ClearBoard, payload: [] });
+  publish(ws.roomId, { type: MessageType.ClearBoard });
   publishBoard(ws.roomId);
   publishAllPlayers(ws.roomId);
 };
@@ -87,14 +105,13 @@ export const checkIfUserAlreadyExists = (ws: GameWebSocket): void => {
 const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   const players = getPlayers(ws.roomId);
 
-  const [playerConnection, player] = findPlayerById(ws.roomId, userId);
   try {
-    if (!player) {
-      throw new Error(`Player with id ${userId} not found`);
-    }
+    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
+
     if (player.status !== PlayerStatus.ActionNotTaken) {
       throw new Error(`Player ${userId} cannot skip a move`);
     }
+
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
       ...players.get(playerConnection),
@@ -104,7 +121,7 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
     });
-    publishBoard(ws.roomId);
+    publishFinalBoard(ws, players);
   } catch (err) {
     logger.error(err?.message);
   }
@@ -113,11 +130,13 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
 const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   const players = getPlayers(ws.roomId);
 
-  const [playerConnection, player] = findPlayerById(ws.roomId, userId);
   try {
+    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
+
     if (!player) {
       throw new Error(`Player with id ${userId} not found`);
     }
+
     publish(ws.roomId, {
       type: MessageType.RemovePlayer,
       payload: userId,
@@ -132,19 +151,21 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
 };
 
 const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
-  ws.send(
-    JSON.stringify({
-      type: MessageType.PlayerSuccessfullyJoined,
-      payload: playerId,
-    }),
-  );
+  sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId);
 };
 
-const playerConnected: Handler = (
+export const playerConnected: Handler = (
   ws,
-  { playerName }: UpdatePlayerListMessage,
+  { playerName, id }: PlayerConnectedMessage,
 ): void => {
-  const newPlayerId = uuidv4();
+  const newPlayerId = id ? id : uuidv4();
+  const doesSamePlayerExists = playerExists(ws.roomId, id);
+
+  if (doesSamePlayerExists) {
+    sendMessage(ws, MessageType.PlayerAlreadyExists);
+    return;
+  }
+
   const newPlayer: Player = {
     id: newPlayerId,
     name: playerName,
@@ -154,7 +175,7 @@ const playerConnected: Handler = (
       : PlayerStatus.ActionNotTaken,
   };
 
-  successfullyJoined(ws, newPlayer.id);
+  successfullyJoined(ws, newPlayerId);
   subscribe(ws, newPlayer);
   newPlayerJoined(ws.roomId);
 };
@@ -172,7 +193,6 @@ export const playerDisconnected = (ws: GameWebSocket): void => {
 export const newPlayerJoined = (roomId: string): void => {
   logger.info('Publishing: new player joined the game.');
   publishAllPlayers(roomId);
-  publishBoard(roomId);
 };
 
 const publishAllPlayers = (roomId: string) => {
@@ -189,6 +209,14 @@ const publishBoard = (roomId: string) => {
   });
 };
 
+const ping: Handler = (ws: GameWebSocket): void => {
+  ws.send(
+    JSON.stringify({
+      type: MessageType.Pong,
+    }),
+  );
+};
+
 export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   const players = getPlayers(ws.roomId);
   logger.info(`New player "${newPlayer.name}" joined the game.`);
@@ -203,7 +231,10 @@ export const unsubscribe = (ws: GameWebSocket): void => {
   players.delete(ws);
 };
 
-export const publish = (roomId: string, message: Message): void => {
+export const publish = <T extends keyof SendMessagePayloads>(
+  roomId: string,
+  message: SendMessage<T>,
+): void => {
   const players = getPlayers(roomId);
   for (const connection of players.keys()) {
     if (connection.readyState === WebSocket.OPEN) {
@@ -212,19 +243,37 @@ export const publish = (roomId: string, message: Message): void => {
   }
 };
 
+export const sendJSON = (
+  ws: GameWebSocket,
+  data: Record<string, unknown>,
+): void => {
+  const jsonPayload = JSON.stringify(data);
+  ws.send(jsonPayload);
+};
+
+export const sendMessage = <T extends keyof SendMessagePayloads>(
+  ws: GameWebSocket,
+  type: T,
+  payload?: SendMessagePayloads[T],
+): void => {
+  const messagePayload = { type, payload };
+  sendJSON(ws, messagePayload);
+};
+
 const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
   [MessageType.RemovePlayer]: removePlayer,
+  [MessageType.Ping]: ping,
 };
 
 const getHandler = (type: MessageType): Handler => handlers[type];
 
-export const newMessageReceived = (
+export const newMessageReceived = <T extends keyof ReceivedMessagePayloads>(
   ws: GameWebSocket,
-  message: Message,
+  message: ReceivedMessage<T>,
 ): void => {
   getHandler(message.type)(ws, message.payload);
 };

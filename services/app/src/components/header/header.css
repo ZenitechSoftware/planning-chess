@@ -1,10 +1,14 @@
 #header {
   display: flex;
   flex-direction: row;
-  background: #f3f6fa;
+  background: #F3F6FA;
   height: 80px;
   min-width: 700px;
   padding: 0 64px;
+}
+
+.header-info {
+  user-select: none;
 }
 
 .avatar {
@@ -17,6 +21,7 @@
   font-size: 20px;
   text-transform: uppercase;
   font-family: 'Poppins';
+  user-select: none;
 }
 
 #username {

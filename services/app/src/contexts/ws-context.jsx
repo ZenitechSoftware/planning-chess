@@ -4,6 +4,10 @@ import React, { useEffect, useState, createContext } from 'react';
 import { useLocation } from 'react-router';
 import wsWrapper from '../helpers/wsWrapper';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
+import { wsDebugMessages } from '../utils/wsDebugMessages';
+import { DEBUG } from '../env';
+import { PING_INTERVAL_DURATION } from '../constants/appConstants';
+import { buildPingMessage } from '../api/appApi';
 
 export const WsContext = createContext('');
 
@@ -37,23 +41,23 @@ const WebSocketsContextProvider = ({ children }) => {
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
-      console.log('opened');
       setWs(webSocket);
     });
 
-    webSocket.addEventListener('message', (event) => {
-      console.log('message: ', event.data);
-    });
-
-    webSocket.addEventListener('close', () => {
-      console.log('closed');
-    });
-
-    webSocket.addEventListener('error', (err) => {
-      console.log('connection failed');
-      console.error(err);
-    });
+    if (DEBUG) {
+      wsDebugMessages(webSocket)
+    };
   }, [roomId]);
+
+  useEffect(() => {
+    const pingInterval = setInterval(() => {
+      ws?.send(buildPingMessage());
+    }, PING_INTERVAL_DURATION);
+
+    return () => {
+      clearInterval(pingInterval);
+    }
+  }, [ws])
 
   return (
     <WsContext.Provider
@@ -66,4 +70,5 @@ const WebSocketsContextProvider = ({ children }) => {
     </WsContext.Provider>
   );
 };
+
 export default WebSocketsContextProvider;
