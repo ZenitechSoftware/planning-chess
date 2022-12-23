@@ -19,6 +19,7 @@ import {
 } from '../../api/playerApi';
 import Header from '../../components/header/Header';
 import '../../static/style/game.css';
+// import { openWsConnection } from '../../helpers/openWsConnection';
 
 const Room = () => {
   const [roomUrl] = useState(window.location.href);
