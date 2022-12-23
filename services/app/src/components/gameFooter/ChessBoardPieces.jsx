@@ -8,7 +8,7 @@ const ChessBoardPieces = () => {
   const { setSelectedItem, selectedItem } = useContext(ChessBoardContext);
 
   return (
-    <div id="chess-pieces-container">
+    <div id="chess-pieces-container" className='align-c'>
       {PIECES.map((figure) => (
         <div
           key={figure.name}

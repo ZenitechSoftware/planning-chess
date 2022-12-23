@@ -3,7 +3,7 @@
 exports[`player.service should clear the board 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"ClearBoard\\",\\"payload\\":[]}",
+    "{\\"type\\":\\"ClearBoard\\"}",
   ],
   Array [
     "{\\"type\\":\\"NewBoardState\\"}",
@@ -47,7 +47,13 @@ Array [
 ]
 `;
 
-exports[`player.service should set a turn if user\`s move already exist 1`] = `Array []`;
+exports[`player.service should set a turn if user\`s move already exist 1`] = `
+Array [
+  Array [
+    "{\\"type\\":\\"SetMyTurn\\",\\"payload\\":{\\"row\\":2,\\"tile\\":5,\\"figure\\":\\"rook\\",\\"player\\":\\"player1\\",\\"id\\":\\"some-short-v4-uuid-0\\",\\"score\\":8}}",
+  ],
+]
+`;
 
 exports[`player.service should skip a move for a player 1`] = `
 Array [

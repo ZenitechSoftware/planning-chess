@@ -1,15 +1,15 @@
 import React from 'react';
 import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
-import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
-import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
+import CheckMark from "../../static/svg/Checkmark.svg";
+import SkippedIcon from "../../static/svg/SkippedIcon.svg";
 import { rgbToColor } from '../../helpers/rgbToColor';
 
 const Player = ({ player }) => (
         player && (
         <>
           <div
-            className="team-list-item-avatar"
+            className="team-list-item-avatar align-c"
             style={{
                         backgroundColor: rgbToColor(player.color.background),
                     }}

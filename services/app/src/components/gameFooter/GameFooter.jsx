@@ -9,7 +9,7 @@ const GameFooter = ({ skipCurrentPlayerMove }) => {
   const { players } = useWebSockets();
 
   return (
-    <div id="game-footer">
+    <div id="game-footer" className='align-c'>
       {
         players.length < 2 ? <GameFooterInactive /> : <GameFooterActive skipCurrentPlayerMove={skipCurrentPlayerMove} />
       }

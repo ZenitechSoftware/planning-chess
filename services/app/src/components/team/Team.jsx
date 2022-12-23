@@ -5,7 +5,7 @@ import TeamMember from './TeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
 import playerPropType from '../../prop-types/player';
-import Return from './teamComponents/Return.svg';
+import Return from '../../static/svg/Return.svg';
 import './team.css';
 
 const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
@@ -17,7 +17,7 @@ const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
       <GameInfo playerCount={playerCount} />
 
       <div className="team-list-items">
-        <div className="team-list-item rubik-font" data-testid="list-current-player">{children}</div>
+        <div className="team-list-item align-c rubik-font" data-testid="list-current-player">{children}</div>
         {players.map((player, index) => (
           <TeamMember
             key={player.id}

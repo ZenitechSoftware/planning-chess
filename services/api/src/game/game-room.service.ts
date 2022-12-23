@@ -40,8 +40,8 @@ export const getOrCreateRoom = (id?: string): GameRoom => {
 export const getClients = (id: string): Set<WebSocket> =>
   rooms.get(id)?.server.clients;
 
-export const getPlayers = (id: string): Map<WebSocket, Player> =>
-  rooms.get(id)?.players;
+export const getPlayers = (id: string): Map<WebSocket, Player> | null =>
+  rooms.get(id)?.players || null;
 
 export const getTurns = (id: string): Array<PlaceFigureMessage> =>
   rooms.get(id)?.turns;

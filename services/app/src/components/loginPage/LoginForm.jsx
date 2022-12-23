@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import './loginPage.css'
-import '../../static/style/fonts.css'
-import userInputIcon from './SVGs/userInputIcon.svg';
+import './loginPage.css';
+import userInputIcon from '../../static/svg/UserInputIcon.svg';
 import * as paths from '../../constants/urls'
 import {useGameId} from "../../hooks/useGameId";
 
@@ -14,7 +13,7 @@ const LoginForm = () => {
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
-    navigate(paths.gameRoomUrl(gameId));
+    navigate(paths.gameRoomUrl(gameId), { replace: true });
   }
 
   const checkInputLength = (event) => {
@@ -26,7 +25,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form className="login-form" onSubmit={submitInfo}>
+    <form className="login-form align-c margin-auto f-column-between" onSubmit={submitInfo}>
       <div className="form-text">
         <h2>Welcome! Let&rsquo;s begin.</h2>
         <p>Firstly, enter your name:</p>
