@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import ChessBoardPieces from './ChessBoardPieces';
 import './chess-pieces.css';
-import { Tooltip } from 'antd';
+import ExplanatoryTooltip  from '../chessBoard/ExplanatoryTooltip';
 
 
 function GameFooter({ skipCurrentPlayerMove }) {
@@ -20,11 +20,11 @@ function GameFooter({ skipCurrentPlayerMove }) {
         <button type="button" className="finish-btn" disabled={!lastTurn || isAllTurnsMade || (finished && !isAllTurnsMade)} onClick={finishMove}>
           Finish Move
         </button>
-        <Tooltip title="Skips your move. The game continues" className="tooltipClass" overlayInnerStyle={{fontSize: 15}} placement="rightTop" mouseEnterDelay = "0.001" mouseLeaveDelay= "0.001">
+        <ExplanatoryTooltip title="Skips your move. The game continues" placement="rightTop">
             <button type="button" className="skip-btn" disabled={finished} onClick={() => skipCurrentPlayerMove()}>
               Skip Move
             </button>
-         </Tooltip>
+         </ExplanatoryTooltip>
       </div>
     </div>
   );
