@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Content from './content/Content';
 import WebSocketsContextProvider from '../contexts/ws-context';
 import ChessGameProvider from '../contexts/ChessBoardContext';
 
@@ -9,12 +8,13 @@ import '../static/style/layout.css';
 import '../static/style/spacing.css';
 import '../static/style/index.css';
 import '../static/style/fonts.css';
+import PlanningChessRouter from '../pages/PlanningChessRouter';
 
 const App = () => (
   <Router>
     <WebSocketsContextProvider>
       <ChessGameProvider>
-        <Content />
+        <PlanningChessRouter />
       </ChessGameProvider>
     </WebSocketsContextProvider>
   </Router>

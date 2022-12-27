@@ -1,6 +1,11 @@
 import WebSocket from 'ws';
 import * as playerService from '../players.service';
-import { MessageType } from '../../domain/messages';
+import {
+  MessageType,
+  PlaceFigureMessage,
+  ReceivedMessage,
+  PlayerConnectedMessage,
+} from '../../domain/messages';
 import { PlayerStatus } from '../../domain/player';
 import * as gameService from '../../game/game.service';
 import * as gameRoomService from '../../game/game-room.service';
@@ -15,6 +20,7 @@ jest.mock('../../game/game.service');
 
 describe('player.service', () => {
   const roomId = 'abcd-1234';
+  const playerTestId = 'some-short-v4-uuid-0';
   const ws: GameWebSocket = new WebSocket('') as GameWebSocket;
   ws.roomId = roomId;
 
@@ -31,7 +37,7 @@ describe('player.service', () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
   afterAll(() => {
@@ -39,9 +45,9 @@ describe('player.service', () => {
   });
 
   it('should join a new player', () => {
-    const message = {
+    const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo' },
+      payload: { playerName: 'foo', id: playerTestId },
     };
 
     const sendMock = jest.spyOn(ws, 'send');
@@ -49,25 +55,39 @@ describe('player.service', () => {
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
+  it('should not join the game, because another session is active', () => {
+    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
+    const playerConnectedMessagePayload: PlayerConnectedMessage = {
+      playerName: 'foo',
+      id: playerTestId,
+    };
+
+    playerService.playerConnected(ws, playerConnectedMessagePayload);
+    playerService.playerConnected(ws, playerConnectedMessagePayload);
+
+    expect(sendMessageSpy).toHaveBeenCalledWith(
+      ws,
+      MessageType.PlayerAlreadyExists,
+    );
+  });
+
   it('should skip a move for a player', () => {
-    const payload = { userId: 'some-short-v4-uuid-0' };
-    const message = { type: MessageType.MoveSkipped, payload };
+    const payload = { userId: playerTestId };
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload,
+    };
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
-  it('should not skip a move, because user do not exist', () => {
-    const payload = { userId: 'some-short-v4-' };
-    const message = { type: MessageType.MoveSkipped, payload };
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
-  });
-
   it('should not skip a move, because user state is not ActionNotTaken', () => {
-    const payload = { userId: 'some-short-v4-uuid-0' };
-    const message = { type: MessageType.MoveSkipped, payload };
+    const payload = { userId: playerTestId };
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload,
+    };
     playerService.newMessageReceived(ws, message);
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
@@ -75,30 +95,57 @@ describe('player.service', () => {
   });
 
   it('should remove a player', () => {
-    const payload = { userId: 'some-short-v4-uuid-0' };
-    const message = { type: MessageType.RemovePlayer, payload };
+    const payload = { userId: playerTestId };
+    const message: ReceivedMessage<MessageType.RemovePlayer> = {
+      type: MessageType.RemovePlayer,
+      payload,
+    };
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock).toBeCalled();
   });
 
   it('should not remove a player, because user do not exist', () => {
-    const payload = { userId: 'some-short-v4-' };
-    const message = { type: MessageType.RemovePlayer, payload };
+    const payload = { userId: playerTestId };
+    const message: ReceivedMessage<MessageType.RemovePlayer> = {
+      type: MessageType.RemovePlayer,
+      payload,
+    };
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock).not.toBeCalled();
   });
 
   it('should set a turn if user`s move already exist', () => {
+    const turnValue: PlaceFigureMessage = {
+      row: 2,
+      tile: 5,
+      figure: 'rook',
+      player: 'player1',
+      id: playerTestId,
+      score: 8,
+    };
+
+    jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(turnValue);
     const sendMock = jest.spyOn(ws, 'send');
     playerService.checkIfUserAlreadyExists(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
   it('should move a chess figure', () => {
-    const payload = { move: 'test' };
-    const message = { type: MessageType.FigureMoved, payload };
+    const payload = {
+      row: 2,
+      tile: 5,
+      figure: 'rook',
+      player: 'player1',
+      id: playerTestId,
+      score: 8,
+    };
+
+    const message: ReceivedMessage<MessageType.FigureMoved> = {
+      type: MessageType.FigureMoved,
+      payload,
+    };
     const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
     expect(sendMock.mock.calls).toMatchSnapshot();
@@ -109,6 +156,22 @@ describe('player.service', () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.clearBoard(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
+  });
+
+  it('should not skip a move, because user do not exist', () => {
+    const payload = { userId: playerTestId };
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload,
+    };
+
+    const publishMessageSpy = jest.spyOn(playerService, 'publish');
+    const mock = jest
+      .spyOn(gameRoomService, 'getPlayers')
+      .mockReturnValue(null);
+    playerService.newMessageReceived(ws, message);
+    expect(publishMessageSpy).not.toBeCalledWith(ws, MessageType.MoveSkipped);
+    mock.mockRestore();
   });
 
   it('should disconnect a player', async () => {

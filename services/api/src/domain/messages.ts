@@ -1,7 +1,9 @@
 import { GameWebSocket } from './GameRoom';
+import { Player } from './player';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
+  PlayerAlreadyExists = 'PlayerAlreadyExists',
   PlayerConnected = 'PlayerConnected',
   UpdatePlayerList = 'UpdatePlayerList',
   PlayerDisconnected = 'PlayerDisconnected',
@@ -16,9 +18,36 @@ export enum MessageType {
   Pong = 'Pong',
 }
 
-export interface Message {
-  type: MessageType;
-  payload: unknown;
+export type SendMessagePayloads = {
+  [MessageType.NewBoardState]: PlaceFigureMessage[];
+  [MessageType.FigureMoved]: PlaceFigureMessage[];
+  [MessageType.ClearBoard]: void;
+  [MessageType.SetMyTurn]: PlaceFigureMessage;
+  [MessageType.PlayerConnected]: Player[];
+  [MessageType.PlayerDisconnected]: Player[];
+  [MessageType.MoveSkipped]: Player[];
+  [MessageType.RemovePlayer]: string;
+  [MessageType.PlayerAlreadyExists]: void;
+  [MessageType.UpdatePlayerList]: Player[];
+  [MessageType.PlayerSuccessfullyJoined]: string;
+};
+
+export interface SendMessage<T extends keyof SendMessagePayloads> {
+  type: T;
+  payload?: SendMessagePayloads[T];
+}
+
+export type ReceivedMessagePayloads = {
+  [MessageType.PlayerConnected]: PlayerConnectedMessage;
+  [MessageType.FigureMoved]: PlaceFigureMessage;
+  [MessageType.MoveSkipped]: MoveSkippedMessage;
+  [MessageType.RemovePlayer]: RemovePlayerMessage;
+  [MessageType.ClearBoard]: void;
+};
+
+export interface ReceivedMessage<T extends keyof ReceivedMessagePayloads> {
+  type: T;
+  payload?: ReceivedMessagePayloads[T];
 }
 
 export interface PlaceFigureMessage {
@@ -37,9 +66,9 @@ export interface MoveSkippedMessage {
 export interface RemovePlayerMessage {
   userId: string;
 }
-
-export interface UpdatePlayerListMessage {
+export interface PlayerConnectedMessage {
   playerName: string;
+  id: string | undefined;
 }
 
 export interface Handler {

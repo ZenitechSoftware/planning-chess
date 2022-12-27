@@ -13,7 +13,6 @@ const Square = ({
   column,
   filled
 }) => {
-
   const { board, findUserById } = useContext(ChessBoardContext);
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
@@ -36,7 +35,7 @@ const Square = ({
           }
           key={`bubble-${key}`}
           className={classNames({
-            "bubble": true,
+            "bubble align-c": true,
             "multiple-bubbles": items.length !== 1,
             "nth-bubble": key !== 0
           })}
@@ -47,7 +46,7 @@ const Square = ({
     }
     if (key === 2) {
       return (
-        <div key={`bubble-${key}`} className="bubble nth-bubble multiple-bubbles">
+        <div key={`bubble-${key}`} className="bubble align-c nth-bubble multiple-bubbles">
           <span className="name">{`+${items.length - 2}`}</span>
         </div>
       )
@@ -85,11 +84,11 @@ const Square = ({
       <span className={classNames(["number", "number-column", filled && "number-filled"])}>{board[board.length - 1][column].attribute}</span>}
       {!!items.length && (
         <div className={classNames(["pop-over", showPopover && "pop-over-opened"])}>
-          <span className="header">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
+          <span className="pop-over-title">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
               <div 
-                className={classNames(["bubble", "multiple-bubbles"])}
+                className={classNames(["bubble align-c", "multiple-bubbles align-c"])}
                 style={
                   playerAvatarColor(item.id)
                 }  

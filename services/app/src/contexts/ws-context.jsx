@@ -61,8 +61,10 @@ const WebSocketsContextProvider = ({ children }) => {
 
   window.onfocus = () => {
     if(ws?.readyState === wsReadyStates.CLOSED) {
-      console.log('call this')
-      setWs(openWsConnection(url));
+      const webSocket = openWsConnection(url);
+      webSocket.addEventListener('open', () => {
+        setWs(webSocket);
+      });
     }
   }
 
@@ -71,7 +73,6 @@ const WebSocketsContextProvider = ({ children }) => {
       /* eslint-disable-next-line react/jsx-no-constructed-context-values */
       value={{
         ws,
-        url
       }}
     >
       {children}

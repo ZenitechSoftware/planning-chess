@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
-import Skip from './teamComponents/Skip.svg';
-import Remove from './teamComponents/Remove.svg';
+import Skip from '../../static/svg/Skip.svg';
+import Remove from '../../static/svg/Remove.svg';
 import './team.css';
-import CheckMark from "../gameStatus/statusComponents/checkmark.svg";
-import SkippedIcon from "../gameStatus/statusComponents/skippedIcon.svg";
+import CheckMark from "../../static/svg/Checkmark.svg";
+import SkippedIcon from "../../static/svg/SkippedIcon.svg";
 
 const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) => (
-  <div className="team-list-item" data-testid={`list-${name}-${index}`}>
+  <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
     <div
-      className="team-list-item-avatar"
+      className="team-list-item-avatar align-c"
       style={{
       backgroundColor: `rgb(${color.background.r}, ${color.background.g}, ${color.background.b})`
     }}
