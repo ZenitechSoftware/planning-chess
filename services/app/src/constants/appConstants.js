@@ -1,1 +1,1 @@
-export const PING_INTERVAL_DURATION = 5 * 1000;
+export const PING_INTERVAL_DURATION = 30 * 1000;
