@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 export const wsDebugMessages = (ws) => {
-  if(!ws) return;
-
+  
   ws.addEventListener('message', (event) => {
     const { type, payload } = JSON.parse(event.data);
     if(type === 'Pong') {
