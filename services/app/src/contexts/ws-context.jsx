@@ -27,12 +27,12 @@ const WebSocketsContextProvider = ({ children }) => {
   const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${roomId}`;
   const [ws, setWs] = useState(null);
 
-  const openWsConnection = () => {
+  const openWsConnection = ({ onOpen }) => {
     const WebSockets = wsWrapper(WebSocket);
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
-      setWs(webSocket);
+      onOpen(webSocket);
     });
   };
 
@@ -47,11 +47,15 @@ const WebSocketsContextProvider = ({ children }) => {
       return;
     }
 
-    openWsConnection();
+    openWsConnection({
+      onOpen: (wsConnection) => {
+        setWs(wsConnection);
+        if (DEBUG) {
+          wsDebugMessages(wsConnection);
+        };
+      }
+    });
 
-    if (DEBUG) {
-      wsDebugMessages(ws)
-    };
   }, [roomId]);
 
   useEffect(() => {
@@ -66,7 +70,11 @@ const WebSocketsContextProvider = ({ children }) => {
 
   window.onfocus = () => {
     if(ws?.readyState === wsReadyStates.CLOSED) {
-      openWsConnection();
+      openWsConnection({
+        onOpen: (wsConnection) => {
+          setWs(wsConnection);
+        },
+      });
     }
   }
 
