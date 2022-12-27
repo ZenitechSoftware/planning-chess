@@ -5,7 +5,7 @@ import { useLocation } from 'react-router';
 import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
 import { wsDebugMessages } from '../utils/wsDebugMessages';
 import { DEBUG } from '../env';
-import { openWsConnection } from '../helpers/openWsConnection';
+import wsWrapper from '../helpers/wsWrapper';
 import { PING_INTERVAL_DURATION } from '../constants/appConstants';
 import { buildPingMessage } from '../api/appApi';
 import wsReadyStates from '../constants/wsReadyStates';
@@ -27,6 +27,15 @@ const WebSocketsContextProvider = ({ children }) => {
   const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${roomId}`;
   const [ws, setWs] = useState(null);
 
+  const openWsConnection = () => {
+    const WebSockets = wsWrapper(WebSocket);
+    const webSocket = new WebSockets(url);
+
+    webSocket.addEventListener('open', () => {
+      setWs(webSocket);
+    });
+  };
+
   useEffect(() => {
     if (!roomId) {
       console.log(`No room id provided`);
@@ -38,14 +47,10 @@ const WebSocketsContextProvider = ({ children }) => {
       return;
     }
 
-    const webSocket = openWsConnection(url);
-
-    webSocket.addEventListener('open', () => {
-      setWs(webSocket);
-    });
+    openWsConnection();
 
     if (DEBUG) {
-      wsDebugMessages(webSocket)
+      wsDebugMessages(ws)
     };
   }, [roomId]);
 
@@ -61,10 +66,7 @@ const WebSocketsContextProvider = ({ children }) => {
 
   window.onfocus = () => {
     if(ws?.readyState === wsReadyStates.CLOSED) {
-      const webSocket = openWsConnection(url);
-      webSocket.addEventListener('open', () => {
-        setWs(webSocket);
-      });
+      openWsConnection();
     }
   }
 

@@ -20,13 +20,13 @@ const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
         <div className="team-list-item align-c rubik-font" data-testid="list-current-player">{children}</div>
         {players?.map((player, index) => (
           <TeamMember
-            key={player?.id}
+            key={player.id}
             index={index}
-            name={player?.name}
-            id={player?.id}
+            name={player.name}
+            id={player.id}
             skipMove={skipMove}
-            color={player?.color}
-            status={player?.status}
+            color={player.color}
+            status={player.status}
             removePlayer={removePlayer}
           />
         ))}

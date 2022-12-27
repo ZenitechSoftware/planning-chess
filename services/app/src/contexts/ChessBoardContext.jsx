@@ -129,7 +129,7 @@ const ChessBoardContextProvider = ({ children }) => {
         isGameInProgress,
         isAllTurnsMade,
         players,
-        globalScore
+        globalScore,
       }}
     >
       {children}
