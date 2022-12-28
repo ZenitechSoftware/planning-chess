@@ -33,6 +33,7 @@ describe('player.service', () => {
       name: 'player1',
       color: getPlayerAvatarColor(),
       status: PlayerStatus.ActionNotTaken,
+      role: 'Voter',
     });
   });
 
@@ -47,7 +48,7 @@ describe('player.service', () => {
   it('should join a new player', () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo', id: playerTestId },
+      payload: { playerName: 'foo', id: playerTestId, role: 'Voter' },
     };
 
     const sendMock = jest.spyOn(ws, 'send');
@@ -60,6 +61,7 @@ describe('player.service', () => {
     const playerConnectedMessagePayload: PlayerConnectedMessage = {
       playerName: 'foo',
       id: playerTestId,
+      role: 'Voter',
     };
 
     playerService.playerConnected(ws, playerConnectedMessagePayload);

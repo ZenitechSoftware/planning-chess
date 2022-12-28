@@ -8,6 +8,7 @@ export interface Player {
   id: string;
   name: string;
   color: PlayerAvatarColor;
+  role: string;
   status: PlayerStatus;
 }
 

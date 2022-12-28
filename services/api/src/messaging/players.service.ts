@@ -46,9 +46,10 @@ const publishFinalBoard = (
   ws: GameWebSocket,
   players: Map<WebSocket, Player>,
 ): void => {
-  const areAllPlayersDone = Array.from(players.values()).every(
-    (players) => players.status !== 'ActionNotTaken',
-  );
+  const areAllPlayersDone = Array.from(players.values())
+    .filter((p) => p.role === 'Voter')
+    .every((players) => players.status !== 'ActionNotTaken');
+
   const newBoardState = gameRoomService.getTurns(ws.roomId);
 
   if (areAllPlayersDone) {
@@ -61,6 +62,10 @@ const publishFinalBoard = (
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   const players = getPlayers(ws.roomId);
+  if (players.get(ws).role === 'Spectator') {
+    return;
+  }
+
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.set(ws, {
     ...players.get(ws),
@@ -107,6 +112,10 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
 
   try {
     const [playerConnection, player] = findPlayerById(ws.roomId, userId);
+
+    if (player.role === 'Spectator') {
+      return;
+    }
 
     if (player.status !== PlayerStatus.ActionNotTaken) {
       throw new Error(`Player ${userId} cannot skip a move`);
@@ -156,9 +165,10 @@ const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
 
 export const playerConnected: Handler = (
   ws,
-  { playerName, id }: PlayerConnectedMessage,
+  { playerName, id, role }: PlayerConnectedMessage,
 ): void => {
   const newPlayerId = id ? id : uuidv4();
+  const newPlayerRole = role ? role : 'Voter';
   const doesSamePlayerExists = playerExists(ws.roomId, id);
 
   if (doesSamePlayerExists) {
@@ -170,6 +180,7 @@ export const playerConnected: Handler = (
     id: newPlayerId,
     name: playerName,
     color: getPlayerAvatarColor(),
+    role: newPlayerRole,
     status: gameService.findMoveByPlayerId(ws.roomId, newPlayerId)
       ? PlayerStatus.FigurePlaced
       : PlayerStatus.ActionNotTaken,

@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './gameFooter.css';
 import PropTypes from 'prop-types';
-import { useWebSockets } from '../../hooks/useWebSockets';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameFooterActive from './GameFooterActive';
 import GameFooterInactive from './GameFooterInactive';
 
 const GameFooter = ({ skipCurrentPlayerMove }) => {
-  const { players } = useWebSockets();
+  const { voters } = useContext(ChessBoardContext)
 
   return (
     <div id="game-footer" className='align-c'>
       {
-        players.length < 2 ? <GameFooterInactive /> : <GameFooterActive skipCurrentPlayerMove={skipCurrentPlayerMove} />
+        voters.length < 2 ? <GameFooterInactive /> : <GameFooterActive skipCurrentPlayerMove={skipCurrentPlayerMove} />
       }
     </div>
   )

@@ -1,25 +1,24 @@
 import React, { useContext } from 'react';
 import './gameStatus.css';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import CheckMark from '../../static/svg/Checkmark.svg';
 import SkippedIcon from '../../static/svg/SkippedIcon.svg';
 import BulletDot from '../../static/svg/BulletDot.svg';
 import { ChessBoardContext } from "../../contexts/ChessBoardContext";
 import playerStatuses from '../../constants/playerStatuses';
 
-const GameInfo = ({ playerCount }) => {
-    const { players } = useContext(ChessBoardContext);
-    const playersDone = players?.filter(p => p.status === playerStatuses.FigurePlaced)?.length || 0;
-    const playersSkipped = players?.filter(p => p.status === playerStatuses.MoveSkipped)?.length || 0;
-
+const GameInfo = () => {
+  const { voters } = useContext(ChessBoardContext);
+  const playersDone = voters?.filter(p => p.status === playerStatuses.FigurePlaced)?.length || 0;
+  const playersSkipped = voters?.filter(p => p.status === playerStatuses.MoveSkipped)?.length || 0;
+  
   return (
     <div className="game-info-row rubik-font align-c" data-testid="game-info-field">
       <div className="game-info-status player-count">
         <p data-testid="players-count">
-          {playerCount === 1
+          {voters.length === 1
             ? "1 player"
-            : `${playerCount} players`}
+            : `${voters.length} players`}
         </p>
       </div>
 
@@ -47,9 +46,5 @@ const GameInfo = ({ playerCount }) => {
     </div>
   );
 }
-
-GameInfo.propTypes = {
-  playerCount: PropTypes.number.isRequired,
-};
 
 export default GameInfo;

@@ -69,6 +69,7 @@ export interface RemovePlayerMessage {
 export interface PlayerConnectedMessage {
   playerName: string;
   id: string | undefined;
+  role: string | undefined;
 }
 
 export interface Handler {

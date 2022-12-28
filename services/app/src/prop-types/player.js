@@ -17,4 +17,5 @@ export default PropTypes.shape({
     })
   }),
   id: PropTypes.string,
+  role: PropTypes.string,
 });
