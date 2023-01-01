@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import playerStatuses from '../../constants/playerStatuses';
 import Skip from '../../static/svg/Skip.svg';
 import Remove from '../../static/svg/Remove.svg';
 import './team.css';
 import CheckMark from "../../static/svg/Checkmark.svg";
+import BouncingDots from "../player/bouncingDots/BouncingDots"
 import SkippedIcon from "../../static/svg/SkippedIcon.svg";
+import { ChessBoardContext } from "../../contexts/ChessBoardContext"
 
-const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) => (
+
+
+const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) => {
+  const {isAllTurnsMade} = useContext(ChessBoardContext);
+  return (
   <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
     <div
       className="team-list-item-avatar align-c"
@@ -24,7 +30,8 @@ const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) 
       </div>
     </div>
     {name}
-    { status === playerStatuses.FigurePlaced && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" /> }
+    { (status === playerStatuses.FigurePlaced && !isAllTurnsMade) && <div className="team-list-item-icon" alt="player done icon"> <BouncingDots/></div>}
+    {isAllTurnsMade && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" />}
     { status === playerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
     
     <div className="team-list-item-actions team-list-item-icon">
@@ -44,7 +51,8 @@ const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) 
       </button>
     </div>
   </div>
-);
+  )
+};
 
 TeamMember.propTypes = {
   name: PropTypes.string.isRequired,

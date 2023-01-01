@@ -2,6 +2,7 @@ import React from 'react';
 import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
 import CheckMark from "../../static/svg/Checkmark.svg";
+import BouncingDots from "./bouncingDots/BouncingDots"
 import SkippedIcon from "../../static/svg/SkippedIcon.svg";
 import { rgbToColor } from '../../helpers/rgbToColor';
 
@@ -28,8 +29,8 @@ const Player = ({ player }) => (
             {' '}
             <span>(you)</span>
           </div>
-            { player.status === playerStatuses.FigurePlaced && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" /> }
-            { player.status === playerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
+          { player.status === playerStatuses.FigurePlaced && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" /> }
+          { player.status === playerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
         </>
         )
     );
