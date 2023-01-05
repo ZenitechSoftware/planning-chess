@@ -64,7 +64,7 @@ const ChessBoardContextProvider = ({ children }) => {
     } else {
       clearBoardItems();
     }
-  }, [turns, isAllTurnsMade]);
+  }, [turns]);
 
   useEffect(() => {
     if (movedBy.length) {

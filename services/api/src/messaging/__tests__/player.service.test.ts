@@ -128,7 +128,7 @@ describe('player.service', () => {
 
     jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(turnValue);
     const sendMock = jest.spyOn(ws, 'send');
-    playerService.checkIfUserAlreadyExists(ws);
+    playerService.checkIfUserAlreadyExists(ws, playerTestId);
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 

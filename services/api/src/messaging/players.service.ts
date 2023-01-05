@@ -89,9 +89,12 @@ export const clearBoard = (ws: GameWebSocket): void => {
   publishAllPlayers(ws.roomId);
 };
 
-export const checkIfUserAlreadyExists = (ws: GameWebSocket): void => {
+export const checkIfUserAlreadyExists = (
+  ws: GameWebSocket,
+  id: string,
+): void => {
   const players = getPlayers(ws.roomId);
-  const myTurn = gameService.findMoveByPlayerId(ws.roomId, players.get(ws)?.id);
+  const myTurn = gameService.findMoveByPlayerId(ws.roomId, id);
 
   if (myTurn) {
     players.set(ws, {
@@ -222,7 +225,7 @@ export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   logger.info(`New player "${newPlayer.name}" joined the game.`);
   players.set(ws, newPlayer);
 
-  checkIfUserAlreadyExists(ws);
+  checkIfUserAlreadyExists(ws, newPlayer.id);
 };
 
 export const unsubscribe = (ws: GameWebSocket): void => {
