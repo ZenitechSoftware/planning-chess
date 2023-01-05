@@ -7,9 +7,7 @@ import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
-import playerStatuses from "../constants/playerStatuses";
-import { makeCurrentPlayerFirstInList } from '../helpers/makeCurrentPlayerFirstInList';
-import { PLAYER_ROLES } from '../constants/playerConstants';
+import { PlayerStatuses, PLAYER_ROLES } from "../constants/playerConstants";
 
 export const ChessBoardContext = createContext();
 
@@ -28,37 +26,36 @@ const ChessBoardContextProvider = ({ children }) => {
     [players],
   );
 
-  const voters = useMemo(() => {
-    const tempVoters = players.filter(p => p.role === PLAYER_ROLES.VOTER);
-    if(currentPlayer?.role === PLAYER_ROLES.VOTER) {
-      return makeCurrentPlayerFirstInList(tempVoters, currentPlayerId, currentPlayer);
-    }
-    return tempVoters;
+  const isCurrentPlayerSpectator = useMemo(
+    () => currentPlayer?.role === PLAYER_ROLES.SPECTATOR, [currentPlayer]
+  )
+
+  const sortedPlayers = useMemo(() => {
+    const otherPlayers = players?.filter(p => p.id !== currentPlayerId);
+    return [currentPlayer, ...otherPlayers];
   }, [players, currentPlayer]);
+
+  const voters = useMemo(() => {
+    if (!sortedPlayers) return [];
+    return sortedPlayers.filter(p => p?.role === PLAYER_ROLES.VOTER);
+  }, [sortedPlayers]);
 
   const spectators = useMemo(() => {
-    const tempSpectators = players.filter(p => p.role === PLAYER_ROLES.SPECTATOR);
-    if(currentPlayer?.role === PLAYER_ROLES.SPECTATOR) {
-      return makeCurrentPlayerFirstInList(tempSpectators, currentPlayerId, currentPlayer);
-    }
-    return tempSpectators;
-  }, [players, currentPlayer]);
+    if (!sortedPlayers) return [];
+    return sortedPlayers.filter(p => p?.role === PLAYER_ROLES.SPECTATOR);
+  }, [sortedPlayers]);
 
   const isAllTurnsMade = useMemo(() => {
-    if(voters.length < 2) {
-      return false;
-    }
-    const playersWhoDidNotMoved = players
-      .filter(p => p.role === PLAYER_ROLES.VOTER)
+    const playersWhoDidNotMove = voters
       .filter(p => p.status === "ActionNotTaken");
-    return playersWhoDidNotMoved.length === 0;
+    return playersWhoDidNotMove.length === 0;
   }, [players, turns]);
 
   const isGameInProgress = useMemo(() => voters.length > 1 && !isAllTurnsMade, [players, isAllTurnsMade]);
   
   const finished = useMemo(() => [
-    playerStatuses.FigurePlaced,
-    playerStatuses.MoveSkipped
+    PlayerStatuses.FigurePlaced,
+    PlayerStatuses.MoveSkipped
   ].includes(players.find(p => p.id === currentPlayerId)?.status), [players]);
 
   const generateFinalBoard = (finalTurns) => {
@@ -124,10 +121,6 @@ const ChessBoardContextProvider = ({ children }) => {
   }, [myTurn]);
 
   const finishMove = () => {
-    if (currentPlayer.role === PLAYER_ROLES.SPECTATOR) {
-      return;
-    }
-
     if (lastTurn) {
       ws.send({
         type: 'FigureMoved',
@@ -164,7 +157,8 @@ const ChessBoardContextProvider = ({ children }) => {
         isAllTurnsMade,
         players,
         globalScore,
-        currentPlayer
+        currentPlayer,
+        isCurrentPlayerSpectator
       }}
     >
       {children}

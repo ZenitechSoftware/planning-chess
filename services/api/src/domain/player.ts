@@ -4,11 +4,16 @@ export enum PlayerStatus {
   ActionNotTaken = 'ActionNotTaken',
 }
 
+export enum PlayerRole {
+  Spectator = 'Spectator',
+  Voter = 'Voter',
+}
+
 export interface Player {
   id: string;
   name: string;
   color: PlayerAvatarColor;
-  role: string;
+  role: PlayerRole;
   status: PlayerStatus;
 }
 

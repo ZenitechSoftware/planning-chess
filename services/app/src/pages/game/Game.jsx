@@ -20,7 +20,6 @@ import {
 import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
-import { PLAYER_ROLES } from '../../constants/playerConstants';
 
 const Game = () => {
   const { username } = useUserFromLocalStorage();
@@ -30,10 +29,11 @@ const Game = () => {
   const { ws } = useContext(WsContext);
   const { currentPlayer } = useContext(ChessBoardContext);
 
+  const role = Math.floor(Math.random() * 2) + 1 === 1 ? 'Voter' : 'Spectator';
   useEffect(() => {
     setTimeout(() => {
       if (username && ws) {
-        ws.send(buildPlayerConnectedEventMessage(username, userId));
+        ws.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
     })
   }, [username, ws]);
@@ -58,10 +58,6 @@ const Game = () => {
   }, [ws]);
 
   const skipCurrentPlayerMove = useCallback(() => {
-    if (currentPlayer.role === PLAYER_ROLES.SPECTATOR) {
-      return;
-    }
-
     skipMove(currentPlayer?.id);
   }, [skipMove, currentPlayer]);
 

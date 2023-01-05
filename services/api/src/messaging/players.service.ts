@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { Player, PlayerStatus } from '../domain';
+import { Player, PlayerStatus, PlayerRole } from '../domain';
 import { getPlayerAvatarColor } from '../helpers/player-avatar-color';
 import logger from '../logger';
 import {
@@ -48,7 +48,7 @@ const publishFinalBoard = (
 ): void => {
   const areAllPlayersDone = Array.from(players.values())
     .filter((p) => p.role === 'Voter')
-    .every((players) => players.status !== 'ActionNotTaken');
+    .every((player) => player.status !== PlayerStatus.ActionNotTaken);
 
   const newBoardState = gameRoomService.getTurns(ws.roomId);
 
@@ -62,9 +62,6 @@ const publishFinalBoard = (
 
 const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   const players = getPlayers(ws.roomId);
-  if (players.get(ws).role === 'Spectator') {
-    return;
-  }
 
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.set(ws, {
@@ -112,10 +109,6 @@ const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
 
   try {
     const [playerConnection, player] = findPlayerById(ws.roomId, userId);
-
-    if (player.role === 'Spectator') {
-      return;
-    }
 
     if (player.status !== PlayerStatus.ActionNotTaken) {
       throw new Error(`Player ${userId} cannot skip a move`);
@@ -167,8 +160,8 @@ export const playerConnected: Handler = (
   ws,
   { playerName, id, role }: PlayerConnectedMessage,
 ): void => {
-  const newPlayerId = id ? id : uuidv4();
-  const newPlayerRole = role ? role : 'Voter';
+  const newPlayerId = id ?? uuidv4();
+  const newPlayerRole = role ?? PlayerRole.Voter;
   const doesSamePlayerExists = playerExists(ws.roomId, id);
 
   if (doesSamePlayerExists) {
@@ -271,7 +264,14 @@ export const sendMessage = <T extends keyof SendMessagePayloads>(
   sendJSON(ws, messagePayload);
 };
 
-const handlers: { [key in MessageType]?: Handler } = {
+const spectatorHandlers: { [key in MessageType]?: Handler } = {
+  [MessageType.RemovePlayer]: removePlayer,
+  [MessageType.Ping]: ping,
+  [MessageType.ClearBoard]: clearBoard,
+  [MessageType.PlayerConnected]: playerConnected,
+};
+
+const voterHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
@@ -280,11 +280,36 @@ const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.Ping]: ping,
 };
 
-const getHandler = (type: MessageType): Handler => handlers[type];
+const commonHandlers: { [key in MessageType]?: Handler } = {
+  [MessageType.Ping]: ping,
+  [MessageType.PlayerConnected]: playerConnected,
+};
+
+const getHandler = (type: MessageType, role: PlayerRole): Handler | null => {
+  if (type === MessageType.PlayerConnected) {
+    return commonHandlers[type];
+  }
+
+  if (role === PlayerRole.Voter) {
+    return voterHandlers[type];
+  }
+
+  if (role === PlayerRole.Spectator) {
+    return spectatorHandlers[type];
+  }
+};
 
 export const newMessageReceived = <T extends keyof ReceivedMessagePayloads>(
   ws: GameWebSocket,
   message: ReceivedMessage<T>,
 ): void => {
-  getHandler(message.type)(ws, message.payload);
+  const playerRoleWhoSentMsg = getPlayers(ws.roomId).get(ws)?.role;
+  try {
+    getHandler(message.type, playerRoleWhoSentMsg)(ws, message.payload);
+    throw new Error(
+      `${playerRoleWhoSentMsg} can not access handler for ${message.type}`,
+    );
+  } catch (e) {
+    return;
+  }
 };

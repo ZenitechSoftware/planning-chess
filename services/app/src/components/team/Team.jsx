@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
-import TeamMember from './TeamMember';
+import VoterTeamMember from './VoterTeamMember';
+import SpectatorTeamMember from './SpectatorTeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
 import Return from '../../static/svg/Return.svg';
@@ -19,31 +20,23 @@ const Team = ({ skipMove, removePlayer }) => {
 
       <div className="team-list-items">
         {voters?.map((player, index) => (
-          <TeamMember
+          <VoterTeamMember
+            player={player}
             key={player.id}
             index={index}
-            name={player.name}
-            id={player.id}
             skipMove={skipMove}
-            color={player.color}
-            status={player.status}
             removePlayer={removePlayer}
             currentPlayerId={currentPlayerId}
-            role={player.role}
           />
         ))}
+
         {spectators?.map((player, index) => (
-          <TeamMember
+          <SpectatorTeamMember
             key={player.id}
             index={index}
             name={player.name}
             id={player.id}
-            skipMove={skipMove}
-            color={player.color}
-            status={player.status}
-            removePlayer={removePlayer}
             currentPlayerId={currentPlayerId}
-            role={player.role}
           />
         ))}
       </div>

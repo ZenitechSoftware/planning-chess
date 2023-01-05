@@ -41,8 +41,6 @@ export const useWebSockets = () => {
     }
   };
 
-  console.log(myTurn)
-
   useEffect(() => {
     if (ws) {
       ws.addEventListener('message', (event) => {

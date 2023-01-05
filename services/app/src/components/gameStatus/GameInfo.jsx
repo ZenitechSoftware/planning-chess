@@ -5,12 +5,12 @@ import CheckMark from '../../static/svg/Checkmark.svg';
 import SkippedIcon from '../../static/svg/SkippedIcon.svg';
 import BulletDot from '../../static/svg/BulletDot.svg';
 import { ChessBoardContext } from "../../contexts/ChessBoardContext";
-import playerStatuses from '../../constants/playerStatuses';
+import { PlayerStatuses } from '../../constants/playerConstants';
 
 const GameInfo = () => {
   const { voters } = useContext(ChessBoardContext);
-  const playersDone = voters?.filter(p => p.status === playerStatuses.FigurePlaced)?.length || 0;
-  const playersSkipped = voters?.filter(p => p.status === playerStatuses.MoveSkipped)?.length || 0;
+  const playersDone = voters?.filter(p => p.status === PlayerStatuses.FigurePlaced)?.length || 0;
+  const playersSkipped = voters?.filter(p => p.status === PlayerStatuses.MoveSkipped)?.length || 0;
   
   return (
     <div className="game-info-row rubik-font align-c" data-testid="game-info-field">

@@ -6,7 +6,7 @@ import {
   ReceivedMessage,
   PlayerConnectedMessage,
 } from '../../domain/messages';
-import { PlayerStatus } from '../../domain/player';
+import { PlayerStatus, PlayerRole } from '../../domain/player';
 import * as gameService from '../../game/game.service';
 import * as gameRoomService from '../../game/game-room.service';
 import { GameWebSocket } from '../../domain/GameRoom';
@@ -33,7 +33,7 @@ describe('player.service', () => {
       name: 'player1',
       color: getPlayerAvatarColor(),
       status: PlayerStatus.ActionNotTaken,
-      role: 'Voter',
+      role: PlayerRole.Voter,
     });
   });
 
@@ -48,7 +48,7 @@ describe('player.service', () => {
   it('should join a new player', () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo', id: playerTestId, role: 'Voter' },
+      payload: { playerName: 'foo', id: playerTestId, role: PlayerRole.Voter },
     };
 
     const sendMock = jest.spyOn(ws, 'send');
@@ -61,7 +61,7 @@ describe('player.service', () => {
     const playerConnectedMessagePayload: PlayerConnectedMessage = {
       playerName: 'foo',
       id: playerTestId,
-      role: 'Voter',
+      role: PlayerRole.Voter,
     };
 
     playerService.playerConnected(ws, playerConnectedMessagePayload);

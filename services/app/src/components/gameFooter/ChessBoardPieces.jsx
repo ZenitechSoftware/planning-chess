@@ -3,15 +3,12 @@ import './chessBoardPieces.css';
 import classnames from 'classnames';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
-import { PLAYER_ROLES } from '../../constants/playerConstants';
 
 const ChessBoardPieces = () => {
-  const { setSelectedItem, selectedItem, currentPlayer } = useContext(ChessBoardContext);
-
-  const isSpectator = currentPlayer?.role === PLAYER_ROLES.SPECTATOR;
+  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useContext(ChessBoardContext);
 
   const handleClick = (figure) => {
-    if (isSpectator) {
+    if (isCurrentPlayerSpectator) {
       return;
     }
 

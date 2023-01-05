@@ -1,5 +1,5 @@
 import { GameWebSocket } from './GameRoom';
-import { Player } from './player';
+import { Player, PlayerRole } from './player';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
@@ -69,7 +69,7 @@ export interface RemovePlayerMessage {
 export interface PlayerConnectedMessage {
   playerName: string;
   id: string | undefined;
-  role: string | undefined;
+  role: PlayerRole | null;
 }
 
 export interface Handler {
