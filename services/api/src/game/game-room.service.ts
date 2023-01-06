@@ -11,7 +11,7 @@ interface GameRoom {
   turns: PlaceFigureMessage[];
 }
 
-const rooms = new Map<string, GameRoom>();
+export const rooms = new Map<string, GameRoom>();
 
 export const getOrCreateRoom = (id?: string): GameRoom => {
   const roomId = id ?? uuidv4();
@@ -52,10 +52,15 @@ export const printRooms = (): void => {
   }
 };
 
-export const cleanUp = (id: string): void => {
-  if (getClients(id)?.size === 0) {
-    logger.info(`Closing game room ${id}`);
-    rooms.get(id)?.server.close();
-    rooms.delete(id);
+export const cleanUp = (): void => {
+  if(rooms.size >= 1000) {
+    for (const key of rooms.keys()) {
+      if (getClients(key).size === 0) {
+        logger.info(`Closing game room ${key}`);
+        rooms.get(key).server.close();
+        rooms.delete(key);
+        return;
+      }
+    }
   }
 };

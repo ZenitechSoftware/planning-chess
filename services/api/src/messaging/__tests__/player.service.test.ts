@@ -71,6 +71,16 @@ describe('player.service', () => {
     );
   });
 
+  it('should ping player back', () => {
+    const message: ReceivedMessage<MessageType.Ping> = {
+      type: MessageType.Ping
+    }
+
+    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMessageSpy).toHaveBeenCalledWith(ws, MessageType.Pong);
+  });
+
   it('should skip a move for a player', () => {
     const payload = { userId: playerTestId };
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
