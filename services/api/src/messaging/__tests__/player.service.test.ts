@@ -73,8 +73,8 @@ describe('player.service', () => {
 
   it('should ping player back', () => {
     const message: ReceivedMessage<MessageType.Ping> = {
-      type: MessageType.Ping
-    }
+      type: MessageType.Ping,
+    };
 
     const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
     playerService.newMessageReceived(ws, message);

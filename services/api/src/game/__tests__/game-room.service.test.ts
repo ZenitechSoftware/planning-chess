@@ -10,11 +10,11 @@ jest.mock('../../logger');
 describe('gameRoomService', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    gameRoomService.rooms.clear();
   });
 
   const roomId = 'abcd-1234';
-  const roomIdToDelete = 'abcd-5678';
-  
+
   it('should create new room', async () => {
     const room = gameRoomService.getOrCreateRoom();
     expect(room).toMatchSnapshot();
@@ -39,11 +39,11 @@ describe('gameRoomService', () => {
   });
 
   it('should clean up the room, because there are more than 1000', () => {
-    gameRoomService.getOrCreateRoom(roomId);
-    for(let i = 0; i < 1000; i++) {
-      gameRoomService.getOrCreateRoom(`${i}`)
+    for (let i = 0; i < 1001; i++) {
+      gameRoomService.getOrCreateRoom(`${i}`);
     }
-    gameRoomService.cleanUp();
     expect(gameRoomService.rooms.size).toBe(1001);
+    gameRoomService.cleanUp();
+    expect(gameRoomService.rooms.size).toBe(1000);
   });
 });

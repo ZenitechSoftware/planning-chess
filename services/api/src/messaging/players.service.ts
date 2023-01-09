@@ -22,7 +22,10 @@ import * as gameRoomService from '../game/game-room.service';
 const getPlayers = (roomId: string): Map<WebSocket, Player> =>
   gameRoomService.getPlayers(roomId);
 
-export const findPlayerById = (roomId: string, id: string): [WebSocket, Player] => {
+export const findPlayerById = (
+  roomId: string,
+  id: string,
+): [WebSocket, Player] => {
   const players = getPlayers(roomId);
   const player = Array.from(players.entries()).find(
     ([_, player]) => player.id === id,
@@ -49,9 +52,11 @@ const publishFinalBoard = (
   const areAllPlayersDone = Array.from(players.values()).every(
     (players) => players.status !== 'ActionNotTaken',
   );
-  const newBoardState = gameRoomService.getTurns(ws.roomId);
+  // const newBoardState = gameRoomService.getTurns(ws.roomId);
 
   if (areAllPlayersDone) {
+    const newBoardState = gameRoomService.getTurns(ws.roomId);
+
     publish(ws.roomId, {
       type: MessageType.NewBoardState,
       payload: newBoardState,
@@ -94,10 +99,10 @@ export const checkIfUserAlreadyExists = (
   ws: GameWebSocket,
   playerId: string,
 ): void => {
-  const players = getPlayers(ws.roomId);
   const myTurn = gameService.findMoveByPlayerId(ws.roomId, playerId);
 
   if (myTurn) {
+    const players = getPlayers(ws.roomId);
     players.set(ws, {
       ...players.get(ws),
       status: PlayerStatus.FigurePlaced,
@@ -212,7 +217,7 @@ const publishBoard = (roomId: string) => {
 
 export const ping: Handler = (ws: GameWebSocket): void => {
   sendMessage(ws, MessageType.Pong);
-}
+};
 
 export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   const players = getPlayers(ws.roomId);
@@ -220,6 +225,7 @@ export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   players.set(ws, newPlayer);
 
   checkIfUserAlreadyExists(ws, newPlayer.id);
+  publishAllPlayers(ws.roomId);
   publishFinalBoard(ws, players);
 };
 

@@ -53,7 +53,7 @@ export const printRooms = (): void => {
 };
 
 export const cleanUp = (): void => {
-  if(rooms.size >= 1000) {
+  if (rooms.size >= 1000) {
     for (const key of rooms.keys()) {
       if (getClients(key).size === 0) {
         logger.info(`Closing game room ${key}`);
