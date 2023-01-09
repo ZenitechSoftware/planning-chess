@@ -52,7 +52,6 @@ const publishFinalBoard = (
   const areAllPlayersDone = Array.from(players.values()).every(
     (players) => players.status !== 'ActionNotTaken',
   );
-  // const newBoardState = gameRoomService.getTurns(ws.roomId);
 
   if (areAllPlayersDone) {
     const newBoardState = gameRoomService.getTurns(ws.roomId);
