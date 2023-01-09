@@ -201,7 +201,7 @@ export const newPlayerJoined = (roomId: string): void => {
   publishAllPlayers(roomId);
 };
 
-export const publishAllPlayers = (roomId: string) => {
+export const publishAllPlayers = (roomId: string): void => {
   publish(roomId, {
     type: MessageType.UpdatePlayerList,
     payload: Array.from(getPlayers(roomId).values()),

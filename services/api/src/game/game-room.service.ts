@@ -57,7 +57,6 @@ export const cleanUp = (): void => {
     for (const key of rooms.keys()) {
       if (getClients(key).size === 0) {
         logger.info(`Closing game room ${key}`);
-        rooms.get(key).server.close();
         rooms.delete(key);
         return;
       }
