@@ -13,7 +13,6 @@ const Square = ({
   column,
   filled
 }) => {
-
   const { board, findUserById, players } = useContext(ChessBoardContext);
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));

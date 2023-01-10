@@ -9,7 +9,7 @@ Array [
     "{\\"type\\":\\"NewBoardState\\"}",
   ],
   Array [
-    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"status\\":\\"ActionNotTaken\\"}]}",
+    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"player1\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"ActionNotTaken\\"}]}",
   ],
 ]
 `;
@@ -17,7 +17,7 @@ Array [
 exports[`player.service should disconnect a player 1`] = `
 Array [
   Array [
-    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"status\\":\\"ActionNotTaken\\"}]}",
+    "{\\"type\\":\\"PlayerDisconnected\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"player1\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"ActionNotTaken\\"}]}",
   ],
 ]
 `;
@@ -25,10 +25,16 @@ Array [
 exports[`player.service should join a new player 1`] = `
 Array [
   Array [
+    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"testId\\",\\"name\\":\\"player1\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"ActionNotTaken\\"}]}",
+  ],
+  Array [
     "{\\"type\\":\\"PlayerSuccessfullyJoined\\",\\"payload\\":\\"some-short-v4-uuid-0\\"}",
   ],
   Array [
     "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"role\\":\\"Voter\\",\\"status\\":\\"ActionNotTaken\\"}]}",
+  ],
+  Array [
+    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"foo\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"ActionNotTaken\\"}]}",
   ],
 ]
 `;
@@ -39,18 +45,10 @@ Array [
     "{\\"type\\":\\"FigureMoved\\"}",
   ],
   Array [
-    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"status\\":\\"FigurePlaced\\"}]}",
+    "{\\"type\\":\\"UpdatePlayerList\\",\\"payload\\":[{\\"id\\":\\"some-short-v4-uuid-0\\",\\"name\\":\\"player1\\",\\"color\\":{\\"background\\":{\\"r\\":256,\\"g\\":256,\\"b\\":256},\\"text\\":{\\"r\\":128,\\"g\\":128,\\"b\\":128}},\\"status\\":\\"FigurePlaced\\"}]}",
   ],
   Array [
     "{\\"type\\":\\"NewBoardState\\",\\"payload\\":[]}",
-  ],
-]
-`;
-
-exports[`player.service should set a turn if user\`s move already exist 1`] = `
-Array [
-  Array [
-    "{\\"type\\":\\"SetMyTurn\\",\\"payload\\":{\\"row\\":2,\\"tile\\":5,\\"figure\\":\\"rook\\",\\"player\\":\\"player1\\",\\"id\\":\\"some-short-v4-uuid-0\\",\\"score\\":8}}",
   ],
 ]
 `;
