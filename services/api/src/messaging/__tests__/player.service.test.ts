@@ -137,16 +137,16 @@ describe('player.service', () => {
     };
 
     jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(turnValue);
-    
+
     const playerConnectedPayload = {
       playerName: 'player1',
       id: playerTestId,
-    }
+    };
 
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
       payload: playerConnectedPayload,
-    }
+    };
 
     const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
     playerService.newMessageReceived(ws, message);
