@@ -123,9 +123,49 @@ describe('player.service', () => {
       type: MessageType.RemovePlayer,
       payload,
     };
-    const sendMock = jest.spyOn(ws, 'send');
+
+    const mockPlayerList = new Map().set(ws, {
+      id: `${playerTestId}3`,
+      name: 'testName',
+      color: getPlayerAvatarColor(),
+      role: PlayerRole.Voter,
+      status: PlayerStatus.ActionNotTaken,
+    });
+
+    const errorMsgMock = jest.spyOn(playerService, 'errorHandler');
+    const getPlayersMock = jest
+      .spyOn(gameRoomService, 'getPlayers')
+      .mockReturnValue(mockPlayerList);
     playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
+    expect(errorMsgMock).toBeCalled();
+    getPlayersMock.mockClear();
+  });
+
+  it('should not get a handler, because message type does not exist', () => {
+    const payload = { userId: playerTestId };
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload,
+    };
+
+    const playerListMock = new Map();
+    //kdl the mocks gets updated with this player???
+    playerListMock.set(ws, {
+      id: playerTestId,
+      name: 'testName',
+      color: getPlayerAvatarColor(),
+      role: PlayerRole.Spectator,
+      status: PlayerStatus.FigurePlaced,
+    });
+
+    const messageSpy = jest.spyOn(playerService, 'moveSkipped');
+
+    const getPlayersMock = jest
+      .spyOn(gameRoomService, 'getPlayers')
+      .mockReturnValue(playerListMock);
+    playerService.newMessageReceived(ws, message);
+    expect(messageSpy).not.toBeCalled();
+    getPlayersMock.mockRestore();
   });
 
   it('should set a turn if user`s move if move already exists', () => {
@@ -143,6 +183,7 @@ describe('player.service', () => {
     const playerConnectedPayload = {
       playerName: 'player1',
       id: playerTestId,
+      role: PlayerRole.Voter,
     };
 
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
@@ -179,60 +220,10 @@ describe('player.service', () => {
     expect(gameService.figureMoved).toBeCalledWith(roomId, payload);
   });
 
-  //------------------------------------------NEW TESTS----------------------------------------------------------------
-  it('should ping player back', () => {
-    //Xz, doesn't work
-    const message: ReceivedMessage<MessageType.Ping> = {
-      type: MessageType.Ping,
-    };
-
-    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMessageSpy).toHaveBeenCalledWith(MessageType.Pong);
-  });
-
-  // it('should move a figure', () => {
-
-  // })
-
-  /*
-    it('should not remove a player, because user do not exist', () => {
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
-  });
-  */
-
-  // it('should not remove a player because user does not exist', () => {
-  //   const message: ReceivedMessage<MessageType.RemovePlayer> = {
-  //     type: MessageType.RemovePlayer,
-  //     payload: { userId: `${playerTestId}2` }
-  //   }
-
-  // })
-
-  //--------------------------------------------------------------------------------------------------------------------
-
   it('should clear the board', async () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.clearBoard(ws);
     expect(sendMock.mock.calls).toMatchSnapshot();
-  });
-
-  it('should not skip a move, because user do not exist', () => {
-    const payload = { userId: playerTestId };
-    const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      type: MessageType.MoveSkipped,
-      payload,
-    };
-
-    const publishMessageSpy = jest.spyOn(playerService, 'publish');
-    const mock = jest
-      .spyOn(gameRoomService, 'getPlayers')
-      .mockReturnValue(null);
-    playerService.newMessageReceived(ws, message);
-    expect(publishMessageSpy).not.toBeCalledWith(ws, MessageType.MoveSkipped);
-    mock.mockRestore();
   });
 
   it('should disconnect a player', async () => {

@@ -53,8 +53,6 @@ const publishFinalBoard = (
     .filter((p) => p.role === PlayerRole.Voter)
     .every((player) => player.status !== PlayerStatus.ActionNotTaken);
 
-  const newBoardState = gameRoomService.getTurns(ws.roomId);
-
   if (areAllPlayersDone) {
     const newBoardState = gameRoomService.getTurns(ws.roomId);
 
@@ -96,12 +94,14 @@ export const clearBoard = (ws: GameWebSocket): void => {
   publishAllPlayers(ws.roomId);
 };
 
-const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
+export const moveSkipped: Handler = (
+  ws,
+  { userId }: MoveSkippedMessage,
+): void => {
   const players = getPlayers(ws.roomId);
 
   try {
     const [playerConnection, player] = findPlayerById(ws.roomId, userId);
-
     if (player.status !== PlayerStatus.ActionNotTaken) {
       throw new Error(`Player ${userId} cannot skip a move`);
     }
@@ -136,7 +136,7 @@ const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
     logger.info(`Player ${player?.name} removed`);
     publishAllPlayers(ws.roomId);
   } catch (err) {
-    logger.error(err?.message); //HERE---------------Move
+    logger.error(err?.message);
     errorHandler(ws, err);
   }
 };
@@ -259,7 +259,7 @@ export const sendMessage = <T extends keyof SendMessagePayloads>(
   sendJSON(ws, messagePayload);
 };
 
-const errorHandler = (ws: GameWebSocket, e: string): void => {
+export const errorHandler = (ws: GameWebSocket, e: string): void => {
   sendMessage(ws, MessageType.ErrorMessage, e);
 };
 
