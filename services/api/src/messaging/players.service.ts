@@ -88,26 +88,21 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
 export const clearBoard = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
   setDefaultStatusForPlayers(ws);
-  sendMessage(ws, MessageType.SetMyTurn, null);
   publish(ws.roomId, { type: MessageType.ClearBoard });
   publishBoard(ws.roomId);
   publishAllPlayers(ws.roomId);
 };
 
-export const checkIfUserAlreadyExists = (
+export const sendUserTurn = (
   ws: GameWebSocket,
   playerId: string,
 ): void => {
   const myTurn = gameService.findMoveByPlayerId(ws.roomId, playerId);
+  const players = getPlayers(ws.roomId);
 
   if (myTurn) {
-    const players = getPlayers(ws.roomId);
-    players.set(ws, {
-      ...players.get(ws),
-      status: PlayerStatus.FigurePlaced,
-    });
-
     sendMessage(ws, MessageType.SetMyTurn, myTurn);
+    publishFinalBoard(ws, players);
   }
 };
 
@@ -182,6 +177,11 @@ export const playerConnected: Handler = (
 
   successfullyJoined(ws, newPlayerId);
   subscribe(ws, newPlayer);
+
+  if (newPlayer.status !== PlayerStatus.ActionNotTaken) {
+    sendUserTurn(ws, newPlayer.id);
+  }
+
   newPlayerJoined(ws.roomId);
 };
 
@@ -222,10 +222,7 @@ export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   const players = getPlayers(ws.roomId);
   logger.info(`New player "${newPlayer.name}" joined the game.`);
   players.set(ws, newPlayer);
-
-  checkIfUserAlreadyExists(ws, newPlayer.id);
   publishAllPlayers(ws.roomId);
-  publishFinalBoard(ws, players);
 };
 
 export const unsubscribe = (ws: GameWebSocket): void => {
