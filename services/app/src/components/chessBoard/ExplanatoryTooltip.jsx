@@ -10,7 +10,6 @@ const ExplanatoryTooltip = ({
 }) => {
   return (
     <Tooltip
-      className="tooltipClass" 
       title={title}
       placement={placement}
       overlayInnerStyle={{fontSize: 15}}
