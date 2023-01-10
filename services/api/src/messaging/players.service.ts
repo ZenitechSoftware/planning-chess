@@ -93,19 +93,6 @@ export const clearBoard = (ws: GameWebSocket): void => {
   publishAllPlayers(ws.roomId);
 };
 
-export const sendUserTurn = (
-  ws: GameWebSocket,
-  playerId: string,
-): void => {
-  const myTurn = gameService.findMoveByPlayerId(ws.roomId, playerId);
-  const players = getPlayers(ws.roomId);
-
-  if (myTurn) {
-    sendMessage(ws, MessageType.SetMyTurn, myTurn);
-    publishFinalBoard(ws, players);
-  }
-};
-
 const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   const players = getPlayers(ws.roomId);
 
@@ -179,7 +166,13 @@ export const playerConnected: Handler = (
   subscribe(ws, newPlayer);
 
   if (newPlayer.status !== PlayerStatus.ActionNotTaken) {
-    sendUserTurn(ws, newPlayer.id);
+    const myTurn = gameService.findMoveByPlayerId(ws.roomId, newPlayerId);
+    const players = getPlayers(ws.roomId);
+
+    if (myTurn) {
+      sendMessage(ws, MessageType.SetMyTurn, myTurn);
+      publishFinalBoard(ws, players);
+    }
   }
 
   newPlayerJoined(ws.roomId);

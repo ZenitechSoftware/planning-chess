@@ -126,7 +126,7 @@ describe('player.service', () => {
     expect(sendMock).not.toBeCalled();
   });
 
-  it('should set a turn if user`s move already exist', () => {
+  it('should set a turn if user`s move if move already exists', () => {
     const turnValue: PlaceFigureMessage = {
       row: 2,
       tile: 5,
@@ -137,9 +137,24 @@ describe('player.service', () => {
     };
 
     jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(turnValue);
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.sendUserTurn(ws, playerTestId);
-    expect(sendMock.mock.calls).toMatchSnapshot();
+    
+    const playerConnectedPayload = {
+      playerName: 'player1',
+      id: playerTestId,
+    }
+
+    const message: ReceivedMessage<MessageType.PlayerConnected> = {
+      type: MessageType.PlayerConnected,
+      payload: playerConnectedPayload,
+    }
+
+    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMessageSpy).toHaveBeenCalledWith(
+      ws,
+      MessageType.SetMyTurn,
+      turnValue,
+    );
   });
 
   it('should move a chess figure', () => {
