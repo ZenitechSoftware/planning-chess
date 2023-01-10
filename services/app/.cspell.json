@@ -1,12 +1,15 @@
 {
   "words": [
-    "esmodules",
-    "nosniff",
-    "chunkhash",
     "abcdefghijklmnopqrstuvwxyz",
+    "antd",
+    "chunkhash",
+    "esmodules",
     "evenodd",
-    "zenitech",
+    "nosniff",
     "testid",
+    "zenitech"
   ],
-  "ignorePaths": ["*.svg"]
+  "ignorePaths": [
+    "*.svg"
+  ]
 }
