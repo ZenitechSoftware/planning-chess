@@ -20,6 +20,7 @@ import {
 import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { PLAYER_ROLES } from '../../constants/playerConstants';
 
 const Game = () => {
   const { username } = useUserFromLocalStorage();
@@ -29,7 +30,7 @@ const Game = () => {
   const { ws } = useContext(WsContext);
   const { currentPlayer } = useContext(ChessBoardContext);
 
-  const role = Math.floor(Math.random() * 2) + 1 === 1 ? 'Voter' : 'Spectator';
+  const role = Math.floor(Math.random() * 2) + 1 === 1 ? PLAYER_ROLES.VOTER : PLAYER_ROLES.SPECTATOR;
   useEffect(() => {
     setTimeout(() => {
       if (username && ws) {

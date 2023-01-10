@@ -16,6 +16,7 @@ export enum MessageType {
   SetMyTurn = 'SetMyTurn',
   Ping = 'Ping',
   Pong = 'Pong',
+  ErrorMessage = 'ErrorMessage',
 }
 
 export type SendMessagePayloads = {
@@ -30,6 +31,8 @@ export type SendMessagePayloads = {
   [MessageType.PlayerAlreadyExists]: void;
   [MessageType.UpdatePlayerList]: Player[];
   [MessageType.PlayerSuccessfullyJoined]: string;
+  [MessageType.ErrorMessage]: string;
+  [MessageType.Pong]: void;
 };
 
 export interface SendMessage<T extends keyof SendMessagePayloads> {
@@ -43,6 +46,7 @@ export type ReceivedMessagePayloads = {
   [MessageType.MoveSkipped]: MoveSkippedMessage;
   [MessageType.RemovePlayer]: RemovePlayerMessage;
   [MessageType.ClearBoard]: void;
+  [MessageType.Ping]: void;
 };
 
 export interface ReceivedMessage<T extends keyof ReceivedMessagePayloads> {

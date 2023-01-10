@@ -108,7 +108,7 @@ describe('player.service', () => {
   });
 
   it('should not remove a player, because user do not exist', () => {
-    const payload = { userId: playerTestId };
+    const payload = { userId: `${playerTestId}2` };
     const message: ReceivedMessage<MessageType.RemovePlayer> = {
       type: MessageType.RemovePlayer,
       payload,
@@ -153,6 +153,40 @@ describe('player.service', () => {
     expect(sendMock.mock.calls).toMatchSnapshot();
     expect(gameService.figureMoved).toBeCalledWith(roomId, payload);
   });
+
+  //------------------------------------------NEW TESTS----------------------------------------------------------------
+  it('should ping player back', () => {
+    //Xz, doesn't work
+    const message: ReceivedMessage<MessageType.Ping> = {
+      type: MessageType.Ping,
+    };
+
+    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMessageSpy).toHaveBeenCalledWith(MessageType.Pong);
+  });
+
+  // it('should move a figure', () => {
+
+  // })
+
+  /*
+    it('should not remove a player, because user do not exist', () => {
+    const sendMock = jest.spyOn(ws, 'send');
+    playerService.newMessageReceived(ws, message);
+    expect(sendMock).not.toBeCalled();
+  });
+  */
+
+  // it('should not remove a player because user does not exist', () => {
+  //   const message: ReceivedMessage<MessageType.RemovePlayer> = {
+  //     type: MessageType.RemovePlayer,
+  //     payload: { userId: `${playerTestId}2` }
+  //   }
+
+  // })
+
+  //--------------------------------------------------------------------------------------------------------------------
 
   it('should clear the board', async () => {
     const sendMock = jest.spyOn(ws, 'send');

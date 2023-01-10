@@ -8,12 +8,10 @@ const ChessBoardPieces = () => {
   const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useContext(ChessBoardContext);
 
   const handleClick = (figure) => {
-    if (isCurrentPlayerSpectator) {
-      return;
+    if (!isCurrentPlayerSpectator) {
+      setSelectedItem(figure);
     }
-
-    setSelectedItem(figure)
-  }
+  };
 
   return (
     <div id="chess-pieces-container" className='align-c'>
