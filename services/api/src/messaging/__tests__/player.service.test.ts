@@ -220,4 +220,38 @@ describe('player.service', () => {
     playerService.unsubscribe(ws);
     playerService.unsubscribe(ws);
   });
+
+  describe('getHandler', () => {
+    it.each([
+      [MessageType.RemovePlayer, PlayerRole.Spectator, playerService.removePlayer],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
+      [MessageType.FigureMoved, PlayerRole.Spectator, undefined],
+      [MessageType.MoveSkipped, PlayerRole.Spectator, undefined],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
+      [MessageType.RemovePlayer, PlayerRole.Spectator, playerService.removePlayer],
+      [MessageType.Ping, PlayerRole.Spectator, playerService.ping],
+      [MessageType.PlayerConnected, PlayerRole.Spectator, playerService.playerConnected],
+
+      [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
+      [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
+      [MessageType.FigureMoved, PlayerRole.Voter, playerService.figureMoved],
+      [MessageType.MoveSkipped, PlayerRole.Voter, playerService.moveSkipped],
+      [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
+      [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
+      [MessageType.Ping, PlayerRole.Voter, playerService.ping],
+      [MessageType.PlayerConnected, PlayerRole.Voter, playerService.playerConnected],
+
+      [MessageType.RemovePlayer, undefined, undefined],
+      [MessageType.ClearBoard, undefined, undefined],
+      [MessageType.FigureMoved, undefined, undefined],
+      [MessageType.MoveSkipped, undefined, undefined],
+      [MessageType.ClearBoard, undefined, undefined],
+      [MessageType.RemovePlayer, undefined, undefined],
+      [MessageType.Ping, undefined, playerService.ping],
+      [MessageType.PlayerConnected, undefined, playerService.playerConnected],
+    ])('returns correct handler when message type is %s and role is %s', (messageType, role, expectedHandler) => {
+      const handler = playerService.getHandler(messageType, role);
+      expect(handler).toBe(expectedHandler);
+    });
+  });
 });

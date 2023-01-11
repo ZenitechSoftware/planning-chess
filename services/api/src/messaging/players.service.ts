@@ -63,7 +63,7 @@ const publishFinalBoard = (
   }
 };
 
-const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
+export const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   const players = getPlayers(ws.roomId);
 
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
@@ -121,7 +121,7 @@ export const moveSkipped: Handler = (
   }
 };
 
-const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
+export const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
   const players = getPlayers(ws.roomId);
 
   try {
@@ -286,15 +286,15 @@ export const getHandler = (
 ): Handler | null => {
   if (type in commonHandlers) {
     return commonHandlers[type];
-  };
+  }
 
   if (role === PlayerRole.Voter) {
     return voterHandlers[type];
-  };
+  }
 
   if (role === PlayerRole.Spectator) {
     return spectatorHandlers[type];
-  };
+  }
 };
 
 export const newMessageReceived = <T extends keyof ReceivedMessagePayloads>(
