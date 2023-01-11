@@ -4,7 +4,6 @@ import './team.css';
 import playerPropType from '../../prop-types/player';
 import { PlayerStatuses } from '../../constants/playerConstants';
 import Skip from '../../static/svg/Skip.svg';
-import Remove from '../../static/svg/Remove.svg';
 import CheckMark from "../../static/svg/Checkmark.svg";
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {

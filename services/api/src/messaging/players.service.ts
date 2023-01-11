@@ -121,7 +121,10 @@ export const moveSkipped: Handler = (
   }
 };
 
-export const removePlayer: Handler = (ws, { userId }: RemovePlayerMessage): void => {
+export const removePlayer: Handler = (
+  ws,
+  { userId }: RemovePlayerMessage,
+): void => {
   const players = getPlayers(ws.roomId);
 
   try {

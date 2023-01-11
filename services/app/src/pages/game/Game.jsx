@@ -19,7 +19,6 @@ import {
 import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
-import { PlayerRoles } from '../../constants/playerConstants';
 
 const Game = () => {
   const { username } = useUserFromLocalStorage();

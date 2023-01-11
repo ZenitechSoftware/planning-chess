@@ -9,8 +9,8 @@ import { PlayerStatuses } from '../../constants/playerConstants';
 
 const GameInfo = () => {
   const { voters } = useContext(ChessBoardContext);
-  const playersDoneCount = voters.filter(p => p.status === PlayerStatuses.FigurePlaced).length || 0;
-  const playersSkippedCount = voters.filter(p => p.status === PlayerStatuses.MoveSkipped).length || 0;
+  const playersDoneCount = voters.filter(p => p.status === PlayerStatuses.FigurePlaced).length;
+  const playersSkippedCount = voters.filter(p => p.status === PlayerStatuses.MoveSkipped).length;
   
   return (
     <div className="game-info-row rubik-font align-c" data-testid="game-info-field">

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/prop-types */
-import React, { createContext, useState, useContext, useEffect, useMemo, useCallback } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
 import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
@@ -63,17 +63,16 @@ const ChessBoardContextProvider = ({ children }) => {
     const votersWhoDidNotMove = voters
       .filter(p => p.status === PlayerStatuses.ActionNotTaken);
     
-    if (players.length === 1) {
+    if (voters.length <= 1) {
       return GameState.GAME_NOT_STARTED;
     }
   
     if (voters.length > 1 && votersWhoDidNotMove.length !== 0) {
       return GameState.GAME_IN_PROGRESS;
     }
-  
-    if (votersWhoDidNotMove.length === 0) {
-      return GameState.GAME_FINISHED;
-    }
+    
+    return GameState.GAME_FINISHED;
+    
   }, [players, turns]);
 
   const generateFinalBoard = (finalTurns) => {

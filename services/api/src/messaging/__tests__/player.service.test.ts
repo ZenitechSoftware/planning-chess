@@ -134,15 +134,14 @@ describe('player.service', () => {
 
     const errorMsgMock = jest.spyOn(playerService, 'errorHandler');
 
-    jest
-      .spyOn(gameRoomService, 'getPlayers')
-      .mockReturnValue(mockPlayerList);
+    jest.spyOn(gameRoomService, 'getPlayers').mockReturnValue(mockPlayerList);
     playerService.newMessageReceived(ws, message);
     expect(errorMsgMock).toBeCalled();
   });
 
   it('should send an error message back, because message type received could not be found', () => {
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      /* eslint-disable @typescript-eslint/ban-ts-comment */
       //@ts-ignore
       type: 'InvalidMessageType',
     };
@@ -223,14 +222,26 @@ describe('player.service', () => {
 
   describe('getHandler', () => {
     it.each([
-      [MessageType.RemovePlayer, PlayerRole.Spectator, playerService.removePlayer],
+      [
+        MessageType.RemovePlayer,
+        PlayerRole.Spectator,
+        playerService.removePlayer,
+      ],
       [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
       [MessageType.FigureMoved, PlayerRole.Spectator, undefined],
       [MessageType.MoveSkipped, PlayerRole.Spectator, undefined],
       [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
-      [MessageType.RemovePlayer, PlayerRole.Spectator, playerService.removePlayer],
+      [
+        MessageType.RemovePlayer,
+        PlayerRole.Spectator,
+        playerService.removePlayer,
+      ],
       [MessageType.Ping, PlayerRole.Spectator, playerService.ping],
-      [MessageType.PlayerConnected, PlayerRole.Spectator, playerService.playerConnected],
+      [
+        MessageType.PlayerConnected,
+        PlayerRole.Spectator,
+        playerService.playerConnected,
+      ],
 
       [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
       [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
@@ -239,7 +250,11 @@ describe('player.service', () => {
       [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
       [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
       [MessageType.Ping, PlayerRole.Voter, playerService.ping],
-      [MessageType.PlayerConnected, PlayerRole.Voter, playerService.playerConnected],
+      [
+        MessageType.PlayerConnected,
+        PlayerRole.Voter,
+        playerService.playerConnected,
+      ],
 
       [MessageType.RemovePlayer, undefined, undefined],
       [MessageType.ClearBoard, undefined, undefined],
@@ -249,9 +264,12 @@ describe('player.service', () => {
       [MessageType.RemovePlayer, undefined, undefined],
       [MessageType.Ping, undefined, playerService.ping],
       [MessageType.PlayerConnected, undefined, playerService.playerConnected],
-    ])('returns correct handler when message type is %s and role is %s', (messageType, role, expectedHandler) => {
-      const handler = playerService.getHandler(messageType, role);
-      expect(handler).toBe(expectedHandler);
-    });
+    ])(
+      'returns correct handler when message type is %s and role is %s',
+      (messageType, role, expectedHandler) => {
+        const handler = playerService.getHandler(messageType, role);
+        expect(handler).toBe(expectedHandler);
+      },
+    );
   });
 });
