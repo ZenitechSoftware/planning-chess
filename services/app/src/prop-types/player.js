@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PLAYER_ROLES, PlayerStatuses } from '../constants/playerConstants';
+import { PlayerRoles, PlayerStatuses } from '../constants/playerConstants';
 
 
 export default PropTypes.shape({
@@ -18,5 +18,5 @@ export default PropTypes.shape({
     })
   }),
   id: PropTypes.string,
-  role: PropTypes.oneOf(Object.values(PLAYER_ROLES)),
+  role: PropTypes.oneOf(Object.values(PlayerRoles)),
 });

@@ -1,6 +1,6 @@
-export const PLAYER_ROLES = {
-  SPECTATOR: 'Spectator',
-  VOTER: 'Voter',
+export const PlayerRoles = {
+  Spectator: 'Spectator',
+  Voter: 'Voter',
 }
 
 export const PlayerStatuses = {

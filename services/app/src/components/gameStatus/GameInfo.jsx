@@ -9,8 +9,8 @@ import { PlayerStatuses } from '../../constants/playerConstants';
 
 const GameInfo = () => {
   const { voters } = useContext(ChessBoardContext);
-  const playersDone = voters?.filter(p => p.status === PlayerStatuses.FigurePlaced)?.length || 0;
-  const playersSkipped = voters?.filter(p => p.status === PlayerStatuses.MoveSkipped)?.length || 0;
+  const playersDoneCount = voters.filter(p => p.status === PlayerStatuses.FigurePlaced).length || 0;
+  const playersSkippedCount = voters.filter(p => p.status === PlayerStatuses.MoveSkipped).length || 0;
   
   return (
     <div className="game-info-row rubik-font align-c" data-testid="game-info-field">
@@ -25,23 +25,23 @@ const GameInfo = () => {
       <div
         data-testid="players-done-count"
         className={classnames("game-info-status", {
-          hide: playersDone === 0,
+          hide: playersDoneCount === 0,
         })}
       >
         <img src={BulletDot} className="game-info-icon" alt="bullet-dot" />
         <img src={CheckMark} className="game-info-icon" alt="players done icon" />
-        <p className="players-done-color">{`${playersDone}`}</p>
+        <p className="players-done-color">{`${playersDoneCount}`}</p>
       </div>
 
       <div
         data-testid="players-skipped-count"
         className={classnames("game-info-status", {
-          hide: playersSkipped === 0,
+          hide: playersSkippedCount === 0,
         })}
       >
         <img src={BulletDot} className="game-info-icon" alt="bullet-dot" />
         <img src={SkippedIcon} className="game-info-icon" alt="players skipped icon" />
-        <p className="players-skipped-color">{`${playersSkipped}`}</p>
+        <p className="players-skipped-color">{`${playersSkippedCount}`}</p>
       </div>
     </div>
   );

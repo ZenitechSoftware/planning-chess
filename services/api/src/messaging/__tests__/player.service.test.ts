@@ -133,42 +133,26 @@ describe('player.service', () => {
     });
 
     const errorMsgMock = jest.spyOn(playerService, 'errorHandler');
-    const getPlayersMock = jest
+
+    jest
       .spyOn(gameRoomService, 'getPlayers')
       .mockReturnValue(mockPlayerList);
     playerService.newMessageReceived(ws, message);
     expect(errorMsgMock).toBeCalled();
-    getPlayersMock.mockClear();
   });
 
-  it('should not get a handler, because message type does not exist', () => {
-    const payload = { userId: playerTestId };
+  it('should send an error message back, because message type received could not be found', () => {
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      type: MessageType.MoveSkipped,
-      payload,
+      //@ts-ignore
+      type: 'InvalidMessageType',
     };
 
-    const playerListMock = new Map();
-    //kdl the mocks gets updated with this player???
-    playerListMock.set(ws, {
-      id: playerTestId,
-      name: 'testName',
-      color: getPlayerAvatarColor(),
-      role: PlayerRole.Spectator,
-      status: PlayerStatus.FigurePlaced,
-    });
-
-    const messageSpy = jest.spyOn(playerService, 'moveSkipped');
-
-    const getPlayersMock = jest
-      .spyOn(gameRoomService, 'getPlayers')
-      .mockReturnValue(playerListMock);
     playerService.newMessageReceived(ws, message);
-    expect(messageSpy).not.toBeCalled();
-    getPlayersMock.mockRestore();
+    const errorMessageSpy = jest.spyOn(playerService, 'errorHandler');
+    expect(errorMessageSpy).toBeCalled();
   });
 
-  it('should set a turn if user`s move if move already exists', () => {
+  it('should set a turn if user`s move already exists', () => {
     const turnValue: PlaceFigureMessage = {
       row: 2,
       tile: 5,

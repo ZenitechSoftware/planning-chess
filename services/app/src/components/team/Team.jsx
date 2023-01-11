@@ -9,7 +9,7 @@ import Return from '../../static/svg/Return.svg';
 import './team.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
 
-const Team = ({ skipMove, removePlayer }) => {
+const Team = ({ skipMove }) => {
   const { clearBoard, voters, spectators } = useContext(ChessBoardContext);
   const { currentPlayerId } = useWebSockets();
 
@@ -25,7 +25,6 @@ const Team = ({ skipMove, removePlayer }) => {
             key={player.id}
             index={index}
             skipMove={skipMove}
-            removePlayer={removePlayer}
             currentPlayerId={currentPlayerId}
           />
         ))}
@@ -52,7 +51,6 @@ const Team = ({ skipMove, removePlayer }) => {
 }
 
 Team.propTypes = {
-  removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
 };
 export default Team;

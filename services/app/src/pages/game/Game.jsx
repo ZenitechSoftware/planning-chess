@@ -15,12 +15,11 @@ import Team from '../../components/team/Team';
 import {
   buildMoveSkippedEventMessage,
   buildPlayerConnectedEventMessage,
-  buildRemovePlayerEventMessage,
 } from '../../api/playerApi';
 import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
-import { PLAYER_ROLES } from '../../constants/playerConstants';
+import { PlayerRoles } from '../../constants/playerConstants';
 
 const Game = () => {
   const { username } = useUserFromLocalStorage();
@@ -29,12 +28,11 @@ const Game = () => {
   const { playerDeleted, currentPlayerId, isAnotherSessionActive } = useWebSockets();
   const { ws } = useContext(WsContext);
   const { currentPlayer } = useContext(ChessBoardContext);
-
-  const role = Math.floor(Math.random() * 2) + 1 === 1 ? PLAYER_ROLES.VOTER : PLAYER_ROLES.SPECTATOR;
+  
   useEffect(() => {
     setTimeout(() => {
       if (username && ws) {
-        ws.send(buildPlayerConnectedEventMessage(username, userId, role));
+        ws.send(buildPlayerConnectedEventMessage(username, userId));
       }
     })
   }, [username, ws]);
@@ -62,12 +60,6 @@ const Game = () => {
     skipMove(currentPlayer?.id);
   }, [skipMove, currentPlayer]);
 
-  const removePlayer = useCallback((playerId) => {
-    if (playerId) {
-      ws.send(buildRemovePlayerEventMessage(playerId));
-    }
-  }, []);
-
   return (
     <div>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
@@ -75,7 +67,6 @@ const Game = () => {
       <div className="game-content">
         <Team
           skipMove={skipMove}
-          removePlayer={removePlayer}
         />
         <ChessBoard />
       </div>

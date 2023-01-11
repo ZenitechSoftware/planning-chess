@@ -263,12 +263,12 @@ export const errorHandler = (ws: GameWebSocket, e: string): void => {
   sendMessage(ws, MessageType.ErrorMessage, e);
 };
 
-const spectatorHandlers: { [key in MessageType]?: Handler } = {
+export const spectatorHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.RemovePlayer]: removePlayer,
   [MessageType.ClearBoard]: clearBoard,
 };
 
-const voterHandlers: { [key in MessageType]?: Handler } = {
+export const voterHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
@@ -280,21 +280,21 @@ const commonHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
 };
 
-const getHandler = (
+export const getHandler = (
   type: MessageType,
   role: PlayerRole | undefined,
 ): Handler | null => {
   if (type in commonHandlers) {
     return commonHandlers[type];
-  }
+  };
 
   if (role === PlayerRole.Voter) {
     return voterHandlers[type];
-  }
+  };
 
   if (role === PlayerRole.Spectator) {
     return spectatorHandlers[type];
-  }
+  };
 };
 
 export const newMessageReceived = <T extends keyof ReceivedMessagePayloads>(

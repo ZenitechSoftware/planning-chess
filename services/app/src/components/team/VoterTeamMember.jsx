@@ -7,13 +7,13 @@ import Skip from '../../static/svg/Skip.svg';
 import Remove from '../../static/svg/Remove.svg';
 import CheckMark from "../../static/svg/Checkmark.svg";
 
-const VoterTeamMember = ({ player, skipMove, removePlayer, index, currentPlayerId }) => {
+const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   const { name, color, id, status } = player;
 
   return (
     <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
       <div
-        className="team-list-item-avatar align-c"
+        className="team-list-item-avatar f-center"
         style={{
         backgroundColor: `rgb(${color.background.r}, ${color.background.g}, ${color.background.b})`
       }}
@@ -43,13 +43,6 @@ const VoterTeamMember = ({ player, skipMove, removePlayer, index, currentPlayerI
         >
           <img alt="skip other player button icon" src={Skip} />
         </button>
-        <button
-          type="button"
-          style={{ display: 'none' }}
-          onClick={() => removePlayer(id)}
-        >
-          <img alt="remove other player button icon" src={Remove} />
-        </button>
       </div>
     </div>
   )
@@ -57,7 +50,6 @@ const VoterTeamMember = ({ player, skipMove, removePlayer, index, currentPlayerI
 
 VoterTeamMember.propTypes = {
   player: playerPropType.isRequired,
-  removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   currentPlayerId: PropTypes.string.isRequired,
