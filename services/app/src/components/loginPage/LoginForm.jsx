@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './loginPage.css';
 import userInputIcon from '../../static/svg/UserInputIcon.svg';
-import * as paths from '../../constants/urls'
-import {useGameId} from "../../hooks/useGameId";
+import { ROUTES } from '../../pages/routes';
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { gameId } = useGameId();
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
 
   const submitInfo = (event) => {
     event.preventDefault();
     window.localStorage.setItem('user', event.target.username.value);
-    navigate(paths.gameRoomUrl(gameId), { replace: true });
+    navigate(ROUTES.roleSelection, { replace: true });
   }
 
   const checkInputLength = (event) => {

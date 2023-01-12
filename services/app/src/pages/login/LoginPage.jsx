@@ -10,7 +10,7 @@ const LoginPage = () => {
   const nameAuthentication = localStorage.getItem('user');
   
   return nameAuthentication ? (
-    <Navigate to={ROUTES.login} replace />
+    <Navigate to={ROUTES.roleSelection} replace />
   ) : (
     <div className="login-screen f-column-between">
       <Header />

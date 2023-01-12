@@ -13,7 +13,7 @@ const RoleSelectionPage = () => {
   const { role } = useUserRole();
 
   return role ? (
-    <Navigate to={paths.gameRoomUrl(gameId)} />
+    <Navigate to={paths.gameRoomUrl(gameId)} replace />
   ) : (
     <div className='f-column-between error-screen role-selection-screen'>
       <Header />
@@ -23,6 +23,5 @@ const RoleSelectionPage = () => {
   )
 
 };
-
 
 export default RoleSelectionPage;

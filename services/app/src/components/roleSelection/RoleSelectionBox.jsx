@@ -21,7 +21,7 @@ const RoleSelectionBox = ({ boxRole, text }) => {
 
   const handleRoleSelect = () => {
     setRole(boxRole);
-    navigate(paths.gameRoomUrl(gameId));
+    navigate(paths.gameRoomUrl(gameId), { replace: true });
   }
 
   return (
