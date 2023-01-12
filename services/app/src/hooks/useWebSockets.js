@@ -12,6 +12,7 @@ export const useWebSockets = () => {
   const [movedBy, setMovedBy] = useState([]);
   const [myTurn, setMyTurn] = useState(null);
   const [playerDeleted, setPlayerDeleted] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const { ws } = useContext(WsContext);
 
   const websocketReducer = (type, payload) => {
@@ -36,6 +37,8 @@ export const useWebSockets = () => {
         return setPlayers(payload);
       case 'RemovePlayer':
         return setPlayerDeleted(payload);
+      case 'ErrorMessage':
+        return setErrorMessage(payload);
       default:
         return null;
     }
@@ -50,5 +53,5 @@ export const useWebSockets = () => {
     }
   }, [ws]);
 
-  return { players, turns, movedBy, myTurn, playerDeleted, currentPlayerId, isAnotherSessionActive };
+  return { players, turns, movedBy, myTurn, playerDeleted, currentPlayerId, isAnotherSessionActive, errorMessage };
 };

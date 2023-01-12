@@ -1,5 +1,5 @@
 import { GameWebSocket } from './GameRoom';
-import { Player } from './player';
+import { Player, PlayerRole } from './player';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
@@ -16,6 +16,7 @@ export enum MessageType {
   SetMyTurn = 'SetMyTurn',
   Ping = 'Ping',
   Pong = 'Pong',
+  ErrorMessage = 'ErrorMessage',
 }
 
 export type SendMessagePayloads = {
@@ -30,6 +31,7 @@ export type SendMessagePayloads = {
   [MessageType.PlayerAlreadyExists]: void;
   [MessageType.UpdatePlayerList]: Player[];
   [MessageType.PlayerSuccessfullyJoined]: string;
+  [MessageType.ErrorMessage]: string;
   [MessageType.Pong]: void;
 };
 
@@ -71,6 +73,7 @@ export interface RemovePlayerMessage {
 export interface PlayerConnectedMessage {
   playerName: string;
   id: string | undefined;
+  role: PlayerRole | null;
 }
 
 export interface Handler {

@@ -6,7 +6,7 @@ import {
   ReceivedMessage,
   PlayerConnectedMessage,
 } from '../../domain/messages';
-import { PlayerStatus } from '../../domain/player';
+import { PlayerStatus, PlayerRole } from '../../domain/player';
 import * as gameService from '../../game/game.service';
 import * as gameRoomService from '../../game/game-room.service';
 import { GameWebSocket } from '../../domain/GameRoom';
@@ -33,6 +33,7 @@ describe('player.service', () => {
       name: 'player1',
       color: getPlayerAvatarColor(),
       status: PlayerStatus.ActionNotTaken,
+      role: PlayerRole.Voter,
     });
   });
 
@@ -47,7 +48,7 @@ describe('player.service', () => {
   it('should join a new player', () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo', id: playerTestId },
+      payload: { playerName: 'foo', id: playerTestId, role: PlayerRole.Voter },
     };
 
     const sendMock = jest.spyOn(ws, 'send');
@@ -60,6 +61,7 @@ describe('player.service', () => {
     const playerConnectedMessagePayload: PlayerConnectedMessage = {
       playerName: 'foo',
       id: playerTestId,
+      role: PlayerRole.Voter,
     };
 
     playerService.playerConnected(ws, playerConnectedMessagePayload);
@@ -116,17 +118,40 @@ describe('player.service', () => {
   });
 
   it('should not remove a player, because user do not exist', () => {
-    const payload = { userId: playerTestId };
+    const payload = { userId: `${playerTestId}2` };
     const message: ReceivedMessage<MessageType.RemovePlayer> = {
       type: MessageType.RemovePlayer,
       payload,
     };
-    const sendMock = jest.spyOn(ws, 'send');
+
+    const mockPlayerList = new Map().set(ws, {
+      id: `${playerTestId}3`,
+      name: 'testName',
+      color: getPlayerAvatarColor(),
+      role: PlayerRole.Voter,
+      status: PlayerStatus.ActionNotTaken,
+    });
+
+    const errorMsgMock = jest.spyOn(playerService, 'errorHandler');
+
+    jest.spyOn(gameRoomService, 'getPlayers').mockReturnValue(mockPlayerList);
     playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
+    expect(errorMsgMock).toBeCalled();
   });
 
-  it('should set a turn if user`s move if move already exists', () => {
+  it('should send an error message back, because message type received could not be found', () => {
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+      //@ts-ignore
+      type: 'InvalidMessageType',
+    };
+
+    playerService.newMessageReceived(ws, message);
+    const errorMessageSpy = jest.spyOn(playerService, 'errorHandler');
+    expect(errorMessageSpy).toBeCalled();
+  });
+
+  it('should set a turn if user`s move already exists', () => {
     const turnValue: PlaceFigureMessage = {
       row: 2,
       tile: 5,
@@ -141,6 +166,7 @@ describe('player.service', () => {
     const playerConnectedPayload = {
       playerName: 'player1',
       id: playerTestId,
+      role: PlayerRole.Voter,
     };
 
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
@@ -183,22 +209,6 @@ describe('player.service', () => {
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
-  it('should not skip a move, because user do not exist', () => {
-    const payload = { userId: playerTestId };
-    const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      type: MessageType.MoveSkipped,
-      payload,
-    };
-
-    const publishMessageSpy = jest.spyOn(playerService, 'publish');
-    const mock = jest
-      .spyOn(gameRoomService, 'getPlayers')
-      .mockReturnValue(null);
-    playerService.newMessageReceived(ws, message);
-    expect(publishMessageSpy).not.toBeCalledWith(ws, MessageType.MoveSkipped);
-    mock.mockRestore();
-  });
-
   it('should disconnect a player', async () => {
     const sendMock = jest.spyOn(ws, 'send');
     playerService.playerDisconnected(ws);
@@ -208,5 +218,58 @@ describe('player.service', () => {
   it('should unsubscribe twice without crash', async () => {
     playerService.unsubscribe(ws);
     playerService.unsubscribe(ws);
+  });
+
+  describe('getHandler', () => {
+    it.each([
+      [
+        MessageType.RemovePlayer,
+        PlayerRole.Spectator,
+        playerService.removePlayer,
+      ],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
+      [MessageType.FigureMoved, PlayerRole.Spectator, undefined],
+      [MessageType.MoveSkipped, PlayerRole.Spectator, undefined],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
+      [
+        MessageType.RemovePlayer,
+        PlayerRole.Spectator,
+        playerService.removePlayer,
+      ],
+      [MessageType.Ping, PlayerRole.Spectator, playerService.ping],
+      [
+        MessageType.PlayerConnected,
+        PlayerRole.Spectator,
+        playerService.playerConnected,
+      ],
+
+      [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
+      [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
+      [MessageType.FigureMoved, PlayerRole.Voter, playerService.figureMoved],
+      [MessageType.MoveSkipped, PlayerRole.Voter, playerService.moveSkipped],
+      [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
+      [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
+      [MessageType.Ping, PlayerRole.Voter, playerService.ping],
+      [
+        MessageType.PlayerConnected,
+        PlayerRole.Voter,
+        playerService.playerConnected,
+      ],
+
+      [MessageType.RemovePlayer, undefined, undefined],
+      [MessageType.ClearBoard, undefined, undefined],
+      [MessageType.FigureMoved, undefined, undefined],
+      [MessageType.MoveSkipped, undefined, undefined],
+      [MessageType.ClearBoard, undefined, undefined],
+      [MessageType.RemovePlayer, undefined, undefined],
+      [MessageType.Ping, undefined, playerService.ping],
+      [MessageType.PlayerConnected, undefined, playerService.playerConnected],
+    ])(
+      'returns correct handler when message type is %s and role is %s',
+      (messageType, role, expectedHandler) => {
+        const handler = playerService.getHandler(messageType, role);
+        expect(handler).toBe(expectedHandler);
+      },
+    );
   });
 });
