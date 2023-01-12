@@ -5,7 +5,13 @@ import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
 
 const ChessBoardPieces = () => {
-  const { setSelectedItem, selectedItem } = useContext(ChessBoardContext);
+  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useContext(ChessBoardContext);
+
+  const handleClick = (figure) => {
+    if (!isCurrentPlayerSpectator) {
+      setSelectedItem(figure);
+    }
+  };
 
   return (
     <div id="chess-pieces-container" className='align-c'>
@@ -16,7 +22,7 @@ const ChessBoardPieces = () => {
           data-testid={`${figure.name}-piece-btn`}
           tabIndex={0}
           aria-hidden="true"
-          onClick={() => setSelectedItem(figure.name)}
+          onClick={() => handleClick(figure.name)}
           className={classnames('piece-field padding-y-s padding-x-m f-center rubik-font', {
             'piece-field-selected': selectedItem === figure.name,
           })}

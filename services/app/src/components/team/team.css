@@ -70,18 +70,15 @@
 }
 
 .team-list-item-avatar {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 0px;
-  gap: 10px;
   width: 40px;
   height: 40px;
   flex: none;
-  order: 0;
-  flex-grow: 0;
   border-radius: 64px;
   user-select: none;
+}
+
+.team-list-item-avatar.spectator-avatar {
+  background-color: #ECEDEE;
 }
 
 .team-list-item-icon {

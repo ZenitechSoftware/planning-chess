@@ -7,7 +7,8 @@ import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
-import playerStatuses from "../constants/playerStatuses";
+import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants";
+import { GameState } from '../constants/gameConstants';
 
 export const ChessBoardContext = createContext();
 
@@ -21,28 +22,67 @@ const ChessBoardContextProvider = ({ children }) => {
   const [score, setScore] = useState(0);
   const [globalScore, setGlobalScore] = useState(0);
 
-  const isAllTurnsMade = useMemo(() => {
-    const playersWhoDidNotMoved = players.filter(p => p.status === "ActionNotTaken");
-    return playersWhoDidNotMoved.length === 0;
-  }, [players, turns]);
+  const currentPlayer = useMemo(
+    () => players.find((user) => user.id === currentPlayerId),
+    [players],
+  );
 
-  const isGameInProgress = useMemo(() => players.length > 1 && !isAllTurnsMade, [players, isAllTurnsMade]);
+  const isCurrentPlayerSpectator = useMemo(
+    () => currentPlayer?.role === PlayerRoles.Spectator, [currentPlayer]
+  )
+
+  const sortedPlayers = useMemo(() => {
+    const otherPlayers = players?.filter(p => p.id !== currentPlayerId);
+    return [currentPlayer, ...otherPlayers];
+  }, [players, currentPlayer]);
+
+  const voters = useMemo(() => {
+    if (!sortedPlayers) return [];
+    const votersList = sortedPlayers.filter(p => p?.role === PlayerRoles.Voter);
+    if (votersList.length === 0) {
+      return [];
+    }
+    return votersList;
+  }, [sortedPlayers]);
+
+  const spectators = useMemo(() => {
+    if (!sortedPlayers) return [];
+    const spectatorsList = sortedPlayers.filter(p => p?.role === PlayerRoles.Spectator);
+    if (spectatorsList.length === 0) {
+      return [];
+    }
+    return spectatorsList;
+  }, [sortedPlayers]);
   
   const finished = useMemo(() => [
-      playerStatuses.FigurePlaced,
-    playerStatuses.MoveSkipped
+    PlayerStatuses.FigurePlaced,
+    PlayerStatuses.MoveSkipped
   ].includes(players.find(p => p.id === currentPlayerId)?.status), [players]);
+
+  const gameState = useMemo(() => {
+    const votersWhoDidNotMove = voters
+      .filter(p => p.status === PlayerStatuses.ActionNotTaken);
+    
+    if (voters.length > 1) {
+      if (votersWhoDidNotMove.length === 0) {
+          return GameState.GAME_FINISHED;
+      }
+      return GameState.GAME_IN_PROGRESS;
+    }
+
+    return GameState.GAME_NOT_STARTED;
+  }, [players, turns]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
     const gameScore = [];
     finalTurns.forEach((turn) => {
-      if ((!isAllTurnsMade && turn.id === currentPlayerId) || isAllTurnsMade)
+      if ((gameState === GameState.GAME_IN_PROGRESS && turn.id === currentPlayerId) || gameState === GameState.GAME_FINISHED)
         copyOfBoard[turn.row][turn.tile].items.push(turn);
         gameScore.push(turn.score);
     });
     const avg = calculateAverage(gameScore);
-    if (players.length === 1) {
+    if (voters.length === 1) {
       setGlobalScore(0)
     } else {
       setGlobalScore(roundUp(avg))
@@ -64,7 +104,7 @@ const ChessBoardContextProvider = ({ children }) => {
     } else {
       clearBoardItems();
     }
-  }, [turns, isAllTurnsMade]);
+  }, [turns, gameState]);
 
   useEffect(() => {
     if (movedBy.length) {
@@ -116,6 +156,8 @@ const ChessBoardContextProvider = ({ children }) => {
   return (
     <ChessBoardContext.Provider
       value={{
+        voters,
+        spectators,
         lastTurn,
         findUserById,
         score,
@@ -126,10 +168,11 @@ const ChessBoardContextProvider = ({ children }) => {
         finishMove,
         clearBoard,
         finished,
-        isGameInProgress,
-        isAllTurnsMade,
         players,
-        globalScore
+        globalScore,
+        currentPlayer,
+        isCurrentPlayerSpectator,
+        gameState,
       }}
     >
       {children}
