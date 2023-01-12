@@ -32,7 +32,7 @@
     "lerna": "^4.0.0"
   },
   "dependencies": {
-    "antd": "^5.1.0",
+    "antd": "^5.1.4",
     "react-scripts": "^5.0.1"
   }
 }
