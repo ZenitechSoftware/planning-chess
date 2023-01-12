@@ -18,7 +18,7 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.
 // eslint-disable-next-line react/prop-types
 const WebSocketsContextProvider = ({ children }) => {
   const { pathname } = useLocation();
-  const { authentication } = useUserFromLocalStorage();
+  const { nameAuthentication } = useUserFromLocalStorage();
   const roomIdUrl = pathname.split('/')[2];
   const [roomId, setRoomId] = useState(roomIdUrl);
 
@@ -45,7 +45,7 @@ const WebSocketsContextProvider = ({ children }) => {
       return;
     }
 
-    if (!authentication) {
+    if (!nameAuthentication) {
       console.log(`User not logged in.`);
       return;
     }

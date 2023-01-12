@@ -22,6 +22,18 @@
   justify-content: center;
 }
 
+.f-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.f-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .f-column-between {
   display: flex;
   flex-direction: column;

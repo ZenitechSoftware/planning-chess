@@ -10,6 +10,7 @@ import { useWebSockets } from '../../hooks/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { useUserId } from '../../hooks/useUserId';
+import { useUserRole } from '../../hooks/useUserRole';
 import { WsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
 import {
@@ -23,6 +24,7 @@ import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 const Game = () => {
   const { username } = useUserFromLocalStorage();
   const { userId, setUserId } = useUserId();
+  const { role } = useUserRole();
 
   const { playerDeleted, currentPlayerId, isAnotherSessionActive } = useWebSockets();
   const { ws } = useContext(WsContext);
@@ -31,7 +33,7 @@ const Game = () => {
   useEffect(() => {
     setTimeout(() => {
       if (username && ws) {
-        ws.send(buildPlayerConnectedEventMessage(username, userId));
+        ws.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
     })
   }, [username, ws]);
