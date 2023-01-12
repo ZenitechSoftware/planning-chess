@@ -8,7 +8,6 @@ import '../static/style/layout.css';
 import '../static/style/spacing.css';
 import '../static/style/index.css';
 import '../static/style/fonts.css';
-import '../static/style/display.css';
 import PlanningChessRouter from '../pages/PlanningChessRouter';
 
 const App = () => (

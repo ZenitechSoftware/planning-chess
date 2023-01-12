@@ -141,7 +141,7 @@ describe('player.service', () => {
 
   it('should send an error message back, because message type received could not be found', () => {
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      /* eslint-disable @typescript-eslint/ban-ts-comment */
+      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
       //@ts-ignore
       type: 'InvalidMessageType',
     };

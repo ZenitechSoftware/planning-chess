@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import './team.css';
 import playerPropType from '../../prop-types/player';
 import { PlayerStatuses } from '../../constants/playerConstants';
@@ -34,21 +33,33 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
         { currentPlayerId === id && <span>(you)</span> }
       </div>
     
-      { status === PlayerStatuses.FigurePlaced && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" /> }
-      { status === PlayerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
+      { status === PlayerStatuses.FigurePlaced && (
+        <img 
+          src={CheckMark} 
+          className="team-list-item-icon" 
+          alt="player done icon" 
+        /> 
+      )}
 
-      <div className="team-list-item-actions team-list-item-icon">
-        <button
-          type="button"
-          onClick={() => skipMove(id)}
-          disabled={status !== PlayerStatuses.ActionNotTaken}
-          className={classNames({
-            "display-none": id === currentPlayerId,
-          })}
-        >
-          <img alt="skip other player button icon" src={Skip} />
-        </button>
-      </div>
+      { status === PlayerStatuses.MoveSkipped && (
+        <img 
+          src={SkippedIcon} 
+          className="team-list-item-icon" 
+          alt="player skipped icon" 
+        /> 
+      )}
+      
+      { id !== currentPlayerId && (
+        <div className="team-list-item-actions team-list-item-icon">
+          <button
+            type="button"
+            onClick={() => skipMove(id)}
+            disabled={status !== PlayerStatuses.ActionNotTaken}
+          >
+            <img alt="skip other player button icon" src={Skip} />
+          </button>
+        </div>
+      )}
     </div>
   )
 };

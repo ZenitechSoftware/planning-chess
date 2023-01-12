@@ -63,16 +63,14 @@ const ChessBoardContextProvider = ({ children }) => {
     const votersWhoDidNotMove = voters
       .filter(p => p.status === PlayerStatuses.ActionNotTaken);
     
-    if (voters.length <= 1) {
-      return GameState.GAME_NOT_STARTED;
-    }
-  
-    if (voters.length > 1 && votersWhoDidNotMove.length !== 0) {
+    if (voters.length > 1) {
+      if (votersWhoDidNotMove.length === 0) {
+          return GameState.GAME_FINISHED;
+      }
       return GameState.GAME_IN_PROGRESS;
     }
-    
-    return GameState.GAME_FINISHED;
-    
+
+    return GameState.GAME_NOT_STARTED;
   }, [players, turns]);
 
   const generateFinalBoard = (finalTurns) => {
