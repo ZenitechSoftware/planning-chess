@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import playerStatuses from '../constants/playerStatuses';
+import { PlayerRoles, PlayerStatuses } from '../constants/playerConstants';
+
 
 export default PropTypes.shape({
   name: PropTypes.string,
-  status: PropTypes.oneOf(Object.values(playerStatuses)),
+  status: PropTypes.oneOf(Object.values(PlayerStatuses)),
   color: PropTypes.shape({
     background: PropTypes.shape({
       r: PropTypes.number,
@@ -17,4 +18,5 @@ export default PropTypes.shape({
     })
   }),
   id: PropTypes.string,
+  role: PropTypes.oneOf(Object.values(PlayerRoles)),
 });
