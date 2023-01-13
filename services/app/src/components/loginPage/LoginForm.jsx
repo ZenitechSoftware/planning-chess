@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router';
 import './loginPage.css';
 import userInputIcon from '../../static/svg/UserInputIcon.svg';
 import { ROUTES } from '../../pages/routes';
+import { useUserContext } from '../../contexts/UserContext';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
+  const userContext = useUserContext();
 
   const submitInfo = (event) => {
     event.preventDefault();
-    window.localStorage.setItem('user', event.target.username.value);
+    userContext.setUser(event.target.username.value);
     navigate(ROUTES.roleSelection, { replace: true });
   }
 

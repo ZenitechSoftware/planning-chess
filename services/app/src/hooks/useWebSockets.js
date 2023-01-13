@@ -2,10 +2,12 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState, useContext } from 'react';
+import { useUserContext } from '../contexts/UserContext';
 import { WsContext } from '../contexts/ws-context';
 
 export const useWebSockets = () => {
   const [currentPlayerId, setCurrentPlayerId] = useState(null);
+  const userContext = useUserContext();
   const [players, setPlayers] = useState([]);
   const [isAnotherSessionActive, setIsAnotherSessionActive] = useState(false);
   const [turns, setTurns] = useState([]);
@@ -20,6 +22,7 @@ export const useWebSockets = () => {
       case 'PlayerAlreadyExists':
         return setIsAnotherSessionActive(true);
       case 'PlayerSuccessfullyJoined':
+        userContext.setUserId(payload)
         return setCurrentPlayerId(payload);
       case 'UpdatePlayerList':
         return setPlayers(payload);

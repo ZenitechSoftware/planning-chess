@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './gameStatus.css';
 import ClockIcon from '../../static/svg/Clock.svg';
 import CompletedIcon from '../../static/svg/CompletedIcon.svg';
 import WaitingPlayersIcon from '../../static/svg/WaitingPlayersIcon.svg';
-import {ChessBoardContext} from "../../contexts/ChessBoardContext";
+import { useChessBoardContext } from "../../contexts/ChessBoardContext";
 import { GameState } from '../../constants/gameConstants';
 
 const GameStatus = () => {
-  const { globalScore, gameState } = useContext(ChessBoardContext);
+  const { globalScore, gameState } = useChessBoardContext();
   
   if(gameState === GameState.GAME_IN_PROGRESS) {
     return (

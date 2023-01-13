@@ -1,27 +1,29 @@
 import React from 'react';
 import { matchPath, Navigate, Outlet, useLocation } from 'react-router';
 import { ROUTES } from '../../pages/routes'; 
-import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
 import { useGameId } from '../../hooks/useGameId';
 import { useUserRole } from '../../hooks/useUserRole';
+import { useUserContext } from '../../contexts/UserContext';
 
-const LoginRedirect = () => {
-  const { pathname } = useLocation();
+export const EnsureRole = () => {
   const { role } = useUserRole();
-  const gameRoomId = matchPath('/game/:id', pathname ) ? pathname.split('/')[2] : undefined;
-  useGameId(gameRoomId);
 
-  const { nameAuthentication } = useUserFromLocalStorage();
-
-  if (!nameAuthentication) {
-    return <Navigate to={ROUTES.login} replace />;
-  }
-
-  if (nameAuthentication && !role) {
+  if (!role) {
     return <Navigate to={ROUTES.roleSelection} replace />
   }
 
   return <Outlet replace />;
-};
+}
 
-export default LoginRedirect;
+export const EnsureUsername = () => {
+  const userContext = useUserContext();
+  const { pathname } = useLocation();
+  const gameRoomId = matchPath('/game/:id', pathname ) ? pathname.split('/')[2] : undefined;
+  useGameId(gameRoomId);
+
+  if (!userContext.user) {
+    return <Navigate to={ROUTES.login} replace />;
+  }
+
+  return <Outlet replace />;
+};

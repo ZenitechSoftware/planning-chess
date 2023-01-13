@@ -2,22 +2,19 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import { PlayerRoles } from '../../constants/playerConstants';
-import { useUserRole } from '../../hooks/useUserRole'; 
-import { useGameId } from '../../hooks/useGameId';
 import VoterIcon from '../../static/svg/VoterIcon.svg';
 import SpectatorIcon from '../../static/svg/SpectatorIcon.svg';
 import * as paths from "../../constants/urls";
+import { useUserContext } from '../../contexts/UserContext';
 
 
 const RoleSelectionBox = ({ boxRole, text }) => {
   const navigate = useNavigate();
-  const { gameId } = useGameId();
+  const { gameId, setRole } = useUserContext();
 
   const boxIcon = boxRole === PlayerRoles.Voter
     ? VoterIcon
     : SpectatorIcon
-
-  const { setRole } = useUserRole();
 
   const handleRoleSelect = () => {
     setRole(boxRole);

@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './gameFooter.css';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { GameState } from '../../constants/gameConstants';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
-  const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useContext(ChessBoardContext);
+  const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
 
   return (
     <div className="btn-field margin-t-m gap-l">

@@ -7,8 +7,7 @@ import { useChessBoard } from '../hooks/useChessBoard';
 import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
-import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants";
-import { GameState } from '../constants/gameConstants';
+import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; import { GameState } from '../constants/gameConstants';
 
 export const ChessBoardContext = createContext();
 
@@ -16,6 +15,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
   const { turns, myTurn, movedBy, players, currentPlayerId } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
+  // TODO: use user context for this
   const { username } = useUserFromLocalStorage();
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);

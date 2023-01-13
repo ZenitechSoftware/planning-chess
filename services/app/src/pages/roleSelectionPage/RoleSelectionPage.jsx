@@ -1,21 +1,19 @@
 import React from 'react';
 import { Navigate } from 'react-router';
 import '../../components/roleSelection/roleSelection.css';
-import { useGameId } from '../../hooks/useGameId';
-import { useUserRole } from '../../hooks/useUserRole';
 import Header from '../../components/header/Header';
 import RoleSelectionContent from '../../components/roleSelection/RoleSelectionContent';
 import Footer from '../../components/pageFooter/Footer';
 import * as paths from "../../constants/urls";
+import { useUserContext } from '../../contexts/UserContext';
 
 const RoleSelectionPage = () => {
-  const { gameId } = useGameId();
-  const { role } = useUserRole();
+  const userContext = useUserContext();
 
-  return role ? (
-    <Navigate to={paths.gameRoomUrl(gameId)} replace />
+  return userContext.role ? (
+    <Navigate to={paths.gameRoomUrl(userContext.gameId)} replace />
   ) : (
-    <div className='f-column-between error-screen role-selection-screen'>
+    <div className='f-column-between role-selection-screen'>
       <Header />
       <RoleSelectionContent />
       <Footer />

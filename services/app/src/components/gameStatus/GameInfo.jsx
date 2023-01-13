@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './gameStatus.css';
 import classnames from 'classnames';
 import CheckMark from '../../static/svg/Checkmark.svg';
 import SkippedIcon from '../../static/svg/SkippedIcon.svg';
 import BulletDot from '../../static/svg/BulletDot.svg';
-import { ChessBoardContext } from "../../contexts/ChessBoardContext";
+import { useChessBoardContext } from "../../contexts/ChessBoardContext";
 import { PlayerStatuses } from '../../constants/playerConstants';
 
 const GameInfo = () => {
-  const { voters } = useContext(ChessBoardContext);
+  const { voters } = useChessBoardContext();
   const playersDoneCount = voters.filter(p => p.status === PlayerStatuses.FigurePlaced).length;
   const playersSkippedCount = voters.filter(p => p.status === PlayerStatuses.MoveSkipped).length;
   

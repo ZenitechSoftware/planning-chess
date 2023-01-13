@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import VoterTeamMember from './VoterTeamMember';
 import SpectatorTeamMember from './SpectatorTeamMember';
 import GameStatus from '../gameStatus/GameStatus';
@@ -10,7 +10,7 @@ import './team.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
 
 const Team = ({ skipMove }) => {
-  const { clearBoard, voters, spectators } = useContext(ChessBoardContext);
+  const { clearBoard, voters, spectators } = useChessBoardContext();
   const { currentPlayerId } = useWebSockets();
 
   return (
