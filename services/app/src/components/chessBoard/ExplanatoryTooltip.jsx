@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint import/no-unresolved: 2 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'antd';
