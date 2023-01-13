@@ -1,33 +1,41 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
-import TeamMember from './TeamMember';
+import VoterTeamMember from './VoterTeamMember';
+import SpectatorTeamMember from './SpectatorTeamMember';
 import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
-import playerPropType from '../../prop-types/player';
 import Return from '../../static/svg/Return.svg';
 import './team.css';
+import { useWebSockets } from '../../hooks/useWebSockets';
 
-const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
-  const { clearBoard } = useContext(ChessBoardContext);
+const Team = ({ skipMove }) => {
+  const { clearBoard, voters, spectators } = useContext(ChessBoardContext);
+  const { currentPlayerId } = useWebSockets();
 
   return (
     <div className="team-container">
       <GameStatus />
-      <GameInfo playerCount={playerCount} />
+      <GameInfo />
 
       <div className="team-list-items">
-        <div className="team-list-item align-c rubik-font" data-testid="list-current-player">{children}</div>
-        {players.map((player, index) => (
-          <TeamMember
+        {voters?.map((player, index) => (
+          <VoterTeamMember
+            player={player}
+            key={player.id}
+            index={index}
+            skipMove={skipMove}
+            currentPlayerId={currentPlayerId}
+          />
+        ))}
+
+        {spectators?.map((player, index) => (
+          <SpectatorTeamMember
             key={player.id}
             index={index}
             name={player.name}
             id={player.id}
-            skipMove={skipMove}
-            color={player.color}
-            status={player.status}
-            removePlayer={removePlayer}
+            currentPlayerId={currentPlayerId}
           />
         ))}
       </div>
@@ -43,10 +51,6 @@ const Team = ({ players, skipMove, children, removePlayer, playerCount }) => {
 }
 
 Team.propTypes = {
-  players: PropTypes.arrayOf(playerPropType).isRequired,
-  removePlayer: PropTypes.func.isRequired,
   skipMove: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
-  playerCount: PropTypes.number.isRequired,
 };
 export default Team;

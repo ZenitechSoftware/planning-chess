@@ -10,7 +10,7 @@ export const buildRemovePlayerEventMessage = (userId) => ({
   payload: { userId },
 });
 
-export const buildPlayerConnectedEventMessage = (playerName, id) => ({
+export const buildPlayerConnectedEventMessage = (playerName, id, role) => ({
   type: PLAYER_EVENT_TYPES.PLAYER_CONNECTED,
-  payload: { playerName, id },
+  payload: { playerName, id, role },
 });
