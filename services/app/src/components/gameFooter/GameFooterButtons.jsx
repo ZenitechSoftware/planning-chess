@@ -7,7 +7,6 @@ import { GameState } from '../../constants/gameConstants';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
   const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useContext(ChessBoardContext);
-
   return (
     <div className="btn-field margin-t-m gap-l">
       <button 
@@ -18,7 +17,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
       >
         Finish Move
       </button>
-      
+
       <ExplanatoryTooltip title="Skips your move. The game continues" placement="rightTop">
         <button 
           type="button"
@@ -32,9 +31,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
     </div>
   )
 }
-
 GameFooterButtons.propTypes = {
   skipCurrentPlayerMove: PropTypes.func.isRequired,
 };
-
 export default GameFooterButtons;
