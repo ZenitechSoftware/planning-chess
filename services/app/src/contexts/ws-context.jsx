@@ -9,6 +9,7 @@ import wsWrapper from '../helpers/wsWrapper';
 import { PING_INTERVAL_DURATION } from '../constants/appConstants';
 import { buildPingMessage } from '../api/appApi';
 import wsReadyStates from '../constants/wsReadyStates';
+import { useUserRole } from '../hooks/useUserRole';
 
 export const WsContext = createContext('');
 
@@ -19,10 +20,15 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.
 const WebSocketsContextProvider = ({ children }) => {
   const { pathname } = useLocation();
   const { nameAuthentication } = useUserFromLocalStorage();
+  const { role } = useUserRole();
   const roomIdUrl = pathname.split('/')[2];
   const [roomId, setRoomId] = useState(roomIdUrl);
 
-  useEffect(() => {setRoomId(roomIdUrl)}, [pathname]);
+  useEffect(() => {
+    if (role) {
+      setRoomId(roomIdUrl)}
+    }
+  , [pathname, role]);
 
   const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${roomId}`;
   const [ws, setWs] = useState(null);
@@ -45,7 +51,7 @@ const WebSocketsContextProvider = ({ children }) => {
       return;
     }
 
-    if (!nameAuthentication) {
+    if (!nameAuthentication && !role) {
       console.log(`User not logged in.`);
       return;
     }

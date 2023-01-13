@@ -32,11 +32,11 @@ const Game = () => {
   
   useEffect(() => {
     setTimeout(() => {
-      if (username && ws) {
+      if (username && role && ws) {
         ws.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
     })
-  }, [username, ws]);
+  }, [username, role, ws]);
 
   useEffect(() => {
     if(currentPlayerId) {

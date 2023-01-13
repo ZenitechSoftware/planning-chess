@@ -7,12 +7,11 @@ import { useUserRole } from '../../hooks/useUserRole';
 
 const LoginRedirect = () => {
   const { pathname } = useLocation();
-
-  const gameRoomId = matchPath('/game/:id', pathname ) ? pathname.split('/')[2] : undefined
+  const { role } = useUserRole();
+  const gameRoomId = matchPath('/game/:id', pathname ) ? pathname.split('/')[2] : undefined;
   useGameId(gameRoomId);
 
   const { nameAuthentication } = useUserFromLocalStorage();
-  const { role } = useUserRole();
 
   if (!nameAuthentication) {
     return <Navigate to={ROUTES.login} replace />;
