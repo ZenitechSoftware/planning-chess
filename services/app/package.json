@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@planning-chess/shared": "file:../shared",
+    "antd": "^5.1.4",
     "bootstrap": "^5.1.3",
     "classnames": "^2.3.1",
     "nanoid": "^3.3.4",

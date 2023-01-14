@@ -1,8 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import React from 'react';
 import PropTypes from 'prop-types';
-/* eslint-disable-next-line no-console */
 import { Tooltip } from 'antd';
 
 const ExplanatoryTooltip = ({ title, children, placement }) => (
