@@ -6,14 +6,13 @@ import { useUserContext } from '../contexts/UserContext';
 import { WsContext } from '../contexts/ws-context';
 
 export const useWebSockets = () => {
-  const [currentPlayerId, setCurrentPlayerId] = useState(null);
   const userContext = useUserContext();
+  const [currentPlayerId, setCurrentPlayerId] = useState(null);
   const [players, setPlayers] = useState([]);
   const [isAnotherSessionActive, setIsAnotherSessionActive] = useState(false);
   const [turns, setTurns] = useState([]);
   const [movedBy, setMovedBy] = useState([]);
   const [myTurn, setMyTurn] = useState(null);
-  const [playerDeleted, setPlayerDeleted] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const { ws } = useContext(WsContext);
 
@@ -38,8 +37,6 @@ export const useWebSockets = () => {
         return setMyTurn(payload);
       case 'MoveSkipped':
         return setPlayers(payload);
-      case 'RemovePlayer':
-        return setPlayerDeleted(payload);
       case 'ErrorMessage':
         return setErrorMessage(payload);
       default:
@@ -56,5 +53,5 @@ export const useWebSockets = () => {
     }
   }, [ws]);
 
-  return { players, turns, movedBy, myTurn, playerDeleted, currentPlayerId, isAnotherSessionActive, errorMessage };
+  return { players, turns, movedBy, myTurn, currentPlayerId, isAnotherSessionActive, errorMessage };
 };

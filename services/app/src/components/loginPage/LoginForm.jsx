@@ -12,7 +12,7 @@ const LoginForm = () => {
 
   const submitInfo = (event) => {
     event.preventDefault();
-    userContext.setUser(event.target.username.value);
+    userContext.setUsername(event.target.username.value);
     navigate(ROUTES.roleSelection, { replace: true });
   }
 

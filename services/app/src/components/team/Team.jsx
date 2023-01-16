@@ -14,11 +14,11 @@ const Team = ({ skipMove }) => {
   const { currentPlayerId } = useWebSockets();
 
   return (
-    <div className="team-container">
+    <div className="team-container f-column">
       <GameStatus />
       <GameInfo />
 
-      <div className="team-list-items">
+      <div className="team-list-items padding-y-0 padding-x-xl">
         {voters?.map((player, index) => (
           <VoterTeamMember
             player={player}
@@ -28,7 +28,7 @@ const Team = ({ skipMove }) => {
             currentPlayerId={currentPlayerId}
           />
         ))}
-
+        
         {spectators?.map((player, index) => (
           <SpectatorTeamMember
             key={player.id}
@@ -39,8 +39,15 @@ const Team = ({ skipMove }) => {
           />
         ))}
       </div>
+
       <div className="team-list-footer">
-        <button type="button" data-testid="restart-game-btn" disabled={false} onClick={clearBoard}>
+        <button 
+          type="button" 
+          className='padding-y-s padding-x-sm' 
+          data-testid="restart-game-btn" 
+          disabled={false} 
+          onClick={clearBoard}
+        >
           <img alt="" src={Return} />
           {' '}
           Restart game

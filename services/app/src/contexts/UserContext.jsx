@@ -1,7 +1,8 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, createContext, useContext, useState } from 'react';
-import { useLocation } from 'react-router';
+import PropTypes from 'prop-types';
+import { useLocation, matchPath } from 'react-router';
 import { nanoid } from 'nanoid';
+import { ROUTES } from '../pages/routes';
 
 const ROOM_ID_LENGTH = 8;
 
@@ -10,19 +11,19 @@ export const UserContext = createContext();
 const UserContextProvider = ({ children }) => {
   const generateGameId = () => nanoid(ROOM_ID_LENGTH);
   const { pathname } = useLocation();
-  const roomId = pathname.split('/')[2];
+  const urlGameId = matchPath(ROUTES.game, pathname )?.params.id;
 
-  const [user, setUser] = useState(localStorage.getItem('user'));
+  const [username, setUsername] = useState(localStorage.getItem('user'));
   const [userId, setUserId] = useState(localStorage.getItem('userId'));
   const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
-  const [gameId, setGameId] = useState(roomId || localStorage.getItem('lastGameId') || generateGameId());
+  const [gameId, setGameId] = useState(urlGameId || localStorage.getItem('lastGameId') || generateGameId());
 
 
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', user);
+    if (username) {
+      localStorage.setItem('user', username);
     }
-  }, [user]);
+  }, [username]);
 
   useEffect(() => {
     if (userId) {
@@ -37,22 +38,22 @@ const UserContextProvider = ({ children }) => {
   }, [userRole]);
 
   useEffect(() => {
-    if(roomId) {
+    if(urlGameId) {
       localStorage.setItem('lastGameId', gameId);
-      setGameId(roomId)
+      setGameId(urlGameId)
     }
-  }, [pathname, gameId]);
+  }, [pathname]);
 
   const value = useMemo(() => ({
-    user,
+    username,
     role: userRole,
     userId,
-    setUser,
+    setUsername,
     setUserId,
     setRole: setUserRole,
     gameId,
     setGameId,
-  }), [user, userRole, userId]);
+  }), [username, userRole, userId]);
 
   return (
     <UserContext.Provider value={value}>
@@ -62,5 +63,12 @@ const UserContextProvider = ({ children }) => {
 };
  
 export const useUserContext = () => useContext(UserContext);
+
+UserContextProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+};
 
 export default UserContextProvider;

@@ -6,7 +6,7 @@ import './errorPage.css';
 const ErrorPageContent = ({ errorMsg }) => (
   <div className='margin-auto align-c f-column-between error-page-content'>
     <img src={BrokenPieceIllustration} alt="broken chess icon" className='broken-chess-icon' />
-    <p>{errorMsg}</p>
+    <p className='weight-800 font-size-32'>{errorMsg}</p>
   </div>
 )
 

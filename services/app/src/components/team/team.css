@@ -1,36 +1,16 @@
 .team-container {
   box-sizing: border-box;
   background: #FFFFFF;
-  border: 1px solid rgba(33, 33, 33, 0.12);
+  border: 1px solid #2121211F;
   border-radius: 4px;
   flex: none;
   order: 1;
   width: 384px;
-  display: flex;
-  flex-direction: column;
-}
-
-.team-heading {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border-radius: 4px 4px 0px 0px;
-  justify-content: center;
-  padding: 0px 24px;
-  gap: 10px;
-  height: 56px;
-  background: #3C64B1;
-  font-style: normal;
-  font-size: 20px;
-  line-height: 28px;
-  letter-spacing: -0.15px;
-  color: #FFFFFF;
 }
 
 .team-list-items {
   display: flex;
   flex-direction: column;
-  padding: 0px 24px;
   flex-grow: 1;
   max-height: 392px;
   overflow:hidden;
@@ -40,13 +20,11 @@
 .team-list-item {
   display: flex;
   flex-direction: row;
-  padding: 12px 0px;
-  gap: 16px;
   background: #FFFFFF;
   flex: none;
   order: 0;
   flex-grow: 0;
-  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0px -1px 0px #0000001F;
 }
 
 .team-list-item:last-child {
@@ -90,18 +68,16 @@
 }
 
 .team-list-footer {
-  box-shadow: inset 0px 1px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0px 1px 0px #0000001F;
   text-align: center;
   padding: 15px 0px;
 }
 
 .team-list-footer button {
-  border: 1px solid rgba(60, 100, 177, 0.52);
+  border: 1px solid #3C64B185;
   border-radius: 4px;
-  padding: 8px 12px;
   background-color: transparent;
   color: #3C64B1;
-  font-weight: 500;
 }
 
 .team-list-footer button:disabled {
@@ -115,5 +91,4 @@
 
 .team-list-item-name span {
   color: #636363;
-  font-size: 14px;;
 }

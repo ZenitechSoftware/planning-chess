@@ -28,11 +28,11 @@ const ChessBoardPieces = () => {
           })}
         >
           <img src={figure.img} alt={figure} className="figure-img" />
-          <p key={figure.name} className="figure-title">
+          <p key={figure.name} className="figure-title font-size-20">
             {figure.name}
           </p>
           <div className="figure-strength-container f-center">
-            <p className="figure-strength">{figure.strength}</p>
+            <p className="figure-strength font-size-12 weight-700">{figure.strength}</p>
           </div>
         </div>
       ))}

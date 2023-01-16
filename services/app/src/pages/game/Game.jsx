@@ -19,28 +19,20 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 
 const Game = () => {
-  const { user, userId, role, gameId } = useUserContext();
+  const { username, userId, role, gameId } = useUserContext();
 
-  const { playerDeleted, currentPlayerId, isAnotherSessionActive } = useWebSockets();
+  const { isAnotherSessionActive } = useWebSockets();
   const { ws, openWsConnection } = useWsContext();
   const { currentPlayer } = useChessBoardContext();
   
   useEffect(() => {
     openWsConnection({
-      roomId: gameId,
+      gameId,
       onConnect: (websocket) => {
-        websocket.send(buildPlayerConnectedEventMessage(user, userId, role));
+        websocket.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
     });
   }, [gameId]);
-
-  // TODO: most likely will be moved to user context
-  useEffect(() => {
-    if (playerDeleted && playerDeleted === currentPlayerId) {
-      localStorage.removeItem('user');
-      window.location.replace('/');
-    }
-  }, [playerDeleted]);
 
   const skipMove = useCallback((playerId) => {
     if (playerId) {

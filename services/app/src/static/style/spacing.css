@@ -15,12 +15,14 @@
 .padding-x-sm { padding-left: 12px; padding-right: 12px }
 .padding-x-m { padding-left: 16px; padding-right: 16px }
 .padding-x-l { padding-left: 20px; padding-right: 20px }
+.padding-x-xl { padding-left: 24px; padding-right: 24px }
 
-.padding-x-0 { padding-top: 0px; padding-bottom: 0px }
+.padding-y-0 { padding-top: 0px; padding-bottom: 0px }
 .padding-y-s { padding-top: 8px; padding-bottom: 8px }
 .padding-y-sm { padding-top: 12px; padding-bottom: 12px }
 .padding-y-m { padding-top: 16px; padding-bottom: 16px }
 .padding-y-l { padding-top: 20px; padding-bottom: 20px }
+.padding-y-xl { padding-top: 24px; padding-bottom: 24px }
 
 .padding-r-0 { padding-right: 0px }
 .padding-r-s { padding-right: 8px }
@@ -60,7 +62,7 @@
 .margin-x-m { margin-left: 16px; margin-right: 16px }
 .margin-x-l { margin-left: 20px; margin-right: 20px }
 
-.margin-x-0 { margin-top: 0px; margin-bottom: 0px }
+.margin-y-0 { margin-top: 0px; margin-bottom: 0px }
 .margin-y-s { margin-top: 8px; margin-bottom: 8px }
 .margin-y-sm { margin-top: 12px; margin-bottom: 12px }
 .margin-y-m { margin-top: 16px; margin-bottom: 16px }

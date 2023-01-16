@@ -1,8 +1,21 @@
 .rubik-font {
-    font-family: "Rubik";
+  font-family: "Rubik";
 }
 
 .user-input-font {
-    font-size: 1.3rem;
-    letter-spacing: .5px;
+  font-size: 1.3rem;
+  letter-spacing: .5px;
 }
+
+.font-size-12 { font-size: 12px }
+.font-size-14 { font-size: 14px }
+.font-size-16 { font-size: 16px }
+.font-size-20 { font-size: 20px }
+.font-size-24 { font-size: 24px }
+.font-size-32 { font-size: 32px }
+
+.font-size-320 { font-size: 320px }
+
+.weight-500 { font-weight: 500 }
+.weight-700 { font-weight: 700 }
+.weight-800 { font-weight: 800 }

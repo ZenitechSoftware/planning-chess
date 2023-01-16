@@ -16,7 +16,7 @@ export const EnsureRole = () => {
 export const EnsureUsername = () => {
   const userContext = useUserContext();
 
-  if (!userContext.user) {
+  if (!userContext.username) {
     return <Navigate to={ROUTES.login} replace />;
   }
 

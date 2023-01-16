@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState, createContext, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { wsDebugMessages } from '../utils/wsDebugMessages';
 import { DEBUG } from '../env';
 import wsWrapper from '../helpers/wsWrapper';
@@ -13,13 +14,12 @@ export const WsContext = createContext('');
 // TODO what if server is running on different port?
 const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.location.host;
 
-// eslint-disable-next-line react/prop-types
 const WebSocketsContextProvider = ({ children }) => {
   const [ws, setWs] = useState(null);
 
-  const openWsConnection = ({ onConnect, roomId }) => {
+  const openWsConnection = ({ onConnect, gameId }) => {
     const WebSockets = wsWrapper(WebSocket);
-    const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${roomId}`;
+    const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${gameId}`;
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
@@ -61,5 +61,12 @@ const WebSocketsContextProvider = ({ children }) => {
 };
 
 export const useWsContext = () => useContext(WsContext);
+
+WebSocketsContextProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+};
 
 export default WebSocketsContextProvider;

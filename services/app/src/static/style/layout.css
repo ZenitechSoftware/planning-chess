@@ -1,6 +1,7 @@
 .align-c { align-items: center }
 .align-end { align-items: flex-end }
 .align-start { align-items: flex-start }
+.align-stretch { align-items: stretch }
 
 .justify-c { justify-content: center }
 .justify-end { justify-content: flex-end }
@@ -14,6 +15,11 @@
 .f-row {
   display: flex;
   flex-direction: row;
+}
+
+.f-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .f-center {
@@ -30,7 +36,6 @@
 
 .f-row-between {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 

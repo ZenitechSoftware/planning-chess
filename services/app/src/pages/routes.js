@@ -5,3 +5,11 @@ export const ROUTES = {
   login: "/login",
   game: "/game/:id",
 }
+
+export const buildPathFromTemplate = (routeTemplate, params) => {
+  let path = routeTemplate;
+  Object.entries(params).forEach(([key, value]) => {
+    path = path.replace(`:${key}`, value);
+  });
+  return path;
+};

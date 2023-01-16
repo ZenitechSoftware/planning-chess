@@ -13,7 +13,7 @@ const GameInfo = () => {
   const playersSkippedCount = voters.filter(p => p.status === PlayerStatuses.MoveSkipped).length;
   
   return (
-    <div className="game-info-row rubik-font align-c" data-testid="game-info-field">
+    <div className="game-info-row rubik-font align-c font-size-14" data-testid="game-info-field">
       <div className="game-info-status player-count">
         <p data-testid="players-count">
           {voters.length === 1
