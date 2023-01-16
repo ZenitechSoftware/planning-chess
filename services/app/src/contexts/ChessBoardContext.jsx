@@ -4,10 +4,11 @@ import React, { createContext, useState, useContext, useEffect, useMemo } from '
 import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
-import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
-import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; import { GameState } from '../constants/gameConstants';
+import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
+import { GameState } from '../constants/gameConstants';
+import { useUserContext } from './UserContext';
 
 export const ChessBoardContext = createContext();
 
@@ -15,8 +16,9 @@ const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
   const { turns, myTurn, movedBy, players, currentPlayerId } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
-  // TODO: use user context for this
-  const { username } = useUserFromLocalStorage();
+  const userContext = useUserContext();
+  const username = userContext.user;
+
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [score, setScore] = useState(0);

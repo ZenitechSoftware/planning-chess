@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, createContext, useContext, useState } from 'react';
+import { useLocation } from 'react-router';
 import { nanoid } from 'nanoid';
 
 const ROOM_ID_LENGTH = 8;
@@ -7,10 +9,14 @@ export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const generateGameId = () => nanoid(ROOM_ID_LENGTH);
+  const { pathname } = useLocation();
+  const roomId = pathname.split('/')[2];
+
   const [user, setUser] = useState(localStorage.getItem('user'));
   const [userId, setUserId] = useState(localStorage.getItem('userId'));
   const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
-  const [gameId, setGameId] = useState(localStorage.getItem('lastGameId') || generateGameId());
+  const [gameId, setGameId] = useState(roomId || localStorage.getItem('lastGameId') || generateGameId());
+
 
   useEffect(() => {
     if (user) {
@@ -31,11 +37,11 @@ const UserContextProvider = ({ children }) => {
   }, [userRole]);
 
   useEffect(() => {
-    if (gameId) {
+    if(roomId) {
       localStorage.setItem('lastGameId', gameId);
+      setGameId(roomId)
     }
-  }, [gameId]);
-
+  }, [pathname, gameId]);
 
   const value = useMemo(() => ({
     user,

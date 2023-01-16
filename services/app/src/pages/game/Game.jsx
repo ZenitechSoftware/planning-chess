@@ -32,9 +32,9 @@ const Game = () => {
         websocket.send(buildPlayerConnectedEventMessage(user, userId, role));
       }
     });
-  }, []);
+  }, [gameId]);
 
-  // TODO: most likely will be moved to usercontext
+  // TODO: most likely will be moved to user context
   useEffect(() => {
     if (playerDeleted && playerDeleted === currentPlayerId) {
       localStorage.removeItem('user');
