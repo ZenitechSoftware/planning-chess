@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["dom", "dom.iterable", "es2018"],
+    "module": "commonjs",
+    "types": ["codeceptjs", "node"],
+    "isolatedModules": false
+  },
+  "ts-node": {
+    "files": true
+  }
+}
