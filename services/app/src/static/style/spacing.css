@@ -79,18 +79,21 @@
 .margin-y-l { margin-top: 20px; margin-bottom: 20px }
 
 .margin-r-0 { margin-right: 0px }
+.margin-r-xs { margin-right: 4px }
 .margin-r-s { margin-right: 8px }
 .margin-r-sm { margin-right: 12px }
 .margin-r-m { margin-right: 16px }
 .margin-r-l { margin-right: 20px }
 
 .margin-l-0 { margin-left: 0px }
+.margin-l-xs { margin-left: 4px }
 .margin-l-s { margin-left: 8px }
 .margin-l-sm { margin-left: 12px }
 .margin-l-m { margin-left: 16px }
 .margin-l-l { margin-left: 20px }
 
 .margin-t-0 { margin-top: 0px }
+.margin-t-xs { margin-top: 4px }
 .margin-t-s { margin-top: 8px }
 .margin-t-sm { margin-top: 12px }
 .margin-t-m { margin-top: 16px }
