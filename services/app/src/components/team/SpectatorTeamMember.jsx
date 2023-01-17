@@ -12,7 +12,7 @@ const SpectatorTeamMember = ({ index, name, id, currentPlayerId }) => (
     <div className="team-list-item-name">
       {name}
       {' '}
-      { currentPlayerId === id && <span className='font-size-14'>(you)</span> }
+      { currentPlayerId === id && <span className='font-size-xs'>(you)</span> }
     </div>
   </div>
 );

@@ -5,9 +5,8 @@
 
 /*-----GameStatus.jsx-----*/
 .game-status-field {
-    color: #ffffff;
+    color: #FFFFFF;
     display: flex;
-    padding: 14px 24px;
     border-radius: 5px 5px 0 0;
 }
 
@@ -30,8 +29,7 @@
 /*-----GameInfo.jsx-----*/
 .game-info-row {
     display: flex;
-    border-bottom: 1px solid rgba(33, 33, 33, 0.12);
-    padding: 12px 24px;
+    border-bottom: 1px solid #21212112;
 }
 
 .game-info-status{
@@ -41,14 +39,6 @@
 
 .game-info-icon {
   user-select: none;
-}
-
-.player-count {
-    margin: 0 .2em 0;
-}
-
-.game-info-status > *:not(:last-child) {
-    margin: 0 .2em;
 }
 
 .players-done-color {

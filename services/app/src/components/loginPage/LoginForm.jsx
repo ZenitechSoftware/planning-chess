@@ -34,8 +34,8 @@ const LoginForm = () => {
       <div className='form-input-container'>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor='username-input'>Name</label>
-        <div className="user-input-container">
-          <img src={userInputIcon} alt="userInputIcon" />
+        <div className="user-input-container margin-t-s">
+          <img src={userInputIcon} className='padding-s' alt="userInputIcon" />
           <input
             type="text"
             name="username"

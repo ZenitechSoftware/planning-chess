@@ -1,7 +1,7 @@
 .team-container {
   box-sizing: border-box;
   background: #FFFFFF;
-  border: 1px solid #2121211F;
+  border: 1px solid #21212112;
   border-radius: 4px;
   flex: none;
   order: 1;
@@ -24,7 +24,7 @@
   flex: none;
   order: 0;
   flex-grow: 0;
-  box-shadow: inset 0px -1px 0px #0000001F;
+  box-shadow: inset 0px -1px 0px #00000012;
 }
 
 .team-list-item:last-child {
@@ -38,7 +38,6 @@
 }
 
 .team-list-item-actions button {
-  margin-left: 10px;
   background-color: transparent;
   border: 0;
 }
@@ -68,13 +67,12 @@
 }
 
 .team-list-footer {
-  box-shadow: inset 0px 1px 0px #0000001F;
+  box-shadow: inset 0px 1px 0px #00000012;
   text-align: center;
-  padding: 15px 0px;
 }
 
 .team-list-footer button {
-  border: 1px solid #3C64B185;
+  border: 1px solid #3C64B152;
   border-radius: 4px;
   background-color: transparent;
   color: #3C64B1;

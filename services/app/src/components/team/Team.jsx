@@ -40,9 +40,9 @@ const Team = ({ skipMove }) => {
         ))}
       </div>
 
-      <div className="team-list-footer">
+      <div className="team-list-footer padding-y-m padding-x-0">
         <button 
-          type="button" 
+          type="button"
           className='padding-y-s padding-x-sm' 
           data-testid="restart-game-btn" 
           disabled={false} 
