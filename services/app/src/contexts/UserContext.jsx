@@ -42,7 +42,7 @@ const UserContextProvider = ({ children }) => {
       localStorage.setItem('lastGameId', gameId);
       setGameId(urlGameId)
     }
-  }, [pathname]);
+  }, [urlGameId]);
 
   const value = useMemo(() => ({
     username,
