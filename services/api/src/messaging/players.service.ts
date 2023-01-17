@@ -105,6 +105,10 @@ export const moveSkipped: Handler = (
       throw new Error(`Player ${userId} cannot skip a move`);
     }
 
+    if (player.role === PlayerRole.Spectator) {
+      return;
+    }
+
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
       ...players.get(playerConnection),
@@ -244,6 +248,7 @@ export const errorHandler = (ws: GameWebSocket, e: string): void => {
 
 export const spectatorHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.ClearBoard]: clearBoard,
+  [MessageType.MoveSkipped]: moveSkipped,
 };
 
 export const voterHandlers: { [key in MessageType]?: Handler } = {

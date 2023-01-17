@@ -192,7 +192,11 @@ describe('player.service', () => {
     it.each([
       [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
       [MessageType.FigureMoved, PlayerRole.Spectator, undefined],
-      [MessageType.MoveSkipped, PlayerRole.Spectator, undefined],
+      [
+        MessageType.MoveSkipped,
+        PlayerRole.Spectator,
+        playerService.moveSkipped,
+      ],
       [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
       [MessageType.Ping, PlayerRole.Spectator, playerService.ping],
       [
