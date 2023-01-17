@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import playerPropType from '../../prop-types/player';
+import { playerWithScorePropType, playerPropType } from '../../prop-types/player';
 import './team.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
@@ -9,7 +9,6 @@ import VoterStatusIcons from './VoterStatusIcons';
 import VoterRowActionButtons from './VoterRowActionButtons';
 import { GameState } from '../../constants/gameConstants';
 import VoterScoreIcon from './VoterScoreIcon';
-import { PlayerStatuses, PlayerRoles } from '../../constants/playerConstants';
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   const { gameState } = useContext(ChessBoardContext);
@@ -43,33 +42,14 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   )
 };
 
-VoterTeamMember.defaultProps = {
-  player: playerPropType,
-}
-
 VoterTeamMember.propTypes = {
   skipMove: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   currentPlayerId: PropTypes.string.isRequired,
-  player: PropTypes.shape({
-    name: PropTypes.string,
-    status: PropTypes.oneOf(Object.values(PlayerStatuses)),
-    color: PropTypes.shape({
-      background: PropTypes.shape({
-        r: PropTypes.number,
-        g: PropTypes.number,
-        b: PropTypes.number,
-      }),
-      text: PropTypes.shape({
-        r: PropTypes.number,
-        g: PropTypes.number,
-        b: PropTypes.number,
-      })
-    }),
-    id: PropTypes.string,
-    role: PropTypes.oneOf(Object.values(PlayerRoles)),
-    score: PropTypes.string
-  })
+  player: PropTypes.oneOfType([
+    playerWithScorePropType,
+    playerPropType,
+  ]).isRequired,
 };
 
 export default VoterTeamMember;
