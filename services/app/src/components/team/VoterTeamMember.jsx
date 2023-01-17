@@ -1,74 +1,75 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import './team.css';
 import playerPropType from '../../prop-types/player';
-import { PlayerStatuses } from '../../constants/playerConstants';
-import Skip from '../../static/svg/Skip.svg';
-import CheckMark from "../../static/svg/Checkmark.svg";
-import SkippedIcon from "../../static/svg/SkippedIcon.svg"
+import './team.css';
+import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+
+import VoterRowName from './VoterRowName';
+import VoterStatusIcons from './VoterStatusIcons';
+import VoterRowActionButtons from './VoterRowActionButtons';
+import { GameState } from '../../constants/gameConstants';
+import VoterScoreIcon from './VoterScoreIcon';
+import { PlayerStatuses, PlayerRoles } from '../../constants/playerConstants';
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
-  const { name, color, id, status } = player;
+  const { gameState } = useContext(ChessBoardContext);
+  const { name, color, id, status, score } = player;
 
   return (
     <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
-      <div
-        className="team-list-item-avatar f-center"
-        style={{
-        backgroundColor: `rgb(${color.background.r}, ${color.background.g}, ${color.background.b})`
-      }}
-      >
-        <div
-          style={{
-              color: `rgb(${color.text.r}, ${color.text.g}, ${color.text.b})`
-            }}
-        >
-          {name[0].toUpperCase()}
-        </div>
-      </div>
-    
-      <div className="team-list-item-name">
-        {name}
-        {' '}
-        { currentPlayerId === id && <span>(you)</span> }
-      </div>
-    
-      { status === PlayerStatuses.FigurePlaced && (
-        <img 
-          src={CheckMark} 
-          className="team-list-item-icon" 
-          alt="player done icon" 
-        /> 
+      <VoterRowName
+        name={name}
+        color={color}
+        currentPlayerId={currentPlayerId}
+        id={id}
+      />
+
+      { gameState === GameState.GAME_IN_PROGRESS && (
+        <VoterStatusIcons status={status} />
       )}
 
-      { status === PlayerStatuses.MoveSkipped && (
-        <img 
-          src={SkippedIcon} 
-          className="team-list-item-icon" 
-          alt="player skipped icon" 
-        /> 
+      { gameState === GameState.GAME_FINISHED && (
+        <VoterScoreIcon score={score} />
       )}
       
       { id !== currentPlayerId && (
-        <div className="team-list-item-actions team-list-item-icon">
-          <button
-            type="button"
-            onClick={() => skipMove(id)}
-            disabled={status !== PlayerStatuses.ActionNotTaken}
-          >
-            <img alt="skip other player button icon" src={Skip} />
-          </button>
-        </div>
+        <VoterRowActionButtons 
+          id={id}
+          status={status}
+          skipMove={skipMove}
+        />
       )}
     </div>
   )
 };
 
+VoterTeamMember.defaultProps = {
+  player: playerPropType,
+}
+
 VoterTeamMember.propTypes = {
-  player: playerPropType.isRequired,
   skipMove: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   currentPlayerId: PropTypes.string.isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.string,
+    status: PropTypes.oneOf(Object.values(PlayerStatuses)),
+    color: PropTypes.shape({
+      background: PropTypes.shape({
+        r: PropTypes.number,
+        g: PropTypes.number,
+        b: PropTypes.number,
+      }),
+      text: PropTypes.shape({
+        r: PropTypes.number,
+        g: PropTypes.number,
+        b: PropTypes.number,
+      })
+    }),
+    id: PropTypes.string,
+    role: PropTypes.oneOf(Object.values(PlayerRoles)),
+    score: PropTypes.string
+  })
 };
 
 export default VoterTeamMember;

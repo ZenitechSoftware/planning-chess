@@ -8,9 +8,10 @@ import GameInfo from '../gameStatus/GameInfo';
 import Return from '../../static/svg/Return.svg';
 import './team.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
+import { GameState } from '../../constants/gameConstants';
 
 const Team = ({ skipMove }) => {
-  const { clearBoard, voters, spectators } = useContext(ChessBoardContext);
+  const { clearBoard, voters, spectators, votersListWithScores, gameState } = useContext(ChessBoardContext);
   const { currentPlayerId } = useWebSockets();
 
   return (
@@ -19,14 +20,26 @@ const Team = ({ skipMove }) => {
       <GameInfo />
 
       <div className="team-list-items">
-        {voters?.map((player, index) => (
-          <VoterTeamMember
-            player={player}
-            key={player.id}
-            index={index}
-            skipMove={skipMove}
-            currentPlayerId={currentPlayerId}
-          />
+        { gameState !== GameState.GAME_FINISHED && 
+            voters?.map((player, index) => (
+              <VoterTeamMember
+                player={player}
+                key={player.id}
+                index={index}
+                skipMove={skipMove}
+                currentPlayerId={currentPlayerId}
+              />
+        ))}
+
+        { gameState === GameState.GAME_FINISHED && 
+            votersListWithScores?.map((player, index) => (
+              <VoterTeamMember
+                player={player}
+                key={player.id}
+                index={index}
+                skipMove={skipMove}
+                currentPlayerId={currentPlayerId}
+              />
         ))}
 
         {spectators?.map((player, index) => (

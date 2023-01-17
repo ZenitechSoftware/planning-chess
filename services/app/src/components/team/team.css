@@ -117,3 +117,17 @@
   color: #636363;
   font-size: 14px;;
 }
+
+.team-list-voter-score {
+  background-color: #2A7305;
+  border-radius: 24px;
+  color: #FFFFFF;
+  align-items: center;
+}
+
+.team-list-voter-skip-score {
+  background: #9E6B11;
+  border-radius: 20px;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+}

@@ -6,3 +6,6 @@
     font-size: 1.3rem;
     letter-spacing: .5px;
 }
+
+.font-size-xxs { font-size: 12px }
+.font-size-xs { font-size: 14px }
