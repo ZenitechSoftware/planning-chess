@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './gameFooter.css';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { GameState } from '../../constants/gameConstants';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
-  const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useContext(ChessBoardContext);
+  const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
 
   return (
     <div className="btn-field margin-t-m gap-l">
       <button 
         type="button" 
-        className="finish-btn padding-x-m padding-y-s rubik-font" 
+        className="finish-btn font-size-s padding-x-m padding-y-s rubik-font" 
         disabled={gameState === GameState.GAME_FINISHED  || finished || !lastTurn || isCurrentPlayerSpectator} 
         onClick={finishMove}
       >
@@ -19,7 +19,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
       </button>
       <button 
         type="button"
-        className="skip-btn padding-x-m padding-y-s rubik-font" 
+        className="skip-btn font-size-s padding-x-m padding-y-s rubik-font" 
         disabled={finished || isCurrentPlayerSpectator} 
         onClick={() => skipCurrentPlayerMove()}
       >

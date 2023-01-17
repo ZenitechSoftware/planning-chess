@@ -38,7 +38,7 @@ const GameHeader = () => {
       {currentPlayer && (
         <div className="f-1 justify-end align-c gap-s">
           <span
-            className="f-center avatar"
+            className="f-center avatar font-size-m weight-500"
             style={{
               color: rgbToColor(currentPlayer.color.text),
               backgroundColor: rgbToColor(currentPlayer.color.background),

@@ -11,7 +11,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   const { name, color, id, status } = player;
 
   return (
-    <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
+    <div className="team-list-item gap-m align-c  padding-y-sm padding-x-0" data-testid={`list-${name}-${index}`}>
       <div
         className="team-list-item-avatar f-center"
         style={{
@@ -30,7 +30,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
       <div className="team-list-item-name">
         {name}
         {' '}
-        { currentPlayerId === id && <span>(you)</span> }
+        { currentPlayerId === id && <span className='font-size-xs'>(you)</span> }
       </div>
     
       { status === PlayerStatuses.FigurePlaced && (
@@ -53,6 +53,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
         <div className="team-list-item-actions team-list-item-icon">
           <button
             type="button"
+            className='margin-l-s'
             onClick={() => skipMove(id)}
             disabled={status !== PlayerStatuses.ActionNotTaken}
           >

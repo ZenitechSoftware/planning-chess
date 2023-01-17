@@ -1,1 +1,0 @@
-export const gameRoomUrl = (id) => `/game/${id}`;

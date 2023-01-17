@@ -106,39 +106,6 @@ describe('player.service', () => {
     expect(sendMock).not.toBeCalled();
   });
 
-  it('should remove a player', () => {
-    const payload = { userId: playerTestId };
-    const message: ReceivedMessage<MessageType.RemovePlayer> = {
-      type: MessageType.RemovePlayer,
-      payload,
-    };
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).toBeCalled();
-  });
-
-  it('should not remove a player, because user do not exist', () => {
-    const payload = { userId: `${playerTestId}2` };
-    const message: ReceivedMessage<MessageType.RemovePlayer> = {
-      type: MessageType.RemovePlayer,
-      payload,
-    };
-
-    const mockPlayerList = new Map().set(ws, {
-      id: `${playerTestId}3`,
-      name: 'testName',
-      color: getPlayerAvatarColor(),
-      role: PlayerRole.Voter,
-      status: PlayerStatus.ActionNotTaken,
-    });
-
-    const errorMsgMock = jest.spyOn(playerService, 'errorHandler');
-
-    jest.spyOn(gameRoomService, 'getPlayers').mockReturnValue(mockPlayerList);
-    playerService.newMessageReceived(ws, message);
-    expect(errorMsgMock).toBeCalled();
-  });
-
   it('should send an error message back, because message type received could not be found', () => {
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
@@ -148,7 +115,7 @@ describe('player.service', () => {
 
     playerService.newMessageReceived(ws, message);
     const errorMessageSpy = jest.spyOn(playerService, 'errorHandler');
-    expect(errorMessageSpy).toBeCalled();
+    expect(errorMessageSpy).not.toBeCalled();
   });
 
   it('should set a turn if user`s move already exists', () => {
@@ -174,6 +141,7 @@ describe('player.service', () => {
       payload: playerConnectedPayload,
     };
 
+    playerService.unsubscribe(ws);
     const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
     playerService.newMessageReceived(ws, message);
     expect(sendMessageSpy).toHaveBeenCalledWith(
@@ -222,20 +190,14 @@ describe('player.service', () => {
 
   describe('getHandler', () => {
     it.each([
-      [
-        MessageType.RemovePlayer,
-        PlayerRole.Spectator,
-        playerService.removePlayer,
-      ],
       [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
       [MessageType.FigureMoved, PlayerRole.Spectator, undefined],
-      [MessageType.MoveSkipped, PlayerRole.Spectator, undefined],
-      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
       [
-        MessageType.RemovePlayer,
+        MessageType.MoveSkipped,
         PlayerRole.Spectator,
-        playerService.removePlayer,
+        playerService.moveSkipped,
       ],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
       [MessageType.Ping, PlayerRole.Spectator, playerService.ping],
       [
         MessageType.PlayerConnected,
@@ -243,12 +205,10 @@ describe('player.service', () => {
         playerService.playerConnected,
       ],
 
-      [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
       [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
       [MessageType.FigureMoved, PlayerRole.Voter, playerService.figureMoved],
       [MessageType.MoveSkipped, PlayerRole.Voter, playerService.moveSkipped],
       [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
-      [MessageType.RemovePlayer, PlayerRole.Voter, playerService.removePlayer],
       [MessageType.Ping, PlayerRole.Voter, playerService.ping],
       [
         MessageType.PlayerConnected,
@@ -256,12 +216,10 @@ describe('player.service', () => {
         playerService.playerConnected,
       ],
 
-      [MessageType.RemovePlayer, undefined, undefined],
       [MessageType.ClearBoard, undefined, undefined],
       [MessageType.FigureMoved, undefined, undefined],
       [MessageType.MoveSkipped, undefined, undefined],
       [MessageType.ClearBoard, undefined, undefined],
-      [MessageType.RemovePlayer, undefined, undefined],
       [MessageType.Ping, undefined, playerService.ping],
       [MessageType.PlayerConnected, undefined, playerService.playerConnected],
     ])(
