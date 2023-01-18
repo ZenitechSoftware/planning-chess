@@ -24,13 +24,11 @@
   box-shadow: none;
 }
 
-/* ---------------------------------------------------  */
 .voter-row-addon {
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
 }
-/* --------------------------------------------------- */
 
 .team-list-item-actions button {
   background-color: transparent;
