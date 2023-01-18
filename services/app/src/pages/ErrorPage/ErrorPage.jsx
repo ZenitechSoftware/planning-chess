@@ -5,16 +5,26 @@ import Header from '../../components/header/Header';
 import ErrorPageContent from '../../components/errorPage/ErrorPageContent';
 import Footer from '../../components/pageFooter/Footer';
 
-const ErrorPage = ({ errorMsg }) => (
+const ErrorPage = ({ errorMsg, children }) => (
   <div className='f-column-between error-screen'>
     <Header />
-    <ErrorPageContent errorMsg={errorMsg} />
+    <ErrorPageContent errorMsg={errorMsg}>
+      {children}
+    </ErrorPageContent>
     <Footer />
   </div>
 );
 
+ErrorPage.defaultProps = {
+  children: null,
+}
+
 ErrorPage.propTypes = {
   errorMsg: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+  ]),
 }
 
 export default ErrorPage;

@@ -1,0 +1,8 @@
+.create-game-btn {
+  background-color: #3C64B1;
+  color: #FFFFFF;
+  display: flex;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

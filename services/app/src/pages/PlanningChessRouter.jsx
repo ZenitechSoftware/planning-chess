@@ -7,6 +7,7 @@ import LoginPage from './login/LoginPage';
 import HomePage from './home/HomePage';
 import UserTakenPage from './userTakenPage/UserTakenPage';
 import RoleSelectionPage from './roleSelectionPage/RoleSelectionPage';
+import GameNotAvailablePage from './GameNotAvailable/GameNotAvailablePage';
 
 const PlanningChessRouter = () => (
   <Routes>
@@ -19,6 +20,7 @@ const PlanningChessRouter = () => (
       <Route path={ROUTES.roleSelection} element={<RoleSelectionPage />} />
     </Route>
     <Route path={ROUTES.login} element={<LoginPage />} />
+    <Route path={ROUTES.error} element={<GameNotAvailablePage />} />
   </Routes>
 );
 

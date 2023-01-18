@@ -2,12 +2,14 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router';
 import { wsDebugMessages } from '../utils/wsDebugMessages';
 import { DEBUG } from '../env';
 import wsWrapper from '../helpers/wsWrapper';
 import { PING_INTERVAL_DURATION } from '../constants/appConstants';
 import { buildPingMessage } from '../api/appApi';
 import wsReadyStates from '../constants/wsReadyStates';
+import { ROUTES } from '../pages/routes';
 
 export const WsContext = createContext('');
 
@@ -16,10 +18,12 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.
 
 const WebSocketsContextProvider = ({ children }) => {
   const [ws, setWs] = useState(null);
+  const navigate = useNavigate();
 
   const openWsConnection = ({ onConnect, gameId }) => {
     const WebSockets = wsWrapper(WebSocket);
-    const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${gameId}`;
+    // const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${gameId}`;
+    const url = `wss://planningchess.com/api/${gameId}`;
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
@@ -29,6 +33,11 @@ const WebSocketsContextProvider = ({ children }) => {
       };
       onConnect(webSocket);
     });
+  
+    webSocket.addEventListener('error', (err) => {
+      console.log(err);
+      navigate(ROUTES.error)
+    })
   };
 
   useEffect(() => {
@@ -43,7 +52,7 @@ const WebSocketsContextProvider = ({ children }) => {
 
   window.onfocus = () => {
     if(ws?.readyState === wsReadyStates.CLOSED) {
-      openWsConnection();
+      openWsConnection({});
     }
   }
 
