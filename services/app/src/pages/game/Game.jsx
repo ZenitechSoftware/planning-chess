@@ -1,5 +1,4 @@
 import React, {
-  useContext,
   useEffect,
   useCallback,
 } from 'react';
@@ -8,9 +7,7 @@ import { ROUTES } from '../routes';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import { useWebSockets } from '../../hooks/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
-import { useUserFromLocalStorage } from '../../hooks/useUserFromLocalStorage';
-import { useUserId } from '../../hooks/useUserId';
-import { WsContext } from '../../contexts/ws-context';
+import { useWsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
 import {
   buildMoveSkippedEventMessage,
@@ -18,40 +15,28 @@ import {
 } from '../../api/playerApi';
 import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useUserContext } from '../../contexts/UserContext';
 
 const Game = () => {
-  const { username } = useUserFromLocalStorage();
-  const { userId, setUserId } = useUserId();
+  const { username, userId, role, gameId } = useUserContext();
 
-  const { playerDeleted, currentPlayerId, isAnotherSessionActive } = useWebSockets();
-  const { ws } = useContext(WsContext);
-  const { currentPlayer } = useContext(ChessBoardContext);
+  const { isAnotherSessionActive } = useWebSockets();
+  const { ws, openWsConnection } = useWsContext();
+  const { currentPlayer } = useChessBoardContext();
   
   useEffect(() => {
-    setTimeout(() => {
-      if (username && ws) {
-        ws.send(buildPlayerConnectedEventMessage(username, userId));
+    openWsConnection({
+      gameId,
+      onConnect: (websocket) => {
+        websocket.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
-    })
-  }, [username, ws]);
-
-  useEffect(() => {
-    if(currentPlayerId) {
-      setUserId(currentPlayerId);
-    }
-  }, [currentPlayerId]);
-
-  useEffect(() => {
-    if (playerDeleted && playerDeleted === currentPlayerId) {
-      localStorage.removeItem('user');
-      window.location.replace('/');
-    }
-  }, [playerDeleted]);
+    });
+  }, [gameId]);
 
   const skipMove = useCallback((playerId) => {
     if (playerId) {
-      ws.send(buildMoveSkippedEventMessage(playerId));
+      ws?.send(buildMoveSkippedEventMessage(playerId));
     }
   }, [ws]);
 
@@ -64,9 +49,7 @@ const Game = () => {
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
       <GameHeader />
       <div className="game-content">
-        <Team
-          skipMove={skipMove}
-        />
+        <Team skipMove={skipMove} />
         <ChessBoard />
       </div>
       <GameFooter

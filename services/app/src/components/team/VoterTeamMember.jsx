@@ -15,7 +15,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   const { name, color, id, status, score } = player;
 
   return (
-    <div className="team-list-item align-c" data-testid={`list-${name}-${index}`}>
+    <div className="team-list-item gap-m align-c padding-y-sm padding-x-" data-testid={`list-${name}-${index}`}>
       <VoterRowName
         name={name}
         color={color}

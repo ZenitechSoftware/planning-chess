@@ -8,7 +8,6 @@ import {
   MessageType,
   MoveSkippedMessage,
   PlaceFigureMessage,
-  RemovePlayerMessage,
   PlayerConnectedMessage,
   SendMessagePayloads,
   SendMessage,
@@ -106,6 +105,10 @@ export const moveSkipped: Handler = (
       throw new Error(`Player ${userId} cannot skip a move`);
     }
 
+    if (player.role === PlayerRole.Spectator) {
+      return;
+    }
+
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
       ...players.get(playerConnection),
@@ -118,29 +121,6 @@ export const moveSkipped: Handler = (
     publishFinalBoard(ws, players);
   } catch (err) {
     logger.error(err?.message);
-  }
-};
-
-export const removePlayer: Handler = (
-  ws,
-  { userId }: RemovePlayerMessage,
-): void => {
-  const players = getPlayers(ws.roomId);
-
-  try {
-    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
-
-    publish(ws.roomId, {
-      type: MessageType.RemovePlayer,
-      payload: userId,
-    });
-
-    players.delete(playerConnection);
-    logger.info(`Player ${player?.name} removed`);
-    publishAllPlayers(ws.roomId);
-  } catch (err) {
-    logger.error(err?.message);
-    errorHandler(ws, err);
   }
 };
 
@@ -267,15 +247,14 @@ export const errorHandler = (ws: GameWebSocket, e: string): void => {
 };
 
 export const spectatorHandlers: { [key in MessageType]?: Handler } = {
-  [MessageType.RemovePlayer]: removePlayer,
   [MessageType.ClearBoard]: clearBoard,
+  [MessageType.MoveSkipped]: moveSkipped,
 };
 
 export const voterHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
-  [MessageType.RemovePlayer]: removePlayer,
 };
 
 const commonHandlers: { [key in MessageType]?: Handler } = {

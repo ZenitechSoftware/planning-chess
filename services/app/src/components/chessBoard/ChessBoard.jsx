@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import React from 'react';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 
 import Tile from './Tile';
 import './chess-board.css';
 
 const ChessBoard = () => {
-  const { placeItemOnBoard, board } = useContext(ChessBoardContext);
+  const { placeItemOnBoard, board } = useChessBoardContext();
   
   return (
     <div className="chess-board-container align-c">

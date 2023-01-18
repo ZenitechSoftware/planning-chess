@@ -3,9 +3,3 @@
   min-height: 100vh;
   max-height: 100vh;
 }
-
-.error-page-content > p {
-  font-size: 2rem;
-  font-weight: 800;
-}
-

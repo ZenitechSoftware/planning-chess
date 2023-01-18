@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState, createContext } from 'react';
-import { useLocation } from 'react-router';
-import {useUserFromLocalStorage} from "../hooks/useUserFromLocalStorage";
+import React, { useEffect, useState, createContext, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { wsDebugMessages } from '../utils/wsDebugMessages';
 import { DEBUG } from '../env';
 import wsWrapper from '../helpers/wsWrapper';
@@ -15,20 +14,12 @@ export const WsContext = createContext('');
 // TODO what if server is running on different port?
 const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.location.host;
 
-// eslint-disable-next-line react/prop-types
 const WebSocketsContextProvider = ({ children }) => {
-  const { pathname } = useLocation();
-  const { authentication } = useUserFromLocalStorage();
-  const roomIdUrl = pathname.split('/')[2];
-  const [roomId, setRoomId] = useState(roomIdUrl);
-
-  useEffect(() => {setRoomId(roomIdUrl)}, [pathname]);
-
-  const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${roomId}`;
   const [ws, setWs] = useState(null);
 
-  const openWsConnection = () => {
+  const openWsConnection = ({ onConnect, gameId }) => {
     const WebSockets = wsWrapper(WebSocket);
+    const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${gameId}`;
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
@@ -36,23 +27,9 @@ const WebSocketsContextProvider = ({ children }) => {
       if (DEBUG) {
         wsDebugMessages(webSocket);
       };
+      onConnect(webSocket);
     });
   };
-
-  useEffect(() => {
-    if (!roomId) {
-      console.log(`No room id provided`);
-      return;
-    }
-
-    if (!authentication) {
-      console.log(`User not logged in.`);
-      return;
-    }
-
-    openWsConnection();
-
-  }, [roomId]);
 
   useEffect(() => {
     const pingInterval = setInterval(() => {
@@ -75,11 +52,21 @@ const WebSocketsContextProvider = ({ children }) => {
       /* eslint-disable-next-line react/jsx-no-constructed-context-values */
       value={{
         ws,
+        openWsConnection,
       }}
     >
       {children}
     </WsContext.Provider>
   );
+};
+
+export const useWsContext = () => useContext(WsContext);
+
+WebSocketsContextProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
 };
 
 export default WebSocketsContextProvider;

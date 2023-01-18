@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './chessBoardPieces.css';
 import classnames from 'classnames';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
 
 const ChessBoardPieces = () => {
-  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useContext(ChessBoardContext);
+  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useChessBoardContext();
 
   const handleClick = (figure) => {
     if (!isCurrentPlayerSpectator) {
@@ -28,11 +28,11 @@ const ChessBoardPieces = () => {
           })}
         >
           <img src={figure.img} alt={figure} className="figure-img" />
-          <p key={figure.name} className="figure-title">
+          <p key={figure.name} className="figure-title font-size-m">
             {figure.name}
           </p>
-          <div className="figure-strength-container f-center">
-            <p className="figure-strength">{figure.strength}</p>
+          <div className="figure-strength-container padding-y-0 padding-x-xxs f-center">
+            <p className="figure-strength font-size-xxs weight-700">{figure.strength}</p>
           </div>
         </div>
       ))}

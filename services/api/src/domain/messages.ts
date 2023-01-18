@@ -11,7 +11,6 @@ export enum MessageType {
   PlayerFinishMove = 'PlayerFinishMove',
   NewBoardState = 'NewBoardState',
   MoveSkipped = 'MoveSkipped',
-  RemovePlayer = 'RemovePlayer',
   ClearBoard = 'ClearBoard',
   SetMyTurn = 'SetMyTurn',
   Ping = 'Ping',
@@ -27,7 +26,6 @@ export type SendMessagePayloads = {
   [MessageType.PlayerConnected]: Player[];
   [MessageType.PlayerDisconnected]: Player[];
   [MessageType.MoveSkipped]: Player[];
-  [MessageType.RemovePlayer]: string;
   [MessageType.PlayerAlreadyExists]: void;
   [MessageType.UpdatePlayerList]: Player[];
   [MessageType.PlayerSuccessfullyJoined]: string;
@@ -44,7 +42,6 @@ export type ReceivedMessagePayloads = {
   [MessageType.PlayerConnected]: PlayerConnectedMessage;
   [MessageType.FigureMoved]: PlaceFigureMessage;
   [MessageType.MoveSkipped]: MoveSkippedMessage;
-  [MessageType.RemovePlayer]: RemovePlayerMessage;
   [MessageType.ClearBoard]: void;
   [MessageType.Ping]: void;
 };
@@ -64,10 +61,6 @@ export interface PlaceFigureMessage {
 }
 
 export interface MoveSkippedMessage {
-  userId: string;
-}
-
-export interface RemovePlayerMessage {
   userId: string;
 }
 export interface PlayerConnectedMessage {
