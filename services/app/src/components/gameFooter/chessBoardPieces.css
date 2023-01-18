@@ -20,7 +20,6 @@
 .piece-field-selected {
   background-color: #E8EDF9;
   border-color: #6547FD;
-  border-radius: 4px;
 }
 
 .figure-title {
@@ -35,7 +34,6 @@
   width: 2.5em;
   height: 24px;
   background-color: #3C64B1;
-  border-radius: 20px;
 }
 
 .figure-strength-container p {

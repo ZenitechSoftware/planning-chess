@@ -10,7 +10,7 @@ const GameFooterInactive = () => {
   return (
     <>
       <p className='footer-inactive font-size-xl weight-800'>Waiting for more players to join the game</p>
-      <button type="button" className='copy-btn padding-sm gap-s align-c' onClick={copyUrl}>
+      <button type="button" className='copy-btn border-r-4 padding-sm gap-s align-c' onClick={copyUrl}>
         <img src={CopyIcon} alt="copy link icon" className="copy-icon" />
         <p className='font-size-m margin-0'>Copy Link</p>
       </button>

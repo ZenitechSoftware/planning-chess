@@ -83,14 +83,16 @@ const ChessBoardContextProvider = ({ children }) => {
           tempVoter.score = voterTurn.score;
           return tempVoter;
         }
-        tempVoter.score = 0;
         return tempVoter;
-      })
-
-      return voterList.sort((a, b) => b.score - a.score);
+      });
+      const playersWhoSkipped = voterList.filter(p => p.status === PlayerStatuses.MoveSkipped);
+      const playersWhoMoved = voterList
+        .filter(p => p.status === PlayerStatuses.FigurePlaced)
+        .sort((a, b) => b.score - a.score);
+      return [...playersWhoMoved, ...playersWhoSkipped];
     }
     return [];
-  }, [turns, players]);
+  }, [turns, gameState, voters]);
 
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];

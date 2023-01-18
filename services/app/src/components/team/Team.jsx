@@ -37,7 +37,6 @@ const Team = ({ skipMove }) => {
                 player={player}
                 key={player.id}
                 index={index}
-                skipMove={skipMove}
                 currentPlayerId={currentPlayerId}
               />
         ))}
@@ -56,7 +55,7 @@ const Team = ({ skipMove }) => {
       <div className="team-list-footer padding-y-m padding-x-0">
         <button 
           type="button"
-          className='padding-y-s padding-x-sm' 
+          className='border-r-4 padding-y-s padding-x-sm' 
           data-testid="restart-game-btn" 
           disabled={false} 
           onClick={clearBoard}

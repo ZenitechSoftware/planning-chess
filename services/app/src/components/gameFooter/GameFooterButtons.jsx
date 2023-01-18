@@ -11,7 +11,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
     <div className="btn-field margin-t-m gap-l">
       <button 
         type="button" 
-        className="finish-btn font-size-s padding-x-m padding-y-s rubik-font" 
+        className="finish-btn border-r-4 font-size-s padding-x-m padding-y-s rubik-font" 
         disabled={gameState === GameState.GAME_FINISHED  || finished || !lastTurn || isCurrentPlayerSpectator} 
         onClick={finishMove}
       >

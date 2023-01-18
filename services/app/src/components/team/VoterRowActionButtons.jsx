@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { PlayerStatuses } from '../../constants/playerConstants';
 import Skip from '../../static/svg/Skip.svg';
 
-const VoterRowActionButtons = ({ status, skipMove, id }) => (
+const VoterRowActionButtons = ({ status, onSkipMove }) => (
   <div className="team-list-item-actions team-list-item-icon">
     <button
       type="button"
-      onClick={() => skipMove(id)}
+      onClick={onSkipMove}
       disabled={status !== PlayerStatuses.ActionNotTaken}
     >
       <img alt="skip other player button icon" src={Skip} />
@@ -15,10 +15,13 @@ const VoterRowActionButtons = ({ status, skipMove, id }) => (
   </div>
 )
 
+VoterRowActionButtons.defaultProps = {
+  onSkipMove: null,
+}
+
 VoterRowActionButtons.propTypes = {
-  id: PropTypes.string.isRequired,
   status: PropTypes.oneOf(Object.values(PlayerStatuses)).isRequired,
-  skipMove: PropTypes.func.isRequired,
+  onSkipMove: PropTypes.func,
 };
 
 export default VoterRowActionButtons;
