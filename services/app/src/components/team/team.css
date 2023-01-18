@@ -16,10 +16,7 @@
 
 .team-list-item {
   display: flex;
-  flex-direction: row;
   background: #FFFFFF;
-  order: 0;
-  flex-grow: 0;
   box-shadow: inset 0px -1px 0px #00000012;
 }
 
@@ -27,11 +24,13 @@
   box-shadow: none;
 }
 
-.team-list-item-actions {
+/* ---------------------------------------------------  */
+.voter-row-addon {
   display: flex;
+  justify-content: space-between;
   flex-grow: 1;
-  justify-content: flex-end;
 }
+/* --------------------------------------------------- */
 
 .team-list-item-actions button {
   background-color: transparent;

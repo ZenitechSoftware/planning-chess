@@ -11,6 +11,31 @@ import VoterScoreIcon from './VoterScoreIcon';
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   const { gameState } = useChessBoardContext();
+
+  const inProgressAddons = [
+    <VoterStatusIcons 
+      status={player.status} 
+      key={`${player.id}statusIcon`}
+    />
+  ];
+
+  if (player.id !== currentPlayerId) {
+    inProgressAddons.push(
+      <VoterRowActionButtons 
+        onSkipMove={() => skipMove(player.id)}
+        status={player.status}
+        key={`${player.id}actionBtn`}
+      />
+    )
+  }
+
+  const finishedGameAddons = [
+    <VoterScoreIcon 
+      score={player.score} 
+      status={player.status}
+      key={`${player.id}finalScore`}
+    />
+  ];
   
   return (
     <div className="team-list-item gap-m align-c padding-y-sm padding-x-" data-testid={`list-${player.name}-${index}`}>
@@ -19,27 +44,10 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
         color={player.color}
         currentPlayerId={currentPlayerId}
         id={player.id}
-        addOn={(
+        addon={(
           <>
-            { gameState === GameState.GAME_IN_PROGRESS && (
-              <VoterStatusIcons status={player.status} />
-            )}
-      
-            { gameState === GameState.GAME_FINISHED && (
-              <VoterScoreIcon 
-                score={player.score} 
-                status={player.status}
-              />
-            )}
-            
-            { player.id !== currentPlayerId 
-                && gameState === GameState.GAME_IN_PROGRESS
-                && (
-                  <VoterRowActionButtons 
-                    onSkipMove={() => skipMove(player.id)}
-                    status={player.status}
-                  />
-            )}  
+            {gameState === GameState.GAME_IN_PROGRESS && inProgressAddons}
+            {gameState === GameState.GAME_FINISHED && finishedGameAddons}
           </>
         )}
       />

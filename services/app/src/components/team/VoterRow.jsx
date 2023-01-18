@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { playerColorPropType } from '../../prop-types/player';
 
-const VoterRow = ({ name, color, currentPlayerId, id, addOn }) => (
+const VoterRow = ({ name, color, currentPlayerId, id, addon }) => (
   <>
     <div
       className="team-list-item-avatar f-center"
@@ -25,14 +25,14 @@ const VoterRow = ({ name, color, currentPlayerId, id, addOn }) => (
       { currentPlayerId === id && <span>(you)</span> }
     </div>
 
-    {
-      addOn
-    }
+    <div className='voter-row-addon'>
+      {addon}
+    </div>
   </>
 );
 
 VoterRow.defaultProps = {
-  addOn: null,
+  addon: null,
 }
 
 VoterRow.propTypes = {
@@ -40,7 +40,7 @@ VoterRow.propTypes = {
   color: playerColorPropType.isRequired,
   currentPlayerId: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  addOn: PropTypes.node,
+  addon: PropTypes.node,
 };
 
 export default VoterRow;

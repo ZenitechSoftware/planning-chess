@@ -4,7 +4,7 @@ import { PlayerStatuses } from '../../constants/playerConstants';
 import Skip from '../../static/svg/Skip.svg';
 
 const VoterRowActionButtons = ({ status, onSkipMove }) => (
-  <div className="team-list-item-actions team-list-item-icon">
+  <div className="team-list-item-actions team-list-item-icon margin-r-xs">
     <button
       type="button"
       onClick={onSkipMove}
