@@ -28,7 +28,7 @@ const RoleSelectionCard = ({ playerRole, roleDescription }) => {
     <button
       data-testid={`${playerRole} selection box`}
       type="button"
-      className='role-selection-btn padding-sm'
+      className='role-selection-btn border-r-12 padding-sm'
       onClick={handleRoleSelect}
     >
       <img src={boxIcon} alt="Role selection box logo" />

@@ -2,15 +2,12 @@
   box-sizing: border-box;
   background: #FFFFFF;
   border: 1px solid #21212112;
-  border-radius: 4px;
   flex: none;
   order: 1;
   width: 384px;
 }
 
 .team-list-items {
-  display: flex;
-  flex-direction: column;
   flex-grow: 1;
   max-height: 392px;
   overflow:hidden;
@@ -19,11 +16,7 @@
 
 .team-list-item {
   display: flex;
-  flex-direction: row;
   background: #FFFFFF;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
   box-shadow: inset 0px -1px 0px #00000012;
 }
 
@@ -73,7 +66,6 @@
 
 .team-list-footer button {
   border: 1px solid #3C64B152;
-  border-radius: 4px;
   background-color: transparent;
   color: #3C64B1;
 }
@@ -89,4 +81,14 @@
 
 .team-list-item-name span {
   color: #636363;
+}
+
+.team-list-voter-score {
+  background-color: #2A7305;
+  color: #FFFFFF;
+}
+
+.team-list-voter-skip-score {
+  background: #9E6B11;
+  color: #FFFFFF;
 }

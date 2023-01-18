@@ -9,7 +9,6 @@
   max-width: 700px;
   background-color: #FFFFFF;
   padding: 50px;
-  border-radius: 4px;
 }
 
 .role-selection-description {
@@ -24,7 +23,6 @@
   background-color: #FFFFFF;
   width: 45%;
   border: 1px solid #2121211F;
-  border-radius: 12px;
   text-align: center;
 }
 

@@ -4,7 +4,7 @@ import { PlayerRoles } from '../../constants/playerConstants';
 import RoleSelectionCard from './RoleSelectionCard';
 
 const RoleSelectionContent = () => (
-  <div className='role-selection-content margin-auto'>
+  <div className='role-selection-content border-r-4 margin-auto'>
     <p className='role-selection-title font-size-xxl weight-800 margin-0'>Choose your role</p>
     <p className='role-selection-description'>
       We need to know whether you participate in the estimating or not

@@ -74,6 +74,26 @@ const ChessBoardContextProvider = ({ children }) => {
     return GameState.GAME_NOT_STARTED;
   }, [players, turns]);
 
+  const votersListWithScores = useMemo(() => {
+    if (gameState === GameState.GAME_FINISHED && turns) {
+      const voterList = voters.map(voter => {
+        const tempVoter = {...voter}
+        const voterTurn = turns.find(turn => turn.id === voter.id)
+        if (voterTurn) {
+          tempVoter.score = voterTurn.score;
+          return tempVoter;
+        }
+        return tempVoter;
+      });
+      const playersWhoSkipped = voterList.filter(p => p.status === PlayerStatuses.MoveSkipped);
+      const playersWhoMoved = voterList
+        .filter(p => p.status === PlayerStatuses.FigurePlaced)
+        .sort((a, b) => b.score - a.score);
+      return [...playersWhoMoved, ...playersWhoSkipped];
+    }
+    return [];
+  }, [turns, gameState, voters]);
+
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
     const gameScore = [];
@@ -174,6 +194,7 @@ const ChessBoardContextProvider = ({ children }) => {
         currentPlayer,
         isCurrentPlayerSpectator,
         gameState,
+        votersListWithScores,
       }}
     >
       {children}
