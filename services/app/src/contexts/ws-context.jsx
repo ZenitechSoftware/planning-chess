@@ -22,8 +22,7 @@ const WebSocketsContextProvider = ({ children }) => {
 
   const openWsConnection = ({ onConnect, gameId }) => {
     const WebSockets = wsWrapper(WebSocket);
-    // const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${gameId}`;
-    const url = `wss://planningchess.com/api/${gameId}`;
+    const url = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${host}/api/${gameId}`;
     const webSocket = new WebSockets(url);
 
     webSocket.addEventListener('open', () => {
