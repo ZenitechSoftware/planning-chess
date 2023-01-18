@@ -8,6 +8,7 @@ import VoterStatusIcons from './VoterStatusIcons';
 import VoterRowActionButtons from './VoterRowActionButtons';
 import { GameState } from '../../constants/gameConstants';
 import VoterScoreIcon from './VoterScoreIcon';
+import { PlayerStatuses } from '../../constants/playerConstants';
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
   const { gameState } = useChessBoardContext();
@@ -19,7 +20,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
     />
   ];
 
-  if (player.id !== currentPlayerId) {
+  if (player.id !== currentPlayerId && player.status === PlayerStatuses.ActionNotTaken) {
     inProgressAddons.push(
       <VoterRowActionButtons 
         onSkipMove={() => skipMove(player.id)}

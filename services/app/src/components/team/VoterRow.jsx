@@ -25,9 +25,7 @@ const VoterRow = ({ name, color, currentPlayerId, id, addon }) => (
       { currentPlayerId === id && <span>(you)</span> }
     </div>
 
-    <div className='voter-row-addon'>
-      {addon}
-    </div>
+    {addon}
   </>
 );
 

@@ -24,10 +24,10 @@
   box-shadow: none;
 }
 
-.voter-row-addon {
+.team-list-item-actions {
   display: flex;
-  justify-content: space-between;
   flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .team-list-item-actions button {
