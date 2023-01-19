@@ -102,6 +102,29 @@ export const checkIfUserAlreadyExists = (ws: GameWebSocket): void => {
   }
 };
 
+const moveCanceled: Handler = (ws: GameWebSocket, payload: PlaceFigureMessage): void => {
+  const players = getPlayers(ws.roomId);
+  
+  logger.info(`Player ${players.get(ws)?.name} unmoved a figure.`);
+  
+  players.set(ws, {
+    ...players.get(ws),
+    status: PlayerStatus.ActionNotTaken,
+  });
+
+  publish(ws.roomId, {
+    type: MessageType.UpdatePlayerList,
+    payload: Array.from(getPlayers(ws.roomId).values()),
+  });
+
+  const newBoardState = gameService.removeMoveByPlayerId(ws.roomId, players.get(ws)?.id);
+
+  /*TODO check these 3 methods, maybe we don't need all 3*/
+  publish(ws.roomId, { type: MessageType.FigureMoved, payload: newBoardState });
+  publishAllPlayers(ws.roomId);
+  publishFinalBoard(ws, players);
+};
+
 const moveSkipped: Handler = (ws, { userId }: MoveSkippedMessage): void => {
   const players = getPlayers(ws.roomId);
 
@@ -263,6 +286,7 @@ export const sendMessage = <T extends keyof SendMessagePayloads>(
 const handlers: { [key in MessageType]?: Handler } = {
   [MessageType.PlayerConnected]: playerConnected,
   [MessageType.FigureMoved]: figureMoved,
+  [MessageType.UpdatePlayerList]: moveCanceled,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: clearBoard,
   [MessageType.RemovePlayer]: removePlayer,

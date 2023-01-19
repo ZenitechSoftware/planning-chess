@@ -2,7 +2,7 @@ import React from 'react';
 import playerStatuses from '../../constants/playerStatuses';
 import playerPropType from '../../prop-types/player';
 import CheckMark from "../../static/svg/Checkmark.svg";
-import BouncingDots from "./bouncingDots/BouncingDots"
+import LoaderDots from "./bouncingDots/LoaderDots"
 import SkippedIcon from "../../static/svg/SkippedIcon.svg";
 import { rgbToColor } from '../../helpers/rgbToColor';
 

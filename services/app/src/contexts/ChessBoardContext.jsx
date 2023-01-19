@@ -8,6 +8,7 @@ import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
 import playerStatuses from "../constants/playerStatuses";
+import { rgbToColor } from '../helpers/rgbToColor';
 
 export const ChessBoardContext = createContext();
 
@@ -104,6 +105,17 @@ const ChessBoardContextProvider = ({ children }) => {
     }
   };
 
+  const resetUserMove = () => {
+    clearBoardItems();
+    const rightPlayer = players.find(p => p.id === currentPlayerId);
+    console.log("The right player: ", rightPlayer);
+    console.log("How it should be: ", players)
+    ws.send({
+      type: 'UpdatePlayerList',
+      payload: { id: rightPlayer.id, name: rightPlayer.name, color: rightPlayer.color, status: playerStatuses.ActionNotTaken},
+    });
+  };
+
   const clearBoard = () => {
     ws.send({
       type: 'ClearBoard',
@@ -125,6 +137,7 @@ const ChessBoardContextProvider = ({ children }) => {
         board,
         finishMove,
         clearBoard,
+        resetUserMove,
         finished,
         isGameInProgress,
         isAllTurnsMade,

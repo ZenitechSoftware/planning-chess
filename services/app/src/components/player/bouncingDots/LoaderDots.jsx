@@ -5,9 +5,9 @@ const BouncingDotsLoader = (props) => {
   return (
     <>
       <div className="bouncing-loader">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
       </div>
     </>
   );

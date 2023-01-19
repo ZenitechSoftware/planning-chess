@@ -30,7 +30,6 @@ const GameInfo = ({ playerCount }) => {
         })}
       >
         <img src={BulletDot} className="game-info-icon" alt="bullet-dot" />
-        {/* <img src={CheckMark} className="game-info-icon" alt="players done icon" /> */}
         <p className="players-done-color">{`${playersDone}`}</p>
       </div>
 

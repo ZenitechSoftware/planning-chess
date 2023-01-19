@@ -26,5 +26,11 @@ export const findMoveByPlayerId = (
 ): PlaceFigureMessage | undefined =>
   getTurns(roomId).find((turn) => turn.id === id);
 
+  export const removeMoveByPlayerId = (
+    roomId: string,
+    id: string,
+  ) =>
+  getTurns(roomId).splice(getTurns(roomId).indexOf(getTurns(roomId).find((turn) => turn.id === id)),1);
+
 export const getBoard = (roomId: string): PlaceFigureMessage[] =>
   getTurns(roomId);

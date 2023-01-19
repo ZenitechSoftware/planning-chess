@@ -4,7 +4,7 @@ import './gameFooter.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
-  const { finishMove, finished, isAllTurnsMade, lastTurn, clearBoard } = useContext(ChessBoardContext);
+  const { finishMove, finished, isAllTurnsMade, lastTurn, clearBoard, resetUserMove} = useContext(ChessBoardContext);
 
   return (
     <div className="btn-field margin-t-m gap-l">
@@ -20,7 +20,7 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
       <button 
         type="button" 
         className="unselect-btn padding-x-m padding-y-s rubik-font" 
-        onClick={clearBoard}
+        onClick={resetUserMove}
         hidden={!finished || isAllTurnsMade}
       >
         Unselect Move

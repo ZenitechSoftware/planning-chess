@@ -5,9 +5,8 @@ import Skip from '../../static/svg/Skip.svg';
 import Remove from '../../static/svg/Remove.svg';
 import './team.css';
 import CheckMark from "../../static/svg/Checkmark.svg";
-import BouncingDots from "../player/bouncingDots/BouncingDots"
-import SkippedIcon from "../../static/svg/SkippedIcon.svg";
 import { ChessBoardContext } from "../../contexts/ChessBoardContext"
+import UserStatus from './UserStatus';
 
 
 
@@ -30,9 +29,8 @@ const TeamMember = ({ name, id, skipMove, color, status, removePlayer, index }) 
       </div>
     </div>
     {name}
-    { (status === playerStatuses.FigurePlaced && !isAllTurnsMade) && <div className="team-list-item-icon" alt="player done icon"> <BouncingDots/></div>}
+    <UserStatus status={status} isAllTurnsMade={isAllTurnsMade}/>
     {isAllTurnsMade && <img src={CheckMark} className="team-list-item-icon" alt="player done icon" />}
-    { status === playerStatuses.MoveSkipped && <img src={SkippedIcon} className="team-list-item-icon" alt="player skipped icon" /> }
     
     <div className="team-list-item-actions team-list-item-icon">
       <button
