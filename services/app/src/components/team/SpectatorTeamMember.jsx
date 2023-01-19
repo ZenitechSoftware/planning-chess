@@ -17,10 +17,14 @@ const SpectatorTeamMember = ({ index, name, id, currentPlayerId }) => (
   </div>
 );
 
+SpectatorTeamMember.defaultProps = {
+  currentPlayerId: null,
+}
+
 SpectatorTeamMember.propTypes = {
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  currentPlayerId: PropTypes.string.isRequired,
+  currentPlayerId: PropTypes.string,
   id: PropTypes.string.isRequired,
 };
 

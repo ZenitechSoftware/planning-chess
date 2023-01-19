@@ -24,7 +24,7 @@ const Game = () => {
   const { isAnotherSessionActive } = useWebSockets();
   const { ws, openWsConnection } = useWsContext();
   const { currentPlayer } = useChessBoardContext();
-  
+
   useEffect(() => {
     openWsConnection({
       gameId,
