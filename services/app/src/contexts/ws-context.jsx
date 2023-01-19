@@ -33,8 +33,7 @@ const WebSocketsContextProvider = ({ children }) => {
       onConnect(webSocket);
     });
   
-    webSocket.addEventListener('error', (err) => {
-      console.log(err);
+    webSocket.addEventListener('error', () => {
       navigate(ROUTES.error)
     })
   };

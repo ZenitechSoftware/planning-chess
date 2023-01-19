@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../routes';
 import ErrorPage from '../ErrorPage/ErrorPage';
-import BlueCTAButton from '../../components/ctaBtn/BlueCTAButton';
+import ActionButton from '../../components/actionBtn/ActionButton';
 
 const GameNotAvailablePage = () => {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ const GameNotAvailablePage = () => {
 
   return (
     <ErrorPage 
-      errorMsg='Something went wrong with the server'
+      errorMsg='Something went wrong'
     >
-      <BlueCTAButton 
+      <ActionButton 
         text='Attempt to reconnect'
         clickHandler={onBtnClick}
       />
