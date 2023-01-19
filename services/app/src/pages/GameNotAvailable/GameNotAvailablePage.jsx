@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../routes';
 import ErrorPage from '../ErrorPage/ErrorPage';
-import ActionButton from '../../components/actionBtn/ActionButton';
+import Button from '../../components/button/Button';
 
 const GameNotAvailablePage = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const GameNotAvailablePage = () => {
     <ErrorPage 
       errorMsg='Something went wrong'
     >
-      <ActionButton 
+      <Button 
         text='Attempt to reconnect'
         clickHandler={onBtnClick}
       />
