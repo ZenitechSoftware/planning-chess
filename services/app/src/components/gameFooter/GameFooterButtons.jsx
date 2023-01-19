@@ -18,16 +18,17 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
         Finish Move
       </button>
 
-      <ExplanatoryTooltip title="Skips your move. The game continues" placement="rightTop">
+      
         <button 
           type="button"
           className="skip-btn padding-x-m padding-y-s rubik-font" 
           disabled={finished || isCurrentPlayerSpectator} 
           onClick={() => skipCurrentPlayerMove()}
         >
+          <ExplanatoryTooltip title="Skips your move. The game continues" placement="right">
           Skip Move
+          </ExplanatoryTooltip>
         </button>
-      </ExplanatoryTooltip>
     </div>
   )
 }
