@@ -7,6 +7,7 @@
     "evenodd",
     "zenitech",
     "testid",
+    "classname"
   ],
   "ignorePaths": ["*.svg"]
 }

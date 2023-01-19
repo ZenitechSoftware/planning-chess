@@ -3,7 +3,7 @@ import { Navigate } from 'react-router';
 import RoleSelectionContent from '../../components/roleSelection/RoleSelectionContent';
 import { useUserContext } from '../../contexts/UserContext';
 import { buildPathFromTemplate, ROUTES } from '../routes';
-import DarkLayout from '../../components/pageLayout/DarkLayout';
+import Layout from '../../components/pageLayout/Layout';
 
 const RoleSelectionPage = () => {
   const userContext = useUserContext();
@@ -11,9 +11,9 @@ const RoleSelectionPage = () => {
   return userContext.role ? (
     <Navigate to={buildPathFromTemplate(ROUTES.game, {id: userContext.gameId})} replace />
   ) : (
-    <DarkLayout>
+    <Layout classnames='page-layout-dark'>
       <RoleSelectionContent />
-    </DarkLayout>
+    </Layout>
   )
 
 };

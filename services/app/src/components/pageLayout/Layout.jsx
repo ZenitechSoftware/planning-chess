@@ -4,19 +4,24 @@ import './layout.css';
 import Header from '../header/Header';
 import Footer from '../pageFooter/Footer';
 
-const Layout = ({ children }) => (
-  <div className='page-layout f-column-between'>
+const Layout = ({ classnames, children }) => (
+  <div className={`page-layout f-column-between ${classnames}`}>
     <Header />
     {children}
     <Footer />
   </div>
 );
 
+Layout.defaultProps = {
+  classnames: null
+}
+
 Layout.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,
-  ]).isRequired
+  ]).isRequired,
+  classnames: PropTypes.string,
 };
 
 export default Layout;

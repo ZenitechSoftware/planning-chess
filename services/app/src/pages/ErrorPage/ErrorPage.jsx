@@ -4,7 +4,7 @@ import Layout from '../../components/pageLayout/Layout';
 import BrokenPieceIllustration from '../../static/svg/BrokenPieceIllustration.svg';
 
 const ErrorPage = ({ errorMsg, children }) => (
-  <Layout>
+  <Layout classnames='page-layout-light'>
     <div className='margin-auto align-c f-column-between'>
       <img src={BrokenPieceIllustration} alt="broken chess icon" className='broken-chess-icon' />
       <p className='weight-800 font-size-xxl'>{errorMsg}</p>

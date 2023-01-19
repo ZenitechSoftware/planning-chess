@@ -18,19 +18,3 @@ body {
   padding: 0;
   font-family: 'Lato', sans-serif;
 }
-
-:root {
-  --primary: #3C64B1;
-  --success: #2A7305;
-
-  /* header? */
-  --light-bg: #F3F6FA;
-  --footer-bg-color: #373F41;
-
-  --white: #FFFFFF;
-  --primary-text: #212121;
-  --secondary-text: #666666;
-
-  --chess-tile-dark: #B7C0D8;
-  --chess-tile-light: #E8EDF9;
-}

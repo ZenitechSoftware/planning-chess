@@ -4,6 +4,10 @@
   max-height: 100vh;
 }
 
+.page-layout-light {
+  background-color: var(----light-bg);
+}
+
 .page-layout-dark {
-  background-color: var(--light-bg);
+  background-color: var(--background);
 }

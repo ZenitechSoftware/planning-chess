@@ -1,7 +1,7 @@
 #header {
   display: flex;
   flex-direction: row;
-  background: var(--light-bg);
+  background: var(--background);
   height: 80px;
   min-width: 700px;
   padding: 0 64px;
