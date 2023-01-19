@@ -1,7 +1,7 @@
 #header {
   display: flex;
   flex-direction: row;
-  background: #F3F6FA;
+  background: var(--light-bg);
   height: 80px;
   min-width: 700px;
   padding: 0 64px;
@@ -23,5 +23,5 @@
 
 #username {
   font-family: 'Lato', sans-serif;
-  color: #212121;
+  color: var(--primary-text);;
 }

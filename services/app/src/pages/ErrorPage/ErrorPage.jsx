@@ -1,20 +1,28 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import '../../components/errorPage/errorPage.css'
-import Header from '../../components/header/Header';
-import ErrorPageContent from '../../components/errorPage/ErrorPageContent';
-import Footer from '../../components/pageFooter/Footer';
+import Layout from '../../components/pageLayout/Layout';
+import BrokenPieceIllustration from '../../static/svg/BrokenPieceIllustration.svg';
 
-const ErrorPage = ({ errorMsg }) => (
-  <div className='f-column-between error-screen'>
-    <Header />
-    <ErrorPageContent errorMsg={errorMsg} />
-    <Footer />
-  </div>
+const ErrorPage = ({ errorMsg, children }) => (
+  <Layout>
+    <div className='margin-auto align-c f-column-between'>
+      <img src={BrokenPieceIllustration} alt="broken chess icon" className='broken-chess-icon' />
+      <p className='weight-800 font-size-xxl'>{errorMsg}</p>
+      {children}
+    </div>
+  </Layout>
 );
+
+ErrorPage.defaultProps = {
+  children: null,
+}
 
 ErrorPage.propTypes = {
   errorMsg: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+  ]),
 }
 
 export default ErrorPage;
