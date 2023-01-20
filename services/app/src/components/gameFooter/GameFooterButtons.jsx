@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './gameFooter.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import ExplanatoryTooltip  from '../chessBoard/ExplanatoryTooltip';
 import { GameState } from '../../constants/gameConstants';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
   const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
-
   return (
     <div className="btn-field margin-t-m gap-l">
       <button 
@@ -17,20 +17,22 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
       >
         Finish Move
       </button>
+
+      
       <button 
         type="button"
-        className="skip-btn font-size-s padding-x-m padding-y-s rubik-font" 
+        className="skip-btn font-size-s padding-x-m padding-y-s rubik-font"
         disabled={finished || isCurrentPlayerSpectator} 
         onClick={() => skipCurrentPlayerMove()}
       >
-        Skip Move
+        <ExplanatoryTooltip title="Skips your move. The game continues" placement="right">
+          <span>Skip Move</span>
+        </ExplanatoryTooltip>
       </button>
     </div>
   )
 }
-
 GameFooterButtons.propTypes = {
   skipCurrentPlayerMove: PropTypes.func.isRequired,
 };
-
 export default GameFooterButtons;

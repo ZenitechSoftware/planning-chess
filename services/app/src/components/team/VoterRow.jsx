@@ -31,12 +31,13 @@ const VoterRow = ({ name, color, currentPlayerId, id, addon }) => (
 
 VoterRow.defaultProps = {
   addon: null,
+  currentPlayerId: null
 }
 
 VoterRow.propTypes = {
   name: PropTypes.string.isRequired,
   color: playerColorPropType.isRequired,
-  currentPlayerId: PropTypes.string.isRequired,
+  currentPlayerId: PropTypes.string,
   id: PropTypes.string.isRequired,
   addon: PropTypes.node,
 };
