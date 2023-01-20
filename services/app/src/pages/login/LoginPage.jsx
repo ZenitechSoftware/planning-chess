@@ -11,7 +11,7 @@ const LoginPage = () => {
   return userContext.username ? (
     <Navigate to={ROUTES.roleSelection} replace />
   ) : (
-    <Layout classnames='page-layout-dark'>
+    <Layout className='page-layout-dark'>
       <LoginForm />
     </Layout>
   )

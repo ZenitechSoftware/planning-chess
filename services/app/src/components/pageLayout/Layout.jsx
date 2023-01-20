@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import './layout.css';
 import Header from '../header/Header';
 import Footer from '../pageFooter/Footer';
 
-const Layout = ({ classnames, children }) => (
-  <div className={classNames('page-layout f-column-between', classnames)}>
+const Layout = ({ className, children }) => (
+  <div className={classnames('page-layout f-column-between', className)}>
     <Header />
     {children}
     <Footer />
@@ -14,7 +14,7 @@ const Layout = ({ classnames, children }) => (
 );
 
 Layout.defaultProps = {
-  classnames: null
+  className: null
 }
 
 Layout.propTypes = {
@@ -22,7 +22,7 @@ Layout.propTypes = {
     PropTypes.node,
     PropTypes.element,
   ]).isRequired,
-  classnames: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default Layout;

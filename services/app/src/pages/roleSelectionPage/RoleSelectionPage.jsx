@@ -11,7 +11,7 @@ const RoleSelectionPage = () => {
   return userContext.role ? (
     <Navigate to={buildPathFromTemplate(ROUTES.game, {id: userContext.gameId})} replace />
   ) : (
-    <Layout classnames='page-layout-dark'>
+    <Layout className='page-layout-dark'>
       <RoleSelectionContent />
     </Layout>
   )
