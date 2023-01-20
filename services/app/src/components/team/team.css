@@ -1,6 +1,5 @@
 .team-container {
   box-sizing: border-box;
-  background: #FFFFFF;
   border: 1px solid #21212112;
   flex: none;
   order: 1;
@@ -16,7 +15,6 @@
 
 .team-list-item {
   display: flex;
-  background: #FFFFFF;
   box-shadow: inset 0px -1px 0px #00000012;
 }
 
@@ -67,7 +65,7 @@
 .team-list-footer button {
   border: 1px solid #3C64B152;
   background-color: transparent;
-  color: #3C64B1;
+  color: var(--primary);
 }
 
 .team-list-footer button:disabled {
@@ -84,11 +82,11 @@
 }
 
 .team-list-voter-score {
-  background-color: #2A7305;
-  color: #FFFFFF;
+  background-color: var(--success);
+  color: var(--white);
 }
 
 .team-list-voter-skip-score {
   background: #9E6B11;
-  color: #FFFFFF;
+  color: var(--white);
 }

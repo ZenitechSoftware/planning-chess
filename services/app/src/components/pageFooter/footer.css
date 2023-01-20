@@ -1,11 +1,11 @@
 
 .web-footer-container {
-    background-color: #373F41;
+    background-color: var(--footer-bg-color);
     width: 100%;
     height: 50px;
     display: flex;
     justify-content: space-between;
-    color: #FFFFFF;
+    color: var(--white);
 }
 
 .footer-p {
@@ -14,7 +14,7 @@
 
 .zenitech-link {
     text-decoration: none;
-    color: #FFFFFF;
+    color: var(--white);
 }
 
 .zenitech-link:visited {

@@ -14,17 +14,17 @@
 }
 
 .piece-field:hover {
-  background-color: #E8EDF9;
+  background-color: var(--chess-tile-light);
   border-radius: 4px;
 }
 
 .piece-field-selected {
-  background-color: #E8EDF9;
+  background-color: var(--chess-tile-light);
   border-color: #6547FD;
 }
 
 .figure-title {
-  color: #212121;
+  color: var(--primary-text);
   line-height: 2rem;
   letter-spacing: 0.3px;
   margin-block-start: 0.2em;
@@ -34,11 +34,11 @@
 .figure-strength-container {
   width: 2.5em;
   height: 24px;
-  background-color: #3C64B1;
+  background-color: var(--primary);
 }
 
 .figure-strength-container p {
-  color: #FFFFFF;
+  color: var(--white);
   letter-spacing: -0.1px;
 }
 

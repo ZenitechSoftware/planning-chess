@@ -2,7 +2,7 @@
 .login-form {
     width: 40%;
     height: 40vh;
-    background-color: #FFFFFF;
+    background-color: var(--white);
     border: 1px solid #21212112;
     padding: 3em 4em;
 }
@@ -12,7 +12,7 @@
 }
 
 .form-text > p {
-    color: #666666;
+    color: var(--secondary-text);
 }
 
 .form-input-container {
@@ -35,8 +35,8 @@
 }
 
 .enter-game-btn {
-    background-color: #3C64B1;
-    color: #FFFFFF;
+    background-color: var(--primary);
+    color: var(--white);
     border: none;
     cursor: pointer;
     width: 75%;

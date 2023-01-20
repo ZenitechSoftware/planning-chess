@@ -1,18 +1,12 @@
-.role-selection-screen {
-  background-color: #F3F6FA;
-  min-height: 100vh;
-  max-height: 100vh;
-}
-
 .role-selection-content {
   width: 55%;
   max-width: 700px;
-  background-color: #FFFFFF;
+  background-color: var(--white);
   padding: 50px;
 }
 
 .role-selection-description {
-  color: #666666;
+  color: var(--secondary-text);
 }
 
 .role-selection-btn-container {
@@ -20,7 +14,7 @@
 }
 
 .role-selection-btn {
-  background-color: #FFFFFF;
+  background-color: var(--white);
   width: 45%;
   border: 1px solid #2121211F;
   text-align: center;
