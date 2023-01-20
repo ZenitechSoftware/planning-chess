@@ -4,7 +4,7 @@ import './gameFooter.css';
 import { ChessBoardContext } from '../../contexts/ChessBoardContext';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
-  const { finishMove, finished, isAllTurnsMade, lastTurn, clearBoard, resetUserMove} = useContext(ChessBoardContext);
+  const { finishMove, finished, isAllTurnsMade, lastTurn, resetUserMove} = useContext(ChessBoardContext);
 
   return (
     <div className="btn-field margin-t-m gap-l">

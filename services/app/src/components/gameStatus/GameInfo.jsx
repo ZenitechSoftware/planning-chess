@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import './gameStatus.css';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import CheckMark from '../../static/svg/Checkmark.svg';
 import SkippedIcon from '../../static/svg/SkippedIcon.svg';
 import BulletDot from '../../static/svg/BulletDot.svg';
 import { ChessBoardContext } from "../../contexts/ChessBoardContext";
