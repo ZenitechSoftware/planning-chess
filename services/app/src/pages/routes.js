@@ -4,6 +4,7 @@ export const ROUTES = {
   roleSelection: "/role-selection",
   login: "/login",
   game: "/game/:id",
+  error: "/game-not-available",
 }
 
 export const buildPathFromTemplate = (routeTemplate, params) => {

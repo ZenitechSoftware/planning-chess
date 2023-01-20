@@ -1,11 +1,11 @@
 import React from 'react';
 import './gameFooter.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import ExplanatoryTooltip  from '../chessBoard/ExplanatoryTooltip';
 import { GameState } from '../../constants/gameConstants';
 
 const GameFooterButtons = () => {
   const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
-
   return (
     <div className="btn-field margin-t-m gap-l">
       <button 
@@ -19,5 +19,4 @@ const GameFooterButtons = () => {
     </div>
   )
 }
-
 export default GameFooterButtons;

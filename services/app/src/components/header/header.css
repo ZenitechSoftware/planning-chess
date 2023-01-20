@@ -7,6 +7,12 @@
   padding: 0 64px;
 }
 
+.logo-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .header-info {
   user-select: none;
 }
