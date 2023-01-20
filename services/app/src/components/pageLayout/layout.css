@@ -1,0 +1,13 @@
+
+.page-layout {
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
+.page-layout-light {
+  background-color: var(----light-bg);
+}
+
+.page-layout-dark {
+  background-color: var(--background);
+}
