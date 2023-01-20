@@ -4,6 +4,7 @@ import Bishop from '../components/gameFooter/gameFooterComponents/Bishop.svg';
 import Rook from '../components/gameFooter/gameFooterComponents/Rook.svg';
 import King from '../components/gameFooter/gameFooterComponents/King.svg';
 import Queen from '../components/gameFooter/gameFooterComponents/Queen.svg';
+import SkipMove from '../components/gameFooter/gameFooterComponents/SkipMove.svg';
 
 export const PIECES = [
   {
@@ -36,6 +37,11 @@ export const PIECES = [
     img: Queen,
     strength: '13SP',
   },
+  {
+    name: 'skip',
+    img: SkipMove,
+    strength: '-',
+  }
 ];
 
 export const NUMBER_OF_ROWS = 6;

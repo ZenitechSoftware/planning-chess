@@ -15,6 +15,7 @@
 
 .piece-field:hover {
   background-color: #E8EDF9;
+  border-radius: 4px;
 }
 
 .piece-field-selected {
@@ -39,4 +40,8 @@
 .figure-strength-container p {
   color: #FFFFFF;
   letter-spacing: -0.1px;
+}
+
+.skip-icon-style {
+  width: 50px;
 }

@@ -1,15 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './chessBoardPieces.css';
 import classnames from 'classnames';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
+import { PlayerStatuses } from '../../constants/playerConstants';
 
-const ChessBoardPieces = () => {
-  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useChessBoardContext();
+const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
+  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator, currentPlayer } = useChessBoardContext();
 
-  const handleClick = (figure) => {
-    if (!isCurrentPlayerSpectator) {
-      setSelectedItem(figure);
+  const handleClick = (figureName) => {
+    if (isCurrentPlayerSpectator) {
+      return;
+    }
+
+    if (currentPlayer.status === PlayerStatuses.ActionNotTaken) {
+      setSelectedItem(figureName);
+
+      if (figureName === 'skip') {
+        skipCurrentPlayerMove();
+      }
     }
   };
 
@@ -27,7 +37,13 @@ const ChessBoardPieces = () => {
             'piece-field-selected border-r-4': selectedItem === figure.name,
           })}
         >
-          <img src={figure.img} alt={figure} className="figure-img" />
+          <img 
+            src={figure.img} 
+            alt={figure.name} 
+            className={classnames('figure-img', {
+              'skip-icon-style': figure.name === 'skip'
+            })}
+          />
           <p key={figure.name} className="figure-title font-size-m">
             {figure.name}
           </p>
@@ -38,6 +54,10 @@ const ChessBoardPieces = () => {
       ))}
     </div>
   );
+};
+
+ChessBoardPieces.propTypes = {
+  skipCurrentPlayerMove: PropTypes.func.isRequired,
 };
 
 export default ChessBoardPieces;
