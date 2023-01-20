@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable react/prop-types */
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
-import { useUserFromLocalStorage } from '../hooks/useUserFromLocalStorage';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
-import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants";
+import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
 import { GameState } from '../constants/gameConstants';
+import { useUserContext } from './UserContext';
 
 export const ChessBoardContext = createContext();
 
@@ -16,7 +16,8 @@ const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
   const { turns, myTurn, movedBy, players, currentPlayerId } = useWebSockets();
   const [selectedItem, setSelectedItem] = useState('');
-  const { username } = useUserFromLocalStorage();
+  const userContext = useUserContext();
+
   const { board, setBoard, defaultBoard } = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [score, setScore] = useState(0);
@@ -73,6 +74,26 @@ const ChessBoardContextProvider = ({ children }) => {
     return GameState.GAME_NOT_STARTED;
   }, [players, turns]);
 
+  const votersListWithScores = useMemo(() => {
+    if (gameState === GameState.GAME_FINISHED && turns) {
+      const voterList = voters.map(voter => {
+        const tempVoter = {...voter}
+        const voterTurn = turns.find(turn => turn.id === voter.id)
+        if (voterTurn) {
+          tempVoter.score = voterTurn.score;
+          return tempVoter;
+        }
+        return tempVoter;
+      });
+      const playersWhoSkipped = voterList.filter(p => p.status === PlayerStatuses.MoveSkipped);
+      const playersWhoMoved = voterList
+        .filter(p => p.status === PlayerStatuses.FigurePlaced)
+        .sort((a, b) => b.score - a.score);
+      return [...playersWhoMoved, ...playersWhoSkipped];
+    }
+    return [];
+  }, [turns, gameState, voters]);
+
   const generateFinalBoard = (finalTurns) => {
     const copyOfBoard = [...defaultBoard];
     const gameScore = [];
@@ -108,7 +129,7 @@ const ChessBoardContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (movedBy.length) {
-      const myMove = movedBy.find((moved) => moved.player === username);
+      const myMove = movedBy.find((moved) => moved.player === userContext.username);
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }
@@ -121,14 +142,14 @@ const ChessBoardContextProvider = ({ children }) => {
       if (lastTurn) {
         copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
       }
-      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: username, id: currentPlayerId });
+      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: userContext.username, id: currentPlayerId });
       setLastTurn({ row, tile, figure: selectedItem });
       setBoard(copyOfBoard);
     }
   };
 
   useEffect(() => {
-    if (myTurn && myTurn.player === username) {
+    if (myTurn && myTurn.player === userContext.username) {
       const { row, tile, figure } = myTurn;
       placeItemOnBoard(row, tile, figure);
       setScore(myTurn.score);
@@ -139,7 +160,7 @@ const ChessBoardContextProvider = ({ children }) => {
     if (lastTurn) {
       ws.send({
         type: 'FigureMoved',
-        payload: { ...lastTurn, player: username, id: currentPlayerId },
+        payload: { ...lastTurn, player: userContext.username, id: currentPlayerId },
       });
     }
   };
@@ -173,11 +194,19 @@ const ChessBoardContextProvider = ({ children }) => {
         currentPlayer,
         isCurrentPlayerSpectator,
         gameState,
+        votersListWithScores,
       }}
     >
       {children}
     </ChessBoardContext.Provider>
   );
+};
+
+ChessBoardContextProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
 };
 
 export const useChessBoardContext = () => useContext(ChessBoardContext);

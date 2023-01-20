@@ -1,0 +1,37 @@
+.role-selection-screen {
+  background-color: #F3F6FA;
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
+.role-selection-content {
+  width: 55%;
+  max-width: 700px;
+  background-color: #FFFFFF;
+  padding: 50px;
+}
+
+.role-selection-description {
+  color: #666666;
+}
+
+.role-selection-btn-container {
+  margin-top: 40px;
+}
+
+.role-selection-btn {
+  background-color: #FFFFFF;
+  width: 45%;
+  border: 1px solid #2121211F;
+  text-align: center;
+}
+
+.role-selection-btn:hover {
+  cursor: pointer;
+  border: 1px solid #8913A6;
+  box-shadow: 0 0 11px #8913A633;
+}
+
+.role-selection-btn > img {
+  width: 70px;
+}

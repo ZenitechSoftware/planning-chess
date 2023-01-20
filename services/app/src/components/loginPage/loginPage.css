@@ -3,8 +3,7 @@
     width: 40%;
     height: 40vh;
     background-color: #FFFFFF;
-    border: 1px solid rgba(33, 33, 33, 0.12);
-    border-radius: 4px;
+    border: 1px solid #21212112;
     padding: 3em 4em;
 }
 
@@ -21,19 +20,12 @@
 }
 
 .user-input-container {
-    margin-top: .7em;
     display: flex;
     border: 1px solid black;
-    border-radius: 4px;
     box-sizing: border-box;
 }
 
-.user-input-container > * {
-    padding: 1em;
-}
-
 #username-input {
-    padding: 0;
     border: none;
     width: 100%;
 }
@@ -46,13 +38,12 @@
     background-color: #3C64B1;
     color: #FFFFFF;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     width: 75%;
 }
 
 .enter-game-btn:disabled {
-    background-color: rgba(60, 100, 177, 0.24);
+    background-color: #3C64B124;
     cursor: not-allowed;
 }
 

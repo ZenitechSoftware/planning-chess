@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './loginPage.css';
 import userInputIcon from '../../static/svg/UserInputIcon.svg';
-import * as paths from '../../constants/urls'
-import {useGameId} from "../../hooks/useGameId";
+import { ROUTES } from '../../pages/routes';
+import { useUserContext } from '../../contexts/UserContext';
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { gameId } = useGameId();
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
+  const userContext = useUserContext();
 
   const submitInfo = (event) => {
     event.preventDefault();
-    window.localStorage.setItem('user', event.target.username.value);
-    navigate(paths.gameRoomUrl(gameId), { replace: true });
+    userContext.setUsername(event.target.username.value);
+    navigate(ROUTES.roleSelection, { replace: true });
   }
 
   const checkInputLength = (event) => {
@@ -25,7 +25,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form className="login-form align-c margin-auto f-column-between" onSubmit={submitInfo}>
+    <form className="login-form border-r-4 align-c margin-auto f-column-between" onSubmit={submitInfo}>
       <div className="form-text">
         <h2>Welcome! Let&rsquo;s begin.</h2>
         <p>Firstly, enter your name:</p>
@@ -34,8 +34,8 @@ const LoginForm = () => {
       <div className='form-input-container'>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor='username-input'>Name</label>
-        <div className="user-input-container">
-          <img src={userInputIcon} alt="userInputIcon" />
+        <div className="user-input-container border-r-4 margin-t-s">
+          <img src={userInputIcon} className='padding-s' alt="userInputIcon" />
           <input
             type="text"
             name="username"
@@ -52,7 +52,7 @@ const LoginForm = () => {
       <button
         type="submit"
         data-testid="login-btn"
-        className="enter-game-btn login-input user-input-font"
+        className="enter-game-btn border-r-4 login-input user-input-font"
         disabled={btnIsDisabled}
       >
         Enter Game

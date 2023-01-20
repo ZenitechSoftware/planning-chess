@@ -1,8 +1,8 @@
-import React, { useContext, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { PIECES } from '../../constants/board';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { rgbToColor } from '../../helpers/rgbToColor';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
@@ -13,7 +13,7 @@ const Square = ({
   column,
   filled
 }) => {
-  const { board, findUserById, players } = useContext(ChessBoardContext);
+  const { board, findUserById, players } = useChessBoardContext();
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 

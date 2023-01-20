@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './chessBoardPieces.css';
 import classnames from 'classnames';
-import { ChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
 
 const ChessBoardPieces = () => {
-  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useContext(ChessBoardContext);
+  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator } = useChessBoardContext();
 
   const handleClick = (figure) => {
     if (!isCurrentPlayerSpectator) {
@@ -24,15 +24,15 @@ const ChessBoardPieces = () => {
           aria-hidden="true"
           onClick={() => handleClick(figure.name)}
           className={classnames('piece-field padding-y-s padding-x-m f-center rubik-font', {
-            'piece-field-selected': selectedItem === figure.name,
+            'piece-field-selected border-r-4': selectedItem === figure.name,
           })}
         >
           <img src={figure.img} alt={figure} className="figure-img" />
-          <p key={figure.name} className="figure-title">
+          <p key={figure.name} className="figure-title font-size-m">
             {figure.name}
           </p>
-          <div className="figure-strength-container f-center">
-            <p className="figure-strength">{figure.strength}</p>
+          <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
+            <p className="figure-strength font-size-xxs weight-700">{figure.strength}</p>
           </div>
         </div>
       ))}

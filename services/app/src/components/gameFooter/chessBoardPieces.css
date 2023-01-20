@@ -20,12 +20,10 @@
 .piece-field-selected {
   background-color: #E8EDF9;
   border-color: #6547FD;
-  border-radius: 4px;
 }
 
 .figure-title {
   color: #212121;
-  font-size: 1.25rem;
   line-height: 2rem;
   letter-spacing: 0.3px;
   margin-block-start: 0.2em;
@@ -36,13 +34,9 @@
   width: 2.5em;
   height: 24px;
   background-color: #3C64B1;
-  border-radius: 20px;
-  padding: 0px 2px;
 }
 
 .figure-strength-container p {
   color: #FFFFFF;
-  font-size: 0.75rem;
   letter-spacing: -0.1px;
-  font-weight: bold;
 }
