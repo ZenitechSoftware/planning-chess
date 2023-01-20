@@ -6,7 +6,6 @@ const ExplanatoryTooltip = ({ title, children, placement }) => (
   <Tooltip
     title={title}
     placement={placement}
-    overlayInnerStyle={{ fontSize: 15 }}
   >
     {children}
   </Tooltip>
