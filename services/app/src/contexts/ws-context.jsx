@@ -12,7 +12,7 @@ import wsReadyStates from '../constants/wsReadyStates';
 export const WsContext = createContext('');
 
 // TODO what if server is running on different port?
-const host = process.env.NODE_ENV === 'development' ? 'localhost:8081' : window.location.host;
+const host = process.env.NODE_ENV === 'development' ? 'localhost:8083' : window.location.host;
 
 const WebSocketsContextProvider = ({ children }) => {
   const [ws, setWs] = useState(null);
