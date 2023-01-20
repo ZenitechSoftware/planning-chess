@@ -58,12 +58,13 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
 
 VoterTeamMember.defaultProps = {
   skipMove: null,
+  currentPlayerId: null,
 }
 
 VoterTeamMember.propTypes = {
   skipMove: PropTypes.func,
   index: PropTypes.number.isRequired,
-  currentPlayerId: PropTypes.string.isRequired,
+  currentPlayerId: PropTypes.string,
   player: PropTypes.oneOfType([
     playerWithScorePropType,
     playerPropType,
