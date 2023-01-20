@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES } from '../../constants/board';
 import { PlayerStatuses } from '../../constants/playerConstants';
+import SkipMoveBtn from './SkipMoveBtn';
 
 const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
   const { setSelectedItem, selectedItem, isCurrentPlayerSpectator, currentPlayer } = useChessBoardContext();
@@ -52,6 +53,8 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
           </div>
         </div>
       ))}
+
+      <SkipMoveBtn handleClick={handleClick} />
     </div>
   );
 };

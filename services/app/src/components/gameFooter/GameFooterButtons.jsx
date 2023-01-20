@@ -1,7 +1,6 @@
 import React from 'react';
 import './gameFooter.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import ExplanatoryTooltip  from '../chessBoard/ExplanatoryTooltip';
 import { GameState } from '../../constants/gameConstants';
 
 const GameFooterButtons = () => {

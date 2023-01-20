@@ -37,12 +37,13 @@ export const PIECES = [
     img: Queen,
     strength: '13SP',
   },
-  {
-    name: 'skip',
-    img: SkipMove,
-    strength: '-',
-  }
 ];
+
+export const SKIP = {
+  name: 'skip',
+  img: SkipMove,
+  strength: '-',
+}
 
 export const NUMBER_OF_ROWS = 6;
 export const NUMBER_OF_COLUMNS = 6;
