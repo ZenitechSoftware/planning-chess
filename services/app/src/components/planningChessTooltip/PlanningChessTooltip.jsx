@@ -1,14 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-// import './PlanningChessTooltip.css'
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Tooltip } from "antd";
 
 const PlanningChessTooltip = ({ className, children, hideArrow, ...rest}) => (
   <Tooltip
-    // eslint-disable-next-line react/jsx-props-no-spreading
     {...rest}
-    open
     className='custom-tooltip'
     overlayClassName={classnames({
       'tooltip-arrow-hidden': hideArrow,

@@ -4,10 +4,11 @@ import classNames from 'classnames';
 import { Button as AntdButton } from 'antd'; 
 import './button.css';
 
-const Button = ({ clickHandler, children, variant }) => (
+const Button = ({ clickHandler, children, variant, isDisabled, className }) => (
   <AntdButton
+    disabled={isDisabled}
     type={variant}
-    className={classNames('button border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center align-c', {
+    className={classNames('button border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center align-c', className, {
       'outlined-btn': variant === 'outlined',
       'primary-btn': variant === 'primary',
     })}
@@ -20,6 +21,8 @@ const Button = ({ clickHandler, children, variant }) => (
 
 Button.defaultProps = {
   variant: 'primary',
+  isDisabled: false,
+  className: undefined,
 }
 
 Button.propTypes = {
@@ -29,6 +32,8 @@ Button.propTypes = {
     PropTypes.element,
   ]).isRequired,
   variant: PropTypes.oneOf(['outlined', 'primary']),
+  isDisabled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 export default Button;

@@ -1,7 +1,3 @@
 .tooltip-arrow-hidden .ant-tooltip-arrow {
   display: none;
 }
-
-.ant-tooltip .ant-tooltip-inner {
-  text-align: center;
-}

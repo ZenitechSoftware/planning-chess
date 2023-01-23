@@ -3,6 +3,7 @@ import Header from './Header';
 import { rgbToColor } from '../../helpers/rgbToColor';
 import './header.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
+import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
 
 const GameHeader = () => {
@@ -17,8 +18,13 @@ const GameHeader = () => {
 
   return (
     <Header>
-      <CopyBtn />
-
+      <div 
+        className='f-row align-c gap-m header-info'
+      >
+        <img src={Separator} alt="separator" />
+        <CopyBtn />
+      </div>
+  
       {currentPlayer && (
         <div className="f-1 justify-end align-c gap-s">
           <span

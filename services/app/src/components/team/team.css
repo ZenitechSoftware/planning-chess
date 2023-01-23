@@ -62,12 +62,6 @@
   text-align: center;
 }
 
-.team-list-footer button {
-  border: 1px solid #3C64B152;
-  background-color: transparent;
-  color: var(--primary);
-}
-
 .team-list-footer button:disabled {
   cursor: not-allowed;
 }
