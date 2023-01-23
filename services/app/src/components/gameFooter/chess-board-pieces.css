@@ -16,11 +16,11 @@
 }
 
 .piece-field:hover {
-  background-color: var(--chess-tile-light);;
+  background-color: var(--chess-tile-light);
 }
 
 .piece-field-selected {
-  background-color: var(--chess-tile-light);;
+  background-color: var(--chess-tile-light);
   border-color: #6547FD;
 }
 

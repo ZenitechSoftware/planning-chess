@@ -1,6 +1,5 @@
 import React from 'react';
 import CopyIcon from '../../static/svg/CopyLink.svg';
-import './game-footer.css';
 
 const GameFooterInactive = () => {
   const copyUrl = () => {

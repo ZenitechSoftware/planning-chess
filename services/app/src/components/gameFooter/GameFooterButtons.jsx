@@ -1,5 +1,4 @@
 import React from 'react';
-import './game-footer.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { GameState } from '../../constants/gameConstants';
 

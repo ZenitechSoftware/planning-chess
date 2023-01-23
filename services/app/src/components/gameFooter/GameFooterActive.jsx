@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ChessBoardPieces from './ChessBoardPieces';
 import GameFooterButtons from './GameFooterButtons';
-import './game-footer.css';
 
 const GameFooterActive = ({ skipCurrentPlayerMove }) => (
   <>

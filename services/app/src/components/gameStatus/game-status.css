@@ -1,40 +1,40 @@
 /*-----GameStatusContainer.jsx-----*/
 .game-status-container {
-    width: 100%;
+  width: 100%;
 }
 
 /*-----GameStatus.jsx-----*/
 .game-status-field {
-    color: var(--white);
-    display: flex;
-    border-radius: 5px 5px 0 0;
+  color: var(--white);
+  display: flex;
+  border-radius: 5px 5px 0 0;
 }
 
 .game-status-in-progress {
-    background-color: var(--primary);
+  background-color: var(--primary);
 }
 .game-status-completed {
-    background-color: var(--success);
+  background-color: var(--success);
 }
 
 .game-status-icon {
-    width: 20px;
-    user-select: none;
+  width: 20px;
+  user-select: none;
 }
 
 .status-text {
-    letter-spacing: -0.15px;
+  letter-spacing: -0.15px;
 }
 
 /*-----GameInfo.jsx-----*/
 .game-info-row {
-    display: flex;
-    border-bottom: 1px solid #21212112;
+  display: flex;
+  border-bottom: 1px solid #21212112;
 }
 
 .game-info-status{
-    display: flex;
-    line-height: 2px;
+  display: flex;
+  line-height: 2px;
 }
 
 .game-info-icon {
@@ -42,13 +42,13 @@
 }
 
 .players-done-color {
-    color: var(--success);
+  color: var(--success);
 }
 
 .players-skipped-color {
-    color: #9E6B11;
+  color: #9E6B11;
 }
 
 .hide > * {
-    display: none;
+  display: none;
 }

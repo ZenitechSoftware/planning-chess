@@ -1,5 +1,4 @@
 import React from 'react';
-import './game-status.css';
 import ClockIcon from '../../static/svg/Clock.svg';
 import CompletedIcon from '../../static/svg/CompletedIcon.svg';
 import WaitingPlayersIcon from '../../static/svg/WaitingPlayersIcon.svg';
