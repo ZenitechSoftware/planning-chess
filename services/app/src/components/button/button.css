@@ -3,13 +3,13 @@
 }
 
 .primary-btn {
-  background-color: #3C64B1;
-  color: #FFFFFF;
+  background-color: var(--primary);
+  color: var(--white);
   border: none;
 }
 
 .outlined-btn {
   background-color: transparent;
-  color: #3C64B1;
+  color: var(--primary);
   border: 1px solid #3C64B185;
 }
