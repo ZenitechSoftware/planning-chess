@@ -9,6 +9,7 @@ import Return from '../../static/svg/Return.svg';
 import './team.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
 import { GameState } from '../../constants/gameConstants';
+import Button from '../button/Button';
 import '../gameStatus/game-status.css';
 
 const Team = ({ skipMove }) => {
@@ -53,18 +54,17 @@ const Team = ({ skipMove }) => {
         ))}
       </div>
 
-      <div className="team-list-footer padding-y-m padding-x-0">
-        <button 
-          type="button"
-          className='border-r-4 padding-y-s padding-x-sm' 
-          data-testid="restart-game-btn" 
-          disabled={false} 
-          onClick={clearBoard}
+      <div className="team-list-footer padding-y-m padding-x-0 align-c">
+        <Button
+          clickHandler={clearBoard}
+          data-testid="restart-game-btn"
+          type='ghost'
+          className='margin-auto'
         >
           <img alt="" src={Return} />
           {' '}
           Restart game
-        </button>
+        </Button>
       </div>
     </div>
   );

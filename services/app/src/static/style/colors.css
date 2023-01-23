@@ -2,6 +2,8 @@
   --primary: #3C64B1;
   --success: #2A7305;
 
+  --orange: #9E6B11;
+
   --background: #F3F6FA;
   --light-bg: var(--white);
   --footer-bg-color: #373F41;
@@ -12,4 +14,7 @@
 
   --chess-tile-dark: #B7C0D8;
   --chess-tile-light: #E8EDF9;
+
+  --dark-border: #21212112;
+  --blue-border: #3C64B185;
 }

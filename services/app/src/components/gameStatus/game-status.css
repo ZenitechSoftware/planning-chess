@@ -29,7 +29,7 @@
 /*-----GameInfo.jsx-----*/
 .game-info-row {
   display: flex;
-  border-bottom: 1px solid #21212112;
+  border-bottom: 1px solid var(--dark-border);
 }
 
 .game-info-status{
@@ -46,7 +46,7 @@
 }
 
 .players-skipped-color {
-  color: #9E6B11;
+  color: var(--orange);
 }
 
 .hide > * {

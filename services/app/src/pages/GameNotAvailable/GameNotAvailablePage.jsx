@@ -15,10 +15,12 @@ const GameNotAvailablePage = () => {
     <ErrorPage 
       errorMsg='Something went wrong'
     >
-      <Button 
-        text='Attempt to reconnect'
+      <Button
         clickHandler={onBtnClick}
-      />
+        size='large'
+      >
+        <span className='font-size-m'>Attempt to reconnect</span>
+      </Button>
     </ErrorPage>
   )
 }

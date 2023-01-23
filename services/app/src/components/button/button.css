@@ -1,7 +1,13 @@
-.button {
+.primary-btn {
   background-color: var(--primary);
-  color: var(--white);
-  display: flex;
   border: none;
-  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: var(--primary) !important;
+}
+
+.ghost-btn {
+  color: var(--primary);
+  border: 1px solid var(--blue-border);
 }

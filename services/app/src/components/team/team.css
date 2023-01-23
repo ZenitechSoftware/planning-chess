@@ -1,6 +1,6 @@
 .team-container {
   box-sizing: border-box;
-  border: 1px solid #21212112;
+  border: 1px solid var(--dark-border);
   flex: none;
   order: 1;
   width: 384px;
@@ -62,12 +62,6 @@
   text-align: center;
 }
 
-.team-list-footer button {
-  border: 1px solid #3C64B152;
-  background-color: transparent;
-  color: var(--primary);
-}
-
 .team-list-footer button:disabled {
   cursor: not-allowed;
 }
@@ -78,7 +72,7 @@
 }
 
 .team-list-item-name span {
-  color: #636363;
+  color: var(--secondary-text);
 }
 
 .team-list-voter-score {
@@ -87,6 +81,6 @@
 }
 
 .team-list-voter-skip-score {
-  background: #9E6B11;
+  background: var(--orange);
   color: var(--white);
 }
