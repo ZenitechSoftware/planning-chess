@@ -20,10 +20,11 @@ PlanningChessTooltip.defaultProps = {
   hideArrow: false,
   handleClick: null,
   className: undefined,
+  title: null,
 }
 
 PlanningChessTooltip.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,
