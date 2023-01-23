@@ -7,6 +7,7 @@ import { useChessBoard } from '../hooks/useChessBoard';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
 import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
+import { PieceName } from '../constants/board';
 import { GameState } from '../constants/gameConstants';
 import { useUserContext } from './UserContext';
 
@@ -119,6 +120,11 @@ const ChessBoardContextProvider = ({ children }) => {
     setSelectedItem('');
   };
 
+  const removeFigureFromBoard = () => {
+    setLastTurn(null);
+    setBoard(defaultBoard);
+  }
+
   useEffect(() => {
     if (turns.length) {
       generateFinalBoard(turns);
@@ -135,15 +141,27 @@ const ChessBoardContextProvider = ({ children }) => {
     }
   }, [movedBy]);
 
+  const finishMove = (turn) => {
+    ws.send({
+      type: 'FigureMoved',
+      payload: { ...turn, player: userContext.username, id: currentPlayerId },
+    });
+  };
+
   const placeItemOnBoard = (row, tile, figure) => {
-    if (!finished && selectedItem) {
-      const copyOfBoard = [...board];
+    if (selectedItem === PieceName.SKIP) {
+      return;
+    }
+
+    if (selectedItem) {
+      const copyOfBoard = [...defaultBoard];
       const figureName = figure || selectedItem;
       if (lastTurn) {
         copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
       }
-      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: userContext.username, id: currentPlayerId });
       setLastTurn({ row, tile, figure: selectedItem });
+      finishMove({ row, tile, figure: selectedItem });
+      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: userContext.username, id: currentPlayerId });
       setBoard(copyOfBoard);
     }
   };
@@ -155,15 +173,6 @@ const ChessBoardContextProvider = ({ children }) => {
       setScore(myTurn.score);
     }
   }, [myTurn]);
-
-  const finishMove = () => {
-    if (lastTurn) {
-      ws.send({
-        type: 'FigureMoved',
-        payload: { ...lastTurn, player: userContext.username, id: currentPlayerId },
-      });
-    }
-  };
 
   const clearBoard = () => {
     ws.send({
@@ -180,6 +189,7 @@ const ChessBoardContextProvider = ({ children }) => {
         voters,
         spectators,
         lastTurn,
+        removeFigureFromBoard,
         findUserById,
         score,
         setSelectedItem,

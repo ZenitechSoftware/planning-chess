@@ -3,24 +3,25 @@ import PropTypes from 'prop-types';
 import './chess-board-pieces.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES, PieceName } from '../../constants/board';
-import { PlayerStatuses } from '../../constants/playerConstants';
-
 import ChessBoardPiece from './ChessBoardPiece';
+import { GameState } from '../../constants/gameConstants';
 
 const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
-  const { setSelectedItem, isCurrentPlayerSpectator, currentPlayer } = useChessBoardContext();
+  const { setSelectedItem, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
 
   const selectFigure = (figureName) => {
     if (isCurrentPlayerSpectator) {
       return;
     }
 
-    if (currentPlayer.status === PlayerStatuses.ActionNotTaken) {
-      setSelectedItem(figureName);
+    if (gameState === GameState.GAME_FINISHED) {
+      return;
+    }
 
-      if (figureName === PieceName.SKIP) {
-        skipCurrentPlayerMove();
-      }
+    setSelectedItem(figureName);
+
+    if (figureName === PieceName.SKIP) {
+      skipCurrentPlayerMove();
     }
   };
 

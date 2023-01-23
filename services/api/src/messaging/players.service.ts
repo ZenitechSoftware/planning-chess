@@ -101,12 +101,14 @@ export const moveSkipped: Handler = (
 
   try {
     const [playerConnection, player] = findPlayerById(ws.roomId, userId);
-    if (player.status !== PlayerStatus.ActionNotTaken) {
-      throw new Error(`Player ${userId} cannot skip a move`);
-    }
 
     if (player.role === PlayerRole.Spectator) {
       return;
+    }
+
+    const playerTurn = gameService.findMoveByPlayerId(ws.roomId, userId);
+    if (playerTurn) {
+      gameService.removeTurn(ws.roomId, userId);
     }
 
     logger.info(`Player ${player?.name} skips a move.`);

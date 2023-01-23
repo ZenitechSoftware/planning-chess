@@ -12,6 +12,11 @@ export const figureMoved = (
   if (payload !== null) {
     score = calculateScore(payload);
   }
+
+  if (findMoveByPlayerId(roomId, payload.id)) {
+    removeTurn(roomId, payload.id);
+  }
+
   getTurns(roomId).push({ ...payload, score });
   return getTurns(roomId);
 };
@@ -28,3 +33,9 @@ export const findMoveByPlayerId = (
 
 export const getBoard = (roomId: string): PlaceFigureMessage[] =>
   getTurns(roomId);
+
+export const removeTurn = (roomId: string, playerId: string): void => {
+  const turns = getTurns(roomId);
+  const turnIndex = turns.findIndex(turn => turn.id === playerId);
+  turns.splice(turnIndex, 1);
+};
