@@ -1,5 +1,5 @@
 import React from 'react';
-import './roleSelection.css';
+import './role-selection.css';
 import { PlayerRoles } from '../../constants/playerConstants';
 import RoleSelectionCard from './RoleSelectionCard';
 

@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ChessBoardPieces from './ChessBoardPieces';
 import GameFooterButtons from './GameFooterButtons';
-import './gameFooter.css';
 
 const GameFooterActive = ({ skipCurrentPlayerMove }) => (
   <>
     <p>Complexity | Select and place the figure on the board</p>
-    <ChessBoardPieces />
-    <GameFooterButtons skipCurrentPlayerMove={skipCurrentPlayerMove} />
+    <ChessBoardPieces skipCurrentPlayerMove={skipCurrentPlayerMove} />
+    <GameFooterButtons />
   </>
 );
 

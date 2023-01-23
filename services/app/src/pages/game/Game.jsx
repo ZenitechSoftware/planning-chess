@@ -17,6 +17,7 @@ import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
+import '../../components/gameFooter/game-footer.css';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();

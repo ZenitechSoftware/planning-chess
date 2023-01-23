@@ -1,6 +1,6 @@
 .button {
-  background-color: #3C64B1;
-  color: #FFFFFF;
+  background-color: var(--primary);
+  color: var(--white);
   display: flex;
   border: none;
   cursor: pointer;

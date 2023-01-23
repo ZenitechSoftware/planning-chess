@@ -7,10 +7,12 @@
 }
 
 .piece-field {
-  width: 3.625em;
+  width: 100px;
   flex-direction: column;
   border: 2px solid transparent;
   cursor: pointer;
+  border-radius: 4px;
+  background: none;
 }
 
 .piece-field:hover {
@@ -20,6 +22,10 @@
 .piece-field-selected {
   background-color: var(--chess-tile-light);
   border-color: #6547FD;
+}
+
+.figure-img {
+  height: 50px;
 }
 
 .figure-title {

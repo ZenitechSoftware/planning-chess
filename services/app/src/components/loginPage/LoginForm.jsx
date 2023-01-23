@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import './loginPage.css';
+import './login-page.css';
 import userInputIcon from '../../static/svg/UserInputIcon.svg';
 import { ROUTES } from '../../pages/routes';
 import { useUserContext } from '../../contexts/UserContext';
