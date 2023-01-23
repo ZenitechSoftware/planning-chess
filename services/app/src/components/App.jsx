@@ -9,6 +9,7 @@ import '../static/style/spacing.css';
 import '../static/style/index.css';
 import '../static/style/fonts.css';
 import '../static/style/core.css';
+import '../static/style/colors.css';
 import './planningChessTooltip/planning-chess-tooltip.css';
 import PlanningChessRouter from '../pages/PlanningChessRouter';
 import UserContextProvider from '../contexts/UserContext';

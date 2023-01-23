@@ -1,20 +1,16 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Header from '../../components/header/Header';
-import Footer from '../../components/pageFooter/Footer';
+import Layout from '../../components/pageLayout/Layout';
 import BrokenPieceIllustration from '../../static/svg/BrokenPieceIllustration.svg';
-import './errorPage.css';
 
 const ErrorPage = ({ errorMsg, children }) => (
-  <div className='f-column-between error-screen'>
-    <Header />
-    <div className='margin-auto align-c f-column-between error-page-content'>
+  <Layout className='page-layout-light'>
+    <div className='margin-auto align-c f-column-between'>
       <img src={BrokenPieceIllustration} alt="broken chess icon" className='broken-chess-icon' />
       <p className='weight-800 font-size-xxl'>{errorMsg}</p>
       {children}
     </div>
-    <Footer />
-  </div>
+  </Layout>
 );
 
 ErrorPage.defaultProps = {

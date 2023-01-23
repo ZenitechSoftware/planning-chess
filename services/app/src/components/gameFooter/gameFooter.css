@@ -22,18 +22,17 @@
 }
 
 .finish-btn {
-  background: #3C64B1;
-  color: #FFFFFF;
+  background: var(--primary);
+  color: var(--white);
 }
 
 .finish-btn:disabled {
   cursor: not-allowed;
   background-color: #3C64B13D;
-  color: #FFFFFF;
 }
 
 .skip-btn {
-  color: #3C64B1;
+  color: var(--primary);
   background-color: transparent;
 }
 
@@ -44,8 +43,8 @@
 
 /*-----Game Footer Inactive-----*/
 .copy-btn {
-  background-color: #3C64B1;
-  color: #FFFFFF;
+  background-color: var(--primary);
+  color: var(--white);
   display: flex;
   border: none;
   cursor: pointer;

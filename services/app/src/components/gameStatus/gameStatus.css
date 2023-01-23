@@ -5,16 +5,16 @@
 
 /*-----GameStatus.jsx-----*/
 .game-status-field {
-    color: #FFFFFF;
+    color: var(--white);
     display: flex;
     border-radius: 5px 5px 0 0;
 }
 
 .game-status-in-progress {
-    background-color: #3C64B1;
+  background-color: var(--primary);
 }
 .game-status-completed {
-    background-color: #2A7305;
+    background-color: var(--success);
 }
 
 .game-status-icon {
@@ -42,7 +42,7 @@
 }
 
 .players-done-color {
-    color: #2A7305;
+    color: var(--success);
 }
 
 .players-skipped-color {
