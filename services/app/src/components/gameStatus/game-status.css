@@ -46,7 +46,7 @@
 }
 
 .players-skipped-color {
-  color: #9E6B11;
+  color: var(--orange);
 }
 
 .hide > * {

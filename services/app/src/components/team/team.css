@@ -81,6 +81,6 @@
 }
 
 .team-list-voter-skip-score {
-  background: #9E6B11;
+  background: var(--orange);
   color: var(--white);
 }
