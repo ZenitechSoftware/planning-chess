@@ -1,12 +1,6 @@
-body .ant-tooltip > .ant-tooltip-content > .ant-tooltip-arrow {
+.tooltip-arrow-hidden .ant-tooltip-arrow {
   display: none;
 }
-
-/* .ant-tooltip > .ant-tooltip-content > .ant-tooltip-arrow .custom-tooltip { */
-/* .tooltip-arrow-hidden .ant-tooltip > .ant-tooltip-content > .ant-tooltip-arrow { */
-/* .custom-tooltip .ant-tooltip-arrow { */
-  /* display: none; */
-/* } */
 
 .ant-tooltip .ant-tooltip-inner {
   text-align: center;

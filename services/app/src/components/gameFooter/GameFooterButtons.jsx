@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './gameFooter.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import ExplanatoryTooltip  from '../chessBoard/ExplanatoryTooltip';
 import { GameState } from '../../constants/gameConstants';
+import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 
 const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
   const { finishMove, finished, lastTurn, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
@@ -25,9 +25,9 @@ const GameFooterButtons = ({ skipCurrentPlayerMove }) => {
         disabled={finished || isCurrentPlayerSpectator} 
         onClick={() => skipCurrentPlayerMove()}
       >
-        <ExplanatoryTooltip title="Skips your move. The game continues" placement="right">
+        <PlanningChessTooltip title="Skips your move. The game continues" placement="right">
           <span>Skip Move</span>
-        </ExplanatoryTooltip>
+        </PlanningChessTooltip>
       </button>
     </div>
   )

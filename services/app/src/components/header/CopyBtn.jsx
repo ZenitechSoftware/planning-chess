@@ -12,7 +12,7 @@ const CopyBtn = () => {
   return (
     <PlanningChessTooltip 
       title="Link copied to clipboard" 
-      isArrowNeeded={false}
+      hideArrow
     >
       <Button clickHandler={copyUrl} variant='outlined'>
         <img src={CopyLink} alt="copy link" className="copy-icon" />

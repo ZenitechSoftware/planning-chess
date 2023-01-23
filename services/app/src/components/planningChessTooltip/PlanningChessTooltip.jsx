@@ -4,23 +4,25 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames';
 import { Tooltip } from "antd";
 
-const PlanningChessTooltip = ({ title, isArrowNeeded, children, handleClick }) => (
+const PlanningChessTooltip = ({ className, children, hideArrow, ...rest}) => (
   <Tooltip
-    className={classnames('custom-tooltip', {
-      'tooltip-arrow-hidden': !isArrowNeeded,
-    })}
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...rest}
     open
-    title={title}
-    onClick={handleClick}
+    className='custom-tooltip'
+    overlayClassName={classnames({
+      'tooltip-arrow-hidden': hideArrow,
+    })}
   >
-    <div className='f-center gap-s'>{children}</div>
+    <div className='f-center'>{children}</div>
   </Tooltip>
 )
 
 PlanningChessTooltip.defaultProps = {
   children: null,
-  isArrowNeeded: true,
+  hideArrow: false,
   handleClick: null,
+  className: undefined,
 }
 
 PlanningChessTooltip.propTypes = {
@@ -29,8 +31,9 @@ PlanningChessTooltip.propTypes = {
     PropTypes.node,
     PropTypes.element,
   ]),
-  isArrowNeeded: PropTypes.bool,
+  hideArrow: PropTypes.bool,
   handleClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default PlanningChessTooltip;
