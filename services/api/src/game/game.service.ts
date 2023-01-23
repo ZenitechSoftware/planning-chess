@@ -36,6 +36,6 @@ export const getBoard = (roomId: string): PlaceFigureMessage[] =>
 
 export const removeTurn = (roomId: string, playerId: string): void => {
   const turns = getTurns(roomId);
-  const turnIndex = turns.findIndex(turn => turn.id === playerId);
+  const turnIndex = turns.findIndex((turn) => turn.id === playerId);
   turns.splice(turnIndex, 1);
 };

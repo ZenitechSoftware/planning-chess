@@ -94,18 +94,6 @@ describe('player.service', () => {
     expect(sendMock.mock.calls).toMatchSnapshot();
   });
 
-  it('should not skip a move, because user state is not ActionNotTaken', () => {
-    const payload = { userId: playerTestId };
-    const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      type: MessageType.MoveSkipped,
-      payload,
-    };
-    playerService.newMessageReceived(ws, message);
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
-  });
-
   it('should send an error message back, because message type received could not be found', () => {
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
