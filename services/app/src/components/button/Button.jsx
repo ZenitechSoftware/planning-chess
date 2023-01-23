@@ -1,19 +1,34 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { Button as AntdButton } from 'antd'; 
 import './button.css';
 
-const Button = ({ clickHandler, text }) => (
-  <button type="button" className='button border-r-4 padding-sm gap-s align-c' onClick={clickHandler}>
-    <p className='font-size-m margin-0'>
-      {text}
-    </p>
-  </button>
+const Button = ({ clickHandler, children, variant }) => (
+  <AntdButton
+    type={variant}
+    className={classNames('button border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center align-c', {
+      'outlined-btn': variant === 'outlined',
+      'primary-btn': variant === 'primary',
+    })}
+    onClick={clickHandler}
+  >
+    {children}
+  </AntdButton>
 );
+
+
+Button.defaultProps = {
+  variant: 'primary',
+}
 
 Button.propTypes = {
   clickHandler: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+  ]).isRequired,
+  variant: PropTypes.oneOf(['outlined', 'primary']),
 };
-  
 
 export default Button;

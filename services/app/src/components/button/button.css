@@ -1,7 +1,15 @@
 .button {
+  cursor: pointer;
+}
+
+.primary-btn {
   background-color: #3C64B1;
   color: #FFFFFF;
-  display: flex;
   border: none;
-  cursor: pointer;
+}
+
+.outlined-btn {
+  background-color: transparent;
+  color: #3C64B1;
+  border: 1px solid #3C64B185;
 }
