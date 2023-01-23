@@ -1,5 +1,5 @@
 import React from 'react';
-import './gameStatus.css';
+import './game-status.css';
 import classnames from 'classnames';
 import CheckMark from '../../static/svg/Checkmark.svg';
 import SkippedIcon from '../../static/svg/SkippedIcon.svg';

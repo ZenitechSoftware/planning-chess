@@ -1,5 +1,5 @@
 import React from 'react';
-import './gameFooter.css';
+import './game-footer.css';
 import PropTypes from 'prop-types';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameFooterActive from './GameFooterActive';

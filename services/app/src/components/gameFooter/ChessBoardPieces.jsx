@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './chessBoardPieces.css';
-import classnames from 'classnames';
+import './chess-board-pieces.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import { PIECES } from '../../constants/board';
+import { PIECES, PieceName } from '../../constants/board';
 import { PlayerStatuses } from '../../constants/playerConstants';
-import SkipMoveBtn from './SkipMoveBtn';
+
+import ChessBoardPiece from './ChessBoardPiece';
 
 const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
-  const { setSelectedItem, selectedItem, isCurrentPlayerSpectator, currentPlayer } = useChessBoardContext();
+  const { setSelectedItem, isCurrentPlayerSpectator, currentPlayer } = useChessBoardContext();
 
-  const handleClick = (figureName) => {
+  const selectFigure = (figureName) => {
     if (isCurrentPlayerSpectator) {
       return;
     }
@@ -18,7 +18,7 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
     if (currentPlayer.status === PlayerStatuses.ActionNotTaken) {
       setSelectedItem(figureName);
 
-      if (figureName === 'skip') {
+      if (figureName === PieceName.SKIP) {
         skipCurrentPlayerMove();
       }
     }
@@ -27,34 +27,14 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
   return (
     <div id="chess-pieces-container" className='align-c'>
       {PIECES.map((figure) => (
-        <div
+        <ChessBoardPiece 
           key={figure.name}
-          role="button"
-          data-testid={`${figure.name}-piece-btn`}
-          tabIndex={0}
-          aria-hidden="true"
-          onClick={() => handleClick(figure.name)}
-          className={classnames('piece-field padding-y-s padding-x-m f-center rubik-font', {
-            'piece-field-selected border-r-4': selectedItem === figure.name,
-          })}
-        >
-          <img 
-            src={figure.img} 
-            alt={figure.name} 
-            className={classnames('figure-img', {
-              'skip-icon-style': figure.name === 'skip'
-            })}
-          />
-          <p key={figure.name} className="figure-title font-size-m">
-            {figure.name}
-          </p>
-          <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
-            <p className="figure-strength font-size-xxs weight-700">{figure.strength}</p>
-          </div>
-        </div>
+          figureName={figure.name}
+          figureImg={figure.img}
+          figureStrength={figure.strength}
+          selectFigure={selectFigure}
+        />
       ))}
-
-      <SkipMoveBtn handleClick={handleClick} />
     </div>
   );
 };

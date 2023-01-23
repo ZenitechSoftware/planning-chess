@@ -11,9 +11,14 @@ const ExplanatoryTooltip = ({ title, children, placement }) => (
   </Tooltip>
 );
 
+ExplanatoryTooltip.defaultProps = {
+  title: null,
+  placement: null,
+}
+
 ExplanatoryTooltip.propTypes = {
-  title: PropTypes.string.isRequired,
-  placement: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  placement: PropTypes.string,
   children: PropTypes.element.isRequired,
 };
 

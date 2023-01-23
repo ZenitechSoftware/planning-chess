@@ -1,3 +1,9 @@
+.role-selection-screen {
+  background-color: var(--background);
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
 .role-selection-content {
   width: 55%;
   max-width: 700px;

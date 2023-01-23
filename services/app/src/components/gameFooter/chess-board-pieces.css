@@ -7,20 +7,25 @@
 }
 
 .piece-field {
-  width: 3.625em;
+  width: 100px;
   flex-direction: column;
   border: 2px solid transparent;
   cursor: pointer;
+  border-radius: 4px;
+  background: none;
 }
 
 .piece-field:hover {
-  background-color: var(--chess-tile-light);
-  border-radius: 4px;
+  background-color: var(--chess-tile-light);;
 }
 
 .piece-field-selected {
-  background-color: var(--chess-tile-light);
+  background-color: var(--chess-tile-light);;
   border-color: #6547FD;
+}
+
+.figure-img {
+  height: 50px;
 }
 
 .figure-title {
@@ -40,8 +45,4 @@
 .figure-strength-container p {
   color: var(--white);
   letter-spacing: -0.1px;
-}
-
-.skip-icon-style {
-  width: 50px;
 }

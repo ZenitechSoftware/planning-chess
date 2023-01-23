@@ -11,7 +11,7 @@
 }
 
 .game-status-in-progress {
-  background-color: var(--primary);
+    background-color: var(--primary);
 }
 .game-status-completed {
     background-color: var(--success);
