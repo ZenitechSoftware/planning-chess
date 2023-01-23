@@ -1,18 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Header from './Header';
 import { rgbToColor } from '../../helpers/rgbToColor';
 import './header.css';
-import { useWebSockets } from '../../hooks/useWebSockets';
 import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 
 const GameHeader = () => {
-  const { players, currentPlayerId } = useWebSockets();
-
-  const currentPlayer = useMemo(
-    () => players.find((user) => user.id === currentPlayerId), 
-    [players]
-  );
+  const { currentPlayer } = useChessBoardContext();
 
   const avatarLetter = currentPlayer?.name[0];
 

@@ -10,6 +10,7 @@ import './team.css';
 import { useWebSockets } from '../../hooks/useWebSockets';
 import { GameState } from '../../constants/gameConstants';
 import Button from '../button/Button';
+import '../gameStatus/game-status.css';
 
 const Team = ({ skipMove }) => {
   const { clearBoard, voters, spectators, votersListWithScores, gameState } = useChessBoardContext();
