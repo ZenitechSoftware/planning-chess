@@ -3,7 +3,7 @@
     width: 40%;
     height: 40vh;
     background-color: var(--white);
-    border: 1px solid #21212112;
+    border: 1px solid var(--dark-border);
     padding: 3em 4em;
 }
 

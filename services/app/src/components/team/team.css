@@ -1,6 +1,6 @@
 .team-container {
   box-sizing: border-box;
-  border: 1px solid #21212112;
+  border: 1px solid var(--dark-border);
   flex: none;
   order: 1;
   width: 384px;
@@ -72,7 +72,7 @@
 }
 
 .team-list-item-name span {
-  color: #636363;
+  color: var(--secondary-text);
 }
 
 .team-list-voter-score {

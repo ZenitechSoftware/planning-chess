@@ -9,5 +9,5 @@
 
 .ghost-btn {
   color: var(--primary);
-  border: 1px solid #3C64B185;
+  border: 1px solid var(--blue-border);
 }

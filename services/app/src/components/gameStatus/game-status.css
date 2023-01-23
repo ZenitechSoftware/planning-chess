@@ -29,7 +29,7 @@
 /*-----GameInfo.jsx-----*/
 .game-info-row {
   display: flex;
-  border-bottom: 1px solid #21212112;
+  border-bottom: 1px solid var(--dark-border);
 }
 
 .game-info-status{

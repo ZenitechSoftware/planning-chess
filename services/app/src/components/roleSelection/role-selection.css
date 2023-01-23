@@ -16,7 +16,7 @@
 .role-selection-btn {
   background-color: var(--white);
   width: 45%;
-  border: 1px solid #2121211F;
+  border: 1px solid var(--dark-border);
   text-align: center;
 }
 

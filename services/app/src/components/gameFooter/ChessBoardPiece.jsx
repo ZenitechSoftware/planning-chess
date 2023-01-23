@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './chess-board-pieces.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import ExplanatoryTooltip from '../tooltip/ExplanatoryTooltip';
+import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 
 const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength }) => {
@@ -12,7 +12,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength }
   const skipTooltipTxt = "Mark my move as complete, without any story points";
 
   return (
-    <ExplanatoryTooltip 
+    <PlanningChessTooltip 
       title={figureName === PieceName.SKIP ? skipTooltipTxt : null}
       placement="top"
     >
@@ -36,7 +36,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength }
           <p className="figure-strength font-size-xxs weight-700">{figureStrength}</p>
         </div>
       </button>
-    </ExplanatoryTooltip>
+    </PlanningChessTooltip>
   );
 }
 
