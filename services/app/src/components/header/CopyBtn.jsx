@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './header.css';
+import { TOOLTIP_TIMEOUT } from '../../constants/appConstants';
 import Button from '../button/Button';
 import CopyLink from "../../static/svg/CopyLink.svg";
 import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
@@ -10,11 +11,20 @@ const CopyBtn = () => {
   const copyUrl = () => {
     navigator.clipboard.writeText(window.location.href);
     setIsCopyTooltipOpen(true);
-
-    setTimeout(() => {
-      setIsCopyTooltipOpen(false);
-    }, 2000)
   };
+
+  useEffect(() => {
+    let timeout;
+    if (isCopyTooltipOpen) {
+      timeout = setTimeout(() => {
+        setIsCopyTooltipOpen(false);
+      }, TOOLTIP_TIMEOUT);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [isCopyTooltipOpen]);
 
   return (
     <PlanningChessTooltip 
@@ -22,7 +32,7 @@ const CopyBtn = () => {
       hideArrow
       open={isCopyTooltipOpen}
     >
-      <Button clickHandler={copyUrl} variant='outlined'>
+      <Button clickHandler={copyUrl} type='ghost'>
         <img src={CopyLink} alt="copy link" className="copy-icon" />
         <span>Copy Link</span>
       </Button>

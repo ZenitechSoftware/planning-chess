@@ -1,15 +1,13 @@
-.button {
-  cursor: pointer;
-}
-
 .primary-btn {
   background-color: var(--primary);
-  color: var(--white);
   border: none;
 }
 
-.outlined-btn {
-  background-color: transparent;
+.primary-btn:hover {
+  background-color: var(--primary) !important;
+}
+
+.ghost-btn {
   color: var(--primary);
   border: 1px solid #3C64B185;
 }

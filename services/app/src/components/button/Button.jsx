@@ -4,13 +4,14 @@ import classNames from 'classnames';
 import { Button as AntdButton } from 'antd'; 
 import './button.css';
 
-const Button = ({ clickHandler, children, variant, isDisabled, className }) => (
+const Button = ({ size, clickHandler, children, type, isDisabled, className }) => (
   <AntdButton
     disabled={isDisabled}
-    type={variant}
-    className={classNames('button border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center align-c', className, {
-      'outlined-btn': variant === 'outlined',
-      'primary-btn': variant === 'primary',
+    type={type}
+    size={size}
+    className={classNames('border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center', className, {
+      'ghost-btn': type === 'ghost',
+      'primary-btn': type === 'primary',
     })}
     onClick={clickHandler}
   >
@@ -20,9 +21,10 @@ const Button = ({ clickHandler, children, variant, isDisabled, className }) => (
 
 
 Button.defaultProps = {
-  variant: 'primary',
+  type: 'primary',
   isDisabled: false,
   className: undefined,
+  size: 'default',
 }
 
 Button.propTypes = {
@@ -31,9 +33,10 @@ Button.propTypes = {
     PropTypes.node,
     PropTypes.element,
   ]).isRequired,
-  variant: PropTypes.oneOf(['outlined', 'primary']),
+  type: PropTypes.oneOf(['ghost', 'primary']),
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
+  size: PropTypes.oneOf(['large', 'small', 'default']),
 };
 
 export default Button;

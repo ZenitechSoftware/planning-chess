@@ -57,7 +57,7 @@ const Team = ({ skipMove }) => {
         <Button
           clickHandler={clearBoard}
           data-testid="restart-game-btn"
-          variant='outlined'
+          type='ghost'
           className='margin-auto'
         >
           <img alt="" src={Return} />

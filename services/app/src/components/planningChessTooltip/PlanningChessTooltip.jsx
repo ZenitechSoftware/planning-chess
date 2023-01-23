@@ -11,7 +11,7 @@ const PlanningChessTooltip = ({ className, children, hideArrow, ...rest}) => (
       'tooltip-arrow-hidden': hideArrow,
     })}
   >
-    <div className='f-center'>{children}</div>
+    {children}
   </Tooltip>
 )
 

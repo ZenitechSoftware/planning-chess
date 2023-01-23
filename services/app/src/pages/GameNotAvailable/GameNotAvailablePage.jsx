@@ -17,8 +17,9 @@ const GameNotAvailablePage = () => {
     >
       <Button
         clickHandler={onBtnClick}
+        size='large'
       >
-        <span>Attempt to reconnect</span>
+        <span className='font-size-m'>Attempt to reconnect</span>
       </Button>
     </ErrorPage>
   )
