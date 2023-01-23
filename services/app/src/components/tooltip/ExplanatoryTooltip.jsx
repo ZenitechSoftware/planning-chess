@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'antd';
+import { TooltipPlacements } from '../../constants/tooltipPlacements';
 
 const ExplanatoryTooltip = ({ title, children, placement }) => (
   <Tooltip
@@ -18,7 +19,7 @@ ExplanatoryTooltip.defaultProps = {
 
 ExplanatoryTooltip.propTypes = {
   title: PropTypes.string,
-  placement: PropTypes.string,
+  placement: PropTypes.oneOf(TooltipPlacements),
   children: PropTypes.element.isRequired,
 };
 
