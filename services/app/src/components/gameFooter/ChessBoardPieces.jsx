@@ -4,17 +4,12 @@ import './chess-board-pieces.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES, PieceName } from '../../constants/board';
 import ChessBoardPiece from './ChessBoardPiece';
-import { GameState } from '../../constants/gameConstants';
 
 const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
-  const { setSelectedItem, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
+  const { setSelectedItem, isCurrentPlayerSpectator } = useChessBoardContext();
 
   const selectFigure = (figureName) => {
     if (isCurrentPlayerSpectator) {
-      return;
-    }
-
-    if (gameState === GameState.GAME_FINISHED) {
       return;
     }
 

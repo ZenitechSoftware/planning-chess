@@ -1,6 +1,7 @@
 import { PlaceFigureMessage } from '../domain/messages';
 import { calculateScore } from '../helpers/calculate-score';
 import * as gameService from './game-room.service';
+import logger from '../logger';
 
 const getTurns = (id: string) => gameService.getTurns(id);
 
@@ -36,6 +37,15 @@ export const getBoard = (roomId: string): PlaceFigureMessage[] =>
 
 export const removeTurn = (roomId: string, playerId: string): void => {
   const turns = getTurns(roomId);
-  const turnIndex = turns.findIndex((turn) => turn.id === playerId);
-  turns.splice(turnIndex, 1);
+  try {
+    const turnIndex = turns.findIndex((turn) => turn.id === playerId);
+    if (turnIndex < 0) {
+      throw new Error(`Player with ${playerId} id move could not be found`);
+    }
+    const copyOfTurns = [...turns];
+    copyOfTurns.splice(turnIndex, 1);
+    turns.splice(0, turns.length, ...copyOfTurns);
+  } catch (err) {
+    logger.error(err?.message);
+  }
 };

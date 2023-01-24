@@ -11,25 +11,25 @@
 .padding-l { padding: 20px }
 .padding-xxl { padding: 32px }
 
-.padding-x-0 { padding-left: 0px; padding-right: 0px }
+.padding-x-0 { padding-left: 0px; padding-right: 0px; }
 .padding-x-xxs { padding-left: 2px; padding-right: 2px; }
 .padding-x-xs { padding-left: 4px; padding-right: 4px; }
-.padding-x-s { padding-left: 8px; padding-right: 8px }
-.padding-x-sm { padding-left: 12px; padding-right: 12px }
-.padding-x-m { padding-left: 16px; padding-right: 16px }
-.padding-x-l { padding-left: 20px; padding-right: 20px }
-.padding-x-xl { padding-left: 24px; padding-right: 24px }
-.padding-x-xxl { padding-left: 32px; padding-right: 32px }
+.padding-x-s { padding-left: 8px; padding-right: 8px; }
+.padding-x-sm { padding-left: 12px; padding-right: 12px; }
+.padding-x-m { padding-left: 16px; padding-right: 16px; }
+.padding-x-l { padding-left: 20px; padding-right: 20px; }
+.padding-x-xl { padding-left: 24px; padding-right: 24px; }
+.padding-x-xxl { padding-left: 32px; padding-right: 32px; }
 
-.padding-y-0 { padding-top: 0px; padding-bottom: 0px }
-.padding-y-xxs { padding-top: 2px; padding-bottom: 2px }
-.padding-y-xs { padding-top: 4px; padding-bottom: 4px }
-.padding-y-s { padding-top: 8px; padding-bottom: 8px }
-.padding-y-sm { padding-top: 12px; padding-bottom: 12px }
-.padding-y-m { padding-top: 16px; padding-bottom: 16px }
-.padding-y-l { padding-top: 20px; padding-bottom: 20px }
-.padding-y-xl { padding-top: 24px; padding-bottom: 24px }
-.padding-y-xxl { padding-top: 32px; padding-bottom: 32px }
+.padding-y-0 { padding-top: 0px; padding-bottom: 0px; }
+.padding-y-xxs { padding-top: 2px; padding-bottom: 2px; }
+.padding-y-xs { padding-top: 4px; padding-bottom: 4px; }
+.padding-y-s { padding-top: 8px; padding-bottom: 8px; }
+.padding-y-sm { padding-top: 12px; padding-bottom: 12px; }
+.padding-y-m { padding-top: 16px; padding-bottom: 16px; }
+.padding-y-l { padding-top: 20px; padding-bottom: 20px; }
+.padding-y-xl { padding-top: 24px; padding-bottom: 24px; }
+.padding-y-xxl { padding-top: 32px; padding-bottom: 32px; }
 
 .padding-r-0 { padding-right: 0px }
 .padding-r-s { padding-right: 8px }
