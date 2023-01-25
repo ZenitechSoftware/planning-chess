@@ -2,7 +2,6 @@
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {calculateAverage,roundUp} from "@planning-chess/shared";
-import { getPieceScore } from '../helpers/getPieceScore';
 import { useChessBoard } from '../hooks/useChessBoard';
 import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
@@ -21,7 +20,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const [selectedItem, setSelectedItem] = useState('');
   const userContext = useUserContext();
 
-  const { board, setBoard, defaultBoard } = useChessBoard();
+  const chessBoard = useChessBoard();
   const [lastTurn, setLastTurn] = useState(null);
   const [score, setScore] = useState(0);
   const [globalScore, setGlobalScore] = useState(0);
@@ -98,7 +97,7 @@ const ChessBoardContextProvider = ({ children }) => {
   }, [turns, gameState, voters]);
 
   const generateFinalBoard = (finalTurns) => {
-    const copyOfBoard = [...defaultBoard];
+    const copyOfBoard = [...chessBoard.defaultBoard];
     const gameScore = [];
     finalTurns.forEach((turn) => {
       if ((gameState === GameState.GAME_IN_PROGRESS && turn.id === currentPlayerId) || gameState === GameState.GAME_FINISHED)
@@ -111,20 +110,20 @@ const ChessBoardContextProvider = ({ children }) => {
     } else {
       setGlobalScore(roundUp(avg))
     }
-    setBoard(copyOfBoard);
+    chessBoard.setBoard(copyOfBoard);
   };
 
   const clearBoardItems = () => {
     setScore(0);
     setGlobalScore(0);
-    setBoard(defaultBoard);
+    chessBoard.clearChessBoard();
     setLastTurn(null);
     setSelectedItem('');
   };
 
   const removeFigureFromBoard = () => {
     setLastTurn(null);
-    setBoard(defaultBoard);
+    chessBoard.setBoard(chessBoard.defaultBoard);
   }
 
   useEffect(() => {
@@ -155,15 +154,20 @@ const ChessBoardContextProvider = ({ children }) => {
     }
 
     if (selectedItem) {
-      const copyOfBoard = [...defaultBoard];
       const figureName = figure || selectedItem;
+
       if (lastTurn) {
-        copyOfBoard[lastTurn.row][lastTurn.tile].items.length = 0;
+        chessBoard.clearChessBoardTile(lastTurn.row, lastTurn.tile);
       }
       setLastTurn({ row, tile, figure: selectedItem });
       finishMove({ row, tile, figure: selectedItem });
-      copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: userContext.username, id: currentPlayerId });
-      setBoard(copyOfBoard);
+      chessBoard.insertFigureIntoBoard({
+        row,
+        tile,
+        figureName,
+        playerId: currentPlayerId,
+        playerName: userContext.username,
+      });
     }
   };
 
@@ -194,7 +198,7 @@ const ChessBoardContextProvider = ({ children }) => {
         setSelectedItem,
         selectedItem,
         placeItemOnBoard,
-        board,
+        board: chessBoard.board,
         finishMove,
         clearBoard,
         finished,
