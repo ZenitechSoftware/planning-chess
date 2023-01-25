@@ -1,9 +1,10 @@
 import { PlaceFigureMessage } from '../domain/messages';
 import { calculateScore } from '../helpers/calculate-score';
-import * as gameService from './game-room.service';
+import * as gameRoomService from './game-room.service';
 import logger from '../logger';
 
-const getTurns = (id: string) => gameService.getTurns(id);
+export const playerHasMove = (roomId: string, playerId: string): boolean =>
+  Boolean(findMoveByPlayerId(roomId, playerId));
 
 export const figureMoved = (
   roomId: string,
@@ -14,37 +15,35 @@ export const figureMoved = (
     score = calculateScore(payload);
   }
 
-  if (findMoveByPlayerId(roomId, payload.id)) {
+  if (playerHasMove(roomId, payload.id)) {
     removeTurn(roomId, payload.id);
   }
 
-  getTurns(roomId).push({ ...payload, score });
-  return getTurns(roomId);
+  gameRoomService.getTurns(roomId).push({ ...payload, score });
+  return gameRoomService.getTurns(roomId);
 };
 
 export const clearBoard = (roomId: string): void => {
-  getTurns(roomId).length = 0;
+  gameRoomService.getTurns(roomId).length = 0;
 };
 
 export const findMoveByPlayerId = (
   roomId: string,
   id: string,
 ): PlaceFigureMessage | undefined =>
-  getTurns(roomId).find((turn) => turn.id === id);
+  gameRoomService.getTurns(roomId).find((turn) => turn.id === id);
 
 export const getBoard = (roomId: string): PlaceFigureMessage[] =>
-  getTurns(roomId);
+  gameRoomService.getTurns(roomId);
 
 export const removeTurn = (roomId: string, playerId: string): void => {
-  const turns = getTurns(roomId);
+  const turns = gameRoomService.getTurns(roomId);
   try {
     const turnIndex = turns.findIndex((turn) => turn.id === playerId);
     if (turnIndex < 0) {
       throw new Error(`Player with ${playerId} id move could not be found`);
     }
-    const copyOfTurns = [...turns];
-    copyOfTurns.splice(turnIndex, 1);
-    turns.splice(0, turns.length, ...copyOfTurns);
+    turns.splice(turnIndex, 1);
   } catch (err) {
     logger.error(err?.message);
   }

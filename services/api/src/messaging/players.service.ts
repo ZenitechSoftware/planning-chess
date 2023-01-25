@@ -106,8 +106,7 @@ export const moveSkipped: Handler = (
       return;
     }
 
-    const playerTurn = gameService.findMoveByPlayerId(ws.roomId, userId);
-    if (playerTurn) {
+    if (gameService.playerHasMove(ws.roomId, userId)) {
       gameService.removeTurn(ws.roomId, userId);
     }
 
@@ -148,7 +147,7 @@ export const playerConnected: Handler = (
     name: playerName,
     color: getPlayerAvatarColor(),
     role: newPlayerRole,
-    status: gameService.findMoveByPlayerId(ws.roomId, newPlayerId)
+    status: gameService.playerHasMove(ws.roomId, newPlayerId)
       ? PlayerStatus.FigurePlaced
       : PlayerStatus.ActionNotTaken,
   };

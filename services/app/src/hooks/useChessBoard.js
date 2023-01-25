@@ -27,14 +27,29 @@ export const useChessBoard = () => {
 
   const clearChessBoardTile = (row, tile) => {
     const copyOfBoard = [...board];
-    copyOfBoard[row][tile].items.length = 0;
+    copyOfBoard[row][tile].items = [];
     setBoard(copyOfBoard);
   }
 
   const insertFigureIntoBoard = ({ row, tile, figureName, playerId, playerName }) => {
     const copyOfBoard = [...defaultBoard];
-    copyOfBoard[row][tile].items.push({ figure: figureName, score: getPieceScore(figureName), player: playerName, id: playerId });
-    setBoard([...copyOfBoard]);
+    copyOfBoard[row][tile].items.push({ 
+      row,
+      tile,
+      figure: figureName, 
+      score: getPieceScore(figureName), 
+      player: playerName, 
+      id: playerId 
+    });
+    setBoard(copyOfBoard);
+  };
+
+  const insertAllTurnsIntoBoard = (turns) => {
+    const copyOfBoard = [...defaultBoard];
+    turns.forEach(turn => {
+      copyOfBoard[turn.row][turn.tile].items.push(turn);
+    });
+    setBoard(copyOfBoard);
   }
 
   return { 
@@ -44,5 +59,6 @@ export const useChessBoard = () => {
     insertFigureIntoBoard, 
     clearChessBoardTile, 
     clearChessBoard,
+    insertAllTurnsIntoBoard,
   };
 };
