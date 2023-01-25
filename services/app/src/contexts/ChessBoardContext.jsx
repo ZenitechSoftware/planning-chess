@@ -10,6 +10,8 @@ import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants";
 import { PieceName } from '../constants/board';
 import { GameState } from '../constants/gameConstants';
 import { useUserContext } from './UserContext';
+import { buildPlayerFigureMovedMessage } from '../api/playerApi';
+import { buildClearBoardMessage } from '../api/appApi';
 
 export const ChessBoardContext = createContext();
 
@@ -142,10 +144,9 @@ const ChessBoardContextProvider = ({ children }) => {
   }, [movedBy]);
 
   const finishMove = (turn) => {
-    ws.send({
-      type: 'FigureMoved',
-      payload: { ...turn, player: userContext.username, id: currentPlayerId },
-    });
+    ws.send(
+      buildPlayerFigureMovedMessage({ ...turn, player: userContext.username, id: currentPlayerId })
+    )
   };
 
   const placeItemOnBoard = (row, tile, figure) => {
@@ -167,7 +168,7 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (myTurn && myTurn.player === userContext.username) {
+    if (myTurn) {
       const { row, tile, figure } = myTurn;
       placeItemOnBoard(row, tile, figure);
       setScore(myTurn.score);
@@ -175,9 +176,7 @@ const ChessBoardContextProvider = ({ children }) => {
   }, [myTurn]);
 
   const clearBoard = () => {
-    ws.send({
-      type: 'ClearBoard',
-    });
+    ws.send(buildClearBoardMessage());
     setLastTurn(null);
   };
 

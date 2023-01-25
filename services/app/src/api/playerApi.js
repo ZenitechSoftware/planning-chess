@@ -9,3 +9,8 @@ export const buildPlayerConnectedEventMessage = (playerName, id, role) => ({
   type: PLAYER_EVENT_TYPES.PLAYER_CONNECTED,
   payload: { playerName, id, role },
 });
+
+export const buildPlayerFigureMovedMessage = (turn) => ({
+  type: PLAYER_EVENT_TYPES.FIGURE_MOVED,
+  payload: turn,
+})
