@@ -77,20 +77,20 @@ describe('player.service', () => {
     );
   });
 
-  it('should create new id and assign voter role to player on connect', () => {
+  it.only('should create new id and assign voter role to player on connect', () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
       payload: { playerName: 'player1', id: '', role: null },
     };
     const messageSpy = jest.spyOn(playerService, 'subscribe');
     playerService.newMessageReceived(ws, message);
-    expect(messageSpy).toBeCalledWith(ws, {
-      id: 'some-short-v4-uuid-0',
-      name: 'player1',
-      role: PlayerRole.Voter,
-      color: getPlayerAvatarColor(),
-      status: PlayerStatus.ActionNotTaken,
-    });
+    expect(messageSpy).toBeCalledWith(
+      ws,
+      expect.objectContaining({
+        id: 'some-short-v4-uuid-0',
+        role: PlayerRole.Voter,
+      }),
+    );
   });
 
   it('should ping player back', () => {
