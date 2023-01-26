@@ -24,6 +24,10 @@
   border-color: #6547FD;
 }
 
+.piece-field.disabled {
+  cursor: not-allowed;
+}
+
 .figure-img {
   height: 50px;
 }

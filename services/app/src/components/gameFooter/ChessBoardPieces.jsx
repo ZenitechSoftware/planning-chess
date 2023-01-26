@@ -13,10 +13,6 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
     if (isCurrentPlayerSpectator) {
       return;
     }
-
-    if (gameState !== GameState.GAME_IN_PROGRESS) {
-      return;
-    }
     
     setSelectedItem(figureName);
 
@@ -34,6 +30,7 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
           figureImg={figure.img}
           figureStrength={figure.strength}
           selectFigure={selectFigure}
+          disabled={gameState !== GameState.GAME_IN_PROGRESS}
         />
       ))}
     </div>
