@@ -77,7 +77,7 @@ describe('player.service', () => {
     );
   });
 
-  it.only('should create new id and assign voter role to player on connect', () => {
+  it('should create new id and assign voter role to player on connect', () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
       payload: { playerName: 'player1', id: '', role: null },
@@ -102,6 +102,12 @@ describe('player.service', () => {
     const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
     playerService.newMessageReceived(ws, message);
     expect(sendMessageSpy).toHaveBeenCalledWith(ws, MessageType.Pong);
+  });
+
+  it('should set player status to ActionNotTaken on connection', () => {
+    voterConnect();
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.ActionNotTaken);
   });
 
   it('should mark player status as FigurePlaced after he makes a move', () => {
