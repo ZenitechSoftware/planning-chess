@@ -3,24 +3,21 @@ import PropTypes from 'prop-types';
 import './chess-board-pieces.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { PIECES, PieceName } from '../../constants/board';
-import { PlayerStatuses } from '../../constants/playerConstants';
-
 import ChessBoardPiece from './ChessBoardPiece';
+import { GameState } from '../../constants/gameConstants';
 
 const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
-  const { setSelectedItem, isCurrentPlayerSpectator, currentPlayer } = useChessBoardContext();
+  const { setSelectedItem, isCurrentPlayerSpectator, gameState } = useChessBoardContext();
 
   const selectFigure = (figureName) => {
     if (isCurrentPlayerSpectator) {
       return;
     }
+    
+    setSelectedItem(figureName);
 
-    if (currentPlayer.status === PlayerStatuses.ActionNotTaken) {
-      setSelectedItem(figureName);
-
-      if (figureName === PieceName.SKIP) {
-        skipCurrentPlayerMove();
-      }
+    if (figureName === PieceName.SKIP) {
+      skipCurrentPlayerMove();
     }
   };
 
@@ -33,6 +30,7 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
           figureImg={figure.img}
           figureStrength={figure.strength}
           selectFigure={selectFigure}
+          disabled={gameState !== GameState.GAME_IN_PROGRESS}
         />
       ))}
     </div>

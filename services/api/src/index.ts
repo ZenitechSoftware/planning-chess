@@ -31,7 +31,6 @@ server.on('upgrade', (req, socket, head) => {
     });
     ws.on('close', () => {
       playersService.unsubscribe(ws);
-      playersService.playerDisconnected(ws);
       gameRoomService.cleanUp();
     });
   });

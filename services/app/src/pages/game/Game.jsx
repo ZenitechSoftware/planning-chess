@@ -21,10 +21,9 @@ import '../../components/gameFooter/game-footer.css';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();
-
   const { isAnotherSessionActive } = useWebSockets();
   const { ws, openWsConnection } = useWsContext();
-  const { currentPlayer } = useChessBoardContext();
+  const { currentPlayer, lastTurn, removeFigureFromBoard } = useChessBoardContext();
 
   useEffect(() => {
     openWsConnection({
@@ -42,8 +41,12 @@ const Game = () => {
   }, [ws]);
 
   const skipCurrentPlayerMove = useCallback(() => {
+    if (lastTurn) {
+      removeFigureFromBoard();
+    }
+
     skipMove(currentPlayer?.id);
-  }, [skipMove, currentPlayer]);
+  }, [skipMove, currentPlayer, lastTurn]);
 
   return (
     <div>

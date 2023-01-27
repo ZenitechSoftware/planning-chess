@@ -6,10 +6,16 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 
-const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength }) => {
+const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, disabled }) => {
   const { selectedItem } = useChessBoardContext();
 
   const skipTooltipTxt = "Mark my move as complete, without any story points";
+
+  const onSelect = () => {
+    if (!disabled) {
+      selectFigure(figureName)
+    }
+  }
 
   return (
     <PlanningChessTooltip 
@@ -19,9 +25,11 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength }
       <button
         type="button"
         data-testid={`${figureName}-piece-btn`} 
-        onClick={() => selectFigure(figureName)}
+        onClick={() => onSelect()}
         className={classnames('piece-field padding-y-s padding-x-m f-center rubik-font', {
           'piece-field-selected': selectedItem === figureName,
+          // disabling with class, because antd appends unnecessary spam around the button when its disabled
+          'disabled': disabled,
         })}
       >
         <img 
@@ -45,6 +53,7 @@ ChessBoardPiece.propTypes = {
   figureName: PropTypes.string.isRequired,
   figureImg: PropTypes.string.isRequired,
   figureStrength: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default ChessBoardPiece

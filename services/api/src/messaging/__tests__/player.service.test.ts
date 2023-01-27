@@ -4,68 +4,54 @@ import {
   MessageType,
   PlaceFigureMessage,
   ReceivedMessage,
-  PlayerConnectedMessage,
+  MoveSkippedMessage,
 } from '../../domain/messages';
 import { PlayerStatus, PlayerRole } from '../../domain/player';
-import * as gameService from '../../game/game.service';
 import * as gameRoomService from '../../game/game-room.service';
-import { GameWebSocket } from '../../domain/GameRoom';
-import { getPlayerAvatarColor } from '../../helpers/player-avatar-color';
+import { voterConnect, spectatorConnect } from '../../testUtils/connectPlayer';
+import { ws } from '../../testUtils/wsConnection';
 
 jest.mock('ws');
 jest.mock('uuid', () => ({
   v4: () => 'some-short-v4-uuid-0',
 }));
-jest.mock('../../game/game.service');
 
 describe('player.service', () => {
   const roomId = 'abcd-1234';
-  const playerTestId = 'some-short-v4-uuid-0';
-  const ws: GameWebSocket = new WebSocket('') as GameWebSocket;
-  ws.roomId = roomId;
+  const playerTestId = 'some-short-v4-uuid-1';
+  const spectatorTestId = 'some-short-v4-uuid-2';
+
+  const testTurn: PlaceFigureMessage = {
+    row: 1,
+    tile: 1,
+    figure: 'rock',
+    player: 'player1',
+    id: playerTestId,
+    score: 1,
+  };
 
   beforeAll(() => {
     gameRoomService.getOrCreateRoom(roomId);
     jest.spyOn(global.Math, 'random').mockReturnValue(1);
     Object.defineProperty(ws, 'readyState', { value: WebSocket.OPEN });
-    playerService.subscribe(ws, {
-      id: 'testId',
-      name: 'player1',
-      color: getPlayerAvatarColor(),
-      status: PlayerStatus.ActionNotTaken,
-      role: PlayerRole.Voter,
-    });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  afterAll(() => {
+    playerService.resetGame(ws);
     playerService.unsubscribe(ws);
   });
 
-  it('should join a new player', () => {
-    const message: ReceivedMessage<MessageType.PlayerConnected> = {
-      type: MessageType.PlayerConnected,
-      payload: { playerName: 'foo', id: playerTestId, role: PlayerRole.Voter },
-    };
-
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock.mock.calls).toMatchSnapshot();
+  it('should join new player', () => {
+    voterConnect();
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player).toBeDefined();
   });
 
   it('should not join the game, because another session is active', () => {
     const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
-    const playerConnectedMessagePayload: PlayerConnectedMessage = {
-      playerName: 'foo',
-      id: playerTestId,
-      role: PlayerRole.Voter,
-    };
-
-    playerService.playerConnected(ws, playerConnectedMessagePayload);
-    playerService.playerConnected(ws, playerConnectedMessagePayload);
+    voterConnect();
+    voterConnect();
 
     expect(sendMessageSpy).toHaveBeenCalledWith(
       ws,
@@ -73,7 +59,24 @@ describe('player.service', () => {
     );
   });
 
+  it('should create new id and assign voter role to player on connect', () => {
+    const message: ReceivedMessage<MessageType.PlayerConnected> = {
+      type: MessageType.PlayerConnected,
+      payload: { playerName: 'player1', id: '', role: null },
+    };
+    const messageSpy = jest.spyOn(playerService, 'subscribe');
+    playerService.newMessageReceived(ws, message);
+    expect(messageSpy).toBeCalledWith(
+      ws,
+      expect.objectContaining({
+        id: 'some-short-v4-uuid-0',
+        role: PlayerRole.Voter,
+      }),
+    );
+  });
+
   it('should ping player back', () => {
+    voterConnect();
     const message: ReceivedMessage<MessageType.Ping> = {
       type: MessageType.Ping,
     };
@@ -83,121 +86,138 @@ describe('player.service', () => {
     expect(sendMessageSpy).toHaveBeenCalledWith(ws, MessageType.Pong);
   });
 
-  it('should skip a move for a player', () => {
-    const payload = { userId: playerTestId };
-    const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      type: MessageType.MoveSkipped,
-      payload,
-    };
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock.mock.calls).toMatchSnapshot();
+  it('should set player status to ActionNotTaken on connection', () => {
+    voterConnect();
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.ActionNotTaken);
   });
 
-  it('should not skip a move, because user state is not ActionNotTaken', () => {
-    const payload = { userId: playerTestId };
-    const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      type: MessageType.MoveSkipped,
-      payload,
-    };
-    playerService.newMessageReceived(ws, message);
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMock).not.toBeCalled();
-  });
-
-  it('should send an error message back, because message type received could not be found', () => {
-    const message: ReceivedMessage<MessageType.MoveSkipped> = {
-      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-      //@ts-ignore
-      type: 'InvalidMessageType',
-    };
-
-    playerService.newMessageReceived(ws, message);
-    const errorMessageSpy = jest.spyOn(playerService, 'errorHandler');
-    expect(errorMessageSpy).not.toBeCalled();
-  });
-
-  it('should set a turn if user`s move already exists', () => {
-    const turnValue: PlaceFigureMessage = {
-      row: 2,
-      tile: 5,
-      figure: 'rook',
-      player: 'player1',
-      id: playerTestId,
-      score: 8,
-    };
-
-    jest.spyOn(gameService, 'findMoveByPlayerId').mockReturnValue(turnValue);
-
-    const playerConnectedPayload = {
-      playerName: 'player1',
-      id: playerTestId,
-      role: PlayerRole.Voter,
-    };
-
-    const message: ReceivedMessage<MessageType.PlayerConnected> = {
-      type: MessageType.PlayerConnected,
-      payload: playerConnectedPayload,
-    };
-
-    playerService.unsubscribe(ws);
-    const sendMessageSpy = jest.spyOn(playerService, 'sendMessage');
-    playerService.newMessageReceived(ws, message);
-    expect(sendMessageSpy).toHaveBeenCalledWith(
-      ws,
-      MessageType.SetMyTurn,
-      turnValue,
-    );
-  });
-
-  it('should move a chess figure', () => {
-    const payload = {
-      row: 2,
-      tile: 5,
-      figure: 'rook',
-      player: 'player1',
-      id: playerTestId,
-      score: 8,
-    };
-
+  it('should mark player status as FigurePlaced after he makes a move', () => {
+    voterConnect();
     const message: ReceivedMessage<MessageType.FigureMoved> = {
       type: MessageType.FigureMoved,
+      payload: testTurn,
+    };
+    playerService.newMessageReceived(ws, message);
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.FigurePlaced);
+  });
+
+  it('should set player status to FigurePlaced after he re-logs after making a move ', () => {
+    voterConnect();
+    const message: ReceivedMessage<MessageType.FigureMoved> = {
+      type: MessageType.FigureMoved,
+      payload: testTurn,
+    };
+    playerService.newMessageReceived(ws, message);
+    playerService.unsubscribe(ws);
+    voterConnect();
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.FigurePlaced);
+  });
+
+  it('should mark player status to MoveSkipped after he skips a move', () => {
+    voterConnect();
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload: { userId: playerTestId },
+    };
+    playerService.newMessageReceived(ws, message);
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.MoveSkipped);
+  });
+
+  it('should change player status from ActionTaken to MoveSkipped', () => {
+    voterConnect();
+    const moveMessage: ReceivedMessage<MessageType.FigureMoved> = {
+      type: MessageType.FigureMoved,
+      payload: testTurn,
+    };
+    playerService.newMessageReceived(ws, moveMessage);
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.FigurePlaced);
+
+    const skipMessage: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload: { userId: playerTestId },
+    };
+    playerService.newMessageReceived(ws, skipMessage);
+    const playerAfterSkip = playerService.findPlayerById(roomId, playerTestId);
+    expect(playerAfterSkip[1].status).toBe(PlayerStatus.MoveSkipped);
+  });
+
+  it('should send an error message, because spectator tried to skip his move', () => {
+    spectatorConnect();
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload: { userId: spectatorTestId },
+    };
+    playerService.newMessageReceived(ws, message);
+  });
+
+  it('should not skip a move, because player does not exist', () => {
+    voterConnect();
+    const payload: MoveSkippedMessage = { userId: `${playerTestId}2` };
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
       payload,
     };
-    const sendMock = jest.spyOn(ws, 'send');
     playerService.newMessageReceived(ws, message);
-    expect(sendMock.mock.calls).toMatchSnapshot();
-    expect(gameService.figureMoved).toBeCalledWith(roomId, payload);
+    const messageSpy = jest.spyOn(playerService, 'publish');
+    expect(messageSpy).not.toBeCalled();
   });
 
-  it('should clear the board', async () => {
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.clearBoard(ws);
-    expect(sendMock.mock.calls).toMatchSnapshot();
+  it('should send an error message, because handler could not be found', () => {
+    voterConnect();
+    const message = {
+      type: 'Invalid message',
+    };
+    const getHandlerSpy = jest.spyOn(playerService, 'getHandler');
+    const errorHandlerSpy = jest.spyOn(playerService, 'errorHandler');
+    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+    //@ts-ignore
+    playerService.newMessageReceived(ws, message);
+    expect(getHandlerSpy).toReturnWith(undefined);
+    expect(errorHandlerSpy).toBeCalled();
   });
 
-  it('should disconnect a player', async () => {
-    const sendMock = jest.spyOn(ws, 'send');
-    playerService.playerDisconnected(ws);
-    expect(sendMock.mock.calls).toMatchSnapshot();
+  it('should reset the game', () => {
+    voterConnect();
+    const message: ReceivedMessage<MessageType.FigureMoved> = {
+      type: MessageType.FigureMoved,
+      payload: testTurn,
+    };
+    playerService.newMessageReceived(ws, message);
+    const turnsCount = gameRoomService.getTurns(roomId).length;
+    expect(turnsCount).toBe(1);
+    const resetGameMessage: ReceivedMessage<MessageType.ClearBoard> = {
+      type: MessageType.ClearBoard,
+    };
+    playerService.newMessageReceived(ws, resetGameMessage);
+    const turnsCountAfterReset = gameRoomService.getTurns(roomId).length;
+    expect(turnsCountAfterReset).toBe(0);
   });
 
-  it('should unsubscribe twice without crash', async () => {
+  it('should disconnect a player', () => {
+    voterConnect();
+    const playersCount = gameRoomService.getPlayers(roomId)?.size;
+    expect(playersCount).toBe(1);
     playerService.unsubscribe(ws);
-    playerService.unsubscribe(ws);
+    const playersCountAfterOneDisconnect =
+      gameRoomService.getPlayers(roomId)?.size;
+    expect(playersCountAfterOneDisconnect).toBe(0);
   });
 
   describe('getHandler', () => {
     it.each([
-      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.resetGame],
       [MessageType.FigureMoved, PlayerRole.Spectator, undefined],
       [
         MessageType.MoveSkipped,
         PlayerRole.Spectator,
         playerService.moveSkipped,
       ],
-      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.clearBoard],
+      [MessageType.ClearBoard, PlayerRole.Spectator, playerService.resetGame],
       [MessageType.Ping, PlayerRole.Spectator, playerService.ping],
       [
         MessageType.PlayerConnected,
@@ -205,10 +225,10 @@ describe('player.service', () => {
         playerService.playerConnected,
       ],
 
-      [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
+      [MessageType.ClearBoard, PlayerRole.Voter, playerService.resetGame],
       [MessageType.FigureMoved, PlayerRole.Voter, playerService.figureMoved],
       [MessageType.MoveSkipped, PlayerRole.Voter, playerService.moveSkipped],
-      [MessageType.ClearBoard, PlayerRole.Voter, playerService.clearBoard],
+      [MessageType.ClearBoard, PlayerRole.Voter, playerService.resetGame],
       [MessageType.Ping, PlayerRole.Voter, playerService.ping],
       [
         MessageType.PlayerConnected,

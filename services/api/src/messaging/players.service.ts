@@ -85,7 +85,7 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
   }
 };
 
-export const clearBoard = (ws: GameWebSocket): void => {
+export const resetGame = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
   setDefaultStatusForPlayers(ws);
   publish(ws.roomId, { type: MessageType.ClearBoard });
@@ -101,12 +101,13 @@ export const moveSkipped: Handler = (
 
   try {
     const [playerConnection, player] = findPlayerById(ws.roomId, userId);
-    if (player.status !== PlayerStatus.ActionNotTaken) {
-      throw new Error(`Player ${userId} cannot skip a move`);
-    }
 
     if (player.role === PlayerRole.Spectator) {
       return;
+    }
+
+    if (gameService.playerHasMove(ws.roomId, userId)) {
+      gameService.removeTurn(ws.roomId, userId);
     }
 
     logger.info(`Player ${player?.name} skips a move.`);
@@ -124,7 +125,10 @@ export const moveSkipped: Handler = (
   }
 };
 
-const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
+export const successfullyJoined = (
+  ws: GameWebSocket,
+  playerId: string,
+): void => {
   sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId);
 };
 
@@ -146,7 +150,7 @@ export const playerConnected: Handler = (
     name: playerName,
     color: getPlayerAvatarColor(),
     role: newPlayerRole,
-    status: gameService.findMoveByPlayerId(ws.roomId, newPlayerId)
+    status: gameService.playerHasMove(ws.roomId, newPlayerId)
       ? PlayerStatus.FigurePlaced
       : PlayerStatus.ActionNotTaken,
   };
@@ -165,16 +169,6 @@ export const playerConnected: Handler = (
   }
 
   newPlayerJoined(ws.roomId);
-};
-
-export const playerDisconnected = (ws: GameWebSocket): void => {
-  const players = getPlayers(ws.roomId);
-  logger.info('Publishing: player disconnected the game.');
-  const allPlayers = Array.from(players.values());
-  publish(ws.roomId, {
-    type: MessageType.PlayerDisconnected,
-    payload: allPlayers,
-  });
 };
 
 export const newPlayerJoined = (roomId: string): void => {
@@ -211,6 +205,13 @@ export const unsubscribe = (ws: GameWebSocket): void => {
   const players = getPlayers(ws.roomId);
   logger.info(`Unsubscribing player ${players.get(ws)?.name}`);
   players.delete(ws);
+
+  logger.info('Publishing: player disconnected the game.');
+  const allPlayers = Array.from(players.values());
+  publish(ws.roomId, {
+    type: MessageType.PlayerDisconnected,
+    payload: allPlayers,
+  });
 };
 
 export const publish = <T extends keyof SendMessagePayloads>(
@@ -247,14 +248,14 @@ export const errorHandler = (ws: GameWebSocket, e: string): void => {
 };
 
 export const spectatorHandlers: { [key in MessageType]?: Handler } = {
-  [MessageType.ClearBoard]: clearBoard,
+  [MessageType.ClearBoard]: resetGame,
   [MessageType.MoveSkipped]: moveSkipped,
 };
 
 export const voterHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
-  [MessageType.ClearBoard]: clearBoard,
+  [MessageType.ClearBoard]: resetGame,
 };
 
 const commonHandlers: { [key in MessageType]?: Handler } = {

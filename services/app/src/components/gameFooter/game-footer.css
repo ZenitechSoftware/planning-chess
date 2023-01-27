@@ -7,40 +7,6 @@
   margin: 0 auto 10px auto;
 }
 
-/*-----Game Footer Buttons-----*/
-.btn-field {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  user-select: none;
-}
-
-.btn-field button {
-  height: 40px;
-  border: none;
-  cursor: pointer;
-}
-
-.finish-btn {
-  background: var(--primary);
-  color: var(--white);
-}
-
-.finish-btn:disabled {
-  cursor: not-allowed;
-  background-color: #3C64B13D;
-}
-
-.skip-btn {
-  color: var(--primary);
-  background-color: transparent;
-}
-
-.skip-btn:disabled {
-  color: #3C64B13D;
-  cursor: not-allowed;
-}
-
 /*-----Game Footer Inactive-----*/
 .copy-btn {
   background-color: var(--primary);
