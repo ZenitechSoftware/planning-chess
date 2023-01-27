@@ -17,8 +17,8 @@ import GameHeader from '../../components/header/GameHeader';
 import '../../static/style/game.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
-import wsReadyStates from '../../constants/wsReadyStates';
 import '../../components/gameFooter/game-footer.css';
+import wsReadyStates from '../../constants/wsReadyStates';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();
@@ -32,7 +32,8 @@ const Game = () => {
         gameId,
         onConnect: (websocket) => {
           websocket.send(buildPlayerConnectedEventMessage(username, userId, role));
-      }});
+        }
+      });
     }
   }
 
