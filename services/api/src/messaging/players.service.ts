@@ -125,7 +125,10 @@ export const moveSkipped: Handler = (
   }
 };
 
-export const successfullyJoined = (ws: GameWebSocket, playerId: string): void => {
+export const successfullyJoined = (
+  ws: GameWebSocket,
+  playerId: string,
+): void => {
   sendMessage(ws, MessageType.PlayerSuccessfullyJoined, playerId);
 };
 

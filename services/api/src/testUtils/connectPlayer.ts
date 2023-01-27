@@ -1,4 +1,3 @@
-import WebSocket from 'ws';
 import * as playerService from '../messaging/players.service';
 import {
   ReceivedMessage,
@@ -16,7 +15,7 @@ const roomId = 'abcd-1234';
 
 export const voterConnect = (
   playerConfig: Partial<PlayerConnectedMessage> = {},
-): Player  => {
+): Player => {
   const payload = {
     playerName: playerConfig.playerName ?? 'player1',
     id: playerConfig.id ?? playerTestId,

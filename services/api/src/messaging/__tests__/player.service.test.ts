@@ -24,7 +24,11 @@ describe('player.service', () => {
   const spectatorConnect = () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
       type: MessageType.PlayerConnected,
-      payload: { playerName: 'spectator1', id: spectatorTestId, role: PlayerRole.Spectator },
+      payload: {
+        playerName: 'spectator1',
+        id: spectatorTestId,
+        role: PlayerRole.Spectator,
+      },
     };
     playerService.newMessageReceived(ws, message);
   };
@@ -165,7 +169,7 @@ describe('player.service', () => {
 
   it('should not skip a move, because player does not exist', () => {
     voterConnect();
-    const payload:MoveSkippedMessage = { userId: `${playerTestId}2` };
+    const payload: MoveSkippedMessage = { userId: `${playerTestId}2` };
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
       payload,
@@ -211,7 +215,8 @@ describe('player.service', () => {
     const playersCount = gameRoomService.getPlayers(roomId)?.size;
     expect(playersCount).toBe(1);
     playerService.unsubscribe(ws);
-    const playersCountAfterOneDisconnect = gameRoomService.getPlayers(roomId)?.size;
+    const playersCountAfterOneDisconnect =
+      gameRoomService.getPlayers(roomId)?.size;
     expect(playersCountAfterOneDisconnect).toBe(0);
   });
 

@@ -48,14 +48,20 @@ describe('game.service', () => {
 
   it('should return false, when player has not moved, after the move should return true', () => {
     const connectedVoter = voterConnect();
-    const doesPlayerHaveMove = gameService.playerHasMove(roomId, connectedVoter.id);
+    const doesPlayerHaveMove = gameService.playerHasMove(
+      roomId,
+      connectedVoter.id,
+    );
     expect(doesPlayerHaveMove).toBeFalsy();
     const message: ReceivedMessage<MessageType.FigureMoved> = {
       type: MessageType.FigureMoved,
       payload: testTurn,
     };
     playerService.newMessageReceived(ws, message);
-    const doesPlayerHaveMoveAfterMove = gameService.playerHasMove(roomId, connectedVoter.id);
+    const doesPlayerHaveMoveAfterMove = gameService.playerHasMove(
+      roomId,
+      connectedVoter.id,
+    );
     expect(doesPlayerHaveMoveAfterMove).toBeTruthy();
   });
 
@@ -98,7 +104,10 @@ describe('game.service', () => {
     expect(turnCount).toBe(1);
 
     gameService.removeTurn(roomId, playerTestId);
-    const playerTurnAfter = gameService.findMoveByPlayerId(roomId, playerTestId);
+    const playerTurnAfter = gameService.findMoveByPlayerId(
+      roomId,
+      playerTestId,
+    );
     expect(playerTurnAfter).toBeUndefined();
     const turnCountAfter = gameRoomService.getTurns(roomId).length;
     expect(turnCountAfter).toBe(0);
@@ -108,7 +117,10 @@ describe('game.service', () => {
     const connectedPlayer = voterConnect({
       id: playerTestId,
     });
-    const playerTurn = gameService.findMoveByPlayerId(roomId, connectedPlayer.id);
+    const playerTurn = gameService.findMoveByPlayerId(
+      roomId,
+      connectedPlayer.id,
+    );
     expect(playerTurn).toBeUndefined();
     expect(() => gameService.removeTurn(roomId, playerTestId)).not.toThrow();
     expect(logger.error).toHaveBeenCalled();
