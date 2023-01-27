@@ -51,8 +51,8 @@ describe('game.service', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    playerService.resetGame(ws);
     playerService.unsubscribe(ws);
-    gameRoomService.getTurns(roomId).length = 0;
   });
 
   it('should return false, when player has not moved, after the move should return true', () => {
