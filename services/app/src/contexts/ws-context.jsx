@@ -8,7 +8,6 @@ import { DEBUG } from '../env';
 import wsWrapper from '../helpers/wsWrapper';
 import { PING_INTERVAL_DURATION } from '../constants/appConstants';
 import { buildPingMessage } from '../api/appApi';
-import wsReadyStates from '../constants/wsReadyStates';
 import { ROUTES } from '../pages/routes';
 
 export const WsContext = createContext('');
@@ -46,13 +45,7 @@ const WebSocketsContextProvider = ({ children }) => {
     return () => {
       clearInterval(pingInterval);
     }
-  }, [ws])
-
-  window.onfocus = () => {
-    if(ws?.readyState === wsReadyStates.CLOSED) {
-      openWsConnection({});
-    }
-  }
+  }, [ws]);
 
   return (
     <WsContext.Provider
