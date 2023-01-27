@@ -8,8 +8,8 @@ import {
 } from '../../domain/messages';
 import { PlayerStatus, PlayerRole } from '../../domain/player';
 import * as gameRoomService from '../../game/game-room.service';
-import { GameWebSocket } from '../../domain/GameRoom';
-import { getPlayerAvatarColor } from '../../helpers/player-avatar-color';
+import { voterConnect } from '../../testUtils/connectPlayer';
+import { ws } from '../../testUtils/wsConnection';
 
 jest.mock('ws');
 jest.mock('uuid', () => ({
@@ -20,16 +20,6 @@ describe('player.service', () => {
   const roomId = 'abcd-1234';
   const playerTestId = 'some-short-v4-uuid-1';
   const spectatorTestId = 'some-short-v4-uuid-2';
-  const ws: GameWebSocket = new WebSocket('') as GameWebSocket;
-  ws.roomId = roomId;
-
-  const voterConnect = () => {
-    const message: ReceivedMessage<MessageType.PlayerConnected> = {
-      type: MessageType.PlayerConnected,
-      payload: { playerName: 'player1', id: playerTestId, role: PlayerRole.Voter },
-    };
-    playerService.newMessageReceived(ws, message);
-  };
 
   const spectatorConnect = () => {
     const message: ReceivedMessage<MessageType.PlayerConnected> = {
@@ -190,11 +180,13 @@ describe('player.service', () => {
     const message = {
       type: 'Invalid message',
     };
-    const messageSpy = jest.spyOn(playerService, 'getHandler');
+    const getHandlerSpy = jest.spyOn(playerService, 'getHandler');
+    const errorHandlerSpy = jest.spyOn(playerService, 'errorHandler');
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     //@ts-ignore
     playerService.newMessageReceived(ws, message);
-    expect(messageSpy).toReturnWith(undefined);
+    expect(getHandlerSpy).toReturnWith(undefined);
+    expect(errorHandlerSpy).toBeCalled();
   });
 
   it('should reset the game', () => {
