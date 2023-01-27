@@ -8,7 +8,7 @@ import {
 } from '../../domain/messages';
 import { PlayerStatus, PlayerRole } from '../../domain/player';
 import * as gameRoomService from '../../game/game-room.service';
-import { voterConnect } from '../../testUtils/connectPlayer';
+import { voterConnect, spectatorConnect } from '../../testUtils/connectPlayer';
 import { ws } from '../../testUtils/wsConnection';
 
 jest.mock('ws');
@@ -20,18 +20,6 @@ describe('player.service', () => {
   const roomId = 'abcd-1234';
   const playerTestId = 'some-short-v4-uuid-1';
   const spectatorTestId = 'some-short-v4-uuid-2';
-
-  const spectatorConnect = () => {
-    const message: ReceivedMessage<MessageType.PlayerConnected> = {
-      type: MessageType.PlayerConnected,
-      payload: {
-        playerName: 'spectator1',
-        id: spectatorTestId,
-        role: PlayerRole.Spectator,
-      },
-    };
-    playerService.newMessageReceived(ws, message);
-  };
 
   const testTurn: PlaceFigureMessage = {
     row: 1,
@@ -50,8 +38,8 @@ describe('player.service', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    playerService.resetGame(ws);
     playerService.unsubscribe(ws);
-    gameRoomService.getTurns(roomId).length = 0;
   });
 
   it('should join new player', () => {

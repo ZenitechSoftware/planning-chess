@@ -34,6 +34,15 @@ describe('game.service', () => {
     score: 1,
   };
 
+  const figureMoveMessage = (
+    turn: PlaceFigureMessage,
+  ): ReceivedMessage<MessageType.FigureMoved> => {
+    return {
+      type: MessageType.FigureMoved,
+      payload: turn,
+    };
+  };
+
   beforeAll(() => {
     gameRoomService.getOrCreateRoom(roomId);
     jest.spyOn(global.Math, 'random').mockReturnValue(1);
@@ -48,21 +57,9 @@ describe('game.service', () => {
 
   it('should return false, when player has not moved, after the move should return true', () => {
     const connectedVoter = voterConnect();
-    const doesPlayerHaveMove = gameService.playerHasMove(
-      roomId,
-      connectedVoter.id,
-    );
-    expect(doesPlayerHaveMove).toBeFalsy();
-    const message: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: testTurn,
-    };
-    playerService.newMessageReceived(ws, message);
-    const doesPlayerHaveMoveAfterMove = gameService.playerHasMove(
-      roomId,
-      connectedVoter.id,
-    );
-    expect(doesPlayerHaveMoveAfterMove).toBeTruthy();
+    expect(gameService.playerHasMove(roomId, connectedVoter.id)).toBeFalsy();
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
+    expect(gameService.playerHasMove(roomId, connectedVoter.id)).toBeTruthy();
   });
 
   it('should return all turns', () => {
@@ -70,34 +67,22 @@ describe('game.service', () => {
     voterConnect();
     const turnsCount = gameRoomService.getTurns(roomId).length;
     expect(turnsCount).toBe(0);
-    const message: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: testTurn,
-    };
-    playerService.newMessageReceived(ws, message);
-    const turnsAfterMove = gameRoomService.getTurns(roomId).length;
-    expect(turnsAfterMove).toBe(1);
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
+    const turnsAfterMoveCount = gameRoomService.getTurns(roomId).length;
+    expect(turnsAfterMoveCount).toBe(1);
     expect(figureMovedSpy).toReturnWith([testTurn]);
   });
 
   it('should return a turn by player id', () => {
     voterConnect();
-    const message: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: testTurn,
-    };
-    playerService.newMessageReceived(ws, message);
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
     const playerTurn = gameService.findMoveByPlayerId(roomId, playerTestId);
     expect(playerTurn).toMatchObject(testTurn);
   });
 
   it('should remove players turn', () => {
     voterConnect();
-    const message: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: testTurn,
-    };
-    playerService.newMessageReceived(ws, message);
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
     const playerTurn = gameService.findMoveByPlayerId(roomId, playerTestId);
     expect(playerTurn).toMatchObject(testTurn);
     const turnCount = gameRoomService.getTurns(roomId).length;
@@ -127,33 +112,21 @@ describe('game.service', () => {
   });
 
   it('should delete a player move, before assigning another move value', () => {
-    const firstMoveMessage: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: testTurn,
-    };
-    const secondMoveMessage: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: anotherTestTurn,
-    };
     const turnsCount = gameRoomService.getTurns(roomId).length;
     expect(turnsCount).toBe(0);
     voterConnect();
-    playerService.newMessageReceived(ws, firstMoveMessage);
-    const turnsAfterFirstMove = gameRoomService.getTurns(roomId).length;
-    expect(turnsAfterFirstMove).toBe(1);
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
+    const turnsCountAfterFirstMove = gameRoomService.getTurns(roomId).length;
+    expect(turnsCountAfterFirstMove).toBe(1);
 
-    playerService.newMessageReceived(ws, secondMoveMessage);
-    const turnsAfterSecondMove = gameRoomService.getTurns(roomId).length;
-    expect(turnsAfterSecondMove).toBe(1);
+    playerService.newMessageReceived(ws, figureMoveMessage(anotherTestTurn));
+    const turnsCountAfterSecondMove = gameRoomService.getTurns(roomId).length;
+    expect(turnsCountAfterSecondMove).toBe(1);
   });
 
   it('should clear the board, setting turns to empty array', () => {
     voterConnect();
-    const message: ReceivedMessage<MessageType.FigureMoved> = {
-      type: MessageType.FigureMoved,
-      payload: testTurn,
-    };
-    playerService.newMessageReceived(ws, message);
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
     const turnsCount = gameRoomService.getTurns(roomId).length;
     expect(turnsCount).toBe(1);
     const resetGameMessage: ReceivedMessage<MessageType.ClearBoard> = {

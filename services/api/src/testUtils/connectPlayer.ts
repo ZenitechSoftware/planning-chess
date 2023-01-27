@@ -11,6 +11,7 @@ import { ws } from './wsConnection';
 jest.mock('ws');
 
 const playerTestId = 'some-short-v4-uuid-1';
+const spectatorTestId = 'some-short-v4-uuid-2';
 const roomId = 'abcd-1234';
 
 export const voterConnect = (
@@ -30,4 +31,16 @@ export const voterConnect = (
   playerService.newMessageReceived(ws, message);
   const [, voterPlayer] = playerService.findPlayerById(roomId, payload.id);
   return voterPlayer;
+};
+
+export const spectatorConnect = (): void => {
+  const message: ReceivedMessage<MessageType.PlayerConnected> = {
+    type: MessageType.PlayerConnected,
+    payload: {
+      playerName: 'spectator1',
+      id: spectatorTestId,
+      role: PlayerRole.Spectator,
+    },
+  };
+  playerService.newMessageReceived(ws, message);
 };

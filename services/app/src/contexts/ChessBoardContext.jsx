@@ -121,6 +121,8 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const findUserById = (id) => players.find((element) => element.id === id);
+
+  const findMoveByUserId = (id) => turns.find((turn) => turn.id === id);
   
   const placeItemOnBoard = (row, tile, figure) => {
     if (selectedItem === PieceName.SKIP) {
@@ -180,6 +182,11 @@ const ChessBoardContextProvider = ({ children }) => {
         const scoresArray = turns.map(turn => turn.score);
         const average = calculateAverage(scoresArray);
         setGlobalScore(roundUp(average))
+      }
+
+      const currentPlayerMove = findMoveByUserId(currentPlayerId);
+      if (currentPlayerMove.figure !== selectedItem) {
+        setSelectedItem(currentPlayerMove.figure);
       }
     } else {
       clearBoardItems();
