@@ -185,7 +185,9 @@ const ChessBoardContextProvider = ({ children }) => {
       }
 
       const currentPlayerMove = findMoveByUserId(currentPlayerId);
-      if (currentPlayerMove.figure !== selectedItem) {
+      if (!currentPlayerMove && currentPlayer.role !== PlayerRoles.Spectator) {
+        setSelectedItem(PieceName.SKIP);
+      } else if (currentPlayerMove.figure !== selectedItem) {
         setSelectedItem(currentPlayerMove.figure);
       }
     } else {
