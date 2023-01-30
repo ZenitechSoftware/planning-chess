@@ -43,7 +43,7 @@ const Game = () => {
 
   useEffect(() => {
     connectToWs();
-  }, [connectToWs]);
+  }, [gameId]);
 
   const skipMove = useCallback((playerId) => {
     if (playerId) {
