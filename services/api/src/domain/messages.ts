@@ -57,12 +57,12 @@ export interface PlaceFigureMessage {
   tile: number;
   figure: string;
   player: string;
-  id: string;
+  playerId: string;
   score?: number;
 }
 
 export interface MoveSkippedMessage {
-  userId: string;
+  playerId: string;
 }
 export interface PlayerConnectedMessage {
   playerName: string;

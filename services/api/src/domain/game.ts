@@ -3,7 +3,7 @@ export interface Turn {
   tile?: number;
   figure?: string;
   player?: string;
-  id: string;
+  playerId: string;
   score?: number;
   turnType: TurnType;
 }
@@ -11,5 +11,4 @@ export interface Turn {
 export enum TurnType {
   MoveSkipped = 'MoveSkipped',
   FigurePlaced = 'FigurePlaced',
-  FigureNotPlaced = 'FigureNotPlaced',
 }

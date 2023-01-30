@@ -7,5 +7,4 @@ export const GameState = {
 export const TurnType = {
   MoveSkipped: 'MoveSkipped',
   FigurePlaced: 'FigurePlaced',
-  FigureNotPlaced: 'FigureNotPlaced',
 }

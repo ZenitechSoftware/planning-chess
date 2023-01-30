@@ -37,8 +37,8 @@ export const figureMoved = (
     score = calculateScore(payload);
   }
 
-  if (playerHasMove(roomId, payload.id)) {
-    removeTurn(roomId, payload.id);
+  if (playerHasMove(roomId, payload.playerId)) {
+    removeTurn(roomId, payload.playerId);
   }
 
   gameRoomService
@@ -54,7 +54,7 @@ export const moveSkipped = (roomId: string, userId: string): void => {
 
   gameRoomService
     .getTurns(roomId)
-    .push({ id: userId, turnType: TurnType.MoveSkipped });
+    .push({ playerId: userId, turnType: TurnType.MoveSkipped });
 };
 
 export const clearBoard = (roomId: string): void => {
@@ -65,7 +65,7 @@ export const findMoveByPlayerId = (
   roomId: string,
   id: string,
 ): Turn | undefined =>
-  gameRoomService.getTurns(roomId).find((turn) => turn.id === id);
+  gameRoomService.getTurns(roomId).find((turn) => turn.playerId === id);
 
 export const getBoard = (roomId: string): Turn[] =>
   gameRoomService.getTurns(roomId);
@@ -73,7 +73,7 @@ export const getBoard = (roomId: string): Turn[] =>
 export const removeTurn = (roomId: string, playerId: string): void => {
   const turns = gameRoomService.getTurns(roomId);
   try {
-    const turnIndex = turns.findIndex((turn) => turn.id === playerId);
+    const turnIndex = turns.findIndex((turn) => turn.playerId === playerId);
     if (turnIndex < 0) {
       throw new Error(`Player with ${playerId} id move could not be found`);
     }

@@ -26,7 +26,7 @@ describe('player.service', () => {
     tile: 1,
     figure: 'rock',
     player: 'player1',
-    id: playerTestId,
+    playerId: playerTestId,
     score: 1,
   };
 
@@ -120,7 +120,7 @@ describe('player.service', () => {
     voterConnect();
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
-      payload: { userId: playerTestId },
+      payload: { playerId: playerTestId },
     };
     playerService.newMessageReceived(ws, message);
     playerService.unsubscribe(ws);
@@ -133,7 +133,7 @@ describe('player.service', () => {
     voterConnect();
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
-      payload: { userId: playerTestId },
+      payload: { playerId: playerTestId },
     };
     playerService.newMessageReceived(ws, message);
     const player = playerService.findPlayerById(roomId, playerTestId);
@@ -152,7 +152,7 @@ describe('player.service', () => {
 
     const skipMessage: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
-      payload: { userId: playerTestId },
+      payload: { playerId: playerTestId },
     };
     playerService.newMessageReceived(ws, skipMessage);
     const playerAfterSkip = playerService.findPlayerById(roomId, playerTestId);
@@ -163,14 +163,14 @@ describe('player.service', () => {
     spectatorConnect();
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
-      payload: { userId: spectatorTestId },
+      payload: { playerId: spectatorTestId },
     };
     playerService.newMessageReceived(ws, message);
   });
 
   it('should not skip a move, because player does not exist', () => {
     voterConnect();
-    const payload: MoveSkippedMessage = { userId: `${playerTestId}2` };
+    const payload: MoveSkippedMessage = { playerId: `${playerTestId}2` };
     const message: ReceivedMessage<MessageType.MoveSkipped> = {
       type: MessageType.MoveSkipped,
       payload,

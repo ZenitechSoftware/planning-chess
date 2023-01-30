@@ -23,7 +23,7 @@ describe('game.service', () => {
     tile: 1,
     figure: 'rock',
     player: 'player1',
-    id: playerTestId,
+    playerId: playerTestId,
     score: 1,
   };
   const anotherTestTurn: PlaceFigureMessage = {
@@ -31,7 +31,7 @@ describe('game.service', () => {
     tile: 4,
     figure: 'rock',
     player: 'player1',
-    id: playerTestId,
+    playerId: playerTestId,
     score: 1,
   };
 
@@ -128,7 +128,7 @@ describe('game.service', () => {
       playerTestId,
     );
     expect(playerTurnAfterSkip).toEqual({
-      id: playerTestId,
+      playerId: playerTestId,
       turnType: TurnType.MoveSkipped,
     });
     const turnCountAfterSkip = gameRoomService.getTurns(roomId).length;
@@ -143,7 +143,7 @@ describe('game.service', () => {
       playerTestId,
     );
     expect(playerTurnAfterSkip).toEqual({
-      id: playerTestId,
+      playerId: playerTestId,
       turnType: TurnType.MoveSkipped,
     });
     const hasPlayerSkipped = gameService.playerHasSkipped(roomId, playerTestId);

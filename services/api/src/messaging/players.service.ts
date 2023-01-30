@@ -87,22 +87,22 @@ export const resetGame = (ws: GameWebSocket): void => {
 
 export const moveSkipped: Handler = (
   ws,
-  { userId }: MoveSkippedMessage,
+  { playerId }: MoveSkippedMessage,
 ): void => {
   const players = getPlayers(ws.roomId);
 
   try {
-    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
+    const [playerConnection, player] = findPlayerById(ws.roomId, playerId);
 
     if (player.role === PlayerRole.Spectator) {
       return;
     }
 
-    if (gameService.playerHasPlacedFigure(ws.roomId, userId)) {
-      gameService.removeTurn(ws.roomId, userId);
+    if (gameService.playerHasPlacedFigure(ws.roomId, playerId)) {
+      gameService.removeTurn(ws.roomId, playerId);
     }
 
-    gameService.moveSkipped(ws.roomId, userId);
+    gameService.moveSkipped(ws.roomId, playerId);
 
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
