@@ -165,7 +165,14 @@ const ChessBoardContextProvider = ({ children }) => {
   useEffect(() => {
     if (myTurn) {
       const { row, tile, figure } = myTurn;
-      placeItemOnBoard(row, tile, figure);
+      setSelectedItem(figure);
+      chessBoard.insertFigureIntoBoard({
+        row,
+        tile,
+        figureName: figure,
+        playerId: currentPlayerId,
+        playerName: userContext.username,
+      })
       setScore(myTurn.score);
     }
   }, [myTurn]);
