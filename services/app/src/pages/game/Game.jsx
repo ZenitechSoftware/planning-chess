@@ -33,7 +33,7 @@ const Game = () => {
         websocket.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
     });
-  }, [gameId, username, role]);
+  }, [gameId, username, role, userId]);
 
   window.onfocus = () => {
     if(ws?.readyState === wsReadyStates.CLOSED) {
@@ -43,7 +43,7 @@ const Game = () => {
 
   useEffect(() => {
     connectToWs();
-  }, [connectToWs]);
+  }, []);
 
   const skipMove = useCallback((playerId) => {
     if (playerId) {
