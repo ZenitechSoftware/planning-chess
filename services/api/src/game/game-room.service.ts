@@ -43,8 +43,7 @@ export const getClients = (id: string): Set<WebSocket> =>
 export const getPlayers = (id: string): Map<WebSocket, Player> | null =>
   rooms.get(id)?.players || null;
 
-export const getTurns = (id: string): Array<Turn> =>
-  rooms.get(id)?.turns;
+export const getTurns = (id: string): Array<Turn> => rooms.get(id)?.turns;
 
 export const printRooms = (): void => {
   for (const entry of rooms.entries()) {

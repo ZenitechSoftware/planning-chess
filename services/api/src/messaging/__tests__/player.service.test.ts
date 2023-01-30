@@ -116,6 +116,19 @@ describe('player.service', () => {
     expect(player[1].status).toBe(PlayerStatus.FigurePlaced);
   });
 
+  it('should set player status to MoveSkipped after he re-logs after skipping a move ', () => {
+    voterConnect();
+    const message: ReceivedMessage<MessageType.MoveSkipped> = {
+      type: MessageType.MoveSkipped,
+      payload: { userId: playerTestId },
+    };
+    playerService.newMessageReceived(ws, message);
+    playerService.unsubscribe(ws);
+    voterConnect();
+    const player = playerService.findPlayerById(roomId, playerTestId);
+    expect(player[1].status).toBe(PlayerStatus.MoveSkipped);
+  });
+
   it('should mark player status to MoveSkipped after he skips a move', () => {
     voterConnect();
     const message: ReceivedMessage<MessageType.MoveSkipped> = {

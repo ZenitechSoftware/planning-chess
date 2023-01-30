@@ -44,9 +44,7 @@ const playerExists = (roomId: string, playerId: string): boolean => {
   }
 };
 
-const publishFinalBoard = (
-  ws: GameWebSocket,
-): void => {
+const publishFinalBoard = (ws: GameWebSocket): void => {
   const newBoardState = gameRoomService.getTurns(ws.roomId);
 
   publish(ws.roomId, {
@@ -125,10 +123,10 @@ export const moveSkipped: Handler = (
 };
 
 const createNewPlayer = (params: {
-  playerId: string,
-  playerName: string,
-  role: PlayerRole,
-  roomId: string,
+  playerId: string;
+  playerName: string;
+  role: PlayerRole;
+  roomId: string;
 }): Player => {
   const newPlayer: Player = {
     id: params.playerId,

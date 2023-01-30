@@ -8,7 +8,10 @@ import { PlayerStatus, PlayerRole } from '../domain/player';
 export const playerHasMove = (roomId: string, playerId: string): boolean =>
   Boolean(findMoveByPlayerId(roomId, playerId));
 
-export const playerHasPlacedFigure = (roomId: string, playerId: string): boolean => {
+export const playerHasPlacedFigure = (
+  roomId: string,
+  playerId: string,
+): boolean => {
   const move = findMoveByPlayerId(roomId, playerId);
   return Boolean(move?.turnType === TurnType.FigurePlaced);
 };
@@ -38,19 +41,20 @@ export const figureMoved = (
     removeTurn(roomId, payload.id);
   }
 
-  gameRoomService.getTurns(roomId).push({ ...payload, score, turnType: TurnType.FigurePlaced });
+  gameRoomService
+    .getTurns(roomId)
+    .push({ ...payload, score, turnType: TurnType.FigurePlaced });
   return gameRoomService.getTurns(roomId);
 };
 
-export const moveSkipped = (
-  roomId: string,
-  userId: string,
-): void => {
+export const moveSkipped = (roomId: string, userId: string): void => {
   if (playerHasMove(roomId, userId)) {
     removeTurn(roomId, userId);
   }
 
-  gameRoomService.getTurns(roomId).push({ id: userId, turnType: TurnType.MoveSkipped });
+  gameRoomService
+    .getTurns(roomId)
+    .push({ id: userId, turnType: TurnType.MoveSkipped });
 };
 
 export const clearBoard = (roomId: string): void => {

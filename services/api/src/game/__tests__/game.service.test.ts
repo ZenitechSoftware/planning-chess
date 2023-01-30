@@ -4,11 +4,13 @@ import * as gameService from '../game.service';
 import * as gameRoomService from '../game-room.service';
 import {
   MessageType,
+  MoveSkippedMessage,
   PlaceFigureMessage,
   ReceivedMessage,
 } from '../../domain/messages';
 import logger from '../../logger';
 import { voterConnect } from '../../testUtils/connectPlayer';
+import { TurnType } from '../../domain/game';
 import { ws } from '../../testUtils/wsConnection';
 
 jest.mock('ws');
@@ -57,9 +59,13 @@ describe('game.service', () => {
 
   it('should return false, when player has not moved, after the move should return true', () => {
     const connectedVoter = voterConnect();
-    expect(gameService.playerHasPlacedFigure(roomId, connectedVoter.id)).toBeFalsy();
+    expect(
+      gameService.playerHasPlacedFigure(roomId, connectedVoter.id),
+    ).toBeFalsy();
     playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
-    expect(gameService.playerHasPlacedFigure(roomId, connectedVoter.id)).toBeTruthy();
+    expect(
+      gameService.playerHasPlacedFigure(roomId, connectedVoter.id),
+    ).toBeTruthy();
   });
 
   it('should return all turns', () => {
@@ -70,21 +76,29 @@ describe('game.service', () => {
     playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
     const turnsAfterMoveCount = gameRoomService.getTurns(roomId).length;
     expect(turnsAfterMoveCount).toBe(1);
-    expect(figureMovedSpy).toReturnWith([testTurn]);
+    expect(figureMovedSpy).toReturnWith([
+      { ...testTurn, turnType: TurnType.FigurePlaced },
+    ]);
   });
 
   it('should return a turn by player id', () => {
     voterConnect();
     playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
     const playerTurn = gameService.findMoveByPlayerId(roomId, playerTestId);
-    expect(playerTurn).toMatchObject(testTurn);
+    expect(playerTurn).toEqual({
+      ...testTurn,
+      turnType: TurnType.FigurePlaced,
+    });
   });
 
   it('should remove players turn', () => {
     voterConnect();
     playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
     const playerTurn = gameService.findMoveByPlayerId(roomId, playerTestId);
-    expect(playerTurn).toMatchObject(testTurn);
+    expect(playerTurn).toEqual({
+      ...testTurn,
+      turnType: TurnType.FigurePlaced,
+    });
     const turnCount = gameRoomService.getTurns(roomId).length;
     expect(turnCount).toBe(1);
 
@@ -96,6 +110,45 @@ describe('game.service', () => {
     expect(playerTurnAfter).toBeUndefined();
     const turnCountAfter = gameRoomService.getTurns(roomId).length;
     expect(turnCountAfter).toBe(0);
+  });
+
+  it('should remove players turn before marking player skipped move', () => {
+    voterConnect();
+    playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
+    const playerTurn = gameService.findMoveByPlayerId(roomId, playerTestId);
+    expect(playerTurn).toEqual({
+      ...testTurn,
+      turnType: TurnType.FigurePlaced,
+    });
+    const turnCount = gameRoomService.getTurns(roomId).length;
+    expect(turnCount).toBe(1);
+
+    gameService.moveSkipped(roomId, playerTestId);
+    const playerTurnAfterSkip = gameService.findMoveByPlayerId(
+      roomId,
+      playerTestId,
+    );
+    expect(playerTurnAfterSkip).toEqual({
+      id: playerTestId,
+      turnType: TurnType.MoveSkipped,
+    });
+    const turnCountAfterSkip = gameRoomService.getTurns(roomId).length;
+    expect(turnCountAfterSkip).toBe(1);
+  });
+
+  it('should return true if player has skipped the move', () => {
+    voterConnect();
+    gameService.moveSkipped(roomId, playerTestId);
+    const playerTurnAfterSkip = gameService.findMoveByPlayerId(
+      roomId,
+      playerTestId,
+    );
+    expect(playerTurnAfterSkip).toEqual({
+      id: playerTestId,
+      turnType: TurnType.MoveSkipped,
+    });
+    const hasPlayerSkipped = gameService.playerHasSkipped(roomId, playerTestId);
+    expect(hasPlayerSkipped).toBe(true);
   });
 
   it('should not remove players turn, because players turn does not exists', () => {
