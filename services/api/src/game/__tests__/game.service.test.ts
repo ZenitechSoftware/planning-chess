@@ -4,7 +4,6 @@ import * as gameService from '../game.service';
 import * as gameRoomService from '../game-room.service';
 import {
   MessageType,
-  MoveSkippedMessage,
   PlaceFigureMessage,
   ReceivedMessage,
 } from '../../domain/messages';

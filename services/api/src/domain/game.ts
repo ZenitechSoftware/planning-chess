@@ -11,5 +11,5 @@ export interface Turn {
 export enum TurnType {
   MoveSkipped = 'MoveSkipped',
   FigurePlaced = 'FigurePlaced',
-  ActionNotTaken = 'ActionNotTaken',
+  FigureNotPlaced = 'FigureNotPlaced',
 }

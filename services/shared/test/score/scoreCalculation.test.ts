@@ -21,8 +21,8 @@ describe('Score calculation lib test', () => {
     const roundUpNumber = roundUp(0);
     expect(roundUpNumber).toBe(0);
   });
-  it('should divide by 1, when there are no scores', () => {
-    const arr: number[] = [];
-    expect(calculateAverage(arr)).toBe(0);
+  it('should return 0 when scores array is empty', () => {
+    const scoresArray: number[] = [];
+    expect(calculateAverage(scoresArray)).toBe(0);
   });
 });
