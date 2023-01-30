@@ -1,6 +1,7 @@
 export function calculateAverage(moveValues: number[]): number {
   const sum = moveValues.reduce((val, res) => val + res, 0);
-  return sum / moveValues.length;
+  const denominator = moveValues.length === 0 ? 1 : moveValues.length;
+  return sum / denominator;
 }
 
 export function roundUp(score: number): number {

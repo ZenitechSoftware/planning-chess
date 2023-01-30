@@ -195,7 +195,7 @@ const ChessBoardContextProvider = ({ children }) => {
           .map(turn => turn.score);
 
         const average = calculateAverage(scoresArray);
-        setGlobalScore(roundUp(average))
+        setGlobalScore(roundUp(average));
       }
 
       const currentPlayerMove = findMoveByUserId(currentPlayerId);
