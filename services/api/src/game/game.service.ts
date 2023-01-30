@@ -6,6 +6,9 @@ import logger from '../logger';
 export const playerHasMove = (roomId: string, playerId: string): boolean =>
   Boolean(findMoveByPlayerId(roomId, playerId));
 
+export const playerHasSkipped = (roomId: string, playerId: string): boolean =>
+  Boolean(gameRoomService.getSkippedPlayers(roomId).find(player => player.userId === playerId));
+
 export const figureMoved = (
   roomId: string,
   payload: PlaceFigureMessage,

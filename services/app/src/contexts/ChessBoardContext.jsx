@@ -164,6 +164,9 @@ const ChessBoardContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (myTurn) {
+      if (!myTurn.figure) {
+        setSelectedItem(PieceName.SKIP)
+      }
       const { row, tile, figure } = myTurn;
       placeItemOnBoard(row, tile, figure);
       setScore(myTurn.score);

@@ -115,6 +115,8 @@ export const moveSkipped: Handler = (
       ...players.get(playerConnection),
       status: PlayerStatus.MoveSkipped,
     });
+    gameRoomService.getSkippedPlayers(ws.roomId).push({ userId: userId });
+
     publish(ws.roomId, {
       type: MessageType.MoveSkipped,
       payload: Array.from(players.values()),
@@ -152,19 +154,30 @@ export const playerConnected: Handler = (
     role: newPlayerRole,
     status: gameService.playerHasMove(ws.roomId, newPlayerId)
       ? PlayerStatus.FigurePlaced
-      : PlayerStatus.ActionNotTaken,
+      : gameService.playerHasSkipped(ws.roomId, newPlayerId)
+        ? PlayerStatus.MoveSkipped
+        :PlayerStatus.ActionNotTaken,
   };
 
   successfullyJoined(ws, newPlayerId);
   subscribe(ws, newPlayer);
 
   if (newPlayer.status !== PlayerStatus.ActionNotTaken) {
-    const myTurn = gameService.findMoveByPlayerId(ws.roomId, newPlayerId);
     const players = getPlayers(ws.roomId);
 
-    if (myTurn) {
+    if (newPlayer.status === PlayerStatus.FigurePlaced) {
+      const myTurn = gameService.findMoveByPlayerId(ws.roomId, newPlayerId);
       sendMessage(ws, MessageType.SetMyTurn, myTurn);
       publishFinalBoard(ws, players);
+    }
+
+    if (newPlayer.status === PlayerStatus.MoveSkipped) {
+      if (gameService.playerHasSkipped(ws.roomId, newPlayer.id)) {
+        sendMessage(ws, MessageType.SetMyTurn, {
+          userId: newPlayerId,
+        });
+        publishFinalBoard(ws, players);
+      }
     }
   }
 

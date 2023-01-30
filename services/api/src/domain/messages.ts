@@ -22,7 +22,7 @@ export type SendMessagePayloads = {
   [MessageType.NewBoardState]: PlaceFigureMessage[];
   [MessageType.FigureMoved]: PlaceFigureMessage[];
   [MessageType.ClearBoard]: void;
-  [MessageType.SetMyTurn]: PlaceFigureMessage;
+  [MessageType.SetMyTurn]: PlaceFigureMessage | MoveSkippedMessage;
   [MessageType.PlayerConnected]: Player[];
   [MessageType.PlayerDisconnected]: Player[];
   [MessageType.MoveSkipped]: Player[];
