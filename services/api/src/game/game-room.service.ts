@@ -2,14 +2,13 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import logger from '../logger';
 import { Player } from '../domain';
-import { MoveSkippedMessage, PlaceFigureMessage } from '../domain/messages';
+import { Turn } from '../domain/game';
 
 interface GameRoom {
   roomId: string;
   server: WebSocketServer;
   players: Map<WebSocket, Player>;
-  turns: PlaceFigureMessage[];
-  playersSkipped: MoveSkippedMessage[];
+  turns: Turn[];
 }
 
 export const rooms = new Map<string, GameRoom>();
@@ -31,8 +30,7 @@ export const getOrCreateRoom = (id?: string): GameRoom => {
     roomId,
     server,
     players: new Map<WebSocket, Player>(),
-    turns: <PlaceFigureMessage[]>[],
-    playersSkipped: <MoveSkippedMessage[]>[],
+    turns: <Turn[]>[],
   };
   rooms.set(roomId, newRoom);
 
@@ -45,10 +43,7 @@ export const getClients = (id: string): Set<WebSocket> =>
 export const getPlayers = (id: string): Map<WebSocket, Player> | null =>
   rooms.get(id)?.players || null;
 
-export const getSkippedPlayers = (id: string): Array<MoveSkippedMessage> =>
-  rooms.get(id)?.playersSkipped;
-
-export const getTurns = (id: string): Array<PlaceFigureMessage> =>
+export const getTurns = (id: string): Array<Turn> =>
   rooms.get(id)?.turns;
 
 export const printRooms = (): void => {

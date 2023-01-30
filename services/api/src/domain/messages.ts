@@ -1,5 +1,6 @@
 import { GameWebSocket } from './GameRoom';
 import { Player, PlayerRole } from './player';
+import { Turn } from '../domain/game';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
@@ -19,10 +20,10 @@ export enum MessageType {
 }
 
 export type SendMessagePayloads = {
-  [MessageType.NewBoardState]: PlaceFigureMessage[];
-  [MessageType.FigureMoved]: PlaceFigureMessage[];
+  [MessageType.NewBoardState]: Turn[];
+  [MessageType.FigureMoved]: Turn[];
   [MessageType.ClearBoard]: void;
-  [MessageType.SetMyTurn]: PlaceFigureMessage | MoveSkippedMessage;
+  [MessageType.SetMyTurn]: Turn;
   [MessageType.PlayerConnected]: Player[];
   [MessageType.PlayerDisconnected]: Player[];
   [MessageType.MoveSkipped]: Player[];
@@ -61,7 +62,7 @@ export interface PlaceFigureMessage {
 }
 
 export interface MoveSkippedMessage {
-  userId: string;
+  id: string;
 }
 export interface PlayerConnectedMessage {
   playerName: string;

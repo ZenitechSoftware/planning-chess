@@ -57,9 +57,9 @@ describe('game.service', () => {
 
   it('should return false, when player has not moved, after the move should return true', () => {
     const connectedVoter = voterConnect();
-    expect(gameService.playerHasMove(roomId, connectedVoter.id)).toBeFalsy();
+    expect(gameService.playerHasPlacedFigure(roomId, connectedVoter.id)).toBeFalsy();
     playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
-    expect(gameService.playerHasMove(roomId, connectedVoter.id)).toBeTruthy();
+    expect(gameService.playerHasPlacedFigure(roomId, connectedVoter.id)).toBeTruthy();
   });
 
   it('should return all turns', () => {

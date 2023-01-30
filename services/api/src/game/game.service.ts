@@ -2,17 +2,33 @@ import { PlaceFigureMessage } from '../domain/messages';
 import { calculateScore } from '../helpers/calculate-score';
 import * as gameRoomService from './game-room.service';
 import logger from '../logger';
+import { Turn } from '../domain/game';
+import { PlayerStatus, PlayerRole } from '../domain/player';
 
 export const playerHasMove = (roomId: string, playerId: string): boolean =>
   Boolean(findMoveByPlayerId(roomId, playerId));
 
-export const playerHasSkipped = (roomId: string, playerId: string): boolean =>
-  Boolean(gameRoomService.getSkippedPlayers(roomId).find(player => player.userId === playerId));
+export const playerHasPlacedFigure = (roomId: string, playerId: string): boolean => {
+  const move = findMoveByPlayerId(roomId, playerId);
+  return Boolean(move?.turnType === PlayerStatus.FigurePlaced);
+};
+
+export const playerHasSkipped = (roomId: string, playerId: string): boolean => {
+  const move = findMoveByPlayerId(roomId, playerId);
+  return Boolean(move?.turnType === PlayerStatus.MoveSkipped);
+};
+
+export const areAllPlayersDone = (roomId: string): boolean => {
+  const players = gameRoomService.getPlayers(roomId);
+  return Array.from(players.values())
+    .filter((p) => p.role === PlayerRole.Voter)
+    .every((player) => player.status !== PlayerStatus.ActionNotTaken);
+};
 
 export const figureMoved = (
   roomId: string,
   payload: PlaceFigureMessage,
-): PlaceFigureMessage[] => {
+): Turn[] => {
   let score;
   if (payload !== null) {
     score = calculateScore(payload);
@@ -22,8 +38,19 @@ export const figureMoved = (
     removeTurn(roomId, payload.id);
   }
 
-  gameRoomService.getTurns(roomId).push({ ...payload, score });
+  gameRoomService.getTurns(roomId).push({ ...payload, score, turnType: PlayerStatus.FigurePlaced });
   return gameRoomService.getTurns(roomId);
+};
+
+export const moveSkipped = (
+  roomId: string,
+  id: string,
+): void => {
+  if (playerHasMove(roomId, id)) {
+    removeTurn(roomId, id);
+  }
+
+  gameRoomService.getTurns(roomId).push({ id, turnType: PlayerStatus.MoveSkipped });
 };
 
 export const clearBoard = (roomId: string): void => {
@@ -33,10 +60,10 @@ export const clearBoard = (roomId: string): void => {
 export const findMoveByPlayerId = (
   roomId: string,
   id: string,
-): PlaceFigureMessage | undefined =>
+): Turn | undefined =>
   gameRoomService.getTurns(roomId).find((turn) => turn.id === id);
 
-export const getBoard = (roomId: string): PlaceFigureMessage[] =>
+export const getBoard = (roomId: string): Turn[] =>
   gameRoomService.getTurns(roomId);
 
 export const removeTurn = (roomId: string, playerId: string): void => {

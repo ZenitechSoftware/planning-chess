@@ -164,11 +164,19 @@ const ChessBoardContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (myTurn) {
-      if (!myTurn.figure) {
-        setSelectedItem(PieceName.SKIP)
+      if (myTurn.turnType === PlayerStatuses.MoveSkipped) {
+        setSelectedItem(PieceName.SKIP);
+        return;
       }
       const { row, tile, figure } = myTurn;
-      placeItemOnBoard(row, tile, figure);
+      setSelectedItem(figure);
+      chessBoard.insertFigureIntoBoard({
+        row,
+        tile,
+        figureName: figure,
+        playerId: currentPlayerId,
+        playerName: userContext.username,
+      });
       setScore(myTurn.score);
     }
   }, [myTurn]);
@@ -182,7 +190,15 @@ const ChessBoardContextProvider = ({ children }) => {
       if (voters.length === 1) {
         setGlobalScore(0)
       } else {
-        const scoresArray = turns.map(turn => turn.score);
+        const scoresArray = turns
+          .filter(turn => turn.turnType === PlayerStatuses.FigurePlaced)
+          .map(turn => turn.score);
+        
+        if (scoresArray.length === 0) {
+          setGlobalScore(0);
+          return;
+        }
+
         const average = calculateAverage(scoresArray);
         setGlobalScore(roundUp(average))
       }
