@@ -22,15 +22,14 @@ describe('game.service', () => {
     row: 1,
     tile: 1,
     figure: 'rock',
-    player: 'player1',
     playerId: playerTestId,
     score: 1,
   };
+
   const anotherTestTurn: PlaceFigureMessage = {
     row: 4,
     tile: 4,
     figure: 'rock',
-    player: 'player1',
     playerId: playerTestId,
     score: 1,
   };

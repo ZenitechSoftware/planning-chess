@@ -25,7 +25,6 @@ describe('player.service', () => {
     row: 1,
     tile: 1,
     figure: 'rock',
-    player: 'player1',
     playerId: playerTestId,
     score: 1,
   };

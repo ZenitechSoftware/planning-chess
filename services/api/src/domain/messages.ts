@@ -56,7 +56,6 @@ export interface PlaceFigureMessage {
   row: number;
   tile: number;
   figure: string;
-  player: string;
   playerId: string;
   score?: number;
 }

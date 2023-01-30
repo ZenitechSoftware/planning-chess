@@ -105,7 +105,7 @@ const ChessBoardContextProvider = ({ children }) => {
 
   const finishMove = (turn) => {
     ws.send(
-      buildPlayerFigureMovedMessage({ ...turn, player: userContext.username, playerId: currentPlayerId })
+      buildPlayerFigureMovedMessage({ ...turn, playerId: currentPlayerId })
     )
   };
 
