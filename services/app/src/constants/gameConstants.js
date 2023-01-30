@@ -3,3 +3,9 @@ export const GameState = {
   GAME_IN_PROGRESS: 'GAME_IN_PROGRESS',
   GAME_FINISHED: 'GAME_FINISHED',
 }
+
+export const TurnType = {
+  MoveSkipped: 'MoveSkipped',
+  FigurePlaced: 'FigurePlaced',
+  ActionNotTaken: 'ActionNotTaken',
+}

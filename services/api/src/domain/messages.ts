@@ -62,7 +62,7 @@ export interface PlaceFigureMessage {
 }
 
 export interface MoveSkippedMessage {
-  id: string;
+  userId: string;
 }
 export interface PlayerConnectedMessage {
   playerName: string;

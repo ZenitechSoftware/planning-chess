@@ -7,7 +7,7 @@ import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
 import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
 import { PieceName } from '../constants/board';
-import { GameState } from '../constants/gameConstants';
+import { GameState, TurnType } from '../constants/gameConstants';
 import { useUserContext } from './UserContext';
 import { buildPlayerFigureMovedMessage } from '../api/playerApi';
 import { buildClearBoardMessage } from '../api/appApi';
@@ -164,7 +164,7 @@ const ChessBoardContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (myTurn) {
-      if (myTurn.turnType === PlayerStatuses.MoveSkipped) {
+      if (myTurn.turnType === TurnType.MoveSkipped) {
         setSelectedItem(PieceName.SKIP);
         return;
       }
@@ -191,13 +191,8 @@ const ChessBoardContextProvider = ({ children }) => {
         setGlobalScore(0)
       } else {
         const scoresArray = turns
-          .filter(turn => turn.turnType === PlayerStatuses.FigurePlaced)
+          .filter(turn => turn.turnType === TurnType.FigurePlaced)
           .map(turn => turn.score);
-        
-        if (scoresArray.length === 0) {
-          setGlobalScore(0);
-          return;
-        }
 
         const average = calculateAverage(scoresArray);
         setGlobalScore(roundUp(average))

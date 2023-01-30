@@ -2,7 +2,7 @@ import { PlaceFigureMessage } from '../domain/messages';
 import { calculateScore } from '../helpers/calculate-score';
 import * as gameRoomService from './game-room.service';
 import logger from '../logger';
-import { Turn } from '../domain/game';
+import { Turn, TurnType } from '../domain/game';
 import { PlayerStatus, PlayerRole } from '../domain/player';
 
 export const playerHasMove = (roomId: string, playerId: string): boolean =>
@@ -10,12 +10,12 @@ export const playerHasMove = (roomId: string, playerId: string): boolean =>
 
 export const playerHasPlacedFigure = (roomId: string, playerId: string): boolean => {
   const move = findMoveByPlayerId(roomId, playerId);
-  return Boolean(move?.turnType === PlayerStatus.FigurePlaced);
+  return Boolean(move?.turnType === TurnType.FigurePlaced);
 };
 
 export const playerHasSkipped = (roomId: string, playerId: string): boolean => {
   const move = findMoveByPlayerId(roomId, playerId);
-  return Boolean(move?.turnType === PlayerStatus.MoveSkipped);
+  return Boolean(move?.turnType === TurnType.MoveSkipped);
 };
 
 export const areAllPlayersDone = (roomId: string): boolean => {
@@ -38,19 +38,19 @@ export const figureMoved = (
     removeTurn(roomId, payload.id);
   }
 
-  gameRoomService.getTurns(roomId).push({ ...payload, score, turnType: PlayerStatus.FigurePlaced });
+  gameRoomService.getTurns(roomId).push({ ...payload, score, turnType: TurnType.FigurePlaced });
   return gameRoomService.getTurns(roomId);
 };
 
 export const moveSkipped = (
   roomId: string,
-  id: string,
+  userId: string,
 ): void => {
-  if (playerHasMove(roomId, id)) {
-    removeTurn(roomId, id);
+  if (playerHasMove(roomId, userId)) {
+    removeTurn(roomId, userId);
   }
 
-  gameRoomService.getTurns(roomId).push({ id, turnType: PlayerStatus.MoveSkipped });
+  gameRoomService.getTurns(roomId).push({ id: userId, turnType: TurnType.MoveSkipped });
 };
 
 export const clearBoard = (roomId: string): void => {

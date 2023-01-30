@@ -1,5 +1,5 @@
 export function calculateAverage(moveValues: number[]): number {
-  const sum = moveValues.reduce((val, res) => val + res);
+  const sum = moveValues.reduce((val, res) => val + res, 0);
   return sum / moveValues.length;
 }
 

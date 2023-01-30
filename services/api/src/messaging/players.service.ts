@@ -89,22 +89,22 @@ export const resetGame = (ws: GameWebSocket): void => {
 
 export const moveSkipped: Handler = (
   ws,
-  { id }: MoveSkippedMessage,
+  { userId }: MoveSkippedMessage,
 ): void => {
   const players = getPlayers(ws.roomId);
 
   try {
-    const [playerConnection, player] = findPlayerById(ws.roomId, id);
+    const [playerConnection, player] = findPlayerById(ws.roomId, userId);
 
     if (player.role === PlayerRole.Spectator) {
       return;
     }
 
-    if (gameService.playerHasPlacedFigure(ws.roomId, id)) {
-      gameService.removeTurn(ws.roomId, id);
+    if (gameService.playerHasPlacedFigure(ws.roomId, userId)) {
+      gameService.removeTurn(ws.roomId, userId);
     }
 
-    gameService.moveSkipped(ws.roomId, id);
+    gameService.moveSkipped(ws.roomId, userId);
 
     logger.info(`Player ${player?.name} skips a move.`);
     players.set(playerConnection, {
@@ -135,12 +135,14 @@ const createNewPlayer = (params: {
     name: params.playerName,
     color: getPlayerAvatarColor(),
     role: params.role,
-    status: gameService.playerHasPlacedFigure(params.roomId, params.playerId)
-      ? PlayerStatus.FigurePlaced
-      : gameService.playerHasSkipped(params.roomId, params.playerId)
-        ? PlayerStatus.MoveSkipped
-        : PlayerStatus.ActionNotTaken,
+    status: PlayerStatus.ActionNotTaken,
   };
+
+  if (gameService.playerHasPlacedFigure(params.roomId, params.playerId)) {
+    newPlayer.status = PlayerStatus.FigurePlaced;
+  } else if (gameService.playerHasSkipped(params.roomId, params.playerId)) {
+    newPlayer.status = PlayerStatus.MoveSkipped;
+  }
 
   return newPlayer;
 };

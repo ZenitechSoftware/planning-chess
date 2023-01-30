@@ -26,11 +26,11 @@ export const getOrCreateRoom = (id?: string): GameRoom => {
     noServer: true,
   });
 
-  const newRoom = {
+  const newRoom: GameRoom = {
     roomId,
     server,
-    players: new Map<WebSocket, Player>(),
-    turns: <Turn[]>[],
+    players: new Map(),
+    turns: [],
   };
   rooms.set(roomId, newRoom);
 

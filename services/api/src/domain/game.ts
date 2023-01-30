@@ -1,5 +1,3 @@
-import { PlayerStatus } from './player';
-
 export interface Turn {
   row?: number;
   tile?: number;
@@ -7,5 +5,11 @@ export interface Turn {
   player?: string;
   id: string;
   score?: number;
-  turnType: PlayerStatus;
+  turnType: TurnType;
+}
+
+export enum TurnType {
+  MoveSkipped = 'MoveSkipped',
+  FigurePlaced = 'FigurePlaced',
+  ActionNotTaken = 'ActionNotTaken',
 }

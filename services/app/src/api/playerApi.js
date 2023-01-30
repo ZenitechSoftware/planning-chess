@@ -1,8 +1,8 @@
 import WS_EVENT_TYPES from '../constants/wsEventTypes';
 
-export const buildMoveSkippedEventMessage = (id) => ({
+export const buildMoveSkippedEventMessage = (userId) => ({
   type: WS_EVENT_TYPES.MOVE_SKIPPED,
-  payload: { id },
+  payload: { userId },
 });
 
 export const buildPlayerConnectedEventMessage = (playerName, id, role) => ({
