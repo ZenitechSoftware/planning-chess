@@ -160,15 +160,15 @@ export const playerConnected: Handler = (
 
   if (newPlayer.status !== PlayerStatus.ActionNotTaken) {
     const myTurn = gameService.findMoveByPlayerId(ws.roomId, newPlayerId);
-    const players = getPlayers(ws.roomId);
 
     if (myTurn) {
       sendMessage(ws, MessageType.SetMyTurn, myTurn);
-      publishFinalBoard(ws, players);
     }
   }
 
   newPlayerJoined(ws.roomId);
+  const players = getPlayers(ws.roomId);
+  publishFinalBoard(ws, players);
 };
 
 export const newPlayerJoined = (roomId: string): void => {
