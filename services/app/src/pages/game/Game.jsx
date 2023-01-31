@@ -18,6 +18,7 @@ import '../../static/style/game.css';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 import '../../components/gameFooter/game-footer.css';
+import wsReadyStates from '../../constants/wsReadyStates';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();
@@ -25,14 +26,24 @@ const Game = () => {
   const { ws, openWsConnection } = useWsContext();
   const { currentPlayer, lastTurn, removeFigureFromBoard } = useChessBoardContext();
 
-  useEffect(() => {
+  const connectToWs = useCallback(() => {
     openWsConnection({
       gameId,
       onConnect: (websocket) => {
         websocket.send(buildPlayerConnectedEventMessage(username, userId, role));
       }
     });
-  }, [gameId]);
+  }, [gameId, username, role, userId]);
+
+  window.onfocus = () => {
+    if(ws?.readyState === wsReadyStates.CLOSED) {
+      connectToWs();
+    }
+  }
+
+  useEffect(() => {
+    connectToWs();
+  }, []);
 
   const skipMove = useCallback((playerId) => {
     if (playerId) {
