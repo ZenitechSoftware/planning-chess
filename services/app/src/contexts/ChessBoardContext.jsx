@@ -103,6 +103,10 @@ const ChessBoardContextProvider = ({ children }) => {
     return [];
   }, [turns, gameState, voters]);
 
+  const myMove = useMemo(() => (
+    movedBy.find((moved) => moved.playerId === currentPlayerId)
+  ), [movedBy]);
+
   const finishMove = (turn) => {
     ws.send(
       buildPlayerFigureMovedMessage({ ...turn, player: userContext.username, playerId: currentPlayerId })
@@ -155,14 +159,16 @@ const ChessBoardContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (movedBy.length) {
-      const myMove = movedBy.find((moved) => moved.playerId === currentPlayerId);
-      if(myMove?.turnType === TurnType.MoveSkipped && selectedItem !== TurnType.MoveSkipped) {
-        setSelectedItem(PieceName.SKIP);
-      }
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }
-  }, [movedBy]);
+  }, [myMove]);
+
+  useEffect(() => {
+    if(myMove?.turnType === TurnType.MoveSkipped) {
+      setSelectedItem(PieceName.SKIP);
+    }
+  }, [myMove])
 
   useEffect(() => {
     if (myTurn) {
