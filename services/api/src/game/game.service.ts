@@ -47,14 +47,14 @@ export const figureMoved = (
   return gameRoomService.getTurns(roomId);
 };
 
-export const moveSkipped = (roomId: string, userId: string): void => {
-  if (playerHasMove(roomId, userId)) {
-    removeTurn(roomId, userId);
+export const moveSkipped = (roomId: string, playerId: string): void => {
+  if (playerHasMove(roomId, playerId)) {
+    removeTurn(roomId, playerId);
   }
 
   gameRoomService
     .getTurns(roomId)
-    .push({ playerId: userId, turnType: TurnType.MoveSkipped });
+    .push({ playerId: playerId, turnType: TurnType.MoveSkipped });
 };
 
 export const clearBoard = (roomId: string): void => {

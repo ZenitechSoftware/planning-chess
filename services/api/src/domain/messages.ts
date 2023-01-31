@@ -1,6 +1,6 @@
 import { GameWebSocket } from './GameRoom';
 import { Player, PlayerRole } from './player';
-import { Turn } from '../domain/game';
+import { Turn } from './game';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
