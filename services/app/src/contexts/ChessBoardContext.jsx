@@ -156,6 +156,9 @@ const ChessBoardContextProvider = ({ children }) => {
   useEffect(() => {
     if (movedBy.length) {
       const myMove = movedBy.find((moved) => moved.playerId === currentPlayerId);
+      if(myMove?.turnType === TurnType.MoveSkipped && selectedItem !== TurnType.MoveSkipped) {
+        setSelectedItem(PieceName.SKIP);
+      }
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }
