@@ -4,13 +4,15 @@ import {
   MessageType,
   PlaceFigureMessage,
   ReceivedMessage,
-  MoveSkippedMessage,
 } from '../../domain/messages';
 import { PlayerStatus, PlayerRole } from '../../domain/player';
 import * as gameRoomService from '../../game/game-room.service';
 import { voterConnect, spectatorConnect } from '../../testUtils/connectPlayer';
 import { ws } from '../../testUtils/wsConnection';
-import { getFigureMovedMessage, getMoveSkippedMessage } from '../../testUtils/messages';
+import {
+  getFigureMovedMessage,
+  getMoveSkippedMessage,
+} from '../../testUtils/messages';
 
 jest.mock('ws');
 jest.mock('uuid', () => ({
@@ -85,10 +87,7 @@ describe('player.service', () => {
 
     it('should set player status to FigurePlaced after he re-logs after making a move ', () => {
       voterConnect();
-      const message: ReceivedMessage<MessageType.FigureMoved> = {
-        type: MessageType.FigureMoved,
-        payload: testTurn,
-      };
+      const message = getFigureMovedMessage(testTurn);
       playerService.newMessageReceived(ws, message);
       playerService.unsubscribe(ws);
       voterConnect();
@@ -98,10 +97,7 @@ describe('player.service', () => {
 
     it('should set player status to MoveSkipped after he re-logs after skipping a move ', () => {
       voterConnect();
-      const message: ReceivedMessage<MessageType.MoveSkipped> = {
-        type: MessageType.MoveSkipped,
-        payload: { playerId: playerTestId },
-      };
+      const message = getMoveSkippedMessage(playerTestId);
       playerService.newMessageReceived(ws, message);
       playerService.unsubscribe(ws);
       voterConnect();
@@ -146,7 +142,10 @@ describe('player.service', () => {
 
       const skipMessage = getMoveSkippedMessage(playerTestId);
       playerService.newMessageReceived(ws, skipMessage);
-      const playerAfterSkip = playerService.findPlayerById(roomId, playerTestId);
+      const playerAfterSkip = playerService.findPlayerById(
+        roomId,
+        playerTestId,
+      );
       expect(playerAfterSkip[1].status).toBe(PlayerStatus.MoveSkipped);
     });
   });

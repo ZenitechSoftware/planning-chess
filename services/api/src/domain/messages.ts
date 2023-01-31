@@ -17,11 +17,12 @@ export enum MessageType {
   Ping = 'Ping',
   Pong = 'Pong',
   ErrorMessage = 'ErrorMessage',
+  ActionMade = 'ActionMade',
 }
 
 export type SendMessagePayloads = {
   [MessageType.NewBoardState]: Turn[];
-  [MessageType.FigureMoved]: Turn[];
+  [MessageType.ActionMade]: Turn[];
   [MessageType.ClearBoard]: void;
   [MessageType.SetMyTurn]: Turn;
   [MessageType.PlayerConnected]: Player[];

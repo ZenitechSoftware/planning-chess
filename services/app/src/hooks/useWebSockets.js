@@ -29,7 +29,7 @@ export const useWebSockets = () => {
         return setPlayers(payload);
       case 'NewBoardState':
         return setTurns(payload);
-      case 'FigureMoved':
+      case 'ActionMade':
         return setMovedBy(payload);
       case 'ClearBoard':
         return setMovedBy([]);

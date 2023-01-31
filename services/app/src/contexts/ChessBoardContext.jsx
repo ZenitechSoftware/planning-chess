@@ -34,7 +34,7 @@ const ChessBoardContextProvider = ({ children }) => {
       row.filter(cellLike => 'items' in cellLike)
       .flatMap(cell => cell.items)
     );
-    return allTurns.find(turn => turn.id === currentPlayerId) ?? null;
+    return allTurns.find(turn => turn.playerId === currentPlayerId) ?? null;
   }, [currentPlayer, chessBoard.board]);
 
   const isCurrentPlayerSpectator = useMemo(

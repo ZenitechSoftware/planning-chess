@@ -66,7 +66,9 @@ describe('game.service', () => {
       playerService.newMessageReceived(ws, figureMoveMessage(testTurn));
       const turnsAfterMove = gameRoomService.getTurns(roomId);
       expect(turnsAfterMove.length).toBe(1);
-      expect(turnsAfterMove).toEqual([{ ...testTurn, turnType: TurnType.FigurePlaced }]);
+      expect(turnsAfterMove).toEqual([
+        { ...testTurn, turnType: TurnType.FigurePlaced },
+      ]);
     });
 
     it('should return a turn by player id', () => {
@@ -134,7 +136,10 @@ describe('game.service', () => {
     it('playerHasSkipped method should return true if player has skipped the move', () => {
       voterConnect();
       gameService.moveSkipped(roomId, playerTestId);
-      const hasPlayerSkipped = gameService.playerHasSkipped(roomId, playerTestId);
+      const hasPlayerSkipped = gameService.playerHasSkipped(
+        roomId,
+        playerTestId,
+      );
       expect(hasPlayerSkipped).toBe(true);
     });
   });
