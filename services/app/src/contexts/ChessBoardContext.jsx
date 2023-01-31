@@ -87,7 +87,7 @@ const ChessBoardContextProvider = ({ children }) => {
     if (gameState === GameState.GAME_FINISHED && turns) {
       const voterList = voters.map(voter => {
         const tempVoter = {...voter}
-        const voterTurn = turns.find(turn => turn.id === voter.id)
+        const voterTurn = turns.find(turn => turn.playerId === voter.id)
         if (voterTurn) {
           tempVoter.score = voterTurn.score;
           return tempVoter;
@@ -121,8 +121,7 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const findUserById = (id) => players.find((element) => element.id === id);
-
-  const findMoveByUserId = (id) => turns.find((turn) => turn.id === id);
+  const findMoveByUserId = (id) => turns.find((turn) => turn.playerId === id);
   
   const placeItemOnBoard = (row, tile, figure) => {
     if (selectedItem === PieceName.SKIP) {
@@ -156,7 +155,7 @@ const ChessBoardContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (movedBy.length) {
-      const myMove = movedBy.find((moved) => moved.player === userContext.username);
+      const myMove = movedBy.find((moved) => moved.playerId === currentPlayerId);
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }

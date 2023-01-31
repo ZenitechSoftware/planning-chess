@@ -40,7 +40,7 @@ export const useChessBoard = () => {
       figure: figureName, 
       score: getPieceScore(figureName), 
       player: playerName, 
-      id: playerId 
+      playerId,
     });
     setBoard(copyOfBoard);
   };
