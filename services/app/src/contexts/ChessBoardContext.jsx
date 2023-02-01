@@ -158,7 +158,7 @@ const ChessBoardContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (movedBy.length) {
+    if (myMove) {
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }
