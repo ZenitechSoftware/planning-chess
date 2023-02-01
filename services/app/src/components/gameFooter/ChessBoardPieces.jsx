@@ -13,12 +13,12 @@ const ChessBoardPieces = ({ skipCurrentPlayerMove }) => {
     if (isCurrentPlayerSpectator) {
       return;
     }
-    
-    setSelectedItem(figureName);
 
     if (figureName === PieceName.SKIP) {
       skipCurrentPlayerMove();
     }
+    
+    setSelectedItem(figureName);
   };
 
   return (

@@ -1,5 +1,6 @@
 import { GameWebSocket } from './GameRoom';
 import { Player, PlayerRole } from './player';
+import { Turn } from './game';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
@@ -16,13 +17,14 @@ export enum MessageType {
   Ping = 'Ping',
   Pong = 'Pong',
   ErrorMessage = 'ErrorMessage',
+  ActionMade = 'ActionMade',
 }
 
 export type SendMessagePayloads = {
-  [MessageType.NewBoardState]: PlaceFigureMessage[];
-  [MessageType.FigureMoved]: PlaceFigureMessage[];
+  [MessageType.NewBoardState]: Turn[];
+  [MessageType.ActionMade]: Turn[];
   [MessageType.ClearBoard]: void;
-  [MessageType.SetMyTurn]: PlaceFigureMessage;
+  [MessageType.SetMyTurn]: Turn;
   [MessageType.PlayerConnected]: Player[];
   [MessageType.PlayerDisconnected]: Player[];
   [MessageType.MoveSkipped]: Player[];
@@ -56,12 +58,12 @@ export interface PlaceFigureMessage {
   tile: number;
   figure: string;
   player: string;
-  id: string;
+  playerId: string;
   score?: number;
 }
 
 export interface MoveSkippedMessage {
-  userId: string;
+  playerId: string;
 }
 export interface PlayerConnectedMessage {
   playerName: string;

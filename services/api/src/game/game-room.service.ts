@@ -2,13 +2,13 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import logger from '../logger';
 import { Player } from '../domain';
-import { PlaceFigureMessage } from '../domain/messages';
+import { Turn } from '../domain/game';
 
 interface GameRoom {
   roomId: string;
   server: WebSocketServer;
   players: Map<WebSocket, Player>;
-  turns: PlaceFigureMessage[];
+  turns: Turn[];
 }
 
 export const rooms = new Map<string, GameRoom>();
@@ -26,11 +26,11 @@ export const getOrCreateRoom = (id?: string): GameRoom => {
     noServer: true,
   });
 
-  const newRoom = {
+  const newRoom: GameRoom = {
     roomId,
     server,
-    players: new Map<WebSocket, Player>(),
-    turns: <PlaceFigureMessage[]>[],
+    players: new Map(),
+    turns: [],
   };
   rooms.set(roomId, newRoom);
 
@@ -43,8 +43,7 @@ export const getClients = (id: string): Set<WebSocket> =>
 export const getPlayers = (id: string): Map<WebSocket, Player> | null =>
   rooms.get(id)?.players || null;
 
-export const getTurns = (id: string): Array<PlaceFigureMessage> =>
-  rooms.get(id)?.turns;
+export const getTurns = (id: string): Array<Turn> => rooms.get(id)?.turns;
 
 export const printRooms = (): void => {
   for (const entry of rooms.entries()) {

@@ -7,7 +7,7 @@ import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
 import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
 import { PieceName } from '../constants/board';
-import { GameState } from '../constants/gameConstants';
+import { GameState, TurnType } from '../constants/gameConstants';
 import { useUserContext } from './UserContext';
 import { buildPlayerFigureMovedMessage } from '../api/playerApi';
 import { buildClearBoardMessage } from '../api/appApi';
@@ -34,7 +34,7 @@ const ChessBoardContextProvider = ({ children }) => {
       row.filter(cellLike => 'items' in cellLike)
       .flatMap(cell => cell.items)
     );
-    return allTurns.find(turn => turn.id === currentPlayerId) ?? null;
+    return allTurns.find(turn => turn.playerId === currentPlayerId) ?? null;
   }, [currentPlayer, chessBoard.board]);
 
   const isCurrentPlayerSpectator = useMemo(
@@ -87,7 +87,7 @@ const ChessBoardContextProvider = ({ children }) => {
     if (gameState === GameState.GAME_FINISHED && turns) {
       const voterList = voters.map(voter => {
         const tempVoter = {...voter}
-        const voterTurn = turns.find(turn => turn.id === voter.id)
+        const voterTurn = turns.find(turn => turn.playerId === voter.id)
         if (voterTurn) {
           tempVoter.score = voterTurn.score;
           return tempVoter;
@@ -103,9 +103,13 @@ const ChessBoardContextProvider = ({ children }) => {
     return [];
   }, [turns, gameState, voters]);
 
+  const myMove = useMemo(() => (
+    movedBy.find((moved) => moved.playerId === currentPlayerId)
+  ), [movedBy]);
+
   const finishMove = (turn) => {
     ws.send(
-      buildPlayerFigureMovedMessage({ ...turn, player: userContext.username, id: currentPlayerId })
+      buildPlayerFigureMovedMessage({ ...turn, player: userContext.username, playerId: currentPlayerId })
     )
   };
 
@@ -121,8 +125,7 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const findUserById = (id) => players.find((element) => element.id === id);
-
-  const findMoveByUserId = (id) => turns.find((turn) => turn.id === id);
+  const findMoveByUserId = (id) => turns.find((turn) => turn.playerId === id);
   
   const placeItemOnBoard = (row, tile, figure) => {
     if (selectedItem === PieceName.SKIP) {
@@ -155,17 +158,33 @@ const ChessBoardContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (movedBy.length) {
-      const myMove = movedBy.find((moved) => moved.player === userContext.username);
+    if (myMove) {
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }
-  }, [movedBy]);
+  }, [myMove]);
+
+  useEffect(() => {
+    if(myMove?.turnType === TurnType.MoveSkipped) {
+      setSelectedItem(PieceName.SKIP);
+    }
+  }, [myMove])
 
   useEffect(() => {
     if (myTurn) {
+      if (myTurn.turnType === TurnType.MoveSkipped) {
+        setSelectedItem(PieceName.SKIP);
+        return;
+      }
       const { row, tile, figure } = myTurn;
-      placeItemOnBoard(row, tile, figure);
+      setSelectedItem(figure);
+      chessBoard.insertFigureIntoBoard({
+        row,
+        tile,
+        figureName: figure,
+        playerId: currentPlayerId,
+        playerName: userContext.username,
+      });
       setScore(myTurn.score);
     }
   }, [myTurn]);
@@ -179,9 +198,12 @@ const ChessBoardContextProvider = ({ children }) => {
       if (voters.length === 1) {
         setGlobalScore(0)
       } else {
-        const scoresArray = turns.map(turn => turn.score);
+        const scoresArray = turns
+          .filter(turn => turn.turnType === TurnType.FigurePlaced)
+          .map(turn => turn.score);
+
         const average = calculateAverage(scoresArray);
-        setGlobalScore(roundUp(average))
+        setGlobalScore(roundUp(average));
       }
 
       const currentPlayerMove = findMoveByUserId(currentPlayerId);
