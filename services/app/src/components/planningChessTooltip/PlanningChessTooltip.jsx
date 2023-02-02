@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Tooltip } from "antd";
 
-const PlanningChessTooltip = ({ className, children, hideArrow, ...rest}) => (
+const PlanningChessTooltip = ({ testid, className, children, hideArrow, ...rest}) => (
   <Tooltip
     {...rest}
+    id={testid}
+    // data-testid={dataTestid}
     className='custom-tooltip'
     overlayClassName={classnames({
       'tooltip-arrow-hidden': hideArrow,
@@ -21,6 +23,7 @@ PlanningChessTooltip.defaultProps = {
   handleClick: null,
   className: undefined,
   title: null,
+  testid: null,
 }
 
 PlanningChessTooltip.propTypes = {
@@ -32,6 +35,7 @@ PlanningChessTooltip.propTypes = {
   hideArrow: PropTypes.bool,
   handleClick: PropTypes.func,
   className: PropTypes.string,
+  testid: PropTypes.string,
 };
 
 export default PlanningChessTooltip;

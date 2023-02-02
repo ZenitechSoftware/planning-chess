@@ -21,6 +21,8 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
     <PlanningChessTooltip 
       title={figureName === PieceName.SKIP ? skipTooltipTxt : null}
       placement="top"
+      testid={figureName === PieceName.SKIP ? 'skip-btn-tooltip' : null}
+      open={figureName === PieceName.SKIP}
     >
       <button
         type="button"
