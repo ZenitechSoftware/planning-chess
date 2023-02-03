@@ -20,6 +20,11 @@
   text-align: center;
 }
 
+.role-selection-btn:focus {
+  border: 1px solid #8913A6;
+  outline: none;
+}
+
 .role-selection-btn:hover {
   cursor: pointer;
   border: 1px solid #8913A6;
