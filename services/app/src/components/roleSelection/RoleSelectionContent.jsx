@@ -12,38 +12,17 @@ const RoleSelectionContent = () => {
   }, []);
 
   const handleKeyPress = (e) => {
-    console.log(e);
-    // if(document.activeElement === spectatorButtonRef.current) {
-    //   voterButtonRef.current.focus();
-    // }
-
-    
-    if (e.key === 'Tab' || e.keyCode === '9' || e.shiftKey) {
+    if (e.key === 'Tab' || e.keyCode === '9') {
+      if (e.shiftKey) {
+        e.preventDefault();
+      }
+      e.preventDefault();
       if (document.activeElement === voterButtonRef.current) {
         spectatorButtonRef.current.focus();
       } else {
         voterButtonRef.current.focus();
       }
     }
-
-
-    // if (e.key === 'Tab' || e.keyCode === '9') {
-      // if ( e.shiftKey ) {
-        // if (document.activeElement === spectatorButtonRef.current) {
-          // voterButtonRef.current.focus();
-          // return;
-        // }
-        // voterButtonRef.current.focus();
-
-
-
-        // else {
-          // voterButtonRef.focus();
-        // }
-
-
-      // }
-    // }
   }
   
   return (
