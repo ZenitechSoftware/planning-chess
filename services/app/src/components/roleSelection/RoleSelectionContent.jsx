@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import './role-selection.css';
 import { PlayerRoles } from '../../constants/playerConstants';
 import RoleSelectionCard from './RoleSelectionCard';
@@ -6,10 +6,6 @@ import RoleSelectionCard from './RoleSelectionCard';
 const RoleSelectionContent = () => {
   const spectatorButtonRef = useRef();
   const voterButtonRef = useRef();
-
-  useEffect(() => {
-    voterButtonRef.current.focus();
-  }, []);
 
   const onVoterFocusChange = () => {
     spectatorButtonRef.current.focus();
