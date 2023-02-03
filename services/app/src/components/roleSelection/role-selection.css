@@ -21,14 +21,14 @@
 }
 
 .role-selection-btn:focus {
-  border: 1px solid #8913A6;
+  border: 1px solid var(--purple);
   outline: none;
 }
 
 .role-selection-btn:hover {
   cursor: pointer;
-  border: 1px solid #8913A6;
-  box-shadow: 0 0 11px #8913A650;
+  border: 1px solid var(--purple);
+  box-shadow: 0 0 11px var(--purple-shadow);
 }
 
 .role-selection-btn > img {
