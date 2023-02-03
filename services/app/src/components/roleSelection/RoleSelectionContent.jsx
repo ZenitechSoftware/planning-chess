@@ -11,17 +11,17 @@ const RoleSelectionContent = () => {
     voterButtonRef.current.focus();
   }, []);
 
-  const handleKeyPress = (e) => {
+  const onVoterFocusChange = (e) => {
     if (e.key === 'Tab' || e.keyCode === '9') {
-      if (e.shiftKey) {
-        e.preventDefault();
-      }
       e.preventDefault();
-      if (document.activeElement === voterButtonRef.current) {
-        spectatorButtonRef.current.focus();
-      } else {
-        voterButtonRef.current.focus();
-      }
+      spectatorButtonRef.current.focus();
+    }
+  }
+
+  const onSpectatorFocusChange = (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      voterButtonRef.current.focus();
     }
   }
   
@@ -37,13 +37,13 @@ const RoleSelectionContent = () => {
           ref={voterButtonRef}
           playerRole={PlayerRoles.Voter}
           roleDescription="Voters estimate tasks in story points. Choose this if you're an Engineer or similar."
-          handleKeyPress={handleKeyPress}
+          onTabPress={onVoterFocusChange}
         />
         <RoleSelectionCard
           ref={spectatorButtonRef}
           playerRole={PlayerRoles.Spectator}
           roleDescription="Spectators don't participate in task estimating. Choose this if you're in Management or similar."
-          handleKeyPress={handleKeyPress}
+          onTabPress={onSpectatorFocusChange}
         />
       </div>
     </div>

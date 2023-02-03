@@ -9,7 +9,7 @@ import { buildPathFromTemplate, ROUTES } from '../../pages/routes';
 
 
 const RoleSelectionCard = forwardRef((props, ref) => {
-  const { playerRole, roleDescription, handleKeyPress } = props;
+  const { playerRole, roleDescription, onTabPress } = props;
 
   const navigate = useNavigate();
   const { gameId, setRole } = useUserContext();
@@ -33,7 +33,7 @@ const RoleSelectionCard = forwardRef((props, ref) => {
       className='role-selection-btn border-r-12 padding-sm'
       onClick={handleRoleSelect}
       ref={ref}
-      onKeyDown={(e) => handleKeyPress(e)}
+      onKeyDown={(e) => onTabPress(e)}
     >
       <img src={boxIcon} alt="Role selection box logo" />
       <p className='font-size-m weight-800'>{playerRole}</p>
@@ -48,7 +48,7 @@ RoleSelectionCard.propTypes = {
     PlayerRoles.Spectator
   ]).isRequired,
   roleDescription: PropTypes.string.isRequired,
-  handleKeyPress: PropTypes.func.isRequired,
+  onTabPress: PropTypes.func.isRequired,
 };
 
 export default RoleSelectionCard;

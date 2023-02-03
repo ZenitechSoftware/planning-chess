@@ -28,7 +28,7 @@
 .role-selection-btn:hover {
   cursor: pointer;
   border: 1px solid #8913A6;
-  box-shadow: 0 0 11px #8913A633;
+  box-shadow: 0 0 11px #8913A650;
 }
 
 .role-selection-btn > img {
