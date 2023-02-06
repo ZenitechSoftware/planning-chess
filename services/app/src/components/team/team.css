@@ -1,16 +1,20 @@
 .team-container {
   box-sizing: border-box;
   border: 1px solid var(--dark-border);
-  flex: none;
   order: 1;
   width: 384px;
+  display: flex;
+  flex-flow: column;
+}
+
+.team-header {
+  flex: 0 1 auto;
 }
 
 .team-list-items {
-  flex-grow: 1;
-  max-height: 392px;
   overflow:hidden;
   overflow-y:auto;
+  flex: 1 1 auto;
 }
 
 .team-list-item {
@@ -60,6 +64,8 @@
 .team-list-footer {
   box-shadow: inset 0px 1px 0px #00000012;
   text-align: center;
+
+  flex: 0 1 40px;
 }
 
 .team-list-footer button:disabled {

@@ -26,7 +26,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
         type="button"
         data-testid={`${figureName}-piece-btn`} 
         onClick={() => onSelect()}
-        className={classnames('piece-field padding-y-s padding-x-m f-center rubik-font', {
+        className={classnames('piece-field padding-y-s padding-x-sm f-center rubik-font', {
           'piece-field-selected': selectedItem === figureName,
           // disabling with class, because antd appends unnecessary spam around the button when its disabled
           'disabled': disabled,
