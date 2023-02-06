@@ -8,7 +8,7 @@ const locator = {
   },
   text: {
     username: '#username',
-    linkCopiedToClipboard: '//*[contains(text(), "Link copied to clipboard")]',
+    linkCopiedToClipboard: '//*[text() = "Link copied to clipboard"]',
   },
   chessBoard: {
     board: '#chess-board',
@@ -17,7 +17,7 @@ const locator = {
     container: '$chess-pieces-container',
   },
   buttons: {
-    copyLink: '//*[contains(text(), "Copy Link")]',
+    copyLink: locate('//*[text() = "Copy Link"]').at(1),
     restartGame: '//button/span[contains(text(), "Restart game")]',
   },
 };
@@ -35,11 +35,11 @@ export = {
   },
 
   checkCopyLinkButton: () => {
-    I.waitForElement(locator.buttons.copyLink, 10);
+    I.waitForElement(locator.buttons.copyLink);
     I.click(locator.buttons.copyLink);
-    I.waitForElement(locator.text.linkCopiedToClipboard, 7);
-    I.waitForInvisible(locator.text.linkCopiedToClipboard, 7);
+    I.waitForElement(locator.text.linkCopiedToClipboard);
+    I.waitForInvisible(locator.text.linkCopiedToClipboard);
     I.click(locator.buttons.copyLink);
-    I.waitForElement(locator.text.linkCopiedToClipboard, 7);
+    I.waitForElement(locator.text.linkCopiedToClipboard);
   },
 };
