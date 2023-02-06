@@ -3,8 +3,8 @@
   border: 1px solid var(--dark-border);
   order: 1;
   width: 384px;
-  display: flex;
-  flex-flow: column;
+  height: 843px;
+  margin-bottom: 10px;
 }
 
 .team-header {
@@ -64,8 +64,6 @@
 .team-list-footer {
   box-shadow: inset 0px 1px 0px #00000012;
   text-align: center;
-
-  flex: 0 1 40px;
 }
 
 .team-list-footer button:disabled {

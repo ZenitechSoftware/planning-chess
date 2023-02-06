@@ -1,0 +1,6 @@
+.game-view {
+  display: flex;
+  width: 960px;
+  justify-content: space-between;
+}
+  

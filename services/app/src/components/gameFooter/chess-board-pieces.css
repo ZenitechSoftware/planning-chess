@@ -7,7 +7,7 @@
 }
 
 .piece-field {
-  width: 100px;
+  width: 75px;
   flex-direction: column;
   border: 2px solid transparent;
   cursor: pointer;

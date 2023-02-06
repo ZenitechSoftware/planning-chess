@@ -14,7 +14,9 @@ import {
   buildPlayerConnectedEventMessage,
 } from '../../api/playerApi';
 import GameHeader from '../../components/header/GameHeader';
-import './game.css';
+import GameLayout from '../../components/gameLayout/GameLayout';
+import GameLayoutMainArea from '../../components/gameLayout/GameLayoutMainArea';
+import GameLayoutSideArea from '../../components/gameLayout/GameLayoutSideArea';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 import '../../components/gameFooter/game-footer.css';
@@ -60,19 +62,21 @@ const Game = () => {
   }, [skipMove, currentPlayer, lastTurn]);
 
   return (
-    <div className='#game-screen'>
+    <>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
       <GameHeader />
-      <div className="game-view">
-        <div className='game-content'>
+      <GameLayout>
+        <GameLayoutMainArea>
           <ChessBoard />
           <GameFooter
             skipCurrentPlayerMove={skipCurrentPlayerMove}
           />
-        </div>
-        <Team skipMove={skipMove} />
-      </div>
-    </div>
+        </GameLayoutMainArea> 
+        <GameLayoutSideArea>
+          <Team skipMove={skipMove} />
+        </GameLayoutSideArea>
+      </GameLayout>
+    </>
   );
 }
 
