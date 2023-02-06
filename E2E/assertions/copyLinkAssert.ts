@@ -9,7 +9,7 @@ export = {
       I.waitForElement(gamePage.locator.buttons.copyLink);
       I.click(gamePage.locator.buttons.copyLink); 
       I.usePlaywrightTo('check clipboard', async ({ page, browserContext }) => {
-        await browserContext.grantPermissions(['clipboard-write', 'clipboard-read']);
+        await browserContext.grantPermissions(['clipboard-read']);
         let clipboardText = await page.evaluate("navigator.clipboard.readText()");
         assert.strictEqual(currentUrl, clipboardText);  
       });
