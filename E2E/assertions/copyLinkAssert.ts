@@ -1,4 +1,5 @@
 import assert = require("assert");
+import { displayPartsToString } from "typescript";
 import gamePage = require("../pageObjects/game.page");
 const { I } = inject();
 
@@ -7,12 +8,10 @@ export = {
       let currentUrl = await I.grabCurrentUrl();
       I.waitForElement(gamePage.locator.buttons.copyLink);
       I.click(gamePage.locator.buttons.copyLink); 
-      let clipboardLink= window.navigator.clipboard.read();
-     
-      // let clipboardLink = await navigator.clipboard.readText();
-      //let clipboardLink= setTimeout(async()=> await window.navigator.clipboard.readText(), 3000);
-      // let clipboardLink = window.Clipboard.toString();
-   
-      assert.strictEqual(currentUrl, clipboardLink);
+      I.usePlaywrightTo('check clipboard', async ({ page, browserContext }) => {
+        await browserContext.grantPermissions(['clipboard-write', 'clipboard-read']);
+        let clipboardText = await page.evaluate("navigator.clipboard.readText()");
+        assert.strictEqual(currentUrl, clipboardText);  
+      });
   },
 };
