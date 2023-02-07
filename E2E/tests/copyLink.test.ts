@@ -20,5 +20,8 @@ Scenario('Spectator can copy a game link',() => {
 
 Scenario('Check if the link in the clipboard was copied correctly', async () => {
   login.voterLogin(username.user1);
-  await copyLinkAssert.checkIfTheLinkWasCopied();
+  const currentUrl = await I.grabCurrentUrl();
+  I.waitForElement(game.locator.buttons.copyLink);
+  I.click(game.locator.buttons.copyLink); 
+  await copyLinkAssert.checkIfTheLinkWasCopied(currentUrl);
 });
