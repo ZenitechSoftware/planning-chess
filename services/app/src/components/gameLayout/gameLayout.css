@@ -3,4 +3,8 @@
   width: 960px;
   justify-content: space-between;
 }
+
+.game-layout-side-area {
+  height: 820px;
+}
   

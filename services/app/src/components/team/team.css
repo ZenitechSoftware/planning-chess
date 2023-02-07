@@ -3,8 +3,7 @@
   border: 1px solid var(--dark-border);
   order: 1;
   width: 384px;
-  height: 843px;
-  margin-bottom: 10px;
+  height: inherit;
 }
 
 .team-header {
