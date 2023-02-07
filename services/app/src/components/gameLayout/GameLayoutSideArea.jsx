@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const GameLayoutSideArea = ({ children }) => (
-  <div className='game-layout-side-area margin-b-s'>
+  <div className='game-layout-side-area'>
     {children}
   </div>
 );

@@ -1,10 +1,9 @@
 .game-view {
   display: flex;
-  width: 960px;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .game-layout-side-area {
-  height: 820px;
+  height: 800px;
 }
   

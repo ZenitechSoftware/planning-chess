@@ -2,7 +2,7 @@
 #game-footer {
   display: flex;
   flex-direction: column;
-  width: 540px;
+  width: 100%;
 }
 
 /*-----Game Footer Inactive-----*/

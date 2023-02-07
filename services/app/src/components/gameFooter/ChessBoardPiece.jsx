@@ -37,7 +37,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           alt={figureName} 
           className='figure-img'
         />
-        <p className="figure-title font-size-m">
+        <p className="figure-title font-size-s weight-500">
           {figureName}
         </p>
         <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
