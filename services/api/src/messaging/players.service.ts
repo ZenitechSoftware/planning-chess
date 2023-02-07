@@ -230,6 +230,10 @@ export const unsubscribe = (ws: GameWebSocket): void => {
     type: MessageType.PlayerDisconnected,
     payload: allPlayers,
   });
+
+  if (gameService.areAllPlayersDone(ws.roomId)) {
+    publishFinalBoard(ws);
+  }
 };
 
 export const publish = <T extends keyof SendMessagePayloads>(
