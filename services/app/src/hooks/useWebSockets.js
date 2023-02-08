@@ -44,6 +44,14 @@ export const useWebSockets = () => {
     }
   };
 
+  // const testEvent = new Event('eventTest');
+
+  // ws?.addEventListener('eventTest', e => {
+  //   console.log(e)
+  // });
+
+  // ws?.dispatchEvent(testEvent);
+
   useEffect(() => {
     if (ws) {
       ws.addEventListener('message', (event) => {

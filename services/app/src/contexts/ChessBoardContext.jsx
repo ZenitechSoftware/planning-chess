@@ -170,6 +170,8 @@ const ChessBoardContextProvider = ({ children }) => {
     }
   }, [myMove])
 
+  //--------------------------------------------------------------------------------------------------------------------
+
   useEffect(() => {
     if (myTurn) {
       if (myTurn.turnType === TurnType.MoveSkipped) {
@@ -188,6 +190,27 @@ const ChessBoardContextProvider = ({ children }) => {
       setScore(myTurn.score);
     }
   }, [myTurn]);
+
+  //--------------------------------------------------------------------------------------------------------------------
+  ws.addWsEventListener('SetMyTurn', () => {
+    if (myTurn) {
+      if (myTurn.turnType === TurnType.MoveSkipped) {
+        setSelectedItem(PieceName.SKIP);
+        return;
+      }
+      const { row, tile, figure } = myTurn;
+      setSelectedItem(figure);
+      chessBoard.insertFigureIntoBoard({
+        row,
+        tile,
+        figureName: figure,
+        playerId: currentPlayerId,
+        playerName: userContext.username,
+      });
+      setScore(myTurn.score);
+    }
+  });
+  //--------------------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     if (turns.length) {
