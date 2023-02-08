@@ -11,12 +11,13 @@ import { GameState, TurnType } from '../constants/gameConstants';
 import { useUserContext } from './UserContext';
 import { buildPlayerFigureMovedMessage } from '../api/playerApi';
 import { buildClearBoardMessage } from '../api/appApi';
+import { clearConfigCache } from 'prettier';
 
 export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
   const { ws } = useContext(WsContext);
-  const { turns, myTurn, movedBy, players, currentPlayerId } = useWebSockets();
+  const { turns, myTurn, movedBy, players, currentPlayerId, addWsEventListener } = useWebSockets();
   const userContext = useUserContext();
   const chessBoard = useChessBoard();
   
@@ -172,8 +173,27 @@ const ChessBoardContextProvider = ({ children }) => {
 
   //--------------------------------------------------------------------------------------------------------------------
 
-  useEffect(() => {
-    if (myTurn) {
+  // useEffect(() => {
+  //   if (myTurn) {
+  //     if (myTurn.turnType === TurnType.MoveSkipped) {
+  //       setSelectedItem(PieceName.SKIP);
+  //       return;
+  //     }
+  //     const { row, tile, figure } = myTurn;
+  //     setSelectedItem(figure);
+  //     chessBoard.insertFigureIntoBoard({
+  //       row,
+  //       tile,
+  //       figureName: figure,
+  //       playerId: currentPlayerId,
+  //       playerName: userContext.username,
+  //     });
+  //     setScore(myTurn.score);
+  //   }
+  // }, [myTurn]);
+  
+  React.useEffect(() => {
+    addWsEventListener('SetMyTurn', (myTurn) => {
       if (myTurn.turnType === TurnType.MoveSkipped) {
         setSelectedItem(PieceName.SKIP);
         return;
@@ -188,28 +208,29 @@ const ChessBoardContextProvider = ({ children }) => {
         playerName: userContext.username,
       });
       setScore(myTurn.score);
-    }
-  }, [myTurn]);
+    });
+  }, []);
+
 
   //--------------------------------------------------------------------------------------------------------------------
-  ws.addWsEventListener('SetMyTurn', () => {
-    if (myTurn) {
-      if (myTurn.turnType === TurnType.MoveSkipped) {
-        setSelectedItem(PieceName.SKIP);
-        return;
-      }
-      const { row, tile, figure } = myTurn;
-      setSelectedItem(figure);
-      chessBoard.insertFigureIntoBoard({
-        row,
-        tile,
-        figureName: figure,
-        playerId: currentPlayerId,
-        playerName: userContext.username,
-      });
-      setScore(myTurn.score);
-    }
-  });
+  // ws.addWsEventListener('SetMyTurn', () => {
+  //   if (myTurn) {
+  //     if (myTurn.turnType === TurnType.MoveSkipped) {
+  //       setSelectedItem(PieceName.SKIP);
+  //       return;
+  //     }
+  //     const { row, tile, figure } = myTurn;
+  //     setSelectedItem(figure);
+  //     chessBoard.insertFigureIntoBoard({
+  //       row,
+  //       tile,
+  //       figureName: figure,
+  //       playerId: currentPlayerId,
+  //       playerName: userContext.username,
+  //     });
+  //     setScore(myTurn.score);
+  //   }
+  // });
   //--------------------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
@@ -217,18 +238,15 @@ const ChessBoardContextProvider = ({ children }) => {
       if (gameState === GameState.GAME_FINISHED) {
         chessBoard.insertAllTurnsIntoBoard(turns);
       }
-
       if (voters.length === 1) {
         setGlobalScore(0)
       } else {
         const scoresArray = turns
           .filter(turn => turn.turnType === TurnType.FigurePlaced)
           .map(turn => turn.score);
-
         const average = calculateAverage(scoresArray);
         setGlobalScore(roundUp(average));
       }
-
       const currentPlayerMove = findMoveByUserId(currentPlayerId);
       if (currentPlayer.role !== PlayerRoles.Spectator) {
         setSelectedItem(currentPlayerMove?.figure ?? PieceName.SKIP);

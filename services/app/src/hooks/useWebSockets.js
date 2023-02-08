@@ -1,9 +1,10 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import { WsContext } from '../contexts/ws-context';
+
+const eventListeners = {}
 
 export const useWebSockets = () => {
   const userContext = useUserContext();
@@ -16,50 +17,60 @@ export const useWebSockets = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { ws } = useContext(WsContext);
 
-  const websocketReducer = (type, payload) => {
-    switch (type) {
-      case 'PlayerAlreadyExists':
-        return setIsAnotherSessionActive(true);
-      case 'PlayerSuccessfullyJoined':
-        userContext.setUserId(payload)
-        return setCurrentPlayerId(payload);
-      case 'UpdatePlayerList':
-        return setPlayers(payload);
-      case 'PlayerDisconnected' :
-        return setPlayers(payload);
-      case 'NewBoardState':
-        return setTurns(payload);
-      case 'ActionMade':
-        return setMovedBy(payload);
-      case 'ClearBoard':
-        return setMovedBy([]);
-      case 'SetMyTurn':
-        return setMyTurn(payload);
-      case 'MoveSkipped':
-        return setPlayers(payload);
-      case 'ErrorMessage':
-        return setErrorMessage(payload);
-      default:
-        return null;
+  const addWsEventListener = (event, callbackFn) => {
+    console.log('adding event listner');
+    if (eventListeners[event]) {
+      eventListeners[event].push(callbackFn);
+    } else {
+      eventListeners[event] = [callbackFn];
     }
   };
 
-  // const testEvent = new Event('eventTest');
+  useEffect(() => {
+    console.log("🚀 ~ useWebSockets ~ ws", ws);
+  }, [ws]);
 
-  // ws?.addEventListener('eventTest', e => {
-  //   console.log(e)
-  // });
+  // const websocketReducer = (type, payload) => {
+  //   switch (type) {
+  //     case 'PlayerAlreadyExists':
+  //       return setIsAnotherSessionActive(true);
+  //     case 'PlayerSuccessfullyJoined':
+  //       userContext.setUserId(payload)
+  //       return setCurrentPlayerId(payload);
+  //     case 'UpdatePlayerList':
+  //       return setPlayers(payload);
+  //     case 'PlayerDisconnected' :
+  //       return setPlayers(payload);
+  //     case 'NewBoardState':
+  //       return setTurns(payload);
+  //     case 'ActionMade':
+  //       return setMovedBy(payload);
+  //     case 'ClearBoard':
+  //       return setMovedBy([]);
+  //     case 'SetMyTurn':
+  //       return setMyTurn(payload);
+  //     case 'MoveSkipped':
+  //       return setPlayers(payload);
+  //     case 'ErrorMessage':
+  //       return setErrorMessage(payload);
+  //     default:
+  //       return null;
+  //   }
+  // };
 
-  // ws?.dispatchEvent(testEvent);
+  const wsEventHandler = React.useCallback((event) => {
+    const { type, payload } = JSON.parse(event.data);
+    const eventHandlers = eventListeners[type];
+    if (eventHandlers) {
+      eventHandlers.forEach(handler => handler(payload))
+    }
+  }, []);
 
   useEffect(() => {
     if (ws) {
-      ws.addEventListener('message', (event) => {
-        const { type, payload } = JSON.parse(event.data);
-        websocketReducer(type, payload);
-      });
+      ws?.addEventListener('message', wsEventHandler);
     }
   }, [ws]);
 
-  return { players, turns, movedBy, myTurn, currentPlayerId, isAnotherSessionActive, errorMessage };
+  return { players, turns, movedBy, myTurn, currentPlayerId, isAnotherSessionActive, errorMessage, addWsEventListener };
 };
