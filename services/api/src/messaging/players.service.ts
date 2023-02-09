@@ -185,12 +185,7 @@ export const playerConnected: Handler = (
     publishFinalBoard(ws);
   }
 
-  newPlayerJoined(ws.roomId);
-};
-
-export const newPlayerJoined = (roomId: string): void => {
   logger.info('Publishing: new player joined the game.');
-  publishAllPlayers(roomId);
 };
 
 export const publishAllPlayers = (roomId: string): void => {

@@ -72,7 +72,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const finished = useMemo(() => [
     PlayerStatuses.FigurePlaced,
     PlayerStatuses.MoveSkipped
-  ].includes(players.find(p => p.id === currentPlayerId)?.status), [players]);
+  ].includes(currentPlayer?.status), [currentPlayer]);
 
   const gameState = useMemo(() => {
     const votersWhoDidNotMove = voters
