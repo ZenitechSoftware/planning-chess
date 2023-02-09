@@ -181,11 +181,11 @@ export const playerConnected: Handler = (
     sendMessage(ws, MessageType.SetMyTurn, myTurn);
   }
 
+  publishAllPlayers(ws.roomId);
+
   if (gameService.areAllPlayersDone(ws.roomId)) {
     publishFinalBoard(ws);
   }
-
-  logger.info('Publishing: new player joined the game.');
 };
 
 export const publishAllPlayers = (roomId: string): void => {
@@ -210,7 +210,6 @@ export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
   const players = getPlayers(ws.roomId);
   logger.info(`New player "${newPlayer.name}" joined the game.`);
   players.set(ws, newPlayer);
-  publishAllPlayers(ws.roomId);
 };
 
 export const unsubscribe = (ws: GameWebSocket): void => {

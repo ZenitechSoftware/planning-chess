@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { useChessBoard } from '../hooks/useChessBoard';
-import { WsContext } from './ws-context';
+import { useWsContext } from './ws-context';
 import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
 import { PieceName } from '../constants/board';
 import { GameState, TurnType } from '../constants/gameConstants';
@@ -15,7 +15,9 @@ import { MessageType } from '../constants/messages';
 export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
-  const { ws, addWsEventListener } = useContext(WsContext);
+  const { ws, addWsEventListener } = useWsContext();
+
+
   const userContext = useUserContext();
   const chessBoard = useChessBoard();
   
