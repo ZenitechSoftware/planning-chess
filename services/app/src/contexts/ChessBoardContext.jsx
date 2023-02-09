@@ -258,7 +258,6 @@ const ChessBoardContextProvider = ({ children }) => {
         isCurrentPlayerSpectator,
         gameState,
         votersListWithScores,
-        // from useWebSockets
         currentPlayerId,
         isAnotherSessionActive,
         players,
