@@ -80,7 +80,6 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
 export const resetGame = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
   setDefaultStatusForPlayers(ws);
-  publish(ws.roomId, { type: MessageType.ClearBoard });
   publishBoard(ws.roomId);
   publishAllPlayers(ws.roomId);
 };

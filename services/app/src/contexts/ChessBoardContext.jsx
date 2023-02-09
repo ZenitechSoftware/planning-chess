@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { useChessBoard } from '../hooks/useChessBoard';
-import { useWebSockets } from '../hooks/useWebSockets';
 import { WsContext } from './ws-context';
 import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
 import { PieceName } from '../constants/board';
@@ -11,19 +10,24 @@ import { GameState, TurnType } from '../constants/gameConstants';
 import { useUserContext } from './UserContext';
 import { buildPlayerFigureMovedMessage } from '../api/playerApi';
 import { buildClearBoardMessage } from '../api/appApi';
-import { clearConfigCache } from 'prettier';
+import { MessageType } from '../constants/messages';
 
 export const ChessBoardContext = createContext();
 
 const ChessBoardContextProvider = ({ children }) => {
-  const { ws } = useContext(WsContext);
-  const { turns, myTurn, movedBy, players, currentPlayerId, addWsEventListener } = useWebSockets();
+  const { ws, addWsEventListener } = useContext(WsContext);
   const userContext = useUserContext();
   const chessBoard = useChessBoard();
   
   const [score, setScore] = useState(0);
   const [globalScore, setGlobalScore] = useState(0);
   const [selectedItem, setSelectedItem] = useState('');
+
+  const [currentPlayerId, setCurrentPlayerId] = useState(null);
+  const [isAnotherSessionActive, setIsAnotherSessionActive] = useState(false);
+  const [players, setPlayers] = useState([]);
+  const [turns, setTurns] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const currentPlayer = useMemo(
     () => players.find((user) => user.id === currentPlayerId),
@@ -41,7 +45,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const isCurrentPlayerSpectator = useMemo(
     () => currentPlayer?.role === PlayerRoles.Spectator, [currentPlayer]
   )
-
+ 
   const sortedPlayers = useMemo(() => {
     const otherPlayers = players?.filter(p => p.id !== currentPlayerId);
     return [currentPlayer, ...otherPlayers];
@@ -82,7 +86,7 @@ const ChessBoardContextProvider = ({ children }) => {
     }
 
     return GameState.GAME_NOT_STARTED;
-  }, [players, turns]);
+  }, [players]);
 
   const votersListWithScores = useMemo(() => {
     if (gameState === GameState.GAME_FINISHED && turns) {
@@ -104,10 +108,6 @@ const ChessBoardContextProvider = ({ children }) => {
     return [];
   }, [turns, gameState, voters]);
 
-  const myMove = useMemo(() => (
-    movedBy.find((moved) => moved.playerId === currentPlayerId)
-  ), [movedBy]);
-
   const finishMove = (turn) => {
     ws.send(
       buildPlayerFigureMovedMessage({ ...turn, player: userContext.username, playerId: currentPlayerId })
@@ -126,7 +126,6 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const findUserById = (id) => players.find((element) => element.id === id);
-  const findMoveByUserId = (id) => turns.find((turn) => turn.playerId === id);
   
   const placeItemOnBoard = (row, tile, figure) => {
     if (selectedItem === PieceName.SKIP) {
@@ -136,10 +135,9 @@ const ChessBoardContextProvider = ({ children }) => {
     if (gameState === GameState.GAME_FINISHED) {
       return;
     }
-
     if (selectedItem) {
       const figureName = figure || selectedItem;
-
+      
       if (lastTurn) {
         chessBoard.clearChessBoard();
       }
@@ -158,103 +156,86 @@ const ChessBoardContextProvider = ({ children }) => {
     chessBoard.clearChessBoard();
   }
 
-  useEffect(() => {
+  addWsEventListener(MessageType.PlayerSuccessfullyJoined, (payload) => {
+    userContext.setUserId(payload)
+    setCurrentPlayerId(payload);
+  });
+
+  addWsEventListener(MessageType.PlayerAlreadyExists, () => {
+    setIsAnotherSessionActive(true);
+  });
+
+  addWsEventListener(MessageType.UpdatePlayerList, (payload) => {
+    setPlayers(payload);
+  });
+
+  addWsEventListener(MessageType.PlayerDisconnected, (payload) => {
+    setPlayers(payload);
+  });
+
+  addWsEventListener(MessageType.MoveSkipped, (payload) => {
+    setPlayers(payload);
+  });
+
+  addWsEventListener(MessageType.ErrorMessage, (payload) => {
+    setErrorMessage(payload);
+  });
+
+  addWsEventListener(MessageType.ActionMade, (payload) => {
+    const myMove = payload.find((moved) => moved.playerId === currentPlayerId);
     if (myMove) {
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
     }
-  }, [myMove]);
 
-  useEffect(() => {
     if(myMove?.turnType === TurnType.MoveSkipped) {
       setSelectedItem(PieceName.SKIP);
     }
-  }, [myMove])
-
-  //--------------------------------------------------------------------------------------------------------------------
-
-  // useEffect(() => {
-  //   if (myTurn) {
-  //     if (myTurn.turnType === TurnType.MoveSkipped) {
-  //       setSelectedItem(PieceName.SKIP);
-  //       return;
-  //     }
-  //     const { row, tile, figure } = myTurn;
-  //     setSelectedItem(figure);
-  //     chessBoard.insertFigureIntoBoard({
-  //       row,
-  //       tile,
-  //       figureName: figure,
-  //       playerId: currentPlayerId,
-  //       playerName: userContext.username,
-  //     });
-  //     setScore(myTurn.score);
-  //   }
-  // }, [myTurn]);
+  });
   
-  React.useEffect(() => {
-    addWsEventListener('SetMyTurn', (myTurn) => {
+  addWsEventListener(MessageType.SetMyTurn, (myTurn) => {
+    if (myTurn) {
       if (myTurn.turnType === TurnType.MoveSkipped) {
         setSelectedItem(PieceName.SKIP);
         return;
-      }
-      const { row, tile, figure } = myTurn;
+      };
+      const { row, tile, figure, playerId } = myTurn;
       setSelectedItem(figure);
       chessBoard.insertFigureIntoBoard({
         row,
         tile,
         figureName: figure,
-        playerId: currentPlayerId,
+        playerId,
         playerName: userContext.username,
       });
       setScore(myTurn.score);
-    });
-  }, []);
+    }
+  });
 
-
-  //--------------------------------------------------------------------------------------------------------------------
-  // ws.addWsEventListener('SetMyTurn', () => {
-  //   if (myTurn) {
-  //     if (myTurn.turnType === TurnType.MoveSkipped) {
-  //       setSelectedItem(PieceName.SKIP);
-  //       return;
-  //     }
-  //     const { row, tile, figure } = myTurn;
-  //     setSelectedItem(figure);
-  //     chessBoard.insertFigureIntoBoard({
-  //       row,
-  //       tile,
-  //       figureName: figure,
-  //       playerId: currentPlayerId,
-  //       playerName: userContext.username,
-  //     });
-  //     setScore(myTurn.score);
-  //   }
-  // });
-  //--------------------------------------------------------------------------------------------------------------------
-
-  useEffect(() => {
-    if (turns.length) {
+  addWsEventListener(MessageType.NewBoardState, (payload) => {
+    setTurns(payload);
+    if (payload.length) {
       if (gameState === GameState.GAME_FINISHED) {
-        chessBoard.insertAllTurnsIntoBoard(turns);
+        chessBoard.insertAllTurnsIntoBoard(payload);
       }
       if (voters.length === 1) {
         setGlobalScore(0)
       } else {
-        const scoresArray = turns
+        const scoresArray = payload
           .filter(turn => turn.turnType === TurnType.FigurePlaced)
           .map(turn => turn.score);
         const average = calculateAverage(scoresArray);
         setGlobalScore(roundUp(average));
       }
-      const currentPlayerMove = findMoveByUserId(currentPlayerId);
-      if (currentPlayer.role !== PlayerRoles.Spectator) {
+      const currentPlayerMove = payload.find(turn => turn.playerId === currentPlayerId);
+      if (currentPlayer?.role !== PlayerRoles.Spectator) {
         setSelectedItem(currentPlayerMove?.figure ?? PieceName.SKIP);
+        
       }
     } else {
       clearBoardItems();
     }
-  }, [turns]);
+  });
 
   return (
     <ChessBoardContext.Provider
@@ -272,12 +253,16 @@ const ChessBoardContextProvider = ({ children }) => {
         finishMove,
         clearBoard,
         finished,
-        players,
         globalScore,
         currentPlayer,
         isCurrentPlayerSpectator,
         gameState,
         votersListWithScores,
+        // from useWebSockets
+        currentPlayerId,
+        isAnotherSessionActive,
+        players,
+        errorMessage,
       }}
     >
       {children}

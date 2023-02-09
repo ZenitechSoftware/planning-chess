@@ -23,7 +23,6 @@ export enum MessageType {
 export type SendMessagePayloads = {
   [MessageType.NewBoardState]: Turn[];
   [MessageType.ActionMade]: Turn[];
-  [MessageType.ClearBoard]: void;
   [MessageType.SetMyTurn]: Turn;
   [MessageType.PlayerConnected]: Player[];
   [MessageType.PlayerDisconnected]: Player[];

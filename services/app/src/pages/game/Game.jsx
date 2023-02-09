@@ -5,7 +5,6 @@ import React, {
 import { Navigate } from 'react-router';
 import { ROUTES } from '../routes';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
-import { useWebSockets } from '../../hooks/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useWsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
@@ -22,9 +21,8 @@ import wsReadyStates from '../../constants/wsReadyStates';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();
-  const { isAnotherSessionActive } = useWebSockets();
   const { ws, openWsConnection } = useWsContext();
-  const { currentPlayer, lastTurn, removeFigureFromBoard } = useChessBoardContext();
+  const { currentPlayer, lastTurn, removeFigureFromBoard, isAnotherSessionActive } = useChessBoardContext();
 
   const connectToWs = useCallback(() => {
     openWsConnection({
