@@ -1,12 +1,8 @@
 Feature('game status "Waiting for more players"')
+const { I, login, username, game } = inject();
 
-Before(async ({ I, login, username }) => {
-    I.amOnPage('/');
-    login.login(username.user1);
-});
-
-Scenario('Player who enters game first chooses spectator role', async ({ I, game, username, roles }) => {
-    roles.spectatorLogin();
+Scenario('Player who enters game first chooses spectator role', () => {
+    login.firstSpectatorLogin(username.user1);
     I.see(username.user1, game.locator.playersList.firstUserInList);
     I.seeElement(game.locator.playersList.spectatorIcon);
     I.seeTextEquals(username.user1, game.locator.text.username);
@@ -14,27 +10,24 @@ Scenario('Player who enters game first chooses spectator role', async ({ I, game
 
 });
 
-Scenario('Player who enters game first chooses voter role', async ({ I, game, roles, username }) => {
-    roles.voterLogin();
+Scenario('Player who enters game first chooses voter role', () => {
+    login.firstVoterLogin(username.user1);
     I.see(username.user1, game.locator.playersList.firstUserInList);
     I.seeTextEquals(username.user1, game.locator.text.username);
     game.waitingForMorePlayersStatus();
 });
 
-Scenario('One voter and other players as spectators can’t play the game', async ({ I, login, roles, username }) => {
-    roles.voterLogin();
-    I.waitForText('Waiting for more players');
+Scenario('One voter and other players as spectators can’t play the game', async () => {
+    login.firstVoterLogin(username.user1);
     let url = await I.grabCurrentUrl();
     session(username.user2, () => {
-        login.loginIntoCreatedGameRoom(url, username.user2);
-        roles.spectatorLogin();
+        login.spectatorLoginIntoCreatedGameRoom(url, username.user2);
         I.waitForText('Waiting for more players');
     });
     session(username.user3, () => {
-        login.loginIntoCreatedGameRoom(url, username.user3);
-        roles.spectatorLogin();
+        login.spectatorLoginIntoCreatedGameRoom(url, username.user3);
         I.waitForText('Waiting for more players');
     });
 });
-
+export{}
 

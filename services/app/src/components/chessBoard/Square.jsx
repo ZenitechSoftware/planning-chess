@@ -31,7 +31,7 @@ const Square = ({
       return (
         <div
           style={
-            playerAvatarColor(item.id)
+            playerAvatarColor(item.playerId)
           }
           key={`bubble-${key}`}
           className={classNames({
@@ -90,7 +90,7 @@ const Square = ({
               <div 
                 className={classNames(["bubble align-c", "multiple-bubbles align-c"])}
                 style={
-                  playerAvatarColor(item.id)
+                  playerAvatarColor(item.playerId)
                 }  
               >
                 <span className="name">{item.player[0]}</span>

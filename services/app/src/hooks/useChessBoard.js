@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NUMBER_OF_ROWS, NUMBER_OF_COLUMNS } from '../constants/board';
 import { range } from '../helpers/array';
 import { getPieceScore } from '../helpers/getPieceScore';
+import { TurnType } from '../constants/gameConstants';
 
 const alphabetArray = [...'abcdefghijklmnopqrstuvwxyz'];
 const pointsArray = [1, 2, 3, 5, 8, 13];
@@ -39,14 +40,15 @@ export const useChessBoard = () => {
       figure: figureName, 
       score: getPieceScore(figureName), 
       player: playerName, 
-      id: playerId 
+      playerId,
     });
     setBoard(copyOfBoard);
   };
 
   const insertAllTurnsIntoBoard = (turns) => {
     const copyOfBoard = [...defaultBoard];
-    turns.forEach(turn => {
+    const moves = turns.filter(turn => turn.turnType === TurnType.FigurePlaced);
+    moves.forEach(turn => {
       copyOfBoard[turn.row][turn.tile].items.push(turn);
     });
     setBoard(copyOfBoard);

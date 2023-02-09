@@ -6,6 +6,7 @@ type roles = typeof import('../pageObjects/roleSelection.page');
 type username = typeof import('../test_data/usernames');
 type chessPiece = typeof import('../test_data/chessPieces');
 type chessTile = typeof import('../test_data/chessTiles');
+type copyLinkAssert = typeof import('../assertions/copyLinkAssert');
 
 
 type CustomHelper = import('../helpers/customSteps.helper');
@@ -21,6 +22,7 @@ declare namespace CodeceptJS {
     chessPiece: chessPiece;
     chessTile: chessTile;
   
+    copyLinkAssert: copyLinkAssert;
   }
   interface Methods extends CustomHelper, Playwright { }
   interface I extends WithTranslation<Methods> { }

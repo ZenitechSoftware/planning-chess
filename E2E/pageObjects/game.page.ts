@@ -2,20 +2,21 @@ const { I } = inject();
 
 const locator = {
   playersList: {
-    firstUserInList: '//div[contains(@data-testid, "0")]/div[@class="team-list-item-name"]',
-    secondUserInList: '//div[contains(@data-testid, "1")]/div[@class="team-list-item-name"]',
-    spectatorIcon: '//div[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
-    playerDoneIcon: (username: string) => `//div[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
+    firstUserInList: '//*[contains(@data-testid, "0")]/div[@class="team-list-item-name"]',
+    secondUserInList: '//*[contains(@data-testid, "1")]/div[@class="team-list-item-name"]',
+    spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
+    playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
   },
   text: {
     username: '#username',
+    linkCopiedToClipboard: '//*[text() = "Link copied to clipboard"]',
   },
   chessBoard: {
     board: '#chess-board',
     chessTile: (tile: string) => `$chess-tile-${tile}`,
-    figureOnBoard: (tile: string, figure: string) => `//div[@data-testid='chess-tile-${tile}']//img[@alt='${figure}']`,
-    avatarOnBoard: (tile: string) => `//div[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
-    pointsOnBoard: (tile: string, value: string) => `//div[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
+    figureOnBoard: (tile: string, figure: string) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${figure}']`,
+    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
+    pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
   },
   chessPieces: {
     container: '$chess-pieces-container',
@@ -23,7 +24,7 @@ const locator = {
     figureHighlighted: (figure: string) => `//button[@data-testid="${figure}-piece-btn"][contains(@class, "selected")]`,
   },
   buttons: {
-    copyLink: '//button/p[contains(text(), "Copy Link")]',
+    copyLink: locate('//*[text() = "Copy Link"]').at(1),
     restartGame: '//button/span[contains(text(), "Restart game")]',
   },
 };
@@ -53,6 +54,12 @@ export = {
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
-
-  
+  checkCopyLinkButton: () => {
+    I.waitForElement(locator.buttons.copyLink);
+    I.click(locator.buttons.copyLink);
+    I.waitForElement(locator.text.linkCopiedToClipboard);
+    I.waitForInvisible(locator.text.linkCopiedToClipboard);
+    I.click(locator.buttons.copyLink);
+    I.waitForElement(locator.text.linkCopiedToClipboard);
+  },
 };

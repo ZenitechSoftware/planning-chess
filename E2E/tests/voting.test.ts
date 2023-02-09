@@ -1,18 +1,11 @@
 Feature('voting');
+const { I, login, username, game, chessPiece, chessTile } = inject();
 
-Before(async ({ I, login, username }) => {
-  I.amOnPage('/');
-  login.login(username.user1);
-});
-
-Scenario('Voter can change vote while game is not completed', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-  roles.voterLogin();
-  I.waitForText('Waiting for more players');
+Scenario('Voter can change vote while game is not completed', async () => {
+  login.firstVoterLogin(username.user1);
   let url = await I.grabCurrentUrl();
   session(username.user2, () => {
-    login.loginIntoCreatedGameRoom(url, username.user2);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user2);
     game.vote(chessPiece.pawn, chessTile.a1);
     game.voteIsVisible(chessPiece.pawn, chessTile.a1, chessPiece.pawnValue);
     I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
@@ -22,14 +15,11 @@ Scenario('Voter can change vote while game is not completed', async ({ I, login,
   });
 });
 
-Scenario('Players can’t see each others votes until all of them make a move', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-  roles.voterLogin();
-  I.waitForText('Waiting for more players');
+Scenario('Players can’t see each others votes until all of them make a move', async () => {
+  login.firstVoterLogin(username.user1);
   let url = await I.grabCurrentUrl();
   session(username.user2, () => {
-    login.loginIntoCreatedGameRoom(url, username.user2);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user2)
     game.vote(chessPiece.knight, chessTile.e4);
     game.voteIsVisible(chessPiece.knight, chessTile.e4, chessPiece.knightValue);
   });
@@ -37,14 +27,11 @@ Scenario('Players can’t see each others votes until all of them make a move', 
   game.voteIsNotVisible(chessPiece.knight, chessTile.e4, chessPiece.knightValue);
 });
 
-Scenario('Two users with same name vote as separate players', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-  roles.voterLogin();
-  I.waitForText('Waiting for more players');
+Scenario('Two users with same name vote as separate players', async () => {
+  login.firstVoterLogin(username.user1);
   let url = await I.grabCurrentUrl();
   session(username.user2, () => {
-    login.loginIntoCreatedGameRoom(url, username.user1);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user1)
     game.vote(chessPiece.knight, chessTile.e4);
     game.voteIsVisible(chessPiece.knight, chessTile.e4, chessPiece.knightValue);
   });
@@ -64,19 +51,14 @@ Scenario('Two users with same name vote as separate players', async ({ I, login,
   });
 });
 
-Scenario('3 players place different figures on different board squares', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-  roles.voterLogin();
-  I.waitForText('Waiting for more players');
+Scenario('3 players place different figures on different board squares', async () => {
+  login.firstVoterLogin(username.user1);
   let url = await I.grabCurrentUrl();
   session(username.user2, () => {
-    login.loginIntoCreatedGameRoom(url, username.user2);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user2)
   });
   session(username.user3, () => {
-    login.loginIntoCreatedGameRoom(url, username.user3);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user3)
   });
   game.vote(chessPiece.king, chessTile.a1);
   game.voteIsVisible(chessPiece.king, chessTile.a1, chessPiece.kingValue);
@@ -106,19 +88,14 @@ Scenario('3 players place different figures on different board squares', async (
   game.voteIsVisible(chessPiece.king, chessTile.a1, chessPiece.kingValue);
 });
 
-Scenario('3 players choose same figure and place on different board squares', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-  roles.voterLogin();
-  I.waitForText('Waiting for more players');
+Scenario('3 players choose same figure and place on different board squares', async () => {
+  login.firstVoterLogin(username.user1);
   let url = await I.grabCurrentUrl();
   session(username.user2, () => {
-    login.loginIntoCreatedGameRoom(url, username.user2);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user2)
   });
   session(username.user3, () => {
-    login.loginIntoCreatedGameRoom(url, username.user3);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user3)
   });
   game.vote(chessPiece.pawn, chessTile.a1);
   game.voteIsVisible(chessPiece.pawn, chessTile.a1, chessPiece.pawnValue);
@@ -148,19 +125,14 @@ Scenario('3 players choose same figure and place on different board squares', as
   game.voteIsVisible(chessPiece.pawn, chessTile.c3, chessPiece.pawnValue);
 });
 
-Scenario('3 players choose different figure and place on same board square', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-  roles.voterLogin();
-  I.waitForText('Waiting for more players');
+Scenario('3 players choose different figure and place on same board square', async () => {
+  login.firstVoterLogin(username.user1);
   let url = await I.grabCurrentUrl();
   session(username.user2, () => {
-    login.loginIntoCreatedGameRoom(url, username.user2);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user2)
   });
   session(username.user3, () => {
-    login.loginIntoCreatedGameRoom(url, username.user3);
-    roles.voterLogin();
-    I.waitForText('Game in progress');
+    login.voterLoginIntoCreatedGameRoom(url, username.user3)
   });
   game.vote(chessPiece.pawn, chessTile.a1);
   game.voteIsVisible(chessPiece.pawn, chessTile.a1, chessPiece.pawnValue);
@@ -187,3 +159,4 @@ Scenario('3 players choose different figure and place on same board square', asy
   I.seeNumberOfElements(game.locator.chessBoard.avatarOnBoard(chessTile.a1), 3);
 });
 
+export{}

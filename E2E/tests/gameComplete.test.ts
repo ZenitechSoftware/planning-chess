@@ -1,18 +1,12 @@
 Feature('game complete');
 
-Before(async ({ I, login, username }) => {
-  I.amOnPage('/');
-  login.login(username.user1);
-});
+const { I, login, username, game, chessPiece, chessTile } = inject();
 
-Scenario('Game completes automatically after last voter votes', async ({ I, login, username, roles, game, chessPiece, chessTile }) => {
-    roles.voterLogin();
-    I.waitForText('Waiting for more players');
+Scenario('Game completes automatically after last voter votes', async () => {
+    login.firstVoterLogin(username.user1);
     let url = await I.grabCurrentUrl();
     session(username.user2, () => {
-      login.loginIntoCreatedGameRoom(url, username.user2);
-      roles.voterLogin();
-      I.waitForText('Game in progress');
+      login.voterLoginIntoCreatedGameRoom(url, username.user2);  
       game.vote(chessPiece.knight, chessTile.e4);
       game.voteIsVisible(chessPiece.knight, chessTile.e4, chessPiece.knightValue);
       I.click(game.locator.chessPieces.figure(chessPiece.rook));
@@ -27,3 +21,4 @@ Scenario('Game completes automatically after last voter votes', async ({ I, logi
       I.dontSeeElement(game.locator.chessPieces.figureHighlighted(chessPiece.rook));
     });
   });
+export{}

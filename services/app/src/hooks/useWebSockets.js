@@ -13,7 +13,7 @@ export const useWebSockets = () => {
   const [turns, setTurns] = useState([]);
   const [movedBy, setMovedBy] = useState([]);
   const [myTurn, setMyTurn] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const { ws } = useContext(WsContext);
 
   const websocketReducer = (type, payload) => {
@@ -29,7 +29,7 @@ export const useWebSockets = () => {
         return setPlayers(payload);
       case 'NewBoardState':
         return setTurns(payload);
-      case 'FigureMoved':
+      case 'ActionMade':
         return setMovedBy(payload);
       case 'ClearBoard':
         return setMovedBy([]);
