@@ -39,6 +39,7 @@ export = {
     I.seeElement(locator.buttons.copyLink);
     I.seeElement(locator.buttons.restartGame);
   },
+
   vote:(figure: string, tile: string) => {
     I.click(locator.chessPieces.figure(figure));
     I.waitForVisible(locator.chessPieces.figureHighlighted(figure));
@@ -54,6 +55,7 @@ export = {
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
+
   checkCopyLinkButton: () => {
     I.waitForElement(locator.buttons.copyLink);
     I.click(locator.buttons.copyLink);
