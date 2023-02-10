@@ -5,8 +5,6 @@ import { Modal } from 'antd';
 import './avatarModal.css';
 
 const AvatarUploadModal = ({ showAvatarModal, hideCancelBtn, setShowAvatarModal }) => {
-  console.log('wtf');
-  
   return (
     <Modal 
       title="Upload profile picture"
