@@ -1,16 +1,19 @@
 .team-container {
   box-sizing: border-box;
   border: 1px solid var(--dark-border);
-  flex: none;
   order: 1;
   width: 384px;
+  height: inherit;
+}
+
+.team-header {
+  flex: 0 1 auto;
 }
 
 .team-list-items {
-  flex-grow: 1;
-  max-height: 392px;
   overflow:hidden;
   overflow-y:auto;
+  flex: 1 1 auto;
 }
 
 .team-list-item {

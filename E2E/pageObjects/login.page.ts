@@ -1,4 +1,4 @@
-const { I } = inject();
+const { I, login, roles} = inject();
 
 const locator = {
   buttons: {
@@ -10,32 +10,48 @@ const locator = {
   inputs: {
     username: '#username-input',
   },
-
 };
 
 export = {
   locator: locator,
-  spectatorLogin: (username: string) => {
+  login: (username: string) => {
     I.see('Welcome! Let’s begin.');
     I.waitForVisible(locator.inputs.username);
     I.fillField(locator.inputs.username, username);
     I.click(locator.buttons.login);
-    I.waitForVisible(locator.buttons.voter);
-    I.waitForVisible(locator.buttons.spectator);
-    I.click(locator.buttons.spectator);
+    I.waitForText('Choose your role');
   },
-  voterLogin: (username: string) => {
+  loginIntoCreatedGameRoom: (url: string, username: string) => {
+    I.amOnPage(url);
     I.see('Welcome! Let’s begin.');
     I.waitForVisible(locator.inputs.username);
     I.fillField(locator.inputs.username, username);
     I.click(locator.buttons.login);
-    I.waitForVisible(locator.buttons.voter);
-    I.waitForVisible(locator.buttons.spectator);
-    I.click(locator.buttons.voter);
+    I.waitForText('Choose your role');
   },
   loginWithoutName: () => {
     I.see('Welcome! Let’s begin.');
     I.waitForVisible(locator.buttons.disabledLogin);
   },
-
+  firstVoterLogin: (username: string) => {
+    I.amOnPage('/');
+    login.login(username);
+    roles.voterLogin();
+    I.waitForText('Waiting for more players');
+  },
+  firstSpectatorLogin: (username: string) => {
+    I.amOnPage('/');
+    login.login(username);
+    roles.spectatorLogin();
+    I.waitForText('Waiting for more players');
+  },
+  voterLoginIntoCreatedGameRoom: (url: string, username: string) => {
+    login.loginIntoCreatedGameRoom(url, username);
+    roles.voterLogin();
+    I.waitForText('Game in progress');
+  },
+  spectatorLoginIntoCreatedGameRoom: (url: string, username: string) => {
+    login.loginIntoCreatedGameRoom(url, username);
+    roles.spectatorLogin();
+  },
 };
