@@ -1,0 +1,25 @@
+.user-avatar {
+  border-radius: 50%;
+  background-color: #ecf0f7;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.small-avatar {
+  height: 34px;
+  width: 34px;
+  font-size: 16;
+}
+
+.medium-avatar {
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+}
+
+.big-avatar {
+  height: 96px;
+  width: 96px;
+  font-size: 48px;
+}

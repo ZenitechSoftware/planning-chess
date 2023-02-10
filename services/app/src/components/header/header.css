@@ -17,16 +17,6 @@
   user-select: none;
 }
 
-.avatar {
-  height: 40px;
-  width: 40px;
-  border-radius: 30px; /* or 50% */
-  background-color: #ecf0f7;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  user-select: none;
-}
-
 #username {
   font-family: 'Lato', sans-serif;
   color: var(--primary-text);;

@@ -25,12 +25,14 @@
     box-sizing: border-box;
 }
 
-#username-input {
+#username-input,
+#profile-pic-input {
     border: none;
     width: 100%;
 }
 
-#username-input:focus {
+#username-input:focus,
+#profile-pic-input:focus {
     outline: none;
 }
 
@@ -49,4 +51,16 @@
 
 .login-input {
     height: 48px;
+}
+
+.login-input-logo {
+  /* height: 34px; */
+  width: 16px;
+  height: 34px;
+}
+
+.login-input-log:last-of-type {
+  height: 500px;
+  width: 500px;
+
 }

@@ -37,24 +37,12 @@
   cursor: pointer;
 }
 
-.team-list-item-avatar {
-  width: 40px;
-  height: 40px;
-  flex: none;
-  border-radius: 64px;
-  user-select: none;
-}
-
 .team-list-item-avatar.spectator-avatar {
   background-color: #ECEDEE;
 }
 
 .team-list-item-icon {
   user-select: none;
-}
-
-.team-list-item-avatar-text {
-  font-family: 'Poppins';
 }
 
 .team-list-footer {

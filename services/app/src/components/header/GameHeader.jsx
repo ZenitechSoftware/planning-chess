@@ -1,15 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
-import { rgbToColor } from '../../helpers/rgbToColor';
 import './header.css';
 import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
+import UserAvatar from '../avatarPicture/UserAvatar';
 
-const GameHeader = () => {
+const GameHeader = ({ openAvatarDialog }) => {
   const { currentPlayer } = useChessBoardContext();
-
-  const avatarLetter = currentPlayer?.name[0];
 
   return (
     <Header>
@@ -21,22 +21,19 @@ const GameHeader = () => {
       </div>
   
       {currentPlayer && (
-        <div className="f-1 justify-end align-c gap-s">
-          <span
-            className="f-center avatar font-size-m weight-500"
-            style={{
-              color: rgbToColor(currentPlayer.color.text),
-              backgroundColor: rgbToColor(currentPlayer.color.background),
-            }}
-          >
-            {avatarLetter}
-          </span>
+        <div className='f-1 justify-end align-c gap-s'>
+          <UserAvatar size='medium' id={currentPlayer.id} />
           <span id="username">{currentPlayer.name}</span>
         </div>
       )}
+      <GameHeaderDropDown openAvatarDialog={openAvatarDialog} />
     </Header>
     
   );
+};
+
+GameHeader.propTypes = {
+  openAvatarDialog: PropTypes.func.isRequired,
 };
 
 export default GameHeader;

@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useCallback,
+  useState,
 } from 'react';
 import { Navigate } from 'react-router';
 import { ROUTES } from '../routes';
@@ -19,12 +20,16 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 import '../../components/gameFooter/game-footer.css';
 import wsReadyStates from '../../constants/wsReadyStates';
+import AvatarUploadDialog from '../../components/avatarUploadDialog/AvatarUploadDialog';
+import AvatarUploadModal from '../../components/avatarUploadDialog/AvatarUploadModal';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();
   const { isAnotherSessionActive } = useWebSockets();
   const { ws, openWsConnection } = useWsContext();
   const { currentPlayer, lastTurn, removeFigureFromBoard } = useChessBoardContext();
+
+  const [showAvatarModal, setShowAvatarModal] = useState(true);
 
   const connectToWs = useCallback(() => {
     openWsConnection({
@@ -62,7 +67,15 @@ const Game = () => {
   return (
     <div>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
-      <GameHeader />
+      {/* {showAvatarDialog && <AvatarUploadDialog closeAvatarDialog={() => setShowAvatarDialog(false)} />} */}
+      {/* {showAvatarDialog && <AvatarUploadModal showAvatarModal={showAvatarModal} />} */}
+      <AvatarUploadModal 
+        showAvatarModal={showAvatarModal} 
+        hideCancelBtn 
+        setShowAvatarModal={setShowAvatarModal}
+      />
+
+      <GameHeader openAvatarDialog={() => setShowAvatarModal(true)} />
       <div className="game-content">
         <Team skipMove={skipMove} />
         <ChessBoard />

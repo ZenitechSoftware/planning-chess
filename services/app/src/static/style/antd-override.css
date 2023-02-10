@@ -1,3 +1,4 @@
+/*Tooltips*/
 .ant-tooltip .ant-tooltip-inner {
   text-align: center;
 }
@@ -5,3 +6,23 @@
 .tooltip-arrow-hidden .ant-tooltip-arrow {
   display: none;
 }
+
+/*Dropdowns*/
+.ant-dropdown-menu-item button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-text);
+  padding: 10px;
+}
+
+/*Modals*/
+.cancel-btn-hidden .ant-modal-content .ant-btn-default {
+  display: none;
+}
+
+.ant-modal-content .ant-modal-header .ant-modal-title {
+  font-weight: 700;
+  font-size: 20px;
+}
+

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './login-page.css';
-import userInputIcon from '../../static/svg/UserInputIcon.svg';
+import UserInputIcon from '../../static/svg/UserInputIcon.svg';
+import ProfileInputLogo from '../../static/svg/ProfileInputLogo.svg';
 import { ROUTES } from '../../pages/routes';
 import { useUserContext } from '../../contexts/UserContext';
 
@@ -35,7 +36,7 @@ const LoginForm = () => {
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor='username-input'>Name</label>
         <div className="user-input-container border-r-4 margin-t-s">
-          <img src={userInputIcon} className='padding-s' alt="userInputIcon" />
+          <img src={UserInputIcon} className='login-input-logo padding-s' alt="userInputIcon" />
           <input
             type="text"
             name="username"
@@ -45,6 +46,22 @@ const LoginForm = () => {
             autoFocus
             placeholder="Enter your name here"
             onChange={checkInputLength}
+          />
+        </div>
+      </div>
+
+      <div className='form-input-container'>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor='profile-pic-input'>Profile url (Optional)</label>
+        <div className='user-input-container border-r-4 margin-t-s'>
+          <img src={ProfileInputLogo} className='login-input-logo padding-s' alt="userInputIcon" />
+          <input
+            type="url"
+            name="username"
+            id="profile-pic-input"
+            className='login-input user-input-font'
+            placeholder="Enter profile picture link"
+            autoComplete="off"
           />
         </div>
       </div>
