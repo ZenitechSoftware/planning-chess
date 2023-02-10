@@ -18,8 +18,10 @@ const Team = ({ skipMove }) => {
 
   return (
     <div className="team-container f-column">
-      <GameStatus />
-      <GameInfo />
+      <div className='team-header'>
+        <GameStatus />
+        <GameInfo />
+      </div>
 
       <div className="team-list-items padding-y-0 padding-x-xl">
         { gameState !== GameState.GAME_FINISHED && 

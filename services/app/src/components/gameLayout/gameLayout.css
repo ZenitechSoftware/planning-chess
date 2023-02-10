@@ -1,0 +1,9 @@
+.game-view {
+  display: flex;
+  justify-content: center;
+}
+
+.game-layout-side-area {
+  height: 800px;
+}
+  
