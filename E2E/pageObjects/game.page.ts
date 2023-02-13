@@ -1,4 +1,4 @@
-const { I } = inject();
+const { I, game } = inject();
 
 const locator = {
   playersList: {
@@ -6,10 +6,12 @@ const locator = {
     secondUserInList: '//*[contains(@data-testid, "1")]/div[@class="team-list-item-name"]',
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
+    playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
   },
   text: {
     username: '#username',
     linkCopiedToClipboard: '//*[text() = "Link copied to clipboard"]',
+    skipMoveTooltip: '//*[text() = "Mark my move as complete, without any story points"]'
   },
   chessBoard: {
     board: '#chess-board',
@@ -26,6 +28,9 @@ const locator = {
   buttons: {
     copyLink: locate('//*[text() = "Copy Link"]').at(1),
     restartGame: '//button/span[contains(text(), "Restart game")]',
+    skip: '$skip-piece-btn', 
+    skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
+    skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`, 
   },
 };
 
@@ -63,5 +68,13 @@ export = {
     I.waitForInvisible(locator.text.linkCopiedToClipboard);
     I.click(locator.buttons.copyLink);
     I.waitForElement(locator.text.linkCopiedToClipboard);
+  },
+  skipMove: () => {
+    I.click(locator.buttons.skip);
+    I.seeElement(locator.buttons.skipButtonHighlighted);
+  },
+  voteAndCheckThatVoteIsVisible:(figure: string, tile: string, value: string) => {
+    game.vote(figure, tile);
+    game.voteIsVisible(figure, tile, value);
   },
 };
