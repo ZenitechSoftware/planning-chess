@@ -8,9 +8,4 @@ export = {
       I.assertEqual(currentUrl, clipboardText);
     });
   },
-
-  async checkIfTheNumberOfPlayersRemainsTheSame (totalPlayersNumber) {
-    const secondCheck = await game.getPlayersList();
-    I.assertEqual(totalPlayersNumber, secondCheck);
-  },
 };
