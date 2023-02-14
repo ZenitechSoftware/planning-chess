@@ -68,12 +68,12 @@ export = {
     I.waitForElement(locator.text.linkCopiedToClipboard);
   },
 
-   getPlayersList: async () => {
-    let playerList = await I.grabNumberOfVisibleElements(locator.playersList.playersList);
-    return playerList;
+  getNumberOfPlayersInList: async () => {
+    let numberOfPlayers = await I.grabNumberOfVisibleElements(locator.playersList.playersList);
+    return numberOfPlayers;
   },
 
-  playerCannotAccessTheBoardFromNewTab: () => {
+  duplicateTab: () => {
     I.openNewTab();
     I.amOnPage('/');
     I.waitForElement(locator.text.youHaveAnotherActiveSession);
