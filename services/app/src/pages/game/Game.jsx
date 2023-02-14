@@ -6,7 +6,6 @@ import React, {
 import { Navigate } from 'react-router';
 import { ROUTES } from '../routes';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
-import { useWebSockets } from '../../hooks/useWebSockets';
 import GameFooter from '../../components/gameFooter/GameFooter';
 import { useWsContext } from '../../contexts/ws-context';
 import Team from '../../components/team/Team';
@@ -15,19 +14,19 @@ import {
   buildPlayerConnectedEventMessage,
 } from '../../api/playerApi';
 import GameHeader from '../../components/header/GameHeader';
-import '../../static/style/game.css';
+import GameLayout from '../../components/gameLayout/GameLayout';
+import GameLayoutMainArea from '../../components/gameLayout/GameLayoutMainArea';
+import GameLayoutSideArea from '../../components/gameLayout/GameLayoutSideArea';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 import '../../components/gameFooter/game-footer.css';
 import wsReadyStates from '../../constants/wsReadyStates';
-import AvatarUploadDialog from '../../components/avatarUploadDialog/AvatarUploadDialog';
 import AvatarUploadModal from '../../components/avatarUploadDialog/AvatarUploadModal';
 
 const Game = () => {
   const { username, userId, role, gameId } = useUserContext();
-  const { isAnotherSessionActive } = useWebSockets();
   const { ws, openWsConnection } = useWsContext();
-  const { currentPlayer, lastTurn, removeFigureFromBoard } = useChessBoardContext();
+  const { currentPlayer, lastTurn, removeFigureFromBoard, isAnotherSessionActive } = useChessBoardContext();
 
   const [showAvatarModal, setShowAvatarModal] = useState(true);
 
@@ -65,25 +64,26 @@ const Game = () => {
   }, [skipMove, currentPlayer, lastTurn]);
 
   return (
-    <div>
+    <>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
-      {/* {showAvatarDialog && <AvatarUploadDialog closeAvatarDialog={() => setShowAvatarDialog(false)} />} */}
-      {/* {showAvatarDialog && <AvatarUploadModal showAvatarModal={showAvatarModal} />} */}
       <AvatarUploadModal 
         showAvatarModal={showAvatarModal} 
         hideCancelBtn 
         setShowAvatarModal={setShowAvatarModal}
       />
-
-      <GameHeader openAvatarDialog={() => setShowAvatarModal(true)} />
-      <div className="game-content">
-        <Team skipMove={skipMove} />
-        <ChessBoard />
-      </div>
-      <GameFooter
-        skipCurrentPlayerMove={skipCurrentPlayerMove}
-      />
-    </div>
+      <GameHeader />
+      <GameLayout>
+        <GameLayoutMainArea>
+          <ChessBoard />
+          <GameFooter
+            skipCurrentPlayerMove={skipCurrentPlayerMove}
+          />
+        </GameLayoutMainArea> 
+        <GameLayoutSideArea>
+          <Team skipMove={skipMove} />
+        </GameLayoutSideArea>
+      </GameLayout>
+    </>
   );
 }
 
