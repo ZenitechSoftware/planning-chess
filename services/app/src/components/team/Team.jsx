@@ -7,14 +7,12 @@ import GameStatus from '../gameStatus/GameStatus';
 import GameInfo from '../gameStatus/GameInfo';
 import Return from '../../static/svg/Return.svg';
 import './team.css';
-import { useWebSockets } from '../../hooks/useWebSockets';
 import { GameState } from '../../constants/gameConstants';
 import Button from '../button/Button';
 import '../gameStatus/game-status.css';
 
 const Team = ({ skipMove }) => {
-  const { clearBoard, voters, spectators, votersListWithScores, gameState } = useChessBoardContext();
-  const { currentPlayerId } = useWebSockets();
+  const { clearBoard, voters, spectators, votersListWithScores, gameState, currentPlayerId } = useChessBoardContext();
 
   return (
     <div className="team-container f-column">

@@ -12,6 +12,8 @@ import { ROUTES } from '../pages/routes';
 
 export const WsContext = createContext('');
 
+const eventListeners = {}
+
 // TODO what if server is running on different port?
 const host = process.env.NODE_ENV === 'development' ? 'localhost:8083' : window.location.host;
 
@@ -37,6 +39,22 @@ const WebSocketsContextProvider = ({ children }) => {
     })
   };
 
+  const addWsEventListener = (event, callbackFn) => {
+    if (eventListeners.event) {
+      eventListeners[event].push(callbackFn);
+    } else {
+      eventListeners[event] = [callbackFn];
+    }
+  };
+
+  const wsEventHandler = (event) => {
+    const { type, payload } = JSON.parse(event.data);
+
+    if (eventListeners[type]) {
+      eventListeners[type].forEach(handler => handler(payload))
+    }
+  };
+
   useEffect(() => {
     const pingInterval = setInterval(() => {
       ws?.send(buildPingMessage());
@@ -47,11 +65,18 @@ const WebSocketsContextProvider = ({ children }) => {
     }
   }, [ws]);
 
+  useEffect(() => {
+    if (ws) {
+      ws?.addEventListener('message', wsEventHandler);
+    }
+  }, [ws]);
+
   return (
     <WsContext.Provider
       /* eslint-disable-next-line react/jsx-no-constructed-context-values */
       value={{
         ws,
+        addWsEventListener,
         openWsConnection,
       }}
     >
