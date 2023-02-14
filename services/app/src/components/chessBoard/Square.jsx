@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Avatar } from 'antd';
 import { PIECES } from '../../constants/board';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import { rgbToColor } from '../../helpers/rgbToColor';
+import UserAvatar from '../avatarPicture/UserAvatar';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -13,45 +14,56 @@ const Square = ({
   column,
   filled
 }) => {
-  const { board, findUserById, players } = useChessBoardContext();
+  const { board, players } = useChessBoardContext();
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  const playerAvatarColor = (id) => {
-    const player = findUserById(id);
-    if(!player) return {};
-    return {
-      color: rgbToColor(player.color.text),
-      backgroundColor: rgbToColor(player.color.background),
+  const renderBubble = useCallback((playerBubbles) => {
+    if (playerBubbles.length === 0) {
+      return null;
     }
-  }
 
-  const renderBubble = useCallback((item, key) => {
-    if (key < 2) {
+    if (playerBubbles.length > 3) {
+      const avatarToRender = playerBubbles.slice(0, 2);
       return (
-        <div
-          style={
-            playerAvatarColor(item.playerId)
-          }
-          key={`bubble-${key}`}
-          className={classNames({
-            "bubble align-c": true,
-            "multiple-bubbles": items.length !== 1,
-            "nth-bubble": key !== 0
-          })}
-        >
-          <span className="name">{item.player[0]}</span>
-        </div>
+        <Avatar.Group maxCount={3}>
+          {avatarToRender.map((player, index) => (
+            <UserAvatar 
+              size='x-small' 
+              id={player.playerId} 
+              key={`bubble-${index}`} 
+              avatarText={player.player[0]}
+            />
+          ))}
+          <Avatar size={24} style={{ backgroundColor: '#F3F6FA', border: '1px solid var(--primary)', color: 'var(--primary)', verticalAlign: 'middle' }}>
+            +{playerBubbles.length - 2}
+          </Avatar>
+        </Avatar.Group>
+      );
+    }
+
+    if (playerBubbles.length > 1 && playerBubbles.length <= 3) {
+      return (
+        <Avatar.Group maxCount={3}>
+          {playerBubbles.map((player, index) => (
+            <UserAvatar 
+              size='x-small' 
+              id={player.playerId} 
+              key={`bubble-${index}`}
+              avatarText={player.player[0]}
+            />
+          ))}
+        </Avatar.Group>
       )
     }
-    if (key === 2) {
-      return (
-        <div key={`bubble-${key}`} className="bubble align-c nth-bubble multiple-bubbles">
-          <span className="name">{`+${items.length - 2}`}</span>
-        </div>
-      )
-    }
-    return null;
+
+    return (
+      <UserAvatar 
+        size='small' 
+        id={playerBubbles[0].playerId} 
+        avatarText={playerBubbles[0].player[0].toUpperCase()} 
+      />
+    );
   }, [items, players]);
 
   const updatePopover = bool => {
@@ -69,7 +81,7 @@ const Square = ({
     >
       {!!items.length && <span className={classNames(["number", "number-row", filled && "number-filled"])}>{board[row][0].attribute}</span>}
       <div className="bubble-container">
-        {items.map(renderBubble)}
+        {renderBubble(items)}
       </div>
       <div className={classNames({"figure-container": items.length, "figure-container-centered": filteredFigures.length > 1})}>
         {filteredFigures.map((item, key) => key < 2 && (
@@ -87,14 +99,7 @@ const Square = ({
           <span className="pop-over-title">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
-              <div 
-                className={classNames(["bubble align-c", "multiple-bubbles align-c"])}
-                style={
-                  playerAvatarColor(item.playerId)
-                }  
-              >
-                <span className="name">{item.player[0]}</span>
-              </div>
+              <UserAvatar id={item.playerId} size='x-small' avatarText={item.player[0].toUpperCase()} />
               <span className="text">
                 {`${item.player} - `}
                 <span className="text-bold">{item.figure.charAt(0).toUpperCase() + item.figure.slice(1)}</span>

@@ -9,20 +9,30 @@ import { useUserContext } from '../../contexts/UserContext';
 const LoginForm = () => {
   const navigate = useNavigate();
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
-  const userContext = useUserContext();
+  const [usernameInputValue, setUsernameInputValue] = useState('');
+  const [urlInputValue, setUrlInputValue] = useState('');
+  const { setUsername, setUserAvatar } = useUserContext();
 
   const submitInfo = (event) => {
     event.preventDefault();
-    userContext.setUsername(event.target.username.value);
+    setUsername(usernameInputValue);
+    if (urlInputValue.length) {
+      setUserAvatar(urlInputValue);
+    }
     navigate(ROUTES.roleSelection, { replace: true });
   }
 
   const checkInputLength = (event) => {
+    setUsernameInputValue(event.target.value)
     if(event.target.value.length) {
       setBtnIsDisabled(false)
       return;
     }
     setBtnIsDisabled(true);
+  }
+
+  const onUrlInputChange = (event) => {
+    setUrlInputValue(event.target.value);
   }
 
   return (
@@ -42,6 +52,7 @@ const LoginForm = () => {
             name="username"
             id="username-input"
             className='login-input user-input-font'
+            value={usernameInputValue}
             /* eslint-disable-next-line jsx-a11y/no-autofocus */
             autoFocus
             placeholder="Enter your name here"
@@ -62,6 +73,7 @@ const LoginForm = () => {
             className='login-input user-input-font'
             placeholder="Enter profile picture link"
             autoComplete="off"
+            onChange={onUrlInputChange}
           />
         </div>
       </div>

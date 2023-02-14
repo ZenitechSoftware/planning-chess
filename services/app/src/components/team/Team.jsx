@@ -57,9 +57,9 @@ const Team = ({ skipMove }) => {
       <div className="team-list-footer padding-y-m padding-x-0 align-c">
         <Button
           clickHandler={clearBoard}
-          data-testid="restart-game-btn"
           type='ghost'
           className='margin-auto'
+          dataTestid='restart-game-btn'
         >
           <img alt="" src={Return} />
           {' '}

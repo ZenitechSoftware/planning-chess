@@ -21,20 +21,20 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 import '../../components/gameFooter/game-footer.css';
 import wsReadyStates from '../../constants/wsReadyStates';
-import AvatarUploadModal from '../../components/avatarUploadDialog/AvatarUploadModal';
+import AvatarModalContainer from '../../components/avatarUploadModal/AvatarModalContainer';
 
 const Game = () => {
-  const { username, userId, role, gameId } = useUserContext();
+  const { username, userId, role, gameId, userAvatar } = useUserContext();
   const { ws, openWsConnection } = useWsContext();
   const { currentPlayer, lastTurn, removeFigureFromBoard, isAnotherSessionActive } = useChessBoardContext();
 
-  const [showAvatarModal, setShowAvatarModal] = useState(true);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
 
   const connectToWs = useCallback(() => {
     openWsConnection({
       gameId,
       onConnect: (websocket) => {
-        websocket.send(buildPlayerConnectedEventMessage(username, userId, role));
+        websocket.send(buildPlayerConnectedEventMessage(username, userId, role, userAvatar));
       }
     });
   }, [gameId, username, role, userId]);
@@ -66,12 +66,11 @@ const Game = () => {
   return (
     <>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
-      <AvatarUploadModal 
-        showAvatarModal={showAvatarModal} 
-        hideCancelBtn 
+      <AvatarModalContainer 
+        showAvatarModal={showAvatarModal}
         setShowAvatarModal={setShowAvatarModal}
       />
-      <GameHeader />
+      <GameHeader openAvatarDialog={() => setShowAvatarModal(true)} />
       <GameLayout>
         <GameLayoutMainArea>
           <ChessBoard />

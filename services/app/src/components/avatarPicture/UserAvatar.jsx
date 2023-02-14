@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import './userAvatar.css';
 import DefaultAvatar from './DefaultAvatar';
-// import image from './testImg.jpg';
+import CustomAvatar from './CustomAvatar';
+import GhostAvatar from './GhostAvatar';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 
-const UserAvatar = ({ size, id }) => (
-  <DefaultAvatar size={size} id={id} />
-)
-  // const [isCustomAvatar, setIsCustomAvatar] = useState(false);
-  
-  // if (isCustomAvatar) {
-    // return (
-      // <img src={image} alt='user-profile-pic' />
-      // <img src={require('./testImg.jpg')} alt='user-profile-pic' />
-    // );
-    // null;
-  // };
-// }
+const UserAvatar = ({ size, id, imageUrl, avatarText }) => {
+  const { findUserById } = useChessBoardContext();
+  const user = findUserById(id);
+
+  if (!user) {
+    return <GhostAvatar size={size} avatarText={avatarText} />;
+  }
+
+  if (imageUrl || user.avatar) {
+    return (
+      <CustomAvatar 
+        size={size}
+        imageUrl={imageUrl || user.avatar}
+        id={id}
+      />
+    );
+  }
+
+  return <DefaultAvatar size={size} id={id} />;
+}
 
 UserAvatar.defaultProps = {
   size: 'medium',
+  imageUrl: '',
+  avatarText: null,
 }
 
 UserAvatar.propTypes = {
   id: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  size: PropTypes.oneOf(['x-small', 'small', 'medium', 'large']),
+  imageUrl: PropTypes.string,
+  avatarText: PropTypes.string,
 };
 
 export default UserAvatar;

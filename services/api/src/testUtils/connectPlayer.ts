@@ -21,6 +21,7 @@ export const voterConnect = (
     playerName: playerConfig.playerName ?? 'player1',
     id: playerConfig.id ?? playerTestId,
     role: playerConfig.role ?? PlayerRole.Voter,
+    avatar: playerConfig.avatar ?? null,
   };
 
   const message: ReceivedMessage<MessageType.PlayerConnected> = {
@@ -40,6 +41,7 @@ export const spectatorConnect = (): void => {
       playerName: 'spectator1',
       id: spectatorTestId,
       role: PlayerRole.Spectator,
+      avatar: null,
     },
   };
   playerService.newMessageReceived(ws, message);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import './userAvatar.css';
+import { Avatar } from 'antd';
+import { getAvatarPxSize } from '../../helpers/getAvatarPxSize';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { rgbToColor } from '../../helpers/rgbToColor';
 
@@ -11,20 +11,22 @@ const DefaultAvatar = ({ size, id }) => {
 
   if (user) {
     return (
-      <span
-        className={classNames('f-center user-avatar font-size-m weight-500', {
-          'small-avatar': size === 'small',
-          'medium-avatar': size === 'medium',
-          'big-avatar': size === 'large',
-        })}
+      <Avatar
+        size={getAvatarPxSize(size)} 
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          verticalAlign: 'middle',
           color: rgbToColor(user.color.text),
           backgroundColor: rgbToColor(user.color.background),
+          border: '1px solid var(--primary)',
         }}
       >
-        {user.name[0]}
-      </span>
-    )}
+        {user.name[0].toUpperCase()}
+      </Avatar>
+    )
+  }
 
   return null;
 }
@@ -35,7 +37,7 @@ DefaultAvatar.defaultProps = {
 
 DefaultAvatar.propTypes = {
   id: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  size: PropTypes.oneOf(['x-small', 'small', 'medium', 'large']),
 };
 
 export default DefaultAvatar;

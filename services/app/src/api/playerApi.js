@@ -5,12 +5,17 @@ export const buildMoveSkippedEventMessage = (playerId) => ({
   payload: { playerId },
 });
 
-export const buildPlayerConnectedEventMessage = (playerName, id, role) => ({
+export const buildPlayerConnectedEventMessage = (playerName, id, role, avatar) => ({
   type: WS_EVENT_TYPES.PLAYER_CONNECTED,
-  payload: { playerName, id, role },
+  payload: { playerName, id, role, avatar },
 });
 
 export const buildPlayerFigureMovedMessage = (turn) => ({
   type: WS_EVENT_TYPES.FIGURE_MOVED,
   payload: turn,
 });
+
+export const buildPlayerAvatarMessage = (url) => ({
+  type: WS_EVENT_TYPES.AVATAR_UPDATE,
+  payload: { url },
+})

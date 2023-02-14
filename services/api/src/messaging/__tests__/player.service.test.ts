@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import * as playerService from '../players.service';
 import {
+  AvatarUpdateMessage,
   MessageType,
   PlaceFigureMessage,
   ReceivedMessage,
@@ -23,6 +24,7 @@ describe('player.service', () => {
   const roomId = 'abcd-1234';
   const playerTestId = 'some-short-v4-uuid-1';
   const spectatorTestId = 'some-short-v4-uuid-2';
+  const testUrl = 'some-test-url';
 
   const testTurn: PlaceFigureMessage = {
     row: 1,
@@ -66,7 +68,7 @@ describe('player.service', () => {
     it('should create new id and assign voter role to player on connect', () => {
       const message: ReceivedMessage<MessageType.PlayerConnected> = {
         type: MessageType.PlayerConnected,
-        payload: { playerName: 'player1', id: '', role: null },
+        payload: { playerName: 'player1', id: '', role: null, avatar: null },
       };
       const messageSpy = jest.spyOn(playerService, 'subscribe');
       playerService.newMessageReceived(ws, message);
@@ -202,6 +204,23 @@ describe('player.service', () => {
     playerService.newMessageReceived(ws, resetGameMessage);
     const turnsCountAfterReset = gameRoomService.getTurns(roomId).length;
     expect(turnsCountAfterReset).toBe(0);
+  });
+
+  describe('avatar update', () => {
+    it('should update player avatar', () => {
+      voterConnect();
+      const player = playerService.findPlayerById(roomId, playerTestId);
+      expect(player[1].avatar).toBe('');
+
+      const avatarUpdateMessage: ReceivedMessage<MessageType.AvatarUpdate> = {
+        type: MessageType.AvatarUpdate,
+        payload: { url: testUrl },
+      };
+      playerService.newMessageReceived(ws, avatarUpdateMessage);
+
+      const playerAfterUpdate = playerService.findPlayerById(roomId, playerTestId);
+      expect(playerAfterUpdate[1].avatar).toBe(testUrl);
+    });
   });
 
   describe('getHandler', () => {

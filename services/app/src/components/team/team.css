@@ -40,6 +40,14 @@
   cursor: pointer;
 }
 
+.team-list-item-avatar {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 64px;
+  user-select: none;
+}
+
 .team-list-item-avatar.spectator-avatar {
   background-color: #ECEDEE;
 }

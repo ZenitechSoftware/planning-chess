@@ -18,6 +18,7 @@ export enum MessageType {
   Pong = 'Pong',
   ErrorMessage = 'ErrorMessage',
   ActionMade = 'ActionMade',
+  AvatarUpdate = 'AvatarUpdate',
 }
 
 export type SendMessagePayloads = {
@@ -45,6 +46,7 @@ export type ReceivedMessagePayloads = {
   [MessageType.MoveSkipped]: MoveSkippedMessage;
   [MessageType.ClearBoard]: void;
   [MessageType.Ping]: void;
+  [MessageType.AvatarUpdate]: AvatarUpdateMessage;
 };
 
 export interface ReceivedMessage<T extends keyof ReceivedMessagePayloads> {
@@ -64,10 +66,16 @@ export interface PlaceFigureMessage {
 export interface MoveSkippedMessage {
   playerId: string;
 }
+
+export interface AvatarUpdateMessage {
+  url: string;
+}
+
 export interface PlayerConnectedMessage {
   playerName: string;
   id: string | undefined;
   role: PlayerRole | null;
+  avatar: string | null;
 }
 
 export interface Handler {

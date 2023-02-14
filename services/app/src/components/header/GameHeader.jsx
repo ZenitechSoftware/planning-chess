@@ -7,6 +7,7 @@ import CopyBtn from './CopyBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
 import UserAvatar from '../avatarPicture/UserAvatar';
+import { PlayerRoles } from '../../constants/playerConstants';
 
 const GameHeader = ({ openAvatarDialog }) => {
   const { currentPlayer } = useChessBoardContext();
@@ -26,7 +27,9 @@ const GameHeader = ({ openAvatarDialog }) => {
           <span id="username">{currentPlayer.name}</span>
         </div>
       )}
-      <GameHeaderDropDown openAvatarDialog={openAvatarDialog} />
+      {currentPlayer?.role === PlayerRoles.Voter && (
+        <GameHeaderDropDown openAvatarDialog={openAvatarDialog} />
+      )}
     </Header>
     
   );

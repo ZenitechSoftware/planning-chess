@@ -1,0 +1,14 @@
+.avatar-modal {
+  max-width: 600px;
+  padding: 20px;
+  min-height: 200px;
+}
+
+.modal-url-input {
+  border: 1px solid var(--secondary-text);
+  width: 65%;
+}
+
+.modal-url-input:focus {
+  outline: none;
+}

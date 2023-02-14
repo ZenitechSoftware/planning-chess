@@ -1,3 +1,8 @@
+/*Buttons*/
+.ant-btn-primary:disabled:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
 /*Tooltips*/
 .ant-tooltip .ant-tooltip-inner {
   text-align: center;
@@ -17,8 +22,30 @@
 }
 
 /*Modals*/
-.cancel-btn-hidden .ant-modal-content .ant-btn-default {
+.cancel-btn-hidden .ant-modal-content .ant-modal-footer .ant-btn-default {
   display: none;
+}
+
+.ant-modal-content .ant-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ant-modal-content .ant-modal-footer .ant-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  background-color: var(--primary);
+  font-size: 16px;
+  padding: 16px;
+}
+
+.ant-modal-content .ant-modal-footer .ant-btn-default {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  font-size: 16px;
+  padding: 16px;
 }
 
 .ant-modal-content .ant-modal-header .ant-modal-title {
