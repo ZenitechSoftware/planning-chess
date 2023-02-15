@@ -1,6 +1,6 @@
 Feature('skip move');
 import username = require("../test_data/usernames");
-import chessPiece = require("../test_data/ChessPieces");
+import chessPieces = require("../test_data/ChessPieces");
 import chessTile = require("../test_data/ChessTiles");
 
 const { I, login, game } = inject();
@@ -10,10 +10,10 @@ Scenario('Player skips move after placing selected figure on board ', async () =
     let url = await I.grabCurrentUrl();
     session(username.user2, () => {
         login.voterLoginIntoCreatedGameRoom(url, username.user2);
-        game.voteAndCheckThatVoteIsVisible(chessPiece.pawn, chessTile.a1, chessPiece.pawnValue);
+        game.voteAndCheckThatVoteIsVisible(chessPieces.ChessPiece.pawn, chessTile.a1, chessPieces.ChessPieceValue.pawn);
         I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
         game.skipMove();
-        game.voteIsNotVisible(chessPiece.pawn, chessTile.a1, chessPiece.pawnValue);
+        game.voteIsNotVisible(chessPieces.ChessPiece.pawn, chessTile.a1, chessPieces.ChessPieceValue.pawn);
         I.seeElement(game.locator.buttons.skipButtonHighlighted);
         I.waitForElement(game.locator.playersList.playerSkippedIcon(username.user2));
     });
