@@ -1,5 +1,5 @@
 const { I, game } = inject();
-import chessPieces = require("../test_data/chessPieces");
+import { ChessPiece } from "../test_data/ChessPieces";
 
 const locator = {
   playersList: {
@@ -17,14 +17,14 @@ const locator = {
   chessBoard: {
     board: '#chess-board',
     chessTile: (tile: string) => `$chess-tile-${tile}`,
-    figureOnBoard: (tile: string, chessPiece: chessPieces.ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
+    figureOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
     avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
     pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
   },
   chessPieces: {
     container: '$chess-pieces-container',
-    chessPiece: (chessPiece: chessPieces.ChessPiece) => `$${chessPiece}-piece-btn`,
-    figureHighlighted: (chessPiece: chessPieces.ChessPiece) => `//button[@data-testid="${chessPiece}-piece-btn"][contains(@class, "selected")]`,
+    chessPiece: (chessPiece: ChessPiece) => `$${chessPiece}-piece-btn`,
+    figureHighlighted: (chessPiece: ChessPiece) => `//button[@data-testid="${chessPiece}-piece-btn"][contains(@class, "selected")]`,
   },
   buttons: {
     copyLink: locate('//*[text() = "Copy Link"]').at(1),
@@ -46,17 +46,17 @@ export = {
     I.seeElement(locator.buttons.restartGame);
   },
 
-  vote:(chessPiece: chessPieces.ChessPiece, tile: string) => {
+  vote:(chessPiece: ChessPiece, tile: string) => {
     I.click(locator.chessPieces.chessPiece(chessPiece));
     I.waitForVisible(locator.chessPieces.figureHighlighted(chessPiece));
     I.click(locator.chessBoard.chessTile(tile));
   },
-  voteIsVisible:(chessPiece: chessPieces.ChessPiece, tile: string, value: string) => {
+  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
     I.seeElement(locator.chessBoard.figureOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
-  voteIsNotVisible:(chessPiece: chessPieces.ChessPiece, tile: string, value: string) => {
+  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
     I.dontSeeElement(locator.chessBoard.figureOnBoard(tile, chessPiece));
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
@@ -74,7 +74,7 @@ export = {
     I.click(locator.buttons.skip);
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
-  voteAndCheckThatVoteIsVisible:(chessPiece: chessPieces.ChessPiece, tile: string, value:string) => {
+  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value:string) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
   },
