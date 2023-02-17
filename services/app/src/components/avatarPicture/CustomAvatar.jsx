@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar } from 'antd';
 import DefaultAvatar from './DefaultAvatar';
-import { getAvatarPxSize } from '../../helpers/getAvatarPxSize';
+import { getAvatarPxSize } from '../../helpers/getAvatarSizes';
 
-const CustomAvatar = ({ size, imageUrl, id }) => {
+const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
   const [isAvatarError, setIsAvatarError] = useState(false);
 
   if (isAvatarError) {
@@ -12,6 +12,7 @@ const CustomAvatar = ({ size, imageUrl, id }) => {
       <DefaultAvatar
         size={size}
         id={id}
+        isBorderNeeded={isBorderNeeded}
       />  
     )
   }
@@ -37,12 +38,14 @@ const CustomAvatar = ({ size, imageUrl, id }) => {
 
 CustomAvatar.defaultProps = {
   size: 'medium',
+  isBorderNeeded: false,
 }
 
 CustomAvatar.propTypes = {
   size: PropTypes.oneOf(['x-small', 'small', 'medium', 'large']),
   imageUrl: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  isBorderNeeded: PropTypes.bool,
 };
 
 export default CustomAvatar;

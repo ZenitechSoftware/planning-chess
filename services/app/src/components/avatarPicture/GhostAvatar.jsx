@@ -1,10 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Avatar } from 'antd';
-import { getAvatarPxSize } from '../../helpers/getAvatarPxSize';
+import { getAvatarPxSize, getAvatarFontSize } from '../../helpers/getAvatarSizes';
 
 const GhostAvatar = ({ avatarText, size }) => (
-  <Avatar style={{ color: 'var(--primary)', border: '1px solid var(--primary)', backgroundColor: '#F3F6FA' }} size={getAvatarPxSize(size)}>
+  <Avatar 
+    style={{ 
+      fontFamily: 'Poppins',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'var(--primary)', 
+      border: '1px solid var(--primary)', 
+      backgroundColor: 'var(--background)',
+      fontSize: getAvatarFontSize(size),
+    }} 
+    size={getAvatarPxSize(size)}
+  >
     {avatarText.toUpperCase()}
   </Avatar>
 )

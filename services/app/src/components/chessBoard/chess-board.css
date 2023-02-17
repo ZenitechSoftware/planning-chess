@@ -45,6 +45,7 @@ table {
   width: 72px;
   height: 72px;
   position: relative;
+  border: 1px solid transparent;
 }
 
 #chess-board .border-tile {
@@ -113,29 +114,10 @@ table {
   justify-content: center;
 }
 
-#chess-board .square .bubble {
-  display: flex;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: #ECF0F7;
-  border: 1px solid var(--primary);
-  border-radius: 50%;
-}
-
 #chess-board .square .bubble-container {
   display: flex;
   justify-content: center;
   margin-bottom: 2px;
-}
-
-#chess-board .square .nth-bubble {
-  margin-left: -8px;
-}
-
-#chess-board .square .multiple-bubbles {
-  width: 24px;
-  height: 24px;
 }
 
 #chess-board .square .name {

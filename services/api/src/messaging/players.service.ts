@@ -131,7 +131,7 @@ const createNewPlayer = (params: {
   playerName: string;
   role: PlayerRole;
   roomId: string;
-  avatar: string
+  avatar: string;
 }): Player => {
   const newPlayer: Player = {
     id: params.playerId,

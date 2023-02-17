@@ -1,7 +1,6 @@
 import WebSocket from 'ws';
 import * as playerService from '../players.service';
 import {
-  AvatarUpdateMessage,
   MessageType,
   PlaceFigureMessage,
   ReceivedMessage,
@@ -218,7 +217,10 @@ describe('player.service', () => {
       };
       playerService.newMessageReceived(ws, avatarUpdateMessage);
 
-      const playerAfterUpdate = playerService.findPlayerById(roomId, playerTestId);
+      const playerAfterUpdate = playerService.findPlayerById(
+        roomId,
+        playerTestId,
+      );
       expect(playerAfterUpdate[1].avatar).toBe(testUrl);
     });
   });

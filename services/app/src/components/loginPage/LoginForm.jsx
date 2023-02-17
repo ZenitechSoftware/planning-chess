@@ -15,7 +15,7 @@ const LoginForm = () => {
 
   const submitInfo = (event) => {
     event.preventDefault();
-    setUsername(usernameInputValue);
+    setUsername(usernameInputValue.charAt(0).toUpperCase() + usernameInputValue.slice(1));
     if (urlInputValue.length) {
       setUserAvatar(urlInputValue);
     }
@@ -42,7 +42,7 @@ const LoginForm = () => {
         <p>Firstly, enter your name:</p>
       </div>
 
-      <div className='form-input-container'>
+      <div className='form-input-container margin-sm'>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor='username-input'>Name</label>
         <div className="user-input-container border-r-4 margin-t-s">
@@ -61,7 +61,7 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <div className='form-input-container'>
+      <div className='form-input-container margin-sm'>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor='profile-pic-input'>Profile url (Optional)</label>
         <div className='user-input-container border-r-4 margin-t-s'>
@@ -81,7 +81,7 @@ const LoginForm = () => {
       <button
         type="submit"
         data-testid="login-btn"
-        className="enter-game-btn border-r-4 login-input user-input-font"
+        className="enter-game-btn border-r-4 login-input user-input-font margin-sm"
         disabled={btnIsDisabled}
       >
         Enter Game

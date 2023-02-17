@@ -18,39 +18,52 @@ const Square = ({
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  const renderBubble = useCallback((playerBubbles) => {
-    if (playerBubbles.length === 0) {
+  const renderBubble = useCallback((turnsInChessCell) => {
+    if (turnsInChessCell.length === 0) {
       return null;
     }
 
-    if (playerBubbles.length > 3) {
-      const avatarToRender = playerBubbles.slice(0, 2);
+    if (turnsInChessCell.length > 3) {
+      const avatarToRender = turnsInChessCell.slice(0, 2);
       return (
         <Avatar.Group maxCount={3}>
           {avatarToRender.map((player, index) => (
-            <UserAvatar 
+            <UserAvatar
+              isBorderNeeded
               size='x-small' 
               id={player.playerId} 
               key={`bubble-${index}`} 
               avatarText={player.player[0]}
             />
           ))}
-          <Avatar size={24} style={{ backgroundColor: '#F3F6FA', border: '1px solid var(--primary)', color: 'var(--primary)', verticalAlign: 'middle' }}>
-            +{playerBubbles.length - 2}
+          <Avatar 
+            size={26} 
+            style={{
+              fontFamily: 'Poppins',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center', 
+              backgroundColor: '#F3F6FA', 
+              border: '1px solid var(--primary)', 
+              color: 'var(--primary)',
+            }}
+          >
+            +{turnsInChessCell.length - 2}
           </Avatar>
         </Avatar.Group>
       );
     }
 
-    if (playerBubbles.length > 1 && playerBubbles.length <= 3) {
+    if (turnsInChessCell.length > 1 && turnsInChessCell.length <= 3) {
       return (
         <Avatar.Group maxCount={3}>
-          {playerBubbles.map((player, index) => (
+          {turnsInChessCell.map((player, index) => (
             <UserAvatar 
               size='x-small' 
               id={player.playerId} 
               key={`bubble-${index}`}
               avatarText={player.player[0]}
+              isBorderNeeded
             />
           ))}
         </Avatar.Group>
@@ -59,9 +72,10 @@ const Square = ({
 
     return (
       <UserAvatar 
-        size='small' 
-        id={playerBubbles[0].playerId} 
-        avatarText={playerBubbles[0].player[0].toUpperCase()} 
+        size='small'
+        isBorderNeeded
+        id={turnsInChessCell[0].playerId} 
+        avatarText={turnsInChessCell[0].player[0].toUpperCase()} 
       />
     );
   }, [items, players]);

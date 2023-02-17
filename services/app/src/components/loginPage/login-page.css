@@ -1,10 +1,11 @@
 /*LoginForm.jsx*/
 .login-form {
     width: 40%;
-    height: 40vh;
     background-color: var(--white);
     border: 1px solid var(--dark-border);
     padding: 3em 4em;
+    min-height: 40vh;
+    height: max-content;
 }
 
 .form-text {
@@ -54,7 +55,6 @@
 }
 
 .login-input-logo {
-  /* height: 34px; */
   width: 16px;
   height: 34px;
 }
@@ -62,5 +62,4 @@
 .login-input-log:last-of-type {
   height: 500px;
   width: 500px;
-
 }

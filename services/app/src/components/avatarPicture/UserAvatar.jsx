@@ -5,7 +5,7 @@ import CustomAvatar from './CustomAvatar';
 import GhostAvatar from './GhostAvatar';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 
-const UserAvatar = ({ size, id, imageUrl, avatarText }) => {
+const UserAvatar = ({ size, id, imageUrl, avatarText, isBorderNeeded }) => {
   const { findUserById } = useChessBoardContext();
   const user = findUserById(id);
 
@@ -16,6 +16,7 @@ const UserAvatar = ({ size, id, imageUrl, avatarText }) => {
   if (imageUrl || user.avatar) {
     return (
       <CustomAvatar 
+        isBorderNeeded={isBorderNeeded}
         size={size}
         imageUrl={imageUrl || user.avatar}
         id={id}
@@ -23,13 +24,14 @@ const UserAvatar = ({ size, id, imageUrl, avatarText }) => {
     );
   }
 
-  return <DefaultAvatar size={size} id={id} />;
+  return <DefaultAvatar size={size} id={id} isBorderNeeded={isBorderNeeded} />;
 }
 
 UserAvatar.defaultProps = {
   size: 'medium',
   imageUrl: '',
   avatarText: null,
+  isBorderNeeded: false,
 }
 
 UserAvatar.propTypes = {
@@ -37,6 +39,7 @@ UserAvatar.propTypes = {
   size: PropTypes.oneOf(['x-small', 'small', 'medium', 'large']),
   imageUrl: PropTypes.string,
   avatarText: PropTypes.string,
+  isBorderNeeded: PropTypes.bool,
 };
 
 export default UserAvatar;
