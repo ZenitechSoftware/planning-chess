@@ -21,6 +21,12 @@ const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
     setIsPrimaryBtnDisabled(true);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleOkBtnPress();
+    }
+  }
+
   useEffect(() => {
     userContext.setAvatarError(false);
 
@@ -37,6 +43,7 @@ const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
         form={form}
         layout="vertical"
         autoComplete="off"
+        onKeyDown={handleKeyDown}
       >
         <Form.Item
           name='url'

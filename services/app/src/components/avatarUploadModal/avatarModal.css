@@ -12,6 +12,10 @@
   outline: none;
 }
 
+.avatar-modal-second-step:focus {
+  outline: none;
+}
+
 .modal-error-message {
   color: var(--error);
 }

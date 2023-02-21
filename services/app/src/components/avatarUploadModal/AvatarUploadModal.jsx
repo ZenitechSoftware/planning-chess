@@ -63,6 +63,7 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
       className='avatar-modal padding-l'
       footer={null}
       onCancel={closeAvatarModule}
+      destroyOnClose
     >
       {modalStep === 1 && (
         <AvatarModalForm 

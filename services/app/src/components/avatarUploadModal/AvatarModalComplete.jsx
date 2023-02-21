@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import UserAvatar from '../avatar/UserAvatar';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
@@ -10,8 +10,26 @@ const AvatarModalComplete = ({ imageUrl, handleOkBtnPress, retryPictureUpload })
   const { currentPlayer } = useChessBoardContext();
   const { avatarError } = useUserContext();
 
+  const modalRef = useRef();
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleOkBtnPress();
+    }
+  }
+
+  useEffect(() => {
+    modalRef.current.focus();
+  }, [])
+
   return (
-    <>
+    <div
+      className='avatar-modal-second-step'
+      onKeyDown={handleKeyDown}
+      role='presentation'
+      tabIndex={-1}
+      ref={modalRef}
+    >
       { avatarError && (
         <p className='modal-error-message margin-t-s'>
           Looks like you have entered an invalid url to the image
@@ -43,7 +61,7 @@ const AvatarModalComplete = ({ imageUrl, handleOkBtnPress, retryPictureUpload })
           Update profile picture
         </Button>
       </div>
-    </>
+    </div>
   )
 }
 
