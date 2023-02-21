@@ -3,6 +3,7 @@ import { ChessPiece } from "../test_data/ChessPieces";
 
 const locator = {
   playersList: {
+    playersList: '//div[contains(@data-testid, "list")]/div[@class="team-list-item-name"]',
     firstUserInList: '//*[contains(@data-testid, "0")]/div[@class="team-list-item-name"]',
     secondUserInList: '//*[contains(@data-testid, "1")]/div[@class="team-list-item-name"]',
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
@@ -12,6 +13,7 @@ const locator = {
   text: {
     username: '#username',
     linkCopiedToClipboard: '//*[text() = "Link copied to clipboard"]',
+    youHaveAnotherActiveSession:'//*[text() = "You have another active session"]',
     skipMoveTooltip: '//*[text() = "Mark my move as complete, without any story points"]'
   },
   chessBoard: {
@@ -27,7 +29,8 @@ const locator = {
     figureHighlighted: (chessPiece: ChessPiece) => `//button[@data-testid="${chessPiece}-piece-btn"][contains(@class, "selected")]`,
   },
   buttons: {
-    copyLink: locate('//*[text() = "Copy Link"]').at(1),
+    copyLinkHeader: locate('//*[text() = "Copy Link"]').at(1),
+    copyLink: 'button/p[contains(text(), "Copy Link")]',
     restartGame: '//button/span[contains(text(), "Restart game")]',
     skip: '$skip-piece-btn', 
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
@@ -63,13 +66,25 @@ export = {
   },
 
   checkCopyLinkButton: () => {
-    I.waitForElement(locator.buttons.copyLink);
-    I.click(locator.buttons.copyLink);
+    I.waitForElement(locator.buttons.copyLinkHeader);
+    I.click(locator.buttons.copyLinkHeader);
     I.waitForElement(locator.text.linkCopiedToClipboard);
     I.waitForInvisible(locator.text.linkCopiedToClipboard);
-    I.click(locator.buttons.copyLink);
+    I.click(locator.buttons.copyLinkHeader);
     I.waitForElement(locator.text.linkCopiedToClipboard);
   },
+  getNumberOfPlayersInList: async () => {
+    let numberOfPlayers = await I.grabNumberOfVisibleElements(locator.playersList.playersList);
+    return numberOfPlayers;
+  },
+
+  duplicateTab: () => {
+    I.openNewTab();
+    I.amOnPage('/');
+    I.waitForElement(locator.text.youHaveAnotherActiveSession);
+    I.switchToPreviousTab();
+    I.seeElement(locator.chessBoard.board);
+  }, 
   skipMove: () => {
     I.click(locator.buttons.skip);
     I.seeElement(locator.buttons.skipButtonHighlighted);
