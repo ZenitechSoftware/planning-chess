@@ -68,7 +68,7 @@ export interface MoveSkippedMessage {
 }
 
 export interface AvatarUpdateMessage {
-  url: string;
+  url: string | undefined;
 }
 
 export interface PlayerConnectedMessage {

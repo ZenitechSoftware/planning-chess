@@ -5,7 +5,7 @@ import './avatarModal.css';
 import AvatarModalForm from './AvatarModalForm';
 import AvatarModalComplete from './AvatarModalComplete';
 import { useUserContext } from '../../contexts/UserContext';
-import { buildPlayerAvatarMessage } from '../../api/playerApi';
+import { buildPlayerAvatarUpdateMessage } from '../../api/playerApi';
 import { useWsContext } from '../../contexts/ws-context';
 
 const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
@@ -13,20 +13,21 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
   const userContext = useUserContext();
   
   const [modalStep, setModalStep] = useState(1);
-  const [urlText, setUrlText] = useState('');
+  const [url, setUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
   const closeAvatarModule = () => {
     setModalStep(1);
     setShowAvatarModal(false);
     setImageUrl('');
-    setUrlText('');
+    setUrl('');
+    userContext.setAvatarError(false);
   }
 
   const handleOkBtnPress = () => {
     if (modalStep === 1) {
       try {
-        const urlHref = new URL(urlText).href;
+        const urlHref = new URL(url).href;
         setImageUrl(urlHref);
         setModalStep(2);
       } catch (err) {
@@ -35,15 +36,23 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
     }
 
     if (modalStep === 2) {
+      if (userContext.avatarError) {
+        userContext.setUserAvatar();
+        window.localStorage.removeItem('userAvatar');
+        ws?.send(buildPlayerAvatarUpdateMessage());
+        closeAvatarModule();
+        return;
+      }
+
       userContext.setUserAvatar(imageUrl);
-      ws?.send(buildPlayerAvatarMessage(imageUrl));
+      ws?.send(buildPlayerAvatarUpdateMessage(imageUrl));
       closeAvatarModule();
     }
   }
   
   const retryPictureUpload = () => {
     setImageUrl('');
-    setUrlText('');
+    setUrl('');
     setModalStep(1);
   }
 
@@ -51,15 +60,14 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
     <Modal 
       title="Upload profile picture"
       open={showAvatarModal}
-      className='avatar-modal'
+      className='avatar-modal padding-l'
       footer={null}
       onCancel={closeAvatarModule}
     >
       {modalStep === 1 && (
         <AvatarModalForm 
-          handleOkBtnPress={handleOkBtnPress} 
-          urlText={urlText} 
-          setUrlText={setUrlText} 
+          handleOkBtnPress={handleOkBtnPress}
+          setUrl={setUrl} 
         />
       )}
       
@@ -72,10 +80,6 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
       )}
     </Modal>
   )
-}
-
-AvatarUploadModal.defaultProps = {
-    
 }
 
 AvatarUploadModal.propTypes = {

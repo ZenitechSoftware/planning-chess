@@ -2,15 +2,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import Button from '../button/Button';
+import { useUserContext } from '../../contexts/UserContext';
 
-const AvatarModalForm = ({ setUrlText, handleOkBtnPress }) => {
+const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
   const [form] = Form.useForm();
   const [isPrimaryBtnDisabled, setIsPrimaryBtnDisabled] = useState(true);
+
+  const userContext = useUserContext();
 
   const urlInputRef = useRef(null);
 
   const updateUrlInput = (event) => {
-    setUrlText(event.target.value);
+    setUrl(event.target.value);
     if(event.target.value.length) {
       setIsPrimaryBtnDisabled(false);
       return;
@@ -19,6 +22,8 @@ const AvatarModalForm = ({ setUrlText, handleOkBtnPress }) => {
   };
 
   useEffect(() => {
+    userContext.setAvatarError(false);
+
     if(urlInputRef.current) {
       urlInputRef.current.focus();
     }
@@ -68,7 +73,7 @@ const AvatarModalForm = ({ setUrlText, handleOkBtnPress }) => {
 };
 
 AvatarModalForm.propTypes = {
-  setUrlText: PropTypes.func.isRequired,
+  setUrl: PropTypes.func.isRequired,
   handleOkBtnPress: PropTypes.func.isRequired,
 }
 

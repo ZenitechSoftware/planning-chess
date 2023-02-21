@@ -1,10 +1,5 @@
 .primary-btn {
-  background-color: var(--primary);
   border: none;
-}
-
-.primary-btn:hover {
-  background-color: var(--primary) !important;
 }
 
 .ghost-btn {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserAvatar from '../avatarPicture/UserAvatar';
+import UserAvatar from '../avatar/UserAvatar';
 
 const VoterRow = ({ name, currentPlayerId, id, addon }) => (
   <>
-    <UserAvatar size='medium' id={id} />
+    <UserAvatar size='m' id={id} />
 
     <div className="team-list-item-name">
       {name}

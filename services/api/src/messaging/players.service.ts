@@ -163,7 +163,7 @@ export const playerConnected: Handler = (
   { playerName, id, role, avatar }: PlayerConnectedMessage,
 ): void => {
   const newPlayerId = id ? id : uuidv4();
-  const avatarUrl = avatar ? avatar : '';
+  const avatarUrl = avatar ? avatar : undefined;
 
   if (playerExists(ws.roomId, id)) {
     sendMessage(ws, MessageType.PlayerAlreadyExists);
@@ -198,6 +198,15 @@ export const updateAvatar: Handler = (
   { url }: AvatarUpdateMessage,
 ): void => {
   const players = getPlayers(ws.roomId);
+
+  if (!url) {
+    players.set(ws, {
+      ...players.get(ws),
+      avatar: undefined,
+    });
+    publishAllPlayers(ws.roomId);
+    return;
+  }
 
   players.set(ws, {
     ...players.get(ws),

@@ -209,7 +209,7 @@ describe('player.service', () => {
     it('should update player avatar', () => {
       voterConnect();
       const player = playerService.findPlayerById(roomId, playerTestId);
-      expect(player[1].avatar).toBe('');
+      expect(player[1].avatar).toBe(undefined);
 
       const avatarUpdateMessage: ReceivedMessage<MessageType.AvatarUpdate> = {
         type: MessageType.AvatarUpdate,
@@ -222,6 +222,24 @@ describe('player.service', () => {
         playerTestId,
       );
       expect(playerAfterUpdate[1].avatar).toBe(testUrl);
+    });
+
+    it('should delete player avatar', () => {
+      voterConnect({
+        avatar: 'someUrl',
+      });
+      const player = playerService.findPlayerById(roomId, playerTestId);
+      expect(player[1].avatar).toBe('someUrl');
+
+      playerService.newMessageReceived(ws, {
+        type: MessageType.AvatarUpdate,
+        payload: { url: undefined },
+      });
+      const playerAfterUpdate = playerService.findPlayerById(
+        roomId,
+        playerTestId,
+      );
+      expect(playerAfterUpdate[1].avatar).toBe(undefined);
     });
   });
 

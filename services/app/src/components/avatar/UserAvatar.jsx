@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DefaultAvatar from './DefaultAvatar';
 import CustomAvatar from './CustomAvatar';
-import GhostAvatar from './GhostAvatar';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import { avatarSizePropType } from '../../prop-types/player';
 
 const UserAvatar = ({ size, id, imageUrl, avatarText, isBorderNeeded }) => {
   const { findUserById } = useChessBoardContext();
   const user = findUserById(id);
 
   if (!user) {
-    return <GhostAvatar size={size} avatarText={avatarText} />;
+    return <DefaultAvatar id={id} isBorderNeeded size={size} avatarText={avatarText} />;
   }
 
   if (imageUrl || user.avatar) {
@@ -28,7 +28,7 @@ const UserAvatar = ({ size, id, imageUrl, avatarText, isBorderNeeded }) => {
 }
 
 UserAvatar.defaultProps = {
-  size: 'medium',
+  size: 'm',
   imageUrl: '',
   avatarText: null,
   isBorderNeeded: false,
@@ -36,7 +36,7 @@ UserAvatar.defaultProps = {
 
 UserAvatar.propTypes = {
   id: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['x-small', 'small', 'medium', 'large']),
+  size: avatarSizePropType,
   imageUrl: PropTypes.string,
   avatarText: PropTypes.string,
   isBorderNeeded: PropTypes.bool,

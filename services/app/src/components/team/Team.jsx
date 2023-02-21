@@ -13,7 +13,7 @@ import '../gameStatus/game-status.css';
 
 const Team = ({ skipMove }) => {
   const { clearBoard, voters, spectators, votersListWithScores, gameState, currentPlayerId } = useChessBoardContext();
-
+  
   return (
     <div className="team-container f-column">
       <div className='team-header'>

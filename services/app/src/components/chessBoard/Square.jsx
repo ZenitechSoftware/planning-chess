@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Avatar } from 'antd';
 import { PIECES } from '../../constants/board';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import UserAvatar from '../avatarPicture/UserAvatar';
+import UserAvatar from '../avatar/UserAvatar';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -14,71 +14,17 @@ const Square = ({
   column,
   filled
 }) => {
-  const { board, players } = useChessBoardContext();
+  const { board } = useChessBoardContext();
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  const renderBubble = useCallback((turnsInChessCell) => {
-    if (turnsInChessCell.length === 0) {
-      return null;
-    }
+  const avatarSize = items.length > 1
+    ? 'xs'
+    : 's';
 
-    if (turnsInChessCell.length > 3) {
-      const avatarToRender = turnsInChessCell.slice(0, 2);
-      return (
-        <Avatar.Group maxCount={3}>
-          {avatarToRender.map((player, index) => (
-            <UserAvatar
-              isBorderNeeded
-              size='x-small' 
-              id={player.playerId} 
-              key={`bubble-${index}`} 
-              avatarText={player.player[0]}
-            />
-          ))}
-          <Avatar 
-            size={26} 
-            style={{
-              fontFamily: 'Poppins',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center', 
-              backgroundColor: '#F3F6FA', 
-              border: '1px solid var(--primary)', 
-              color: 'var(--primary)',
-            }}
-          >
-            +{turnsInChessCell.length - 2}
-          </Avatar>
-        </Avatar.Group>
-      );
-    }
-
-    if (turnsInChessCell.length > 1 && turnsInChessCell.length <= 3) {
-      return (
-        <Avatar.Group maxCount={3}>
-          {turnsInChessCell.map((player, index) => (
-            <UserAvatar 
-              size='x-small' 
-              id={player.playerId} 
-              key={`bubble-${index}`}
-              avatarText={player.player[0]}
-              isBorderNeeded
-            />
-          ))}
-        </Avatar.Group>
-      )
-    }
-
-    return (
-      <UserAvatar 
-        size='small'
-        isBorderNeeded
-        id={turnsInChessCell[0].playerId} 
-        avatarText={turnsInChessCell[0].player[0].toUpperCase()} 
-      />
-    );
-  }, [items, players]);
+  const maxAvatarCount = items.length <= 3
+    ? 3
+    : 2;
 
   const updatePopover = bool => {
     if (items.length && bool || !bool) {
@@ -95,7 +41,27 @@ const Square = ({
     >
       {!!items.length && <span className={classNames(["number", "number-row", filled && "number-filled"])}>{board[row][0].attribute}</span>}
       <div className="bubble-container">
-        {renderBubble(items)}
+        <Avatar.Group
+          maxCount={maxAvatarCount}
+          maxStyle={{
+            color: 'var(--primary)',
+            border: '1px solid var(--primary)',
+            backgroundColor: 'var(--background)',
+            fontFamily: 'Poppins',
+          }}
+          overlayClassName='hide-group-popover'
+          size={24}
+        >
+          {items.map((item, index) => (
+            <UserAvatar 
+              size={avatarSize} 
+              id={item.playerId} 
+              key={`bubble-${index}`}
+              avatarText={item.player[0]}
+              isBorderNeeded
+            />
+          ))}
+        </Avatar.Group>
       </div>
       <div className={classNames({"figure-container": items.length, "figure-container-centered": filteredFigures.length > 1})}>
         {filteredFigures.map((item, key) => key < 2 && (
@@ -113,7 +79,7 @@ const Square = ({
           <span className="pop-over-title">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
-              <UserAvatar id={item.playerId} size='x-small' avatarText={item.player[0].toUpperCase()} />
+              <UserAvatar id={item.playerId} size='xs' avatarText={item.player[0].toUpperCase()} />
               <span className="text">
                 {`${item.player} - `}
                 <span className="text-bold">{item.figure.charAt(0).toUpperCase() + item.figure.slice(1)}</span>

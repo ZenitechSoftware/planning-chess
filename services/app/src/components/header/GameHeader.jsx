@@ -6,7 +6,7 @@ import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
-import UserAvatar from '../avatarPicture/UserAvatar';
+import UserAvatar from '../avatar/UserAvatar';
 import { PlayerRoles } from '../../constants/playerConstants';
 
 const GameHeader = ({ openAvatarDialog }) => {
@@ -23,7 +23,7 @@ const GameHeader = ({ openAvatarDialog }) => {
   
       {currentPlayer && (
         <div className='f-1 justify-end align-c gap-s'>
-          <UserAvatar size='medium' id={currentPlayer.id} />
+          <UserAvatar size='m' id={currentPlayer.id} />
           <span id="username">{currentPlayer.name}</span>
         </div>
       )}

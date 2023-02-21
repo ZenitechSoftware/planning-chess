@@ -16,9 +16,14 @@ const GameHeaderDropDown = ({ openAvatarDialog }) => {
     setImgSrc(DropdownArrowDown);
   }
 
+  const handleButtonClick = (callbackFn) => {
+    setImgSrc(DropdownArrowDown);
+    callbackFn();
+  }
+
   const items = [
     {
-      label: <button type='button' onClick={openAvatarDialog}>Change profile picture</button>,
+      label: <button type='button' onClick={() => handleButtonClick(openAvatarDialog)}>Change profile picture</button>,
       key: 0,
     },
   ];

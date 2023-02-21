@@ -1,8 +1,4 @@
 .dropdown-icon:hover {
   cursor: pointer;
+  user-select: none;
 }
-
-/* .dropdown-buttons {
-  background: none;
-  border: none;
-} */

@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar } from 'antd';
 import DefaultAvatar from './DefaultAvatar';
-import { getAvatarPxSize } from '../../helpers/getAvatarSizes';
+import { avatarSizesMap } from '../../helpers/getAvatarProperties';
+import { useUserContext } from '../../contexts/UserContext';
+import './avatar.css';
+import { avatarSizePropType } from '../../prop-types/player';
+import { getCustomAvatarStyle } from '../../helpers/getAvatarStyle';
 
 const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
   const [isAvatarError, setIsAvatarError] = useState(false);
+  const userContext = useUserContext();
 
   if (isAvatarError) {
     return (
@@ -19,15 +24,16 @@ const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
 
   return (
     <Avatar 
-      size={getAvatarPxSize(size)}
-      style={{ backgroundColor: '#F3F6FA', border: '1px solid var(--primary)' }}
+      size={avatarSizesMap[size]}
+      className='custom-avatar'
+      style={getCustomAvatarStyle()}
       src={(
         <img 
           src={imageUrl}
-          alt='profile pic' 
-          className='custom-avatar-img'
+          alt='profile pic'
           onError={(e) => {
             e.target.src = null;
+            userContext.setAvatarError(true);
             setIsAvatarError(true);
           }}
         />
@@ -37,12 +43,12 @@ const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
 }
 
 CustomAvatar.defaultProps = {
-  size: 'medium',
+  size: 'm',
   isBorderNeeded: false,
 }
 
 CustomAvatar.propTypes = {
-  size: PropTypes.oneOf(['x-small', 'small', 'medium', 'large']),
+  size: avatarSizePropType,
   imageUrl: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   isBorderNeeded: PropTypes.bool,

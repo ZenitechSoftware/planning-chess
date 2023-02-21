@@ -15,7 +15,7 @@ export const buildPlayerFigureMovedMessage = (turn) => ({
   payload: turn,
 });
 
-export const buildPlayerAvatarMessage = (url) => ({
+export const buildPlayerAvatarUpdateMessage = (url) => ({
   type: WS_EVENT_TYPES.AVATAR_UPDATE,
   payload: { url },
 })

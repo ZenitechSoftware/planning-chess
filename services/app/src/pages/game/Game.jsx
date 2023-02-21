@@ -21,7 +21,7 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 import '../../components/gameFooter/game-footer.css';
 import wsReadyStates from '../../constants/wsReadyStates';
-import AvatarModalContainer from '../../components/avatarUploadModal/AvatarModalContainer';
+import AvatarUploadModal from '../../components/avatarUploadModal/AvatarUploadModal';
 
 const Game = () => {
   const { username, userId, role, gameId, userAvatar } = useUserContext();
@@ -66,7 +66,7 @@ const Game = () => {
   return (
     <>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
-      <AvatarModalContainer 
+      <AvatarUploadModal 
         showAvatarModal={showAvatarModal}
         setShowAvatarModal={setShowAvatarModal}
       />
