@@ -75,7 +75,7 @@ export interface PlayerConnectedMessage {
   playerName: string;
   id: string | undefined;
   role: PlayerRole | null;
-  avatar: string | null;
+  avatar: string | undefined;
 }
 
 export interface Handler {

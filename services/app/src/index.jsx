@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConfigProvider } from 'antd';
-import { getAntdTheme } from './constants/getAntdTheme';
+import { getAntdTheme } from './helpers/getAntdTheme';
 
 import App from './components/App';
 

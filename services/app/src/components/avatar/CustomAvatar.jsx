@@ -4,7 +4,6 @@ import { Avatar } from 'antd';
 import DefaultAvatar from './DefaultAvatar';
 import { avatarSizesMap } from '../../helpers/getAvatarProperties';
 import { useUserContext } from '../../contexts/UserContext';
-import './avatar.css';
 import { avatarSizePropType } from '../../prop-types/player';
 import { getCustomAvatarStyle } from '../../helpers/getAvatarStyle';
 
@@ -25,7 +24,6 @@ const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
   return (
     <Avatar 
       size={avatarSizesMap[size]}
-      className='custom-avatar'
       style={getCustomAvatarStyle()}
       src={(
         <img 
