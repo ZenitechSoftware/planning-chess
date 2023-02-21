@@ -17,14 +17,14 @@ const locator = {
   chessBoard: {
     board: '#chess-board',
     chessTile: (tile: string) => `$chess-tile-${tile}`,
-    figureOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
+    chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
     avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
     pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
   },
   chessPieces: {
     container: '$chess-pieces-container',
     chessPiece: (chessPiece: ChessPiece) => `$${chessPiece}-piece-btn`,
-    figureHighlighted: (chessPiece: ChessPiece) => `//button[@data-testid="${chessPiece}-piece-btn"][contains(@class, "selected")]`,
+    chessPieceHighlighted: (chessPiece: ChessPiece) => `//button[@data-testid="${chessPiece}-piece-btn"][contains(@class, "selected")]`,
   },
   buttons: {
     copyLink: locate('//*[text() = "Copy Link"]').at(1),
@@ -48,16 +48,16 @@ export = {
 
   vote:(chessPiece: ChessPiece, tile: string) => {
     I.click(locator.chessPieces.chessPiece(chessPiece));
-    I.waitForVisible(locator.chessPieces.figureHighlighted(chessPiece));
+    I.waitForVisible(locator.chessPieces.chessPieceHighlighted(chessPiece));
     I.click(locator.chessBoard.chessTile(tile));
   },
   voteIsVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
-    I.seeElement(locator.chessBoard.figureOnBoard(tile, chessPiece));
+    I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
   voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
-    I.dontSeeElement(locator.chessBoard.figureOnBoard(tile, chessPiece));
+    I.dontSeeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },

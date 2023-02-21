@@ -21,7 +21,7 @@ Scenario('Game completes automatically after last voter votes', async () => {
       I.waitForText('Game complete');
       game.voteIsVisible(ChessPiece.pawn, ChessTile.c4, ChessPieceValue.pawn);
       game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
-      I.seeElement(game.locator.chessPieces.figureHighlighted(ChessPiece.knight));
-      I.dontSeeElement(game.locator.chessPieces.figureHighlighted(ChessPiece.rook));
+      I.seeElement(game.locator.chessPieces.chessPieceHighlighted(ChessPiece.knight));
+      I.dontSeeElement(game.locator.chessPieces.chessPieceHighlighted(ChessPiece.rook));
     });
   });
