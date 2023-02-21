@@ -108,17 +108,17 @@ Scenario('Spectators are displayed at the bottom of players list', async () => {
     });
     session(username.user4, () => {
         login.spectatorLoginIntoCreatedGameRoom(url, username.user4);
-        I.seeTextEquals(`${username.user1}`, game.locator.playersList.usernamePositionInList(1));
-        I.seeTextEquals(`${username.user3}`, game.locator.playersList.usernamePositionInList(2));
-        I.seeTextEquals(`${username.user4} (you)`, game.locator.playersList.usernamePositionInList(3));
-        I.seeTextEquals(`${username.user2}`, game.locator.playersList.usernamePositionInList(4));
+        I.seeTextEquals(`${username.user1}`, game.locator.playersList.playerUsernameByIndex(1));
+        I.seeTextEquals(`${username.user3}`, game.locator.playersList.playerUsernameByIndex(2));
+        I.seeTextEquals(`${username.user4} (you)`, game.locator.playersList.playerUsernameByIndex(3));
+        I.seeTextEquals(`${username.user2}`, game.locator.playersList.playerUsernameByIndex(4));
     });
     game.vote(ChessPiece.king, ChessTile.c3);
     session(username.user3, () => {
         game.vote(ChessPiece.king, ChessTile.c3);
         I.waitForText('Game complete');
-        I.seeTextEquals(`${username.user2}`, game.locator.playersList.usernamePositionInList(3));
-        I.seeTextEquals(`${username.user4}`, game.locator.playersList.usernamePositionInList(4));
+        I.seeTextEquals(`${username.user2}`, game.locator.playersList.playerUsernameByIndex(3));
+        I.seeTextEquals(`${username.user4}`, game.locator.playersList.playerUsernameByIndex(4));
     });
 });
 
