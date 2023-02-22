@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { PIECES } from '../../constants/board';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { rgbToColor } from '../../helpers/rgbToColor';
-import { squareItemsPropType } from '../../prop-types/chessboard';
+import { squareItemPropType } from '../../prop-types/chessboard';
 import SquarePopUp from './SquarePopUp';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
@@ -90,7 +90,7 @@ const Square = ({
 };
 
 Square.propTypes = {
-  items: squareItemsPropType.isRequired,
+  items: PropTypes.arrayOf(squareItemPropType).isRequired,
   row: PropTypes.number.isRequired,
   column: PropTypes.number.isRequired,
   filled: PropTypes.bool.isRequired

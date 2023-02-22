@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
+import { PieceName } from '../constants/board';
 
-export const squareItemsPropType = PropTypes.arrayOf(
-  PropTypes.shape({
-    tile: PropTypes.number,
-    row: PropTypes.number,
-    figure: PropTypes.string,
-    player: PropTypes.string,
-    playerId: PropTypes.string,
-  })
-);
+export const squareItemPropType = PropTypes.shape({
+  tile: PropTypes.number,
+  row: PropTypes.number,
+  figure: PropTypes.oneOf(Object.values(PieceName)),
+  player: PropTypes.string,
+  playerId: PropTypes.string,
+});
