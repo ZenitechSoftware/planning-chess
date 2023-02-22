@@ -9,6 +9,8 @@ const locator = {
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
+    totalSP: '//*[text() = "Game complete - "]',
+    playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
   },
   text: {
     username: '#username',
@@ -54,11 +56,13 @@ export = {
     I.waitForVisible(locator.chessPieces.figureHighlighted(chessPiece));
     I.click(locator.chessBoard.chessTile(tile));
   },
+
   voteIsVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
     I.seeElement(locator.chessBoard.figureOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
+
   voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
     I.dontSeeElement(locator.chessBoard.figureOnBoard(tile, chessPiece));
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
@@ -85,12 +89,25 @@ export = {
     I.switchToPreviousTab();
     I.seeElement(locator.chessBoard.board);
   }, 
+
   skipMove: () => {
     I.click(locator.buttons.skip);
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
+
   voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value:string) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
   },
+
+  checkPlayerSP:(averageScore) => {
+    const sp = [1,2,3,5,8,13];
+    const averageSPList = [1.5, 2.5, 4, 6.5, 10.5];
+    let expectedSP = 0;
+    for(let i = 0; averageSPList[i] < averageScore; i++){
+      expectedSP = sp[i +1];
+    };
+    return expectedSP;
+  },
+
 };
