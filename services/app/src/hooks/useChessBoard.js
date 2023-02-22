@@ -38,7 +38,7 @@ export const useChessBoard = () => {
       row,
       tile,
       figure: figureName, 
-      score: getPieceScore(figureName), 
+      score: getPieceScore(figureName),
       player: playerName, 
       playerId,
     });
@@ -54,6 +54,12 @@ export const useChessBoard = () => {
     setBoard(copyOfBoard);
   }
 
+  const insertMoveScoreIntoBoard = (turn) => {
+    const copyOfBoard = [...board];
+    copyOfBoard[turn.row][turn.tile].items[0].score = turn.score;
+    setBoard(copyOfBoard);
+  }
+
   return { 
     board,
     setBoard, 
@@ -62,5 +68,6 @@ export const useChessBoard = () => {
     clearChessBoardTile, 
     clearChessBoard,
     insertAllTurnsIntoBoard,
+    insertMoveScoreIntoBoard,
   };
 };
