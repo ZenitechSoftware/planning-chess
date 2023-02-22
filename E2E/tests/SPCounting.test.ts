@@ -70,10 +70,13 @@ Scenario('Last player to vote leaves the game and the final SP is calculated of 
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
       game.vote(ChessPiece.king, ChessTile.f6);
     });
-    game.vote(ChessPiece.pawn, ChessTile.b3);
     session(username.user3, () => {
       I.openNewTab();
       login.voterLoginIntoCreatedGameRoom(url, username.user3);
+    });
+    game.vote(ChessPiece.pawn, ChessTile.b3);
+    session(username.user3, () => {
+      I.switchToNextTab();
       I.closeCurrentTab();
     });
     await assertions.checkIfTheFinalSPIsRoundedCorrectly();
@@ -92,5 +95,3 @@ Scenario('Spectators are not included in final score counting', async () => {
     game.vote(ChessPiece.pawn, ChessTile.b3);
     await assertions.checkIfTheFinalSPIsRoundedCorrectly();
 });
-
-
