@@ -188,7 +188,9 @@ const ChessBoardContextProvider = ({ children }) => {
     if (myMove) {
       const myScore = myMove ? myMove.score : 0;
       setScore(myScore);
-      chessBoard.insertMoveScoreIntoBoard(myMove);
+      if (myScore) {
+        chessBoard.insertMoveScoreIntoBoard(myMove);
+      }
     }
 
     if(myMove?.turnType === TurnType.MoveSkipped) {
