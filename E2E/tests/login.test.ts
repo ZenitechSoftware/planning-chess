@@ -1,5 +1,6 @@
 Feature('login');
-const { I, login, username, game } = inject();
+
+const { I, login, username, game, roles} = inject();
 
 Scenario('Two users can sign in as voters', async () => {
   login.firstVoterLogin(username.user1);
@@ -30,5 +31,20 @@ Scenario('User is redirected to the same game room', async () => {
   I.amOnPage('/');
   I.waitForText('Waiting for more players');
   I.see(username.user1, game.locator.playersList.firstUserInList);
+});
+
+Scenario('User is redirected to game page as spectator by pressing Shift Tab and then Enter', async () => {
+  I.amOnPage('/');
+  login.login(username.user1);
+  roles.pressShiftTabToChangeRole();
+  roles.loginByPressingEnter();
+  I.seeElement(game.locator.playersList.spectatorIcon);  
+});
+
+Scenario('User is redirected to game page as voter by pressing Enter', async () => {
+  I.amOnPage('/');
+  login.login(username.user1);
+  roles.loginByPressingEnter();
+  I.seeElement(game.locator.playersList.playerCount(1));
 });
 export{}
