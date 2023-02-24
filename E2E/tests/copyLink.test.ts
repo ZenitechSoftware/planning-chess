@@ -1,8 +1,9 @@
 import copyLinkAssert = require("../assertions/copyLinkAssert");
+import username = require("../test_data/usernames");
 
 Feature('Copy link');
 
-const { I, login, username, game } = inject();
+const { I, login, game } = inject();
 
 Before(() => {
   I.amOnPage('/');

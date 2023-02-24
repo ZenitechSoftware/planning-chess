@@ -1,5 +1,7 @@
 Feature('game status "Waiting for more players"')
-const { I, login, username, game } = inject();
+
+import username = require("../test_data/usernames");
+const { I, login, game } = inject();
 
 Scenario('Player who enters game first chooses spectator role', () => {
     login.firstSpectatorLogin(username.user1);
