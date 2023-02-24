@@ -31,7 +31,7 @@ const locator = {
   },
   buttons: {
     copyLinkHeader: locate('//*[text() = "Copy Link"]').at(1),
-    copyLink: 'button/p[contains(text(), "Copy Link")]',
+    copyLink: '//button/p[contains(text(), "Copy Link")]',
     restartGame: '//button/span[contains(text(), "Restart game")]',
     skip: '$skip-piece-btn', 
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
@@ -53,7 +53,7 @@ export = {
     I.see('Game in progress');
     I.seeElement(locator.chessBoard.board);
     I.seeElement(locator.chessPieces.container);
-    I.seeElement(locator.buttons.copyLink);
+    I.seeElement(locator.buttons.copyLinkHeader);
     I.seeElement(locator.buttons.restartGame);
   },
   spectatorGameInProgressView: (username:string ) => {
