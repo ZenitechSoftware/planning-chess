@@ -1,6 +1,8 @@
 Feature('Player is able to play only in one tab');
 
-const { I, login, username, game } = inject();
+import username = require("../test_data/usernames");
+
+const { I, login, game } = inject();
 
 Before(() => {
   I.amOnPage('/');
