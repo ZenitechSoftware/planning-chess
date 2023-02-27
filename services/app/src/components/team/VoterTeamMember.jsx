@@ -11,7 +11,7 @@ import VoterScoreIcon from './VoterScoreIcon';
 import { PlayerStatuses } from '../../constants/playerConstants';
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
-  const { gameState } = useChessBoardContext();
+  const { gameState, lastTurn } = useChessBoardContext();
 
   let inProgressAddons = [
     <VoterStatusIcons 
@@ -37,6 +37,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
       inProgressAddons = [
         (
           <VoterScoreIcon
+            score={lastTurn?.score}
             status={player.status}
             key={`${player.id}moveScore`}
           />
