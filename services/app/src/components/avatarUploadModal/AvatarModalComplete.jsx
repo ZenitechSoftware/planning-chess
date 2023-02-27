@@ -6,15 +6,15 @@ import Button from '../button/Button';
 import { useUserContext } from '../../contexts/UserContext';
 import './avatarModal.css';
 
-const AvatarModalComplete = ({ imageUrl, handleOkBtnPress, retryPictureUpload }) => {
+const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload }) => {
   const { currentPlayer } = useChessBoardContext();
   const { avatarError } = useUserContext();
 
   const modalRef = useRef();
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleOkBtnPress();
+    if (e.code === 'Enter') {
+      confirmAvatarChange();
     }
   }
 
@@ -30,18 +30,20 @@ const AvatarModalComplete = ({ imageUrl, handleOkBtnPress, retryPictureUpload })
       tabIndex={-1}
       ref={modalRef}
     >
-      { avatarError && (
-        <p className='modal-error-message margin-t-s'>
-          Looks like you have entered an invalid url to the image
-        </p>
-      )}
       <div className='margin-y-l f-center'>
         <UserAvatar
           size='l'
-          id={currentPlayer?.id}
+          playerId={currentPlayer?.id}
           imageUrl={imageUrl}
         />
       </div>
+
+      { avatarError && (
+        <p className='error-message margin-t-s text-center'>
+          The provided URL does not contain a valid image
+        </p>
+      )}
+
       <div className='f-1 justify-end gap-s'>
         <Button
           type='ghost'
@@ -49,16 +51,16 @@ const AvatarModalComplete = ({ imageUrl, handleOkBtnPress, retryPictureUpload })
           size='large'
           dataTestid='modal-go-back-button'
         >
-          Change picture
+          Upload another image
         </Button>
 
         <Button 
-          clickHandler={handleOkBtnPress}
+          clickHandler={confirmAvatarChange}
           size='large'
           dataTestid='modal-upload-picture-button'
           htmlType='submit'
         >
-          Update profile picture
+          Confirm
         </Button>
       </div>
     </div>
@@ -67,7 +69,7 @@ const AvatarModalComplete = ({ imageUrl, handleOkBtnPress, retryPictureUpload })
 
 AvatarModalComplete.propTypes = {
   imageUrl: PropTypes.string.isRequired,
-  handleOkBtnPress: PropTypes.func.isRequired,
+  confirmAvatarChange: PropTypes.func.isRequired,
   retryPictureUpload: PropTypes.func.isRequired,
 }
 

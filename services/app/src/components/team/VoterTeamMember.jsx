@@ -43,7 +43,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
       <VoterRow
         name={player.name}
         currentPlayerId={currentPlayerId}
-        id={player.id}
+        playerId={player.id}
         addon={(
           <>
             {gameState === GameState.GAME_IN_PROGRESS && inProgressAddons}

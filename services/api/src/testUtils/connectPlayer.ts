@@ -21,7 +21,7 @@ export const voterConnect = (
     playerName: playerConfig.playerName ?? 'player1',
     id: playerConfig.id ?? playerTestId,
     role: playerConfig.role ?? PlayerRole.Voter,
-    avatar: playerConfig.avatar ?? undefined,
+    avatar: playerConfig.avatar,
   };
 
   const message: ReceivedMessage<MessageType.PlayerConnected> = {

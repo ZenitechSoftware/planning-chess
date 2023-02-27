@@ -3,20 +3,23 @@ import PropTypes from 'prop-types';
 import { Avatar } from 'antd';
 import DefaultAvatar from './DefaultAvatar';
 import { avatarSizesMap } from '../../helpers/getAvatarProperties';
-import { useUserContext } from '../../contexts/UserContext';
 import { avatarSizePropType } from '../../prop-types/player';
 import { getCustomAvatarStyle } from '../../helpers/getAvatarStyle';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import { useUserContext } from '../../contexts/UserContext';
 
-const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
+const CustomAvatar = ({ size, imageUrl, playerId, isBorderNeeded, playerInitials }) => {
   const [isAvatarError, setIsAvatarError] = useState(false);
+  const { currentPlayerId } = useChessBoardContext();
   const userContext = useUserContext();
 
   if (isAvatarError) {
     return (
       <DefaultAvatar
         size={size}
-        id={id}
+        playerId={playerId}
         isBorderNeeded={isBorderNeeded}
+        playerInitials={playerInitials}
       />  
     )
   }
@@ -29,10 +32,11 @@ const CustomAvatar = ({ size, imageUrl, id, isBorderNeeded }) => {
         <img 
           src={imageUrl}
           alt='profile pic'
-          onError={(e) => {
-            e.target.src = null;
-            userContext.setAvatarError(true);
+          onError={() => {
             setIsAvatarError(true);
+            if (playerId === currentPlayerId) {
+              userContext.setAvatarError(true);
+            }
           }}
         />
       )}
@@ -48,8 +52,9 @@ CustomAvatar.defaultProps = {
 CustomAvatar.propTypes = {
   size: avatarSizePropType,
   imageUrl: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  playerId: PropTypes.string.isRequired,
   isBorderNeeded: PropTypes.bool,
+  playerInitials: PropTypes.string.isRequired,
 };
 
 export default CustomAvatar;

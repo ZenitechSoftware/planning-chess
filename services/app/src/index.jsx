@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConfigProvider } from 'antd';
-import { getAntdTheme } from './helpers/getAntdTheme';
+import { antdTheme } from './constants/antdTheme';
 
 import App from './components/App';
 
 const jsx = (
   <ConfigProvider
-    theme={{ token: getAntdTheme() }}
+    theme={{ token: antdTheme }}
   >
     <App />
   </ConfigProvider>

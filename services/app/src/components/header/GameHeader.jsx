@@ -6,8 +6,6 @@ import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
-import UserAvatar from '../avatar/UserAvatar';
-import { PlayerRoles } from '../../constants/playerConstants';
 
 const GameHeader = ({ openAvatarDialog }) => {
   const { currentPlayer } = useChessBoardContext();
@@ -20,15 +18,11 @@ const GameHeader = ({ openAvatarDialog }) => {
         <img src={Separator} alt="separator" />
         <CopyBtn />
       </div>
-  
+
       {currentPlayer && (
         <div className='f-1 justify-end align-c gap-s'>
-          <UserAvatar size='m' id={currentPlayer.id} />
-          <span id="username">{currentPlayer.name}</span>
+          <GameHeaderDropDown openAvatarDialog={openAvatarDialog} />
         </div>
-      )}
-      {currentPlayer?.role === PlayerRoles.Voter && (
-        <GameHeaderDropDown openAvatarDialog={openAvatarDialog} />
       )}
     </Header>
     

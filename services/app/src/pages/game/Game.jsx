@@ -68,7 +68,7 @@ const Game = () => {
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
       <AvatarUploadModal 
         showAvatarModal={showAvatarModal}
-        setShowAvatarModal={setShowAvatarModal}
+        closeAvatarModal={() => setShowAvatarModal(false)}
       />
       <GameHeader openAvatarDialog={() => setShowAvatarModal(true)} />
       <GameLayout>

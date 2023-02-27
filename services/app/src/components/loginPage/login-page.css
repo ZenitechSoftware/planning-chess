@@ -24,6 +24,7 @@
     display: flex;
     border: 1px solid black;
     box-sizing: border-box;
+    margin-top: -4px;
 }
 
 #username-input,
@@ -38,11 +39,7 @@
 }
 
 .enter-game-btn {
-    background-color: var(--primary);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
-    width: 75%;
+    width: 100%;
 }
 
 .enter-game-btn:disabled {

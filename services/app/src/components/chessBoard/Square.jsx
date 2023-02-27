@@ -55,9 +55,9 @@ const Square = ({
           {items.map((item, index) => (
             <UserAvatar 
               size={avatarSize} 
-              id={item.playerId} 
+              playerId={item.playerId} 
               key={`bubble-${index}`}
-              avatarText={item.player[0]}
+              playerInitials={item.player[0]}
               isBorderNeeded
             />
           ))}
@@ -79,7 +79,7 @@ const Square = ({
           <span className="pop-over-title">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
           {items.map((item, index) => (
             <div key={`move-info-${index}`} className="move-info">
-              <UserAvatar id={item.playerId} size='xs' avatarText={item.player[0].toUpperCase()} />
+              <UserAvatar playerId={item.playerId} size='xs' playerInitials={item.player[0].toUpperCase()} />
               <span className="text">
                 {`${item.player} - `}
                 <span className="text-bold">{item.figure.charAt(0).toUpperCase() + item.figure.slice(1)}</span>

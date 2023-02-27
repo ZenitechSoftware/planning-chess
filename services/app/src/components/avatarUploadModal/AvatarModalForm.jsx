@@ -4,26 +4,19 @@ import { Form } from 'antd';
 import Button from '../button/Button';
 import { useUserContext } from '../../contexts/UserContext';
 
-const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
+const AvatarModalForm = ({ moveToFinalStep }) => {
   const [form] = Form.useForm();
+  const urlValue = Form.useWatch('url', form);
+
   const [isPrimaryBtnDisabled, setIsPrimaryBtnDisabled] = useState(true);
 
   const userContext = useUserContext();
 
   const urlInputRef = useRef(null);
 
-  const updateUrlInput = (event) => {
-    setUrl(event.target.value);
-    if(event.target.value.length) {
-      setIsPrimaryBtnDisabled(false);
-      return;
-    }
-    setIsPrimaryBtnDisabled(true);
-  };
-
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleOkBtnPress();
+    if (e.code === 'Enter') {
+      moveToFinalStep(urlValue);
     }
   }
 
@@ -34,6 +27,14 @@ const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
       urlInputRef.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (urlValue?.length > 0) {
+      setIsPrimaryBtnDisabled(false);
+      return;
+    }
+    setIsPrimaryBtnDisabled(true);
+  }, [urlValue]);
   
   
   return (
@@ -54,11 +55,9 @@ const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
         >
           <input 
             type='url'
-            name="avatar-input" 
             id="modal-avatar-input"
-            placeholder='Enter profile picture link'
+            placeholder='Enter avatar picture link'
             className='border-r-4 padding-s user-input-font modal-url-input'
-            onChange={updateUrlInput}
             autoComplete="off"
             ref={urlInputRef}
           />   
@@ -67,7 +66,7 @@ const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
           <Button
             htmlType='button'
             dataTestid='modal-url-input-confirm-button'
-            clickHandler={handleOkBtnPress}
+            clickHandler={() => moveToFinalStep(urlValue)}
             isDisabled={isPrimaryBtnDisabled}
             size='large'
           >
@@ -80,8 +79,7 @@ const AvatarModalForm = ({ setUrl, handleOkBtnPress }) => {
 };
 
 AvatarModalForm.propTypes = {
-  setUrl: PropTypes.func.isRequired,
-  handleOkBtnPress: PropTypes.func.isRequired,
+  moveToFinalStep: PropTypes.func.isRequired,
 }
 
 export default AvatarModalForm

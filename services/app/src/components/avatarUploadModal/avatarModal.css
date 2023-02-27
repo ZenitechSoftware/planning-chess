@@ -8,14 +8,6 @@
   width: 65%;
 }
 
-.modal-url-input:focus {
-  outline: none;
-}
-
 .avatar-modal-second-step:focus {
   outline: none;
-}
-
-.modal-error-message {
-  color: var(--error);
 }

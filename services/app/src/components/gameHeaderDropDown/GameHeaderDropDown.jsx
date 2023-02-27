@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { Dropdown, Space } from 'antd';
 import DropdownArrowUp from '../../static/svg/DropdownArrowUp.svg';
 import DropdownArrowDown from '../../static/svg/DropDownArrowDown.svg';
+import GameHeaderNameContainer from '../header/GameHeaderNameContainer';
+import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import './dropdown.css'
+import { PlayerRoles } from '../../constants/playerConstants';
 
 const GameHeaderDropDown = ({ openAvatarDialog }) => {
   const [imgSrc, setImgSrc] = useState(DropdownArrowDown);
+
+  const { currentPlayer } = useChessBoardContext();
 
   const rotateArrow = (open) => {
     if (open) {
@@ -16,14 +21,14 @@ const GameHeaderDropDown = ({ openAvatarDialog }) => {
     setImgSrc(DropdownArrowDown);
   }
 
-  const handleButtonClick = (callbackFn) => {
+  const openAvatarModule = () => {
     setImgSrc(DropdownArrowDown);
-    callbackFn();
+    openAvatarDialog();
   }
 
   const items = [
     {
-      label: <button type='button' onClick={() => handleButtonClick(openAvatarDialog)}>Change profile picture</button>,
+      label: <button type='button' onClick={openAvatarModule}>Change profile picture</button>,
       key: 0,
     },
   ];
@@ -36,9 +41,12 @@ const GameHeaderDropDown = ({ openAvatarDialog }) => {
       overlayClassName='dropdown-buttons'
       id='game-header-menu-dropdown-icon'
       onOpenChange={rotateArrow}
+      disabled={currentPlayer.role === PlayerRoles.Spectator}
     >
       <Space>
-        <img src={imgSrc} alt="dropdown icon" />
+        <GameHeaderNameContainer
+          imgSrc={imgSrc}
+        />
       </Space>
     </Dropdown>
   )

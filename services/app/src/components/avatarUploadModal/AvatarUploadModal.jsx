@@ -8,67 +8,63 @@ import { useUserContext } from '../../contexts/UserContext';
 import { buildPlayerAvatarUpdateMessage } from '../../api/playerApi';
 import { useWsContext } from '../../contexts/ws-context';
 
-const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
+const AvatarUploadModal = ({ showAvatarModal, closeAvatarModal }) => {
   const { ws } = useWsContext();
   const userContext = useUserContext();
-  
+ 
   const [modalStep, setModalStep] = useState(1);
-  const [url, setUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
-  const closeAvatarModule = () => {
+  const onAvatarModalCancel = () => {
     setModalStep(1);
-    setShowAvatarModal(false);
+    closeAvatarModal();
     setImageUrl('');
-    setUrl('');
     userContext.setAvatarError(false);
   }
 
-  const handleOkBtnPress = () => {
-    if (modalStep === 1) {
-      try {
-        const urlHref = new URL(url).href;
-        setImageUrl(urlHref);
-        setModalStep(2);
-      } catch (err) {
-        return;
-      }
+  const moveToFinalStep = (url) => {
+    try {
+      const urlHref = new URL(url).href;
+      setImageUrl(urlHref);
+      setModalStep(2);
+    } catch {
+      /* eslint-disable-next-line no-useless-return */
+      return;
+    }
+  }
+
+  const confirmAvatarChange = () => {
+    if (userContext.avatarError) {
+      userContext.setUserAvatar();
+      window.localStorage.removeItem('userAvatar');
+      ws?.send(buildPlayerAvatarUpdateMessage());
+      onAvatarModalCancel();
+      return;
     }
 
-    if (modalStep === 2) {
-      if (userContext.avatarError) {
-        userContext.setUserAvatar();
-        window.localStorage.removeItem('userAvatar');
-        ws?.send(buildPlayerAvatarUpdateMessage());
-        closeAvatarModule();
-        return;
-      }
-
-      userContext.setUserAvatar(imageUrl);
-      ws?.send(buildPlayerAvatarUpdateMessage(imageUrl));
-      closeAvatarModule();
-    }
+    userContext.setUserAvatar(imageUrl);
+    ws?.send(buildPlayerAvatarUpdateMessage(imageUrl));
+    onAvatarModalCancel();
   }
   
   const retryPictureUpload = () => {
     setImageUrl('');
-    setUrl('');
     setModalStep(1);
+    userContext.setAvatarError(false);
   }
 
   return (
     <Modal 
-      title="Upload profile picture"
+      title="Update avatar"
       open={showAvatarModal}
       className='avatar-modal padding-l'
       footer={null}
-      onCancel={closeAvatarModule}
+      onCancel={onAvatarModalCancel}
       destroyOnClose
     >
       {modalStep === 1 && (
         <AvatarModalForm 
-          handleOkBtnPress={handleOkBtnPress}
-          setUrl={setUrl} 
+          moveToFinalStep={moveToFinalStep}
         />
       )}
       
@@ -76,7 +72,7 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
         <AvatarModalComplete 
           imageUrl={imageUrl} 
           retryPictureUpload={retryPictureUpload} 
-          handleOkBtnPress={handleOkBtnPress} 
+          confirmAvatarChange={confirmAvatarChange} 
         /> 
       )}
     </Modal>
@@ -85,7 +81,7 @@ const AvatarUploadModal = ({ showAvatarModal, setShowAvatarModal }) => {
 
 AvatarUploadModal.propTypes = {
   showAvatarModal: PropTypes.bool.isRequired,
-  setShowAvatarModal: PropTypes.func.isRequired,
+  closeAvatarModal: PropTypes.func.isRequired,
 }
 
 export default AvatarUploadModal;

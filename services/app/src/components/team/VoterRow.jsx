@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import UserAvatar from '../avatar/UserAvatar';
 
-const VoterRow = ({ name, currentPlayerId, id, addon }) => (
+const VoterRow = ({ name, currentPlayerId, playerId, addon }) => (
   <>
-    <UserAvatar size='m' id={id} />
+    <UserAvatar size='m' playerId={playerId} />
 
     <div className="team-list-item-name">
       {name}
       {' '}
-      { currentPlayerId === id && <span>(you)</span> }
+      { currentPlayerId === playerId && <span>(you)</span> }
     </div>
 
     {addon}
@@ -24,7 +24,7 @@ VoterRow.defaultProps = {
 VoterRow.propTypes = {
   name: PropTypes.string.isRequired,
   currentPlayerId: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  playerId: PropTypes.string.isRequired,
   addon: PropTypes.node,
 };
 

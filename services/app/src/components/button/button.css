@@ -2,6 +2,10 @@
   border: none;
 }
 
+.primary-btn:disabled {
+  color: var(--white);
+}
+
 .ghost-btn {
   color: var(--primary);
   border: 1px solid var(--blue-border);

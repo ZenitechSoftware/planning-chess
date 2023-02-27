@@ -199,15 +199,6 @@ export const updateAvatar: Handler = (
 ): void => {
   const players = getPlayers(ws.roomId);
 
-  if (!url) {
-    players.set(ws, {
-      ...players.get(ws),
-      avatar: undefined,
-    });
-    publishAllPlayers(ws.roomId);
-    return;
-  }
-
   players.set(ws, {
     ...players.get(ws),
     avatar: url,

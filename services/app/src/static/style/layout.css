@@ -3,9 +3,12 @@
 .align-start { align-items: flex-start }
 .align-stretch { align-items: stretch }
 
+.text-center { text-align: center; }
+
 .justify-c { justify-content: center }
 .justify-end { justify-content: flex-end }
 .justify-start { justify-content: flex-start }
+.justify-stretch { justify-content: stretch }
 
 .f-1 {
   display: flex;
