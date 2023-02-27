@@ -15,7 +15,7 @@ Scenario('Spectator can’t place selected figure on board', async () => {
     session(username.user3, () => {
         login.spectatorLoginIntoCreatedGameRoom(url, username.user3);
         I.click(game.locator.chessPieces.chessPiece(ChessPiece.rook));
-        I.dontSeeElement(game.locator.chessPieces.figureHighlighted(ChessPiece.rook));
+        I.dontSeeElement(game.locator.chessPieces.chessPieceHighlighted(ChessPiece.rook));
         I.click(game.locator.chessBoard.chessTile(ChessTile.e4));
         game.voteIsNotVisible(ChessPiece.rook, ChessTile.e2, ChessPieceValue.rook)
     });
