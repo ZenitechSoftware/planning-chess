@@ -117,7 +117,7 @@ export = {
     const sp = [1,2,3,5,8,13];
     const averageSPList = [1.5, 2.5, 4, 6.5, 10.5];
     let expectedSP = 1;
-    for(let i = 0; averageSPList[i] < averageScore; i++){
+    for(let i = 0; averageSPList[i] <= averageScore; i++){
       expectedSP = sp[i + 1];
     };
     return expectedSP;
