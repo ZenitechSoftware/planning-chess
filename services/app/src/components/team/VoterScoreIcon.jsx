@@ -7,7 +7,7 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { GameState } from '../../constants/gameConstants';
 
 const VoterScoreIcon = ({ score, status }) => {
-  const { gameState } = useChessBoardContext();
+  const { gameState, lastTurn } = useChessBoardContext();
 
   if (status === PlayerStatuses.MoveSkipped) {
     return (
@@ -25,10 +25,10 @@ const VoterScoreIcon = ({ score, status }) => {
       'current-move-score-icon weight-700': gameState === GameState.GAME_IN_PROGRESS,
       })}
     >
-      {score}
+      {score ?? lastTurn?.score}
     </span>
   )
-}
+};
 
 VoterScoreIcon.defaultProps = {
   score: null,

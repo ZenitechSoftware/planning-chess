@@ -11,34 +11,38 @@ import VoterScoreIcon from './VoterScoreIcon';
 import { PlayerStatuses } from '../../constants/playerConstants';
 
 const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
-  const { gameState, score } = useChessBoardContext();
+  const { gameState } = useChessBoardContext();
 
-  const inProgressAddons = [
+  let inProgressAddons = [
     <VoterStatusIcons 
       status={player.status} 
       key={`${player.id}statusIcon`}
     />
   ];
 
-  if (player.id !== currentPlayerId && player.status === PlayerStatuses.ActionNotTaken) {
-    inProgressAddons.push(
-      <VoterRowActionButtons 
-        onSkipMove={() => skipMove(player.id)}
-        status={player.status}
-        key={`${player.id}actionBtn`}
-      />
-    )
-  }
-
-  if (player.id === currentPlayerId && player.status !== PlayerStatuses.ActionNotTaken) {
-    inProgressAddons.shift();
-    inProgressAddons.push(
-      <VoterScoreIcon
-        score={score} 
-        status={player.status}
-        key={`${player.id}moveScore`}
-      />
-    )
+  if (player.id !== currentPlayerId) {
+    if (player.status === PlayerStatuses.ActionNotTaken) {
+      inProgressAddons.push(
+        <VoterRowActionButtons 
+          onSkipMove={() => skipMove(player.id)}
+          status={player.status}
+          key={`${player.id}actionBtn`}
+        />
+      )
+    }
+  } 
+  
+  if (player.id === currentPlayerId) {
+    if (player.status !== PlayerStatuses.ActionNotTaken) {
+      inProgressAddons = [
+        (
+          <VoterScoreIcon
+            status={player.status}
+            key={`${player.id}moveScore`}
+          />
+        )
+      ]
+    }
   }
 
   const finishedGameAddons = [
