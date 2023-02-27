@@ -6,7 +6,6 @@ import { ChessPiece } from "../test_data/chessPieces";
 import ChessTile = require("../test_data/chessTiles");
 import assertions = require("../assertions/assertions");
 
-
 Scenario('Individual final SP is rounded to closest value', async () => {
   login.firstVoterLogin(username.user1);
     let url = await I.grabCurrentUrl();

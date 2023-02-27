@@ -116,11 +116,17 @@ export = {
   checkPlayerSP:(averageScore) => {
     const sp = [1,2,3,5,8,13];
     const averageSPList = [1.5, 2.5, 4, 6.5, 10.5];
-    let expectedSP = 0;
+    let expectedSP = 1;
     for(let i = 0; averageSPList[i] < averageScore; i++){
-      expectedSP = sp[i +1];
+      expectedSP = sp[i + 1];
     };
     return expectedSP;
   },
 
+  calculateAverage:(piece: string, letter: string, number: number) => {
+    let piecesScore = {pawn:1, knight:2, bishop:3, rook:5, king:8, queen:13};
+    let letters = {a:1, b:2, c:3, d:5, e:8, f:13};
+    let numbers = {1:1, 2:2, 3:3, 4:5, 5:8, 6:13};
+    return (piecesScore[piece] + letters[letter] + numbers[number])/3;
+  },
 };

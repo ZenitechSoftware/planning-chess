@@ -1,7 +1,4 @@
 const { I, game } = inject();
-const complexitySP = [1,2,3,5,8,13];
-const uncertaintySP = [1,2,3,5,8,13];
-const amountOfWorkSP = [1,2,3,5,8,13];
 
 export = {
     async checkIfTheLinkWasCopied (currentUrl) {
@@ -13,14 +10,14 @@ export = {
   },
 
   async checkIfTheSPIsRoundedCorrectlyForTheFirstPlayer() {
-    const averageFirstPlayerSP = (complexitySP[2] + uncertaintySP[3] + amountOfWorkSP[2])/3;
+    const averageFirstPlayerSP = game.calculateAverage("bishop", "d", 3);
     let expectedFirstPlayerScore = game.checkPlayerSP(averageFirstPlayerSP);
     let actualFirstPlayerSP = Number(await I.grabTextFrom(game.locator.playersList.playerIndividualSP(2)));
     I.assertEqual(actualFirstPlayerSP, expectedFirstPlayerScore );
   },
 
   async checkIfTheSPIsRoundedCorrectlyForTheSecondPlayer() {
-    const averageSecondPlayerSP = (complexitySP[5] + uncertaintySP[5] + amountOfWorkSP[4])/3;
+    const averageSecondPlayerSP = game.calculateAverage("queen", "f", 5);
     let expectedSecondPlayerScore = game.checkPlayerSP(averageSecondPlayerSP);
     let actualSecondPlayerSP = Number(await I.grabTextFrom(game.locator.playersList.playerIndividualSP(1)));
     I.assertEqual(actualSecondPlayerSP, expectedSecondPlayerScore);
