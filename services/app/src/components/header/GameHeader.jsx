@@ -7,7 +7,7 @@ import CopyBtn from './CopyBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
 
-const GameHeader = ({ openAvatarDialog }) => {
+const GameHeader = ({ openAvatarModal }) => {
   const { currentPlayer } = useChessBoardContext();
 
   return (
@@ -21,7 +21,7 @@ const GameHeader = ({ openAvatarDialog }) => {
 
       {currentPlayer && (
         <div className='f-1 justify-end align-c gap-s'>
-          <GameHeaderDropDown openAvatarDialog={openAvatarDialog} />
+          <GameHeaderDropDown openAvatarModal={openAvatarModal} />
         </div>
       )}
     </Header>
@@ -30,7 +30,7 @@ const GameHeader = ({ openAvatarDialog }) => {
 };
 
 GameHeader.propTypes = {
-  openAvatarDialog: PropTypes.func.isRequired,
+  openAvatarModal: PropTypes.func.isRequired,
 };
 
 export default GameHeader;

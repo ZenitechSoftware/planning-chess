@@ -8,7 +8,7 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import './dropdown.css'
 import { PlayerRoles } from '../../constants/playerConstants';
 
-const GameHeaderDropDown = ({ openAvatarDialog }) => {
+const GameHeaderDropDown = ({ openAvatarModal }) => {
   const [imgSrc, setImgSrc] = useState(DropdownArrowDown);
 
   const { currentPlayer } = useChessBoardContext();
@@ -21,14 +21,15 @@ const GameHeaderDropDown = ({ openAvatarDialog }) => {
     setImgSrc(DropdownArrowDown);
   }
 
-  const openAvatarModule = () => {
+  const onOpenAvatarModal = () => {
     setImgSrc(DropdownArrowDown);
-    openAvatarDialog();
+    openAvatarModal();
   }
 
   const items = [
     {
-      label: <button type='button' onClick={openAvatarModule}>Change profile picture</button>,
+      label: 'Change profile picture',
+      onClick: onOpenAvatarModal,
       key: 0,
     },
   ];
@@ -53,7 +54,7 @@ const GameHeaderDropDown = ({ openAvatarDialog }) => {
 };
 
 GameHeaderDropDown.propTypes = {
-  openAvatarDialog: PropTypes.func.isRequired,
+  openAvatarModal: PropTypes.func.isRequired,
 };
 
 export default GameHeaderDropDown;

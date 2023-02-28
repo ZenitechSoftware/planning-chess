@@ -70,7 +70,7 @@ const Game = () => {
         isOpen={showAvatarModal}
         onClose={() => setShowAvatarModal(false)}
       />
-      <GameHeader openAvatarDialog={() => setShowAvatarModal(true)} />
+      <GameHeader openAvatarModal={() => setShowAvatarModal(true)} />
       <GameLayout>
         <GameLayoutMainArea>
           <ChessBoard />
