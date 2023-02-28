@@ -5,11 +5,9 @@ import DefaultAvatar from './DefaultAvatar';
 import { avatarSizesMap } from '../../helpers/getAvatarProperties';
 import { avatarSizePropType } from '../../prop-types/player';
 import { getCustomAvatarStyle } from '../../helpers/getAvatarStyle';
-import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 
 const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials, onError }) => {
   const [isAvatarError, setIsAvatarError] = useState(false);
-  const { currentPlayerId } = useChessBoardContext();
 
   if (isAvatarError) {
     return (
@@ -32,9 +30,7 @@ const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials, onEr
           alt='profile pic'
           onError={() => {
             setIsAvatarError(true);
-            if (playerId === currentPlayerId) {
-              onError();
-            }
+            onError?.();
           }}
         />
       )}

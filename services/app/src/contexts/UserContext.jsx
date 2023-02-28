@@ -47,6 +47,8 @@ const UserContextProvider = ({ children }) => {
   useEffect(() => {
     if (userAvatar) {
       localStorage.setItem('userAvatar', userAvatar);
+    } else {
+      localStorage.removeItem('userAvatar');
     }
   }, [userAvatar])
 
