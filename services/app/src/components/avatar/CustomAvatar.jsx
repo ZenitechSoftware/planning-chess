@@ -6,12 +6,10 @@ import { avatarSizesMap } from '../../helpers/getAvatarProperties';
 import { avatarSizePropType } from '../../prop-types/player';
 import { getCustomAvatarStyle } from '../../helpers/getAvatarStyle';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import { useUserContext } from '../../contexts/UserContext';
 
-const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials }) => {
+const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials, onError }) => {
   const [isAvatarError, setIsAvatarError] = useState(false);
   const { currentPlayerId } = useChessBoardContext();
-  const userContext = useUserContext();
 
   if (isAvatarError) {
     return (
@@ -35,7 +33,7 @@ const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials }) =>
           onError={() => {
             setIsAvatarError(true);
             if (playerId === currentPlayerId) {
-              userContext.setAvatarError(true);
+              onError();
             }
           }}
         />
@@ -47,6 +45,7 @@ const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials }) =>
 CustomAvatar.defaultProps = {
   size: 'm',
   bordered: false,
+  onError: null,
 }
 
 CustomAvatar.propTypes = {
@@ -55,6 +54,7 @@ CustomAvatar.propTypes = {
   playerId: PropTypes.string.isRequired,
   bordered: PropTypes.bool,
   playerInitials: PropTypes.string.isRequired,
+  onError: PropTypes.func
 };
 
 export default CustomAvatar;

@@ -1,14 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import UserAvatar from '../avatar/UserAvatar';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import Button from '../button/Button';
-import { useUserContext } from '../../contexts/UserContext';
 import './avatarModal.css';
+import CustomAvatar from '../avatar/CustomAvatar';
 
-const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload }) => {
+const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload, isModalAvatarError, setIsModalAvatarError }) => {
   const { currentPlayer } = useChessBoardContext();
-  const { avatarError } = useUserContext();
 
   const modalRef = useRef();
 
@@ -31,14 +29,16 @@ const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload
       ref={modalRef}
     >
       <div className='margin-y-l f-center'>
-        <UserAvatar
+        <CustomAvatar
           size='l'
           playerId={currentPlayer?.id}
           imageUrl={imageUrl}
+          onError={() => setIsModalAvatarError(true)}
+          playerInitials={currentPlayer?.name[0].toUpperCase()}
         />
       </div>
 
-      { avatarError && (
+      { isModalAvatarError && (
         <p className='error-message margin-t-s text-center'>
           The provided URL does not contain a valid image
         </p>
@@ -71,6 +71,8 @@ AvatarModalComplete.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   confirmAvatarChange: PropTypes.func.isRequired,
   retryPictureUpload: PropTypes.func.isRequired,
+  isModalAvatarError: PropTypes.bool.isRequired,
+  setIsModalAvatarError: PropTypes.func.isRequired,
 }
 
 export default AvatarModalComplete

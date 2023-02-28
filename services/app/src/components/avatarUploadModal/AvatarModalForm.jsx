@@ -2,13 +2,10 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import Button from '../button/Button';
-import { useUserContext } from '../../contexts/UserContext';
 
 const AvatarModalForm = ({ moveToFinalStep }) => {
   const [form] = Form.useForm();
   const urlValue = Form.useWatch('url', form);
-
-  const userContext = useUserContext();
 
   const urlInputRef = useRef(null);
 
@@ -31,8 +28,6 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
   }, [urlValue]);
 
   useEffect(() => {
-    userContext.setAvatarError(false);
-
     if(urlInputRef.current) {
       urlInputRef.current.focus();
     }

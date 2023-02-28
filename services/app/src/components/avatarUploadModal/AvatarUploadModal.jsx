@@ -15,11 +15,13 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
   const [modalStep, setModalStep] = useState(1);
   const [imageUrl, setImageUrl] = useState('');
 
+  const [isModalAvatarError, setIsModalAvatarError] = useState(false);
+  
   const onAvatarModalCancel = () => {
     setModalStep(1);
     onClose();
     setImageUrl('');
-    userContext.setAvatarError(false);
+    setIsModalAvatarError(false);
   }
 
   const moveToFinalStep = (url) => {
@@ -29,7 +31,7 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
   }
 
   const confirmAvatarChange = () => {
-    if (userContext.avatarError) {
+    if (isModalAvatarError) {
       userContext.setUserAvatar();
       window.localStorage.removeItem('userAvatar');
       ws?.send(buildPlayerAvatarUpdateMessage());
@@ -45,7 +47,7 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
   const retryPictureUpload = () => {
     setImageUrl('');
     setModalStep(1);
-    userContext.setAvatarError(false);
+    setIsModalAvatarError(false);
   }
 
   return (
@@ -67,7 +69,9 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
         <AvatarModalComplete 
           imageUrl={imageUrl} 
           retryPictureUpload={retryPictureUpload} 
-          confirmAvatarChange={confirmAvatarChange} 
+          confirmAvatarChange={confirmAvatarChange}
+          isModalAvatarError={isModalAvatarError}
+          setIsModalAvatarError={setIsModalAvatarError}
         /> 
       )}
     </Modal>

@@ -19,8 +19,6 @@ const UserContextProvider = ({ children }) => {
   const [gameId, setGameId] = useState(urlGameId || localStorage.getItem('lastGameId') || generateGameId());
   const [userAvatar, setUserAvatar] = useState(localStorage.getItem('userAvatar') || undefined);
 
-  const [avatarError, setAvatarError] = useState(false);
-
   useEffect(() => {
     if (username) {
       localStorage.setItem('user', username);
@@ -63,9 +61,7 @@ const UserContextProvider = ({ children }) => {
     setGameId,
     userAvatar,
     setUserAvatar,
-    avatarError,
-    setAvatarError,
-  }), [username, userRole, userId, userAvatar, avatarError]);
+  }), [username, userRole, userId, userAvatar]);
 
   return (
     <UserContext.Provider value={value}>
