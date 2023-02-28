@@ -10,6 +10,8 @@ const locator = {
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
+    totalSP: '//*[text() = "Game complete - "]',
+    playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
   },
   text: {
     username: '#username',
@@ -86,6 +88,7 @@ export = {
     I.click(locator.buttons.copyLinkHeader);
     I.waitForElement(locator.text.linkCopiedToClipboard);
   },
+
   getNumberOfPlayersInList: async () => {
     let numberOfPlayers = await I.grabNumberOfVisibleElements(locator.playersList.playersList);
     return numberOfPlayers;
@@ -98,12 +101,20 @@ export = {
     I.switchToPreviousTab();
     I.seeElement(locator.chessBoard.board);
   }, 
+
   skipMove: () => {
     I.click(locator.buttons.skip);
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
+
   voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value:string) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
+  },
+
+  navigateBackAndForward: () => {
+    I.executeScript("window.history.back();");
+    I.waitForInvisible(game.locator.chessBoard.board);
+    I.executeScript("window.history.forward();");
   },
 };
