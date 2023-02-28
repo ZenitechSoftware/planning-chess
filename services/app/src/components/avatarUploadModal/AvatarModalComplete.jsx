@@ -5,15 +5,19 @@ import Button from '../button/Button';
 import './avatarModal.css';
 import CustomAvatar from '../avatar/CustomAvatar';
 
-const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload }) => {
+const AvatarModalComplete = ({ imageUrl, submitAvatarChange, retryPictureUpload }) => {
   const { currentPlayer } = useChessBoardContext();
   const [isModalAvatarError, setIsModalAvatarError] = useState(false);
 
   const modalRef = useRef();
 
+  const confirmAvatarChange = () => {
+    submitAvatarChange(isModalAvatarError ? undefined : imageUrl);
+  }
+
   const handleKeyDown = (e) => {
     if (e.code === 'Enter') {
-      confirmAvatarChange(isModalAvatarError ? undefined : imageUrl);
+      confirmAvatarChange();
     }
   }
 
@@ -56,7 +60,7 @@ const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload
         </Button>
 
         <Button 
-          clickHandler={() => confirmAvatarChange(isModalAvatarError ? undefined : imageUrl)}
+          clickHandler={confirmAvatarChange}
           size='large'
           dataTestid='modal-upload-picture-button'
           htmlType='submit'
@@ -70,7 +74,7 @@ const AvatarModalComplete = ({ imageUrl, confirmAvatarChange, retryPictureUpload
 
 AvatarModalComplete.propTypes = {
   imageUrl: PropTypes.string.isRequired,
-  confirmAvatarChange: PropTypes.func.isRequired,
+  submitAvatarChange: PropTypes.func.isRequired,
   retryPictureUpload: PropTypes.func.isRequired,
 }
 

@@ -26,7 +26,7 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
     setModalStep(2);
   }
 
-  const confirmAvatarChange = (url) => {
+  const submitAvatarChange = (url) => {
     userContext.setUserAvatar(url);
     ws?.send(buildPlayerAvatarUpdateMessage(url));
     onAvatarModalCancel();
@@ -56,7 +56,7 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
         <AvatarModalComplete 
           imageUrl={imageUrl} 
           retryPictureUpload={retryPictureUpload} 
-          confirmAvatarChange={confirmAvatarChange}
+          submitAvatarChange={submitAvatarChange}
         /> 
       )}
     </Modal>
