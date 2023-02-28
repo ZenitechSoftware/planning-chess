@@ -58,7 +58,7 @@ const Square = ({
               playerId={item.playerId} 
               key={`bubble-${index}`}
               playerInitials={item.player[0]}
-              isBorderNeeded
+              bordered
             />
           ))}
         </Avatar.Group>

@@ -41,6 +41,7 @@ const LoginForm = () => {
       form={form}
       layout="vertical"
       className='login-form border-r-4 align-c margin-auto'
+      onFinish={submitInfo}
     >
       <div className="form-text">
         <h2 className='margin-b-0'>Welcome! Let&rsquo;s begin.</h2>

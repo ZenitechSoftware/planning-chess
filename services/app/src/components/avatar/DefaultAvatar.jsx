@@ -5,25 +5,25 @@ import { getAvatarStyle } from '../../helpers/getAvatarStyle';
 import { avatarSizesMap } from '../../helpers/getAvatarProperties';
 import { avatarSizePropType } from '../../prop-types/player';
 
-const DefaultAvatar = ({ playerId, isBorderNeeded, size, playerInitials }) => (
+const DefaultAvatar = ({ playerId, bordered, size, playerInitials }) => (
   <AntdAvatar
     className='f-center poppins-font select-none'
     size={avatarSizesMap[size]}
-    style={getAvatarStyle(playerId, isBorderNeeded, size)}
+    style={getAvatarStyle(playerId, bordered, size)}
   >
-    { playerInitials }
+    { playerInitials.toUpperCase() }
   </AntdAvatar>
 );
 
 DefaultAvatar.defaultProps = {
   size: 'm',
-  isBorderNeeded: false,
+  bordered: false,
 }
 
 DefaultAvatar.propTypes = {
   playerId: PropTypes.string.isRequired,
   size: avatarSizePropType,
-  isBorderNeeded: PropTypes.bool,
+  bordered: PropTypes.bool,
   playerInitials: PropTypes.string.isRequired,
 };
 

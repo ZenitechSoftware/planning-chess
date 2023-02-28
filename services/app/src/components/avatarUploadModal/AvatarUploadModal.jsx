@@ -8,7 +8,7 @@ import { useUserContext } from '../../contexts/UserContext';
 import { buildPlayerAvatarUpdateMessage } from '../../api/playerApi';
 import { useWsContext } from '../../contexts/ws-context';
 
-const AvatarUploadModal = ({ showAvatarModal, closeAvatarModal }) => {
+const AvatarUploadModal = ({ isOpen, onClose }) => {
   const { ws } = useWsContext();
   const userContext = useUserContext();
  
@@ -17,20 +17,15 @@ const AvatarUploadModal = ({ showAvatarModal, closeAvatarModal }) => {
 
   const onAvatarModalCancel = () => {
     setModalStep(1);
-    closeAvatarModal();
+    onClose();
     setImageUrl('');
     userContext.setAvatarError(false);
   }
 
   const moveToFinalStep = (url) => {
-    try {
-      const urlHref = new URL(url).href;
-      setImageUrl(urlHref);
-      setModalStep(2);
-    } catch {
-      /* eslint-disable-next-line no-useless-return */
-      return;
-    }
+    const urlHref = new URL(url).href;
+    setImageUrl(urlHref);
+    setModalStep(2);
   }
 
   const confirmAvatarChange = () => {
@@ -56,7 +51,7 @@ const AvatarUploadModal = ({ showAvatarModal, closeAvatarModal }) => {
   return (
     <Modal 
       title="Update avatar"
-      open={showAvatarModal}
+      open={isOpen}
       className='avatar-modal padding-l'
       footer={null}
       onCancel={onAvatarModalCancel}
@@ -80,8 +75,8 @@ const AvatarUploadModal = ({ showAvatarModal, closeAvatarModal }) => {
 }
 
 AvatarUploadModal.propTypes = {
-  showAvatarModal: PropTypes.bool.isRequired,
-  closeAvatarModal: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 export default AvatarUploadModal;

@@ -17,7 +17,7 @@ const UserContextProvider = ({ children }) => {
   const [userId, setUserId] = useState(localStorage.getItem('userId'));
   const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
   const [gameId, setGameId] = useState(urlGameId || localStorage.getItem('lastGameId') || generateGameId());
-  const [userAvatar, setUserAvatar] = useState(localStorage.getItem('userAvatar'));
+  const [userAvatar, setUserAvatar] = useState(localStorage.getItem('userAvatar') || undefined);
 
   const [avatarError, setAvatarError] = useState(false);
 

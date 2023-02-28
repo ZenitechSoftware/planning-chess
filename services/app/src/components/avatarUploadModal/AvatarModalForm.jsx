@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import Button from '../button/Button';
@@ -8,8 +8,6 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
   const [form] = Form.useForm();
   const urlValue = Form.useWatch('url', form);
 
-  const [isPrimaryBtnDisabled, setIsPrimaryBtnDisabled] = useState(true);
-
   const userContext = useUserContext();
 
   const urlInputRef = useRef(null);
@@ -18,7 +16,19 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
     if (e.code === 'Enter') {
       moveToFinalStep(urlValue);
     }
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    moveToFinalStep(urlValue);
   }
+
+  const isPrimaryBtnDisabled = useMemo(() => {
+    if (urlValue?.length > 0) {
+      return false;
+    }
+    return true;
+  }, [urlValue]);
 
   useEffect(() => {
     userContext.setAvatarError(false);
@@ -27,15 +37,6 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
       urlInputRef.current.focus();
     }
   }, []);
-
-  useEffect(() => {
-    if (urlValue?.length > 0) {
-      setIsPrimaryBtnDisabled(false);
-      return;
-    }
-    setIsPrimaryBtnDisabled(true);
-  }, [urlValue]);
-  
   
   return (
     <>
@@ -45,6 +46,7 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
         layout="vertical"
         autoComplete="off"
         onKeyDown={handleKeyDown}
+        onFinish={submitForm}
       >
         <Form.Item
           name='url'
@@ -64,7 +66,7 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
         </Form.Item>
         <div className='f-1 justify-end'>
           <Button
-            htmlType='button'
+            htmlType='submit'
             dataTestid='modal-url-input-confirm-button'
             clickHandler={() => moveToFinalStep(urlValue)}
             isDisabled={isPrimaryBtnDisabled}

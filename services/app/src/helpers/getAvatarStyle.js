@@ -2,7 +2,7 @@ import { useChessBoardContext } from "../contexts/ChessBoardContext";
 import { rgbToColor } from "./rgbToColor";
 import { avatarFontSizeMap } from "./getAvatarProperties";
 
-export const getAvatarStyle = (id, isBorderNeeded, size) => {
+export const getAvatarStyle = (id, bordered, size) => {
   const { findUserById } = useChessBoardContext();
   const user = findUserById(id);
 
@@ -14,7 +14,7 @@ export const getAvatarStyle = (id, isBorderNeeded, size) => {
     }
   }
 
-  const defaultAvatarBorder = isBorderNeeded 
+  const defaultAvatarBorder = bordered 
     ? `1px solid ${rgbToColor(user.color.text)}` 
     : `1px solid ${rgbToColor(user.color.background)}`;
 

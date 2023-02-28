@@ -8,7 +8,7 @@ import { getCustomAvatarStyle } from '../../helpers/getAvatarStyle';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { useUserContext } from '../../contexts/UserContext';
 
-const CustomAvatar = ({ size, imageUrl, playerId, isBorderNeeded, playerInitials }) => {
+const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials }) => {
   const [isAvatarError, setIsAvatarError] = useState(false);
   const { currentPlayerId } = useChessBoardContext();
   const userContext = useUserContext();
@@ -18,7 +18,7 @@ const CustomAvatar = ({ size, imageUrl, playerId, isBorderNeeded, playerInitials
       <DefaultAvatar
         size={size}
         playerId={playerId}
-        isBorderNeeded={isBorderNeeded}
+        bordered={bordered}
         playerInitials={playerInitials}
       />  
     )
@@ -46,14 +46,14 @@ const CustomAvatar = ({ size, imageUrl, playerId, isBorderNeeded, playerInitials
 
 CustomAvatar.defaultProps = {
   size: 'm',
-  isBorderNeeded: false,
+  bordered: false,
 }
 
 CustomAvatar.propTypes = {
   size: avatarSizePropType,
   imageUrl: PropTypes.string.isRequired,
   playerId: PropTypes.string.isRequired,
-  isBorderNeeded: PropTypes.bool,
+  bordered: PropTypes.bool,
   playerInitials: PropTypes.string.isRequired,
 };
 
