@@ -1,5 +1,7 @@
 Feature('login');
-const { I, login, username, game } = inject();
+
+import username = require("../test_data/usernames");
+const { I, login, game } = inject();
 
 Scenario('Two users can sign in as voters', async () => {
   login.firstVoterLogin(username.user1);
@@ -31,4 +33,3 @@ Scenario('User is redirected to the same game room', async () => {
   I.waitForText('Waiting for more players');
   I.see(username.user1, game.locator.playersList.firstUserInList);
 });
-export{}

@@ -11,6 +11,9 @@ exports.config = {
     CustomHelper: {
       require: '../helpers/customSteps.helper.ts',
     },
+        ChaiWrapper: {
+          require: "codeceptjs-chai",
+        },
     Playwright: {
       url: process.env.BASE_URL,
       browser: 'chromium',
