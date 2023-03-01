@@ -25,3 +25,8 @@
 .ant-modal-header .ant-modal-title {
   font-size: 24px;
 }
+
+/*Buttons*/
+.ant-btn.ant-btn-primary.primary-btn:disabled {
+  background-color: var(--primary-disabled);
+}

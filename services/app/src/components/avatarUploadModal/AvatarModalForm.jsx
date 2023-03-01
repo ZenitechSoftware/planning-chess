@@ -48,12 +48,11 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
           label='Image Link'
           preserve={false}
           initialValue=""
-          rules={[{ required: true, message: 'Image link is required' }, { type: 'url', warningOnly: true, message: 'Not a valid image link' }]}
+          rules={[{ type: 'url', warningOnly: true, message: 'Not a valid image link' }]}
         >
           <input 
             type='url'
             id="modal-avatar-input"
-            placeholder='Enter avatar picture link'
             className='border-r-4 padding-s user-input-font modal-url-input'
             autoComplete="off"
             ref={urlInputRef}

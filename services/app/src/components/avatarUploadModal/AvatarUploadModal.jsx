@@ -39,7 +39,7 @@ const AvatarUploadModal = ({ isOpen, onClose }) => {
 
   return (
     <Modal 
-      title="Update avatar"
+      title="Upload profile picture"
       open={isOpen}
       className='avatar-modal padding-l'
       footer={null}
