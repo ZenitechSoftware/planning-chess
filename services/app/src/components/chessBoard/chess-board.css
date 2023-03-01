@@ -250,12 +250,6 @@ table {
   color: var(--primary-text);;
 }
 
-#chess-board .pop-over .move-info {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-}
-
 #chess-board .pop-over .move-info .text {
   font-family: 'Rubik';
   font-style: normal;
@@ -286,4 +280,12 @@ table {
   line-height: 24px;
   letter-spacing: -0.1px;
   color: var(--white);
+}
+
+.pop-up-figure-icon-container {
+  width: 30px;
+}
+
+.pop-up-figure-icon {
+  height: 24px;
 }

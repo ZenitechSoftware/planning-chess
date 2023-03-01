@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { PIECES } from '../../constants/board';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { rgbToColor } from '../../helpers/rgbToColor';
+import { squareItemPropType } from '../../prop-types/chessboard';
+import SquarePopUp from './SquarePopUp';
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -82,42 +84,13 @@ const Square = ({
       </div>
       {!!items.length &&
       <span className={classNames(["number", "number-column", filled && "number-filled"])}>{board[board.length - 1][column].attribute}</span>}
-      {!!items.length && (
-        <div className={classNames(["pop-over", showPopover && "pop-over-opened"])}>
-          <span className="pop-over-title">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
-          {items.map((item, index) => (
-            <div key={`move-info-${index}`} className="move-info">
-              <div 
-                className={classNames(["bubble align-c", "multiple-bubbles align-c"])}
-                style={
-                  playerAvatarColor(item.playerId)
-                }  
-              >
-                <span className="name">{item.player[0]}</span>
-              </div>
-              <span className="text">
-                {`${item.player} - `}
-                <span className="text-bold">{item.figure.charAt(0).toUpperCase() + item.figure.slice(1)}</span>
-              </span>
-              <div className="score">
-                <span>{`${item.score} SP`}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {!!items.length && <SquarePopUp items={items} showPopover={showPopover} row={row} column={column} />}
     </div>
   );
 };
 
 Square.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      figure: PropTypes.string,
-      score: PropTypes.number,
-      player: PropTypes.string
-    })
-  ).isRequired,
+  items: PropTypes.arrayOf(squareItemPropType).isRequired,
   row: PropTypes.number.isRequired,
   column: PropTypes.number.isRequired,
   filled: PropTypes.bool.isRequired

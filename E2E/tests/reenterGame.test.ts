@@ -63,6 +63,9 @@ Scenario('Player leaves and returns back to game room, after game is completed',
   const actualFinalScoreBeforeNavigating = Number((await I.grabTextFrom(game.locator.playersList.totalSP)).slice(16, -3));
   game.navigateBackAndForward();
   I.waitForText('Game complete');
+  game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+  game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
+ 
   const actualFinalScoreAfterNavigating = Number((await I.grabTextFrom(game.locator.playersList.totalSP)).slice(16, -3));
   I.assertEqual(actualFinalScoreBeforeNavigating, actualFinalScoreAfterNavigating);
 });
@@ -75,11 +78,12 @@ Scenario('Player refreshes browser when he already finished move', async () => {
     game.voteAndCheckThatVoteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
     I.refreshPage();
     I.waitForText('Game in progress...');
+    game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   });
   game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   game.voteAndCheckThatVoteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
   I.waitForText('Game complete');
-  game.voteIsVisible(ChessPiece.pawn, ChessTile.c4, ChessPieceValue.pawn);
+  game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
 });
 
@@ -92,6 +96,7 @@ Scenario('Player leaves and returns back to game room, after he already voted', 
     const voteScoreBeforeNavigating = Number(await I.grabTextFrom(game.locator.playersList.playerIndividualSP(1)));
     game.navigateBackAndForward();
     I.waitForText('Game in progress...');
+    game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
     const voteScoreAfterNavigating =  Number(await I.grabTextFrom(game.locator.playersList.playerIndividualSP(1)));
     I.assertEqual(voteScoreBeforeNavigating, voteScoreAfterNavigating);
   });

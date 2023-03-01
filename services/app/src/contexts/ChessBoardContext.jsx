@@ -17,11 +17,9 @@ export const ChessBoardContext = createContext();
 const ChessBoardContextProvider = ({ children }) => {
   const { ws, addWsEventListener } = useWsContext();
 
-
   const userContext = useUserContext();
   const chessBoard = useChessBoard();
   
-  const [score, setScore] = useState(0);
   const [globalScore, setGlobalScore] = useState(0);
   const [selectedItem, setSelectedItem] = useState('');
 
@@ -121,7 +119,6 @@ const ChessBoardContextProvider = ({ children }) => {
   };
 
   const clearBoardItems = () => {
-    setScore(0);
     setGlobalScore(0);
     chessBoard.clearChessBoard();
     setSelectedItem('');
@@ -186,12 +183,13 @@ const ChessBoardContextProvider = ({ children }) => {
   addWsEventListener(MessageType.ActionMade, (payload) => {
     const myMove = payload.find((moved) => moved.playerId === currentPlayerId);
     if (myMove) {
-      const myScore = myMove ? myMove.score : 0;
-      setScore(myScore);
-    }
-
-    if(myMove?.turnType === TurnType.MoveSkipped) {
-      setSelectedItem(PieceName.SKIP);
+      if (myMove.turnType === TurnType.FigurePlaced) {
+        chessBoard.insertMoveScoreIntoBoard(myMove);
+      }
+    
+      if(myMove.turnType === TurnType.MoveSkipped) {
+        setSelectedItem(PieceName.SKIP);
+      }
     }
   });
   
@@ -210,7 +208,6 @@ const ChessBoardContextProvider = ({ children }) => {
         playerId,
         playerName: userContext.username,
       });
-      setScore(myTurn.score);
     }
   });
 
@@ -238,7 +235,7 @@ const ChessBoardContextProvider = ({ children }) => {
       clearBoardItems();
     }
   });
-
+  
   return (
     <ChessBoardContext.Provider
       value={{
@@ -247,7 +244,6 @@ const ChessBoardContextProvider = ({ children }) => {
         lastTurn,
         removeFigureFromBoard,
         findUserById,
-        score,
         setSelectedItem,
         selectedItem,
         placeItemOnBoard,
@@ -264,6 +260,7 @@ const ChessBoardContextProvider = ({ children }) => {
         isAnotherSessionActive,
         players,
         errorMessage,
+        turns,
       }}
     >
       {children}
