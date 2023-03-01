@@ -68,7 +68,7 @@ const LoginForm = () => {
       </Form.Item>
         
       <Form.Item 
-        label="Avatar url" 
+        label="Image link" 
         name="avatar-url"
         htmlFor='profile-pic-input'
       >

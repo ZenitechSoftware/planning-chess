@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import UserAvatar from '../avatar/UserAvatar';
-import { PlayerRoles } from '../../constants/playerConstants';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 
 const GameHeaderNameContainer = ({ imgSrc }) => {
@@ -10,17 +8,13 @@ const GameHeaderNameContainer = ({ imgSrc }) => {
 
   return (
     <div
-      className={classNames('f-row align-c gap-s', {
-        'cursor-pointer': currentPlayer.role === PlayerRoles.Voter,
-      })}
+      className='f-row align-c gap-s cursor-pointer'
     >
       <UserAvatar size='m' playerId={currentPlayer.id} />
       
       <span id="username">{currentPlayer.name}</span>
-
-      { currentPlayer?.role === PlayerRoles.Voter && (
-        <img src={imgSrc} alt="dropdown icon" />
-      )}
+      
+      <img src={imgSrc} alt="dropdown icon" />
     </div>
   )
 }

@@ -4,14 +4,10 @@ import { Dropdown, Space } from 'antd';
 import DropdownArrowUp from '../../static/svg/DropdownArrowUp.svg';
 import DropdownArrowDown from '../../static/svg/DropDownArrowDown.svg';
 import GameHeaderNameContainer from '../header/GameHeaderNameContainer';
-import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import './dropdown.css'
-import { PlayerRoles } from '../../constants/playerConstants';
+import './dropdown.css';
 
 const GameHeaderDropDown = ({ openAvatarModal }) => {
   const [imgSrc, setImgSrc] = useState(DropdownArrowDown);
-
-  const { currentPlayer } = useChessBoardContext();
 
   const rotateArrow = (open) => {
     if (open) {
@@ -42,7 +38,6 @@ const GameHeaderDropDown = ({ openAvatarModal }) => {
       overlayClassName='dropdown-buttons'
       id='game-header-menu-dropdown-icon'
       onOpenChange={rotateArrow}
-      disabled={currentPlayer.role === PlayerRoles.Spectator}
     >
       <Space>
         <GameHeaderNameContainer

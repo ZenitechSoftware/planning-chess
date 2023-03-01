@@ -283,6 +283,7 @@ export const errorHandler = (ws: GameWebSocket, e: string): void => {
 export const spectatorHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.ClearBoard]: resetGame,
   [MessageType.MoveSkipped]: moveSkipped,
+  [MessageType.AvatarUpdate]: updateAvatar,
 };
 
 export const voterHandlers: { [key in MessageType]?: Handler } = {
