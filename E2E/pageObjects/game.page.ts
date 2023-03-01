@@ -10,6 +10,8 @@ const locator = {
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
+    playersSkippedCount: '$players-skipped-count',
+    playersDoneCount: '$players-done-count',
   },
   text: {
     username: '#username',
