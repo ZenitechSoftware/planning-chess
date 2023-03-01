@@ -87,3 +87,8 @@
   background: var(--orange);
   color: var(--white);
 }
+
+.current-move-score-icon {
+  background-color: var(--transparent-light-grey);
+  color: var(--secondary-text);
+}
