@@ -78,7 +78,7 @@ const LoginForm = () => {
             type="url"
             id="profile-pic-input"
             className='login-input user-input-font'
-            placeholder="Enter profile picture link"
+            placeholder="Enter a link of the image"
             autoComplete="off"
           />
         </div>

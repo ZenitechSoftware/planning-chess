@@ -45,7 +45,7 @@ const AvatarModalForm = ({ moveToFinalStep }) => {
       >
         <Form.Item
           name='url'
-          label='Image Link'
+          label='Image link'
           preserve={false}
           initialValue=""
           rules={[{ type: 'url', warningOnly: true, message: 'Not a valid image link' }]}
