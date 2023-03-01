@@ -1,6 +1,7 @@
 Feature('login');
 
-const { I, login, username, game, roles} = inject();
+import username = require("../test_data/usernames");
+const { I, login, game } = inject();
 
 Scenario('Two users can sign in as voters', async () => {
   login.firstVoterLogin(username.user1);
@@ -36,15 +37,22 @@ Scenario('User is redirected to the same game room', async () => {
 Scenario('User is redirected to game page as spectator by pressing Shift Tab and then Enter', async () => {
   I.amOnPage('/');
   login.login(username.user1);
-  roles.pressShiftTabToChangeRole();
-  roles.loginByPressingEnter();
+  I.pressKey('Shift+Tab');
+  I.pressKey('Enter');
+  I.seeElement(game.locator.playersList.spectatorIcon);  
+});
+
+Scenario('User is redirected to game page as spectator by pressing Tab and then Enter', async () => {
+  I.amOnPage('/');
+  login.login(username.user1);
+  I.pressKey('Tab');
+  I.pressKey('Enter');
   I.seeElement(game.locator.playersList.spectatorIcon);  
 });
 
 Scenario('User is redirected to game page as voter by pressing Enter', async () => {
   I.amOnPage('/');
   login.login(username.user1);
-  roles.loginByPressingEnter();
+  I.pressKey('Enter');
   I.seeElement(game.locator.playersList.playerCount(1));
 });
-export{}

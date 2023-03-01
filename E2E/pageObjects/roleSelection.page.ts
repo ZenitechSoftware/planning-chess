@@ -18,18 +18,4 @@ export = {
     I.seeElement(locator.buttons.spectator);
     I.click(locator.buttons.voter);
   },
-  
-  async loginByPressingEnter() {
-    I.usePlaywrightTo('check clipboard', async ({ page, browserContext }) => {
-      await browserContext.grantPermissions(['clipboard-write']);
-      await page.keyboard.press("Enter");
-    });
-  },
-
-  async pressShiftTabToChangeRole() {
-    I.usePlaywrightTo('check clipboard', async ({ page, browserContext }) => {
-      await browserContext.grantPermissions(['clipboard-write']);
-      await page.keyboard.press("Shift+Tab");
-    });
-  },
 };
