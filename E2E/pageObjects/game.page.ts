@@ -12,6 +12,7 @@ const locator = {
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
     playersSkippedCount: '$players-skipped-count',
     playersDoneCount: '$players-done-count',
+    playerCount:(playersNumber: number) =>`//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
   },
   text: {
     username: '#username',
