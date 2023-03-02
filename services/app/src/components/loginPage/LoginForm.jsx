@@ -68,7 +68,7 @@ const LoginForm = () => {
       </Form.Item>
         
       <Form.Item 
-        label="Image link" 
+        label="Avatar link" 
         name="avatar-url"
         htmlFor='profile-pic-input'
         rules={[{ type: 'url', warningOnly: true, message: 'Not a valid image link' }]}
@@ -90,7 +90,7 @@ const LoginForm = () => {
           type='primary'
           htmlType='submit'
           data-testid="login-btn"
-          className="enter-game-btn login-input user-input-font margin-b-0"
+          className="enter-game-btn login-input user-input-font margin-b-0 margin-t-s"
           isDisabled={btnIsDisabled}
           clickHandler={submitInfo}
         >
