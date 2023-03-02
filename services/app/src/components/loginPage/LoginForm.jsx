@@ -71,7 +71,6 @@ const LoginForm = () => {
         label="Avatar link" 
         name="avatar-url"
         htmlFor='profile-pic-input'
-        rules={[{ type: 'url', warningOnly: true, message: 'Not a valid image link' }]}
       >
         <div className='user-input-container border-r-4 margin-t-s'>
           <img src={ProfileInputLogo} className='login-input-logo padding-s' alt="userInputIcon" />
