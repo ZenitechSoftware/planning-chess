@@ -8,6 +8,7 @@ const GameHeaderNameContainer = ({ imgSrc }) => {
 
   return (
     <div
+      data-testid='game-header-dropdown-button'
       className='f-row align-c gap-s cursor-pointer'
     >
       <UserAvatar size='m' playerId={currentPlayer.id} />

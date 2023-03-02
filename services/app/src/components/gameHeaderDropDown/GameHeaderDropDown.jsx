@@ -36,7 +36,6 @@ const GameHeaderDropDown = ({ openAvatarModal }) => {
       trigger={['click']} 
       className='dropdown-icon padding-s' 
       overlayClassName='dropdown-buttons'
-      id='game-header-menu-dropdown-icon'
       onOpenChange={rotateArrow}
     >
       <Space>
