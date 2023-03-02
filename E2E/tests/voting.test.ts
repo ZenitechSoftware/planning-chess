@@ -13,7 +13,7 @@ Scenario('Voter can change vote while game is not completed', async () => {
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
     game.voteAndCheckThatVoteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
-    I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
+    I.waitForElement(game.locator.playersList.voterScoreIcon(username.user2));
     game.voteAndCheckThatVoteIsVisible(ChessPiece.knight, ChessTile.e2, ChessPieceValue.knight);
     game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   });
