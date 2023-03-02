@@ -60,13 +60,12 @@ Scenario('Player leaves and returns back to game room, after game is completed',
   });
   game.voteAndCheckThatVoteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
   I.waitForText('Game complete');
-  const actualFinalScoreBeforeNavigating = Number((await I.grabTextFrom(game.locator.playersList.totalSP)).slice(16, -3));
+  const actualFinalScoreBeforeNavigating = await game.finalScore(await I.grabTextFrom(game.locator.playersList.totalSP));
   game.navigateBackAndForward();
   I.waitForText('Game complete');
   game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
- 
-  const actualFinalScoreAfterNavigating = Number((await I.grabTextFrom(game.locator.playersList.totalSP)).slice(16, -3));
+  const actualFinalScoreAfterNavigating = await game.finalScore(await I.grabTextFrom(game.locator.playersList.totalSP)); 
   I.assertEqual(actualFinalScoreBeforeNavigating, actualFinalScoreAfterNavigating);
 });
 

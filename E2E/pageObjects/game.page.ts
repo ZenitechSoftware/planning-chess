@@ -118,4 +118,9 @@ export = {
     I.waitForInvisible(game.locator.chessBoard.board);
     I.executeScript("window.history.forward();");
   },
+
+  finalScore: async (string: string) => {
+    const regexp = /[0-9]./;
+    return Number(string.match(regexp)[0]);
+  },
 };
