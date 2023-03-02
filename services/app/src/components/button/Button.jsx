@@ -10,7 +10,7 @@ const Button = ({ size, clickHandler, children, type, isDisabled, className, htm
     htmlType={htmlType}
     type={type}
     size={size}
-    id={dataTestid}
+    data-testid={dataTestid}
     className={classNames('border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center', className, {
       'ghost-btn': type === 'ghost',
       'primary-btn': type === 'primary',

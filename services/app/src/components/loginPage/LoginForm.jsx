@@ -88,7 +88,7 @@ const LoginForm = () => {
         <Button
           type='primary'
           htmlType='submit'
-          data-testid="login-btn"
+          dataTestid="login-btn"
           className="enter-game-btn login-input user-input-font margin-b-0 margin-t-s"
           isDisabled={btnIsDisabled}
           clickHandler={submitInfo}
