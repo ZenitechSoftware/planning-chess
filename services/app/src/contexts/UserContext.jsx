@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation, matchPath } from 'react-router';
 import { nanoid } from 'nanoid';
 import { ROUTES } from '../pages/routes';
-
-const ROOM_ID_LENGTH = 8;
+import { ROOM_ID_LENGTH } from '../constants/appConstants';
 
 export const UserContext = createContext();
 
@@ -17,7 +16,6 @@ const UserContextProvider = ({ children }) => {
   const [userId, setUserId] = useState(localStorage.getItem('userId'));
   const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
   const [gameId, setGameId] = useState(urlGameId || localStorage.getItem('lastGameId') || generateGameId());
-
 
   useEffect(() => {
     if (username) {
@@ -53,7 +51,7 @@ const UserContextProvider = ({ children }) => {
     setRole: setUserRole,
     gameId,
     setGameId,
-  }), [username, userRole, userId]);
+  }), [username, userRole, userId, gameId]);
 
   return (
     <UserContext.Provider value={value}>

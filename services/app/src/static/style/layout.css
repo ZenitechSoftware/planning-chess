@@ -6,6 +6,11 @@
 .justify-c { justify-content: center }
 .justify-end { justify-content: flex-end }
 .justify-start { justify-content: flex-start }
+.justify-between { justify-content: space-between; }
+
+.f {
+  display: flex;
+}
 
 .f-1 {
   display: flex;

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Button as AntdButton } from 'antd'; 
 import './button.css';
 
-const Button = ({ size, clickHandler, children, type, isDisabled, className }) => (
+const Button = ({ size, clickHandler, children, type, isDisabled, className, dataTestid }) => (
   <AntdButton
     disabled={isDisabled}
     type={type}
@@ -14,6 +14,7 @@ const Button = ({ size, clickHandler, children, type, isDisabled, className }) =
       'primary-btn': type === 'primary',
     })}
     onClick={clickHandler}
+    data-testid={dataTestid}
   >
     {children}
   </AntdButton>
@@ -25,6 +26,7 @@ Button.defaultProps = {
   isDisabled: false,
   className: undefined,
   size: 'default',
+  dataTestid: null,
 }
 
 Button.propTypes = {
@@ -37,6 +39,7 @@ Button.propTypes = {
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
   size: PropTypes.oneOf(['large', 'small', 'default']),
+  dataTestid: PropTypes.string,
 };
 
 export default Button;
