@@ -17,7 +17,7 @@ const UserContextProvider = ({ children }) => {
   const [userId, setUserId] = useState(localStorage.getItem('userId'));
   const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
   const [gameId, setGameId] = useState(urlGameId || localStorage.getItem('lastGameId') || generateGameId());
-
+  const [userAvatar, setUserAvatar] = useState(localStorage.getItem('userAvatar') || undefined);
 
   useEffect(() => {
     if (username) {
@@ -44,6 +44,14 @@ const UserContextProvider = ({ children }) => {
     }
   }, [urlGameId]);
 
+  useEffect(() => {
+    if (userAvatar) {
+      localStorage.setItem('userAvatar', userAvatar);
+    } else {
+      localStorage.removeItem('userAvatar');
+    }
+  }, [userAvatar])
+
   const value = useMemo(() => ({
     username,
     role: userRole,
@@ -53,7 +61,9 @@ const UserContextProvider = ({ children }) => {
     setRole: setUserRole,
     gameId,
     setGameId,
-  }), [username, userRole, userId]);
+    userAvatar,
+    setUserAvatar,
+  }), [username, userRole, userId, userAvatar]);
 
   return (
     <UserContext.Provider value={value}>
