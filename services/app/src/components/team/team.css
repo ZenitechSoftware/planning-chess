@@ -56,10 +56,6 @@
   user-select: none;
 }
 
-.team-list-item-avatar-text {
-  font-family: 'Poppins';
-}
-
 .team-list-footer {
   box-shadow: inset 0px 1px 0px #00000012;
   text-align: center;

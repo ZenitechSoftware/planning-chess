@@ -2,7 +2,7 @@ import React from 'react'
 import './footer.css'
 
 const Footer = () => (
-  <footer className='web-footer-container align-c'>
+  <footer className='web-footer-container align-c' data-testid='web-page-main-footer'>
     <p className='footer-p padding-l-xxl'>
       © Zenitech. All rights reserved
     </p>

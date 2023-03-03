@@ -32,7 +32,7 @@ const CopyBtn = () => {
       hideArrow
       open={isCopyTooltipOpen}
     >
-      <Button clickHandler={copyUrl} type='ghost'>
+      <Button clickHandler={copyUrl} type='ghost' dataTestid='game-header-copy-link-button'>
         <img src={CopyLink} alt="copy link" className="copy-icon" />
         <span>Copy Link</span>
       </Button>

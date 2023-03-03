@@ -1,15 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
-import { rgbToColor } from '../../helpers/rgbToColor';
 import './header.css';
 import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
 import CreateNewRoomBtn from './CreateNewRoomBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
 
-const GameHeader = () => {
+const GameHeader = ({ openAvatarModal }) => {
   const { currentPlayer } = useChessBoardContext();
-  const avatarLetter = currentPlayer?.name[0];
 
   return (
     <Header>
@@ -22,24 +22,19 @@ const GameHeader = () => {
           <CreateNewRoomBtn />
         </div>
       </div>
-  
+
       {currentPlayer && (
-        <div className="f justify-end align-c gap-s">
-          <span
-            className="f-center avatar font-size-m weight-500"
-            style={{
-              color: rgbToColor(currentPlayer.color.text),
-              backgroundColor: rgbToColor(currentPlayer.color.background),
-            }}
-          >
-            {avatarLetter}
-          </span>
-          <span id="username">{currentPlayer.name}</span>
+        <div className='f-row justify-end align-c gap-s'>
+          <GameHeaderDropDown openAvatarModal={openAvatarModal} />
         </div>
       )}
     </Header>
     
   );
+};
+
+GameHeader.propTypes = {
+  openAvatarModal: PropTypes.func.isRequired,
 };
 
 export default GameHeader;

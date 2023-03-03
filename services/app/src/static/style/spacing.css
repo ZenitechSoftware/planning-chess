@@ -5,6 +5,8 @@
 .gap-l { gap: 20px }
 
 .padding-0 { padding: 0px }
+.padding-xxs { padding: 2px; }
+.padding-xs { padding: 4px; }
 .padding-s { padding: 8px }
 .padding-sm { padding: 12px }
 .padding-m { padding: 16px }

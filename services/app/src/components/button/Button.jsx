@@ -4,17 +4,18 @@ import classNames from 'classnames';
 import { Button as AntdButton } from 'antd'; 
 import './button.css';
 
-const Button = ({ size, clickHandler, children, type, isDisabled, className, dataTestid }) => (
+const Button = ({ size, clickHandler, children, type, isDisabled, className, htmlType, dataTestid }) => (
   <AntdButton
     disabled={isDisabled}
+    htmlType={htmlType}
     type={type}
     size={size}
+    data-testid={dataTestid}
     className={classNames('border-r-4 padding-y-s weight-500 padding-x-m gap-s f-center', className, {
       'ghost-btn': type === 'ghost',
       'primary-btn': type === 'primary',
     })}
     onClick={clickHandler}
-    data-testid={dataTestid}
   >
     {children}
   </AntdButton>
@@ -26,6 +27,7 @@ Button.defaultProps = {
   isDisabled: false,
   className: undefined,
   size: 'default',
+  htmlType: 'button',
   dataTestid: null,
 }
 
@@ -39,6 +41,7 @@ Button.propTypes = {
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
   size: PropTypes.oneOf(['large', 'small', 'default']),
+  htmlType: PropTypes.oneOf(['button', 'submit']),
   dataTestid: PropTypes.string,
 };
 

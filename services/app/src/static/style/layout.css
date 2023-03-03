@@ -3,14 +3,13 @@
 .align-start { align-items: flex-start }
 .align-stretch { align-items: stretch }
 
+.text-center { text-align: center; }
+
 .justify-c { justify-content: center }
 .justify-end { justify-content: flex-end }
 .justify-start { justify-content: flex-start }
-.justify-between { justify-content: space-between; }
-
-.f {
-  display: flex;
-}
+.justify-between { justify-content: space-between }
+.justify-stretch { justify-content: stretch }
 
 .f-1 {
   display: flex;
@@ -44,8 +43,19 @@
   justify-content: space-between;
 }
 
+.f-row-around {
+  display: flex;
+  justify-content: space-around;
+}
+
 .f-column-between {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.f-column-around {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }

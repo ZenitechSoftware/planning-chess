@@ -24,6 +24,7 @@ const Header = ({ children }) => {
         type='button'
         onClick={clickHandler}
         className='logo-btn margin-r-m'
+        data-testid='header-logo-button'
       >
         <img src={Logo} alt="logo" />
       </button>

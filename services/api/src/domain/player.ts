@@ -13,6 +13,7 @@ export interface Player {
   id: string;
   name: string;
   color: PlayerAvatarColor;
+  avatar?: string;
   role: PlayerRole;
   status: PlayerStatus;
 }
