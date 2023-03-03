@@ -10,8 +10,9 @@ const locator = {
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
-    totalSP: '//*[text() = "Game complete - "]',
+    totalSP: `//*[contains(text(), "Game complete - ")]`,
     playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
+    playerCount:(playersNumber: number) =>`//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
   },
   text: {
     username: '#username',
@@ -113,7 +114,7 @@ export = {
     game.voteIsVisible(chessPiece, tile, value);
   },
 
-  checkPlayerSP:(averageScore) => {
+  getExpectedPlayerSP:(averageScore) => {
     const sp = [1,2,3,5,8,13];
     const averageSPList = [1.5, 2.5, 4, 6.5, 10.5];
     let expectedSP = 1;
@@ -128,5 +129,21 @@ export = {
     let letters = {a:1, b:2, c:3, d:5, e:8, f:13};
     let numbers = {1:1, 2:2, 3:3, 4:5, 5:8, 6:13};
     return (piecesScore[piece] + letters[letter] + numbers[number])/3;
+  },
+
+  finalScore: async (string: string) => {
+    const regexp = /[0-9]./;
+    return Number(string.match(regexp)[0]);
+  },
+
+  expectedPlayerScore: ( piece: string, letter: string, number: number) => {
+    const averageScore = game.calculateAverage(piece, letter, number);
+    const expectedSP = game.getExpectedPlayerSP(averageScore); 
+    return expectedSP;
+  },
+
+  getActualPlayerScore: async (player: number) => {
+    const playerScoreToNumber = Number(await I.grabTextFrom(game.locator.playersList.playerIndividualSP(player)));
+    return playerScoreToNumber;
   },
 };

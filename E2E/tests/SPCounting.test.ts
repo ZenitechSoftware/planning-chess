@@ -6,7 +6,7 @@ import { ChessPiece } from "../test_data/chessPieces";
 import ChessTile = require("../test_data/chessTiles");
 import assertions = require("../assertions/assertions");
 
-Scenario('Individual final SP is rounded to closest value', async () => {
+Scenario('Individual final SP is rounded to closest value', async () => { 
   login.firstVoterLogin(username.user1);
     let url = await I.grabCurrentUrl();
     session(username.user2, () => {
@@ -14,8 +14,12 @@ Scenario('Individual final SP is rounded to closest value', async () => {
       game.vote(ChessPiece.queen, ChessTile.f5);
     });
     game.vote(ChessPiece.bishop, ChessTile.d3);
-    await assertions.checkIfTheSPIsRoundedCorrectlyForTheFirstPlayer();
-    await assertions.checkIfTheSPIsRoundedCorrectlyForTheSecondPlayer();
+    const expectedFirstPlayerScore = game.expectedPlayerScore("bishop", "d", 3);
+    const actualFirstPlayerSP = await game.getActualPlayerScore(2);
+    await I.assertEqual(actualFirstPlayerSP, expectedFirstPlayerScore);
+    const expectedSecondPlayerScore = game.expectedPlayerScore("queen", "f", 5);
+    const actualSecondPlayerSP = await game.getActualPlayerScore(1);
+    await I.assertEqual(actualSecondPlayerSP, expectedSecondPlayerScore);
 });
 
 Scenario('Final SP is rounded to closest value when closest value is boundary value', async () => {
@@ -26,7 +30,7 @@ Scenario('Final SP is rounded to closest value when closest value is boundary va
       game.vote(ChessPiece.queen, ChessTile.f5);
     });
     game.vote(ChessPiece.pawn, ChessTile.b3);
-    await assertions.checkIfTheFinalSPIsRoundedCorrectly();
+    await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
 });
 
 Scenario('Players who skipped are not included in final score counting', async () => {
@@ -48,7 +52,7 @@ Scenario('Final SP is rounded to closest value when closest value is lower value
       game.vote(ChessPiece.rook, ChessTile.d4);
     });
     game.vote(ChessPiece.bishop, ChessTile.a3);
-    await assertions.checkIfTheFinalSPIsRoundedCorrectly();
+    await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
 });
 
 Scenario('Final SP is rounded to closest value when closest value is higher value', async () => {
@@ -59,7 +63,7 @@ Scenario('Final SP is rounded to closest value when closest value is higher valu
       game.vote(ChessPiece.king, ChessTile.f6);
     });
     game.vote(ChessPiece.pawn, ChessTile.b3);
-    await assertions.checkIfTheFinalSPIsRoundedCorrectly();
+    await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
 });
 
 Scenario('Last player to vote leaves the game and the final SP is calculated of the two remaining players', async () => {
@@ -78,7 +82,7 @@ Scenario('Last player to vote leaves the game and the final SP is calculated of 
       I.switchToNextTab();
       I.closeCurrentTab();
     });
-    await assertions.checkIfTheFinalSPIsRoundedCorrectly();
+    await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
 });
 
 Scenario('Spectators are not included in final score counting', async () => {
@@ -92,5 +96,5 @@ Scenario('Spectators are not included in final score counting', async () => {
       game.vote(ChessPiece.king, ChessTile.f6);
     });
     game.vote(ChessPiece.pawn, ChessTile.b3);
-    await assertions.checkIfTheFinalSPIsRoundedCorrectly();
+    await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
 });

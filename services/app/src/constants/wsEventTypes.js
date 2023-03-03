@@ -4,4 +4,5 @@ export default {
   FIGURE_MOVED: 'FigureMoved',
   PING: 'Ping',
   CLEAR_BOARD: 'ClearBoard',
+  AVATAR_UPDATE: 'AvatarUpdate',
 };
