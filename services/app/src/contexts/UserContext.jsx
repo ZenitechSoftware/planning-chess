@@ -62,7 +62,7 @@ const UserContextProvider = ({ children }) => {
     setGameId,
     userAvatar,
     setUserAvatar,
-  }), [username, userRole, userId, userAvatar, gameId]);
+  }), [username, userRole, userId, userAvatar]);
 
   return (
     <UserContext.Provider value={value}>

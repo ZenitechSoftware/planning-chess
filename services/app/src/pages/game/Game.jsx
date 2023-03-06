@@ -30,9 +30,9 @@ const Game = () => {
 
   const [showAvatarModal, setShowAvatarModal] = useState(false);
 
-  const connectToWs = useCallback(() => {
+  const connectToWs = useCallback((roomId) => {
     openWsConnection({
-      gameId,
+      gameId: roomId ?? gameId,
       onConnect: (websocket) => {
         websocket.send(buildPlayerConnectedEventMessage(username, userId, role, userAvatar));
       }
@@ -70,7 +70,10 @@ const Game = () => {
         isOpen={showAvatarModal}
         onClose={() => setShowAvatarModal(false)}
       />
-      <GameHeader openAvatarModal={() => setShowAvatarModal(true)} />
+      <GameHeader 
+        openAvatarModal={() => setShowAvatarModal(true)} 
+        jumpToNewRoom={connectToWs}  
+      />
       <GameLayout>
         <GameLayoutMainArea>
           <ChessBoard />

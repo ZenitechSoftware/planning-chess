@@ -1,37 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import { nanoid } from 'nanoid';
 import { ROOM_ID_LENGTH } from '../../constants/appConstants';
 import Button from '../button/Button';
 import RefreshIcon from '../../static/svg/RefreshIcon.svg';
 import { buildPathFromTemplate, ROUTES } from '../../pages/routes';
-import { useUserContext } from '../../contexts/UserContext';
 import { useWsContext } from '../../contexts/ws-context';
-import { buildPlayerConnectedEventMessage } from '../../api/playerApi';
 
-const CreateNewRoomBtn = () => {
+const CreateNewRoomBtn = ({ jumpToNewRoom }) => {
   const navigate = useNavigate();
-  const userContext = useUserContext();
-  const { ws, openWsConnection } = useWsContext();
+  const { ws } = useWsContext();
 
   const createNewRoom = () => {
-    ws.close();
+    ws?.close();
     const newRoomId = nanoid(ROOM_ID_LENGTH);
     navigate(
       buildPathFromTemplate(ROUTES.game, {id: newRoomId}),
       { replace: true }
     );
     
-    openWsConnection({
-      gameId: newRoomId,
-      onConnect: (websocket) => {
-        websocket.send(buildPlayerConnectedEventMessage(
-          userContext.username, 
-          userContext.userId, 
-          userContext.userRole,
-        ));
-      },
-    })
+    jumpToNewRoom(newRoomId);
   }
 
   return (
@@ -44,6 +33,10 @@ const CreateNewRoomBtn = () => {
       Create new room
     </Button>
   );
+};
+
+CreateNewRoomBtn.propTypes = {
+  jumpToNewRoom: PropTypes.func.isRequired,
 };
 
 export default CreateNewRoomBtn;
