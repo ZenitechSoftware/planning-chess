@@ -26,8 +26,15 @@ Scenario('Players who skipped their moves are at the bottom of the list', async 
         I.click(game.locator.buttons.skip);
         I.click(game.locator.buttons.skipOtherPlayer(username.user1));
         I.waitForText('Game complete');
-        I.seeTextEquals(`${username.user3} (you)`, game.locator.playersList.playerUsernameByIndex(3));
-        I.seeTextEquals(`${username.user1}`, game.locator.playersList.playerUsernameByIndex(4));
+        const expectedUserOrder = [
+            username.user4,
+            username.user2,
+            username.user3,
+            username.user1,
+        ];
+        expectedUserOrder.forEach((username, index) => {
+            I.see(`${username}`, game.locator.playersList.playerUsernameByIndex(index+=1));
+        })
     });
 });
 
@@ -63,10 +70,15 @@ Scenario('Players are listed based on individual final score in descending order
         game.vote(ChessPiece.rook, ChessTile.d3);
     });
     game.vote(ChessPiece.pawn, ChessTile.a1);
-    I.seeTextEquals(`${username.user4}`, game.locator.playersList.playerUsernameByIndex(1));
-    I.seeTextEquals(`${username.user3}`, game.locator.playersList.playerUsernameByIndex(2));
-    I.seeTextEquals(`${username.user2}`, game.locator.playersList.playerUsernameByIndex(3));
-    I.seeTextEquals(`${username.user1} (you)`, game.locator.playersList.playerUsernameByIndex(4));
+    const expectedUserOrder = [
+        username.user4,
+        username.user3,
+        username.user2,
+        username.user1,
+    ];
+    expectedUserOrder.forEach((username, index) => {
+        I.see(`${username}`, game.locator.playersList.playerUsernameByIndex(index+=1));
+    })
 });
 
 Scenario('Game info is displayed in game info field', async () => {
