@@ -3,20 +3,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { squareItemPropType } from '../../prop-types/chessboard';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import { rgbToColor } from '../../helpers/rgbToColor';
 import { PIECES } from '../../constants/board';
+import UserAvatar from '../avatar/UserAvatar';
 
 const SquarePopUp = ({ items, showPopover, row, column }) => {
-  const { board, findUserById } = useChessBoardContext();
-
-  const playerAvatarColor = (id) => {
-    const player = findUserById(id);
-    if(!player) return {};
-    return {
-      color: rgbToColor(player.color.text),
-      backgroundColor: rgbToColor(player.color.background),
-    }
-  }
+  const { board } = useChessBoardContext();
 
   const getPieceIconSrc = (pieceName) => {
     const src = PIECES.find(piece => piece.name === pieceName);
@@ -31,14 +22,12 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
           <div className='pop-up-figure-icon-container f-center'>
             <img className='pop-up-figure-icon margin-r-xs' src={getPieceIconSrc(item.figure)} alt="move-piece-icon" />
           </div>
-          <div 
-            className={classNames(["bubble align-c", "multiple-bubbles align-c"])}
-            style={
-              playerAvatarColor(item.playerId)
-            }  
-          >
-            <span className="name">{item.player[0]}</span>
-          </div>
+          <UserAvatar 
+            playerId={item.playerId}
+            size='xs'
+            bordered
+            playerInitials={item.player[0]}
+          />
           <span className="text">
             {`${item.player} - `}
           </span>

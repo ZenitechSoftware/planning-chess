@@ -46,7 +46,7 @@ Scenario('Spectator skips another player', async () => {
         I.click(game.locator.buttons.skipOtherPlayer(username.user1))
         I.waitForElement(game.locator.playersList.playerSkippedIcon(username.user1));
     });
-    I.waitForElement(game.locator.playersList.playerSkippedIcon(username.user1));
+    I.waitForElement(game.locator.playersList.playerSkippedBadge(username.user1));
 });
 
 Scenario('Spectator doesn’t have to vote for game to be finished', async () => {

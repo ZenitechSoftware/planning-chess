@@ -13,6 +13,7 @@ import {
   SendMessage,
   ReceivedMessagePayloads,
   ReceivedMessage,
+  AvatarUpdateMessage,
 } from '../domain/messages';
 import * as gameService from '../game/game.service';
 import { GameWebSocket } from '../domain/GameRoom';
@@ -130,10 +131,12 @@ const createNewPlayer = (params: {
   playerName: string;
   role: PlayerRole;
   roomId: string;
+  avatar: string;
 }): Player => {
   const newPlayer: Player = {
     id: params.playerId,
     name: params.playerName,
+    avatar: params.avatar,
     color: getPlayerAvatarColor(),
     role: params.role,
     status: PlayerStatus.ActionNotTaken,
@@ -157,9 +160,10 @@ export const successfullyJoined = (
 
 export const playerConnected: Handler = (
   ws,
-  { playerName, id, role }: PlayerConnectedMessage,
+  { playerName, id, role, avatar }: PlayerConnectedMessage,
 ): void => {
   const newPlayerId = id ? id : uuidv4();
+  const avatarUrl = avatar;
 
   if (playerExists(ws.roomId, id)) {
     sendMessage(ws, MessageType.PlayerAlreadyExists);
@@ -169,6 +173,7 @@ export const playerConnected: Handler = (
   const newPlayer: Player = createNewPlayer({
     playerId: newPlayerId,
     playerName,
+    avatar: avatarUrl,
     role: role ? role : PlayerRole.Voter,
     roomId: ws.roomId,
   });
@@ -186,6 +191,19 @@ export const playerConnected: Handler = (
   if (gameService.areAllPlayersDone(ws.roomId)) {
     publishFinalBoard(ws);
   }
+};
+
+export const updateAvatar: Handler = (
+  ws,
+  { url }: AvatarUpdateMessage,
+): void => {
+  const players = getPlayers(ws.roomId);
+
+  players.set(ws, {
+    ...players.get(ws),
+    avatar: url,
+  });
+  publishAllPlayers(ws.roomId);
 };
 
 export const publishAllPlayers = (roomId: string): void => {
@@ -265,12 +283,14 @@ export const errorHandler = (ws: GameWebSocket, e: string): void => {
 export const spectatorHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.ClearBoard]: resetGame,
   [MessageType.MoveSkipped]: moveSkipped,
+  [MessageType.AvatarUpdate]: updateAvatar,
 };
 
 export const voterHandlers: { [key in MessageType]?: Handler } = {
   [MessageType.FigureMoved]: figureMoved,
   [MessageType.MoveSkipped]: moveSkipped,
   [MessageType.ClearBoard]: resetGame,
+  [MessageType.AvatarUpdate]: updateAvatar,
 };
 
 const commonHandlers: { [key in MessageType]?: Handler } = {
