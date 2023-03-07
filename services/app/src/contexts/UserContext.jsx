@@ -62,6 +62,7 @@ const UserContextProvider = ({ children }) => {
     setGameId,
     userAvatar,
     setUserAvatar,
+    generateGameId,
   }), [username, userRole, userId, userAvatar]);
 
   return (

@@ -1,33 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router';
-import { nanoid } from 'nanoid';
-import { ROOM_ID_LENGTH } from '../../constants/appConstants';
 import Button from '../button/Button';
 import RefreshIcon from '../../static/svg/RefreshIcon.svg';
-import { buildPathFromTemplate, ROUTES } from '../../pages/routes';
-import { useWsContext } from '../../contexts/ws-context';
+import { useWsContext } from '../../contexts/wsContext';
+import { useUserContext } from '../../contexts/UserContext';
 
-const CreateNewRoomBtn = ({ jumpToNewRoom }) => {
-  const navigate = useNavigate();
-  const { ws } = useWsContext();
+const CreateNewRoomBtn = ({ onCreateRoom }) => {
+  const { createNewRoom } = useWsContext();
+  const userContext = useUserContext();
 
-  const createNewRoom = () => {
-    ws?.close();
-    const newRoomId = nanoid(ROOM_ID_LENGTH);
-    navigate(
-      buildPathFromTemplate(ROUTES.game, {id: newRoomId}),
-      { replace: true }
-    );
-    
-    jumpToNewRoom(newRoomId);
+  const handleCreateNewRoom = () => {
+    const newRoomId = userContext.generateGameId();
+
+    createNewRoom(
+      onCreateRoom(newRoomId),
+      newRoomId,
+    )
   }
 
   return (
     <Button
       className='margin-r-m'
       dataTestid='header-create-new-room-btn'
-      clickHandler={createNewRoom}
+      clickHandler={handleCreateNewRoom}
     >
       <img src={RefreshIcon} alt='create new room icon' className='chessboard-icon' />
       Create new room
@@ -36,7 +31,7 @@ const CreateNewRoomBtn = ({ jumpToNewRoom }) => {
 };
 
 CreateNewRoomBtn.propTypes = {
-  jumpToNewRoom: PropTypes.func.isRequired,
+  onCreateRoom: PropTypes.func.isRequired,
 };
 
 export default CreateNewRoomBtn;

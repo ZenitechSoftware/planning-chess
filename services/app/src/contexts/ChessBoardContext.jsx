@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {calculateAverage,roundUp} from "@planning-chess/shared";
 import { useChessBoard } from '../hooks/useChessBoard';
-import { useWsContext } from './ws-context';
+import { useWsContext } from './wsContext';
 import { PlayerStatuses, PlayerRoles } from "../constants/playerConstants"; 
 import { PieceName } from '../constants/board';
 import { GameState, TurnType } from '../constants/gameConstants';

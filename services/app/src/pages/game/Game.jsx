@@ -7,7 +7,7 @@ import { Navigate } from 'react-router';
 import { ROUTES } from '../routes';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import GameFooter from '../../components/gameFooter/GameFooter';
-import { useWsContext } from '../../contexts/ws-context';
+import { useWsContext } from '../../contexts/wsContext';
 import Team from '../../components/team/Team';
 import {
   buildMoveSkippedEventMessage,
@@ -74,7 +74,7 @@ const Game = () => {
       />
       <GameHeader 
         openAvatarModal={() => setShowAvatarModal(true)} 
-        jumpToNewRoom={connectToWs}  
+        onCreateRoom={connectToWs}  
       />
       <GameLayout>
         <GameLayoutMainArea>
