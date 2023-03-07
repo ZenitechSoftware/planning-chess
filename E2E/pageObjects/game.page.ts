@@ -8,6 +8,8 @@ const locator = {
     secondUserInList: '//*[contains(@data-testid, "1")]/div[@class="team-list-item-name"]',
     playerUsernameByIndex: (rowNumberInList: number) => locate('//*[@class="team-list-item-name"]').at(rowNumberInList),
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
+    playerDefaultIcon:(username:string) => `//*[contains(@data-testid, '${username}')]//*[contains(@class, 'ant-avatar-circle')]//span['#username']`,
+    avatarImageInThePlayersList: (username: string) => `//*[contains(@data-testid, '${username}')]//img[@alt='profile pic']`,
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
     playerSkippedBadge: (username: string) => `//*[contains(@data-testid, '${username}')]/*[text()='Skipped']`,
@@ -18,13 +20,17 @@ const locator = {
     username: '#username',
     linkCopiedToClipboard: '//*[text() = "Link copied to clipboard"]',
     youHaveAnotherActiveSession:'//*[text() = "You have another active session"]',
-    skipMoveTooltip: '//*[text() = "Mark my move as complete, without any story points"]'
+    skipMoveTooltip: '//*[text() = "Mark my move as complete, without any story points"]',
+    uploadProfilePicture: '//*[text() = "Upload profile picture"]',
+    enterLinkOfTheImage: '//*[text() = "Enter a link of the image"]',
+    urlDoesNotContainImageErrorMessage: '//*[text() = "The provided URL does not contain a valid image"]',
   },
   chessBoard: {
     board: '#chess-board',
     chessTile: (tile: string) => `$chess-tile-${tile}`,
     chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
-    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
+    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
+    avatarPictureOnBoard:(tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
     pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
   },
   chessPieces: {
@@ -38,7 +44,23 @@ const locator = {
     restartGame: '//button/span[contains(text(), "Restart game")]',
     skip: '$skip-piece-btn', 
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
-    skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`, 
+    skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`,
+    changeProfilePicture: '//*[text() = "Change profile picture"]',
+    uploadPhoto:'//*[@data-testid = "modal-url-input-confirm-button"]',
+    confirm: '//*[@data-testid = "modal-upload-picture-button"]',
+    uploadAnotherImage: '//*[@data-testid = "modal-go-back-button"]',
+  },
+  input: {
+    imageLink:'#modal-avatar-input',
+  },
+  popUp: {
+    uploadProfilePicture:'//*[@class="ant-modal-content"]',
+    avatarPictureInThePopUp: '//*[contains(@class, "ant-modal-content")]//*[contains(@class, "ant-avatar-circle")]//img[@alt="profile pic"]',
+    avatarDefaultPicture: '//*[contains(@class, "avatar-modal-second-step")]//*[contains(@class, "ant-avatar-circle")]//span["#username"]', 
+  },
+  header: {
+    playerDefaultAvatarPicture: '//*[contains(@data-testid, "game-header-dropdown-button")]//*[contains(@class, "ant-avatar-circle")]//span["#username"]',
+    avatarProfilePictureHeader: '//*[contains(@data-testid, "game-header-dropdown-button")]//img[@alt="profile pic"]',
   },
 };
 
@@ -109,4 +131,36 @@ export = {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
   },
+
+  navigateBackAndForward: () => {
+    I.executeScript("window.history.back();");
+    I.waitForInvisible(game.locator.chessBoard.board);
+    I.executeScript("window.history.forward();");
+  },
+  
+  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string, value: string) => {
+    I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
+    I.seeElement(locator.chessBoard.avatarPictureOnBoard(tile));
+    I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
+  },
+
+  uploadAvatarPhoto: (imageLink: string) => {
+    I.click(locator.text.username);
+    I.waitForElement(locator.buttons.changeProfilePicture);
+    I.click(locator.buttons.changeProfilePicture);
+    I.waitForElement(locator.text.uploadProfilePicture);
+    I.seeElement(locator.text.enterLinkOfTheImage);
+    I.fillField(locator.input.imageLink, imageLink);
+    I.click(locator.buttons.uploadPhoto);
+  },
+
+  confirmAvatarPhotoWhenImageLinkIsValid: async (imageLink: string) => {
+    const profileImageInThePopUp = await I.grabAttributeFrom(locator.popUp.avatarPictureInThePopUp, 'src');
+    I.assertEqual(profileImageInThePopUp, imageLink);
+    I.seeElement(locator.buttons.confirm);
+    I.seeElement(locator.buttons.uploadAnotherImage);
+    I.click(locator.buttons.confirm);
+    I.waitForInvisible(locator.popUp.uploadProfilePicture);
+  },
+
 };

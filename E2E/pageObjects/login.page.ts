@@ -9,6 +9,7 @@ const locator = {
   },
   inputs: {
     username: '#username-input',
+    avatar: '#profile-pic-input'
   },
 };
 
@@ -53,5 +54,29 @@ export = {
   spectatorLoginIntoCreatedGameRoom: (url: string, username: string) => {
     login.loginIntoCreatedGameRoom(url, username);
     roles.spectatorLogin();
+  },
+
+  voterUploadAvatarDuringLogin: (username: string, avatarImage: string) => {
+    I.amOnPage('/');
+    I.see('Welcome! Let’s begin.');
+    I.waitForVisible(locator.inputs.username);
+    I.fillField(locator.inputs.username, username);
+    I.fillField(locator.inputs.avatar, avatarImage);
+    I.click(locator.buttons.login);
+    I.waitForText('Choose your role');
+    roles.voterLogin();
+    I.waitForText('Waiting for more players');
+  },
+
+  spectatorUploadAvatarDuringLogin: (username: string, avatarImage: string) => {
+    I.amOnPage('/');
+    I.see('Welcome! Let’s begin.');
+    I.waitForVisible(locator.inputs.username);
+    I.fillField(locator.inputs.username, username);
+    I.fillField(locator.inputs.avatar, avatarImage);
+    I.click(locator.buttons.login);
+    I.waitForText('Choose your role');
+    roles.spectatorLogin();
+    I.waitForText('Waiting for more players');
   },
 };
