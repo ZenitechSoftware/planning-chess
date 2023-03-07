@@ -46,7 +46,9 @@ const Game = () => {
   }
 
   useEffect(() => {
-    connectToWs();
+    if(ws?.readyState !== wsReadyStates.OPEN) {
+      connectToWs();
+    }
   }, []);
 
   const skipMove = useCallback((playerId) => {
