@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { ROUTES } from '../../pages/routes';
 import Logo from "../../static/svg/PlanningChessLogo.svg";
 import './header.css';
-import { useWsContext } from '../../contexts/wsContext';
+import { useWsContext } from '../../contexts/WsContext';
 
 
 const Header = ({ children }) => {

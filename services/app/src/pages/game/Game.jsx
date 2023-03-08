@@ -7,7 +7,7 @@ import { Navigate } from 'react-router';
 import { ROUTES } from '../routes';
 import ChessBoard from '../../components/chessBoard/ChessBoard';
 import GameFooter from '../../components/gameFooter/GameFooter';
-import { useWsContext } from '../../contexts/wsContext';
+import { useWsContext } from '../../contexts/WsContext';
 import Team from '../../components/team/Team';
 import {
   buildMoveSkippedEventMessage,

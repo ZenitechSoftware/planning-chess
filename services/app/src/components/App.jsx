@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import WebSocketsContextProvider from '../contexts/wsContext';
+import WebSocketsContextProvider from '../contexts/WsContext';
 import ChessGameProvider from '../contexts/ChessBoardContext';
 
 import '../static/style/scrollbar.css';

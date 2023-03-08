@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../button/Button';
 import RefreshIcon from '../../static/svg/RefreshIcon.svg';
-import { useWsContext } from '../../contexts/wsContext';
+import { useWsContext } from '../../contexts/WsContext';
 import { useUserContext } from '../../contexts/UserContext';
 
 const CreateNewRoomBtn = ({ onCreateRoom }) => {
