@@ -8,7 +8,7 @@ import CreateNewRoomBtn from './CreateNewRoomBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
 
-const GameHeader = ({ openAvatarModal, onCreateRoom }) => {
+const GameHeader = ({ openAvatarModal }) => {
   const { currentPlayer } = useChessBoardContext();
 
   return (
@@ -19,15 +19,15 @@ const GameHeader = ({ openAvatarModal, onCreateRoom }) => {
         <img src={Separator} alt="separator" />
         <div className='f-1 justify-between'>
           <CopyBtn />
-          <CreateNewRoomBtn onCreateRoom={onCreateRoom} />
+          <CreateNewRoomBtn />
         </div>
       </div>
 
-      {currentPlayer && (
-        <div>
+      <div className='drop-down-menu-placeholder'>
+        {currentPlayer && ( 
           <GameHeaderDropDown openAvatarModal={openAvatarModal} />
-        </div>
-      )}
+        )}
+      </div>
     </Header>
     
   );
@@ -35,7 +35,6 @@ const GameHeader = ({ openAvatarModal, onCreateRoom }) => {
 
 GameHeader.propTypes = {
   openAvatarModal: PropTypes.func.isRequired,
-  onCreateRoom: PropTypes.func.isRequired,
 };
 
 export default GameHeader;

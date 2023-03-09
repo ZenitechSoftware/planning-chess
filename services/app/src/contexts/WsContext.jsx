@@ -8,7 +8,7 @@ import { DEBUG } from '../env';
 import wsWrapper from '../helpers/wsWrapper';
 import { PING_INTERVAL_DURATION } from '../constants/appConstants';
 import { buildPingMessage } from '../api/appApi';
-import { ROUTES, buildPathFromTemplate } from '../pages/routes';
+import { ROUTES } from '../pages/routes';
 
 export const WsContext = createContext('');
 
@@ -38,15 +38,6 @@ const WebSocketsContextProvider = ({ children }) => {
       navigate(ROUTES.error)
     })
   };
-
-  const createNewRoom = (onCreateNewRoom, gameId) => {
-    ws?.close();
-    navigate(
-      buildPathFromTemplate(ROUTES.game, {id: gameId}),
-      { replace: true }
-    );
-    onCreateNewRoom();
-  }
 
   const addWsEventListener = (event, callbackFn) => {
     if (eventListeners.event) {
@@ -87,7 +78,6 @@ const WebSocketsContextProvider = ({ children }) => {
         ws,
         addWsEventListener,
         openWsConnection,
-        createNewRoom,
       }}
     >
       {children}

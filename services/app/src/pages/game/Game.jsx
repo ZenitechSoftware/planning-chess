@@ -73,8 +73,7 @@ const Game = () => {
         onClose={() => setShowAvatarModal(false)}
       />
       <GameHeader 
-        openAvatarModal={() => setShowAvatarModal(true)} 
-        onCreateRoom={connectToWs}  
+        openAvatarModal={() => setShowAvatarModal(true)}
       />
       <GameLayout>
         <GameLayoutMainArea>
