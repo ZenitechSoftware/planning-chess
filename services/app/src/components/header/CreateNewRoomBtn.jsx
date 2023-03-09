@@ -22,7 +22,7 @@ const CreateNewRoomBtn = () => {
         href={newGameUrl}
         className='f-center gap-xs decorate-none'
       >
-        <img src={RefreshIcon} alt='create new room icon' className='chessboard-icon' />
+        <img src={RefreshIcon} alt='create new room icon' className='new-game-btn-icon' />
         New room
       </a>
     </Button>
