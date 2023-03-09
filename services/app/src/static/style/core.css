@@ -23,3 +23,7 @@
 .decorate-none:visited {
   text-decoration: none;
 }
+
+.decorate-none:hover {
+  color: var(--white);
+}
