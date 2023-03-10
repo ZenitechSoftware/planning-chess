@@ -1,13 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types';
 import { Dropdown, Space } from 'antd';
 import DropdownArrowUp from '../../static/svg/DropdownArrowUp.svg';
 import DropdownArrowDown from '../../static/svg/DropDownArrowDown.svg';
 import GameHeaderNameContainer from '../header/GameHeaderNameContainer';
 import './dropdown.css';
+import { useUserContext } from '../../contexts/UserContext';
+import { buildPathFromTemplate, ROUTES } from '../../pages/routes';
 
 const GameHeaderDropDown = ({ openAvatarModal }) => {
+  const userContext = useUserContext();
+
   const [imgSrc, setImgSrc] = useState(DropdownArrowDown);
+
+  const newGameUrl = useMemo(() => {
+    const newGameId = userContext.generateGameId();
+    const gamePath = buildPathFromTemplate(ROUTES.game, {id: newGameId});
+    return `${window.location.origin}${gamePath}`
+  }, []);
 
   const rotateArrow = (open) => {
     if (open) {
@@ -28,6 +38,14 @@ const GameHeaderDropDown = ({ openAvatarModal }) => {
       onClick: onOpenAvatarModal,
       key: 0,
     },
+    {
+      label: (
+        <a href={newGameUrl} className='decorate-none'>
+          New room
+        </a>
+      ),
+      key: 1,
+    }
   ];
 
   return (
