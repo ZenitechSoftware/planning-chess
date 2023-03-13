@@ -29,11 +29,10 @@ Button.defaultProps = {
   size: 'default',
   htmlType: 'button',
   dataTestid: null,
-  clickHandler: null,
 }
 
 Button.propTypes = {
-  clickHandler: PropTypes.func,
+  clickHandler: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,

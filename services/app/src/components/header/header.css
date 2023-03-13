@@ -24,8 +24,3 @@
   font-family: 'Lato', sans-serif;
   color: var(--primary-text);;
 }
-
-.new-game-btn-icon {
-  height: 18px;
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(96deg) brightness(107%) contrast(103%);
-}
