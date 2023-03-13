@@ -1,4 +1,4 @@
-import copyLinkAssert = require("../assertions/copyLinkAssert");
+import copyLinkAssert = require("../assertions/assertions");
 import username = require("../test_data/usernames");
 
 Feature('Copy link');

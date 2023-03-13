@@ -3,6 +3,7 @@ import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
 import { ChessPiece } from "../test_data/chessPieces";
 import { ChessPieceValue } from "../test_data/chessPieces";
+import assertions = require("../assertions/assertions")
 
 const { I, login, game } = inject();
 
@@ -115,4 +116,20 @@ Scenario('On hover skip move button tooltip appears', async () => {
     I.waitForVisible(game.locator.text.skipMoveTooltip);
     I.moveCursorTo(game.locator.chessPieces.chessPiece(ChessPiece.bishop));
     I.dontSeeElement(game.locator.text.skipMoveTooltip);
+});
+
+Scenario('Skip badge in players list changes its color from grey to orange', async () => {
+    login.firstVoterLogin(username.user1);
+    let url = await I.grabCurrentUrl();
+    session(username.user2, () => {
+        login.voterLoginIntoCreatedGameRoom(url, username.user2);
+    });
+    game.skipMove();
+    await assertions.checkSkippedBadgeColorsWhenGameIsInProgress(username.user1);
+    session(username.user2,async () => {
+        I.seeElement(game.locator.playersList.playerSkippedIcon(username.user1));
+        game.vote(ChessPiece.pawn, ChessTile.a1);
+        await assertions.checkSkippedBadgeColorsWhenGameIsCompleted(username.user1);
+    });
+    await assertions.checkSkippedBadgeColorsWhenGameIsCompleted(username.user1);
 });

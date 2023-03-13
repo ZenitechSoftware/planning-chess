@@ -4,6 +4,7 @@ import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
 import { ChessPiece } from "../test_data/chessPieces";
 import { ChessPieceValue } from "../test_data/chessPieces";
+import assertions = require("../assertions/assertions")
 
 const { I, login, game } = inject();
 
@@ -153,4 +154,22 @@ Scenario('3 players choose different figure and place on same board square', asy
   I.waitForText('Game complete');
   game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   I.seeNumberOfElements(game.locator.chessBoard.avatarOnBoard(ChessTile.a1), 3);
+});
+
+Scenario('Individual vote in players list changes its color from grey to green', async () => {
+  login.firstVoterLogin(username.user1);
+  let url = await I.grabCurrentUrl();
+  session(username.user2, () => {
+      login.voterLoginIntoCreatedGameRoom(url, username.user2);
+  });
+  game.vote(ChessPiece.pawn, ChessTile.a1);
+  await assertions.checkIndividualVoteColorsWhenGameIsInProgress(username.user1);
+  const individualSPBeforeGameIsCompleted = await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username.user1));
+  session(username.user2,async () => {
+    game.vote(ChessPiece.rook, ChessTile.b3);
+  });
+  I.waitForText('Game complete');
+  await  assertions.checkIndividualVoteColorsWhenGameIsCompleted(username.user1);
+  const individualSPWhenGameIsCompleted = await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username.user1));
+  I.assertEqual(individualSPBeforeGameIsCompleted, individualSPWhenGameIsCompleted);
 });

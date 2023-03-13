@@ -1,4 +1,3 @@
-
 export = {
     user1: 'First Player',
     user2: 'Second Player',
