@@ -4,7 +4,7 @@ import ChessBoardPieces from './ChessBoardPieces';
 
 const GameFooterActive = ({ skipCurrentPlayerMove }) => (
   <>
-    <p>Complexity | Select and place the figure on the board</p>
+    <p className='margin-y-sm'>Complexity | Select and place the figure on the board</p>
     <ChessBoardPieces skipCurrentPlayerMove={skipCurrentPlayerMove} />
   </>
 );

@@ -15,8 +15,14 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
   }
 
   return (
-    <div className={classNames(["pop-over", showPopover && "pop-over-opened"])}>
-      <span className="pop-over-title">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
+    <div 
+      className={classNames("pop-over padding-y-sm padding-x-m", {
+        "pop-over-opened": showPopover
+      })}
+    >
+      <span className="pop-over-title weight-700 font-size-l lato-font">
+        {`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}
+      </span>
       {items.map((item, index) => (
         <div key={`move-info-${index}`} className="move-info f-1 align-c margin-t-s">
           <div className='pop-up-figure-icon-container f-center'>
@@ -28,11 +34,11 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
             bordered
             playerInitials={item.player[0]}
           />
-          <span className="text">
+          <span className="text rubik-font font-size-l margin-l-s">
             {`${item.player} - `}
           </span>
-          <div className="score">
-            <span>{`${item.score} SP`}</span>
+          <div className="score margin-l-s padding-y-0 padding-x-s">
+            <span className='rubik-font'>{`${item.score} SP`}</span>
           </div>
         </div>
       ))}

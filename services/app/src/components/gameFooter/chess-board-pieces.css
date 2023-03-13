@@ -7,7 +7,7 @@
 }
 
 .piece-field {
-  width: 75px;
+  width: clamp(56px, 3.75vw, 70px);
   flex-direction: column;
   border: 2px solid transparent;
   cursor: pointer;
@@ -21,7 +21,7 @@
 
 .piece-field-selected {
   background-color: var(--chess-tile-light);
-  border-color: #6547FD;
+  border-color: var(--game-light-purple);
 }
 
 .piece-field.disabled {
@@ -29,7 +29,7 @@
 }
 
 .figure-img {
-  height: 35px;
+  height: clamp(30px , 3.5vh, 35px);
 }
 
 .figure-title {

@@ -1,9 +1,14 @@
 .game-view {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
+.game-layout-main-area,
 .game-layout-side-area {
-  height: 810px;
+  height: 90vh;
 }
-  
+
+.game-layout-main-area {
+  max-width: 580px;
+}

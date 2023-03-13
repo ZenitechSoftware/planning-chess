@@ -19,11 +19,11 @@ const Header = ({ children }) => {
   }
 
   return (
-    <div className="align-c" id="header">
+    <div className="align-c padding-x-m" id="header">
       <button
         type='button'
         onClick={clickHandler}
-        className='logo-btn margin-r-m'
+        className='logo-btn margin-r-m margin-l-l'
         data-testid='header-logo-button'
       >
         <img src={Logo} alt="logo" />
