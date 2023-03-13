@@ -24,6 +24,7 @@ const locator = {
     uploadProfilePicture: '//*[text() = "Upload profile picture"]',
     enterLinkOfTheImage: '//*[text() = "Enter a link of the image"]',
     urlDoesNotContainImageErrorMessage: '//*[text() = "The provided URL does not contain a valid image"]',
+    waitingForMorePlayers: '//*[text() = "Waiting for more players"]',
   },
   chessBoard: {
     board: '#chess-board',
@@ -46,9 +47,9 @@ const locator = {
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
     skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`,
     changeProfilePicture: '//*[text() = "Change profile picture"]',
-    uploadPhoto:'//*[@data-testid = "modal-url-input-confirm-button"]',
-    confirm: '//*[@data-testid = "modal-upload-picture-button"]',
-    uploadAnotherImage: '//*[@data-testid = "modal-go-back-button"]',
+    uploadPhoto:'$modal-url-input-confirm-button',
+    confirm: '$modal-upload-picture-button',
+    uploadAnotherImage: '$modal-go-back-button',
   },
   input: {
     imageLink:'#modal-avatar-input',

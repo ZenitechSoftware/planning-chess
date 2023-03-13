@@ -4,8 +4,7 @@ const { I, login, game } = inject();
 import username = require("../test_data/usernames");
 import imageLink = require("../test_data/imageLinks");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPiece } from "../test_data/chessPieces";
-import { ChessPieceValue } from "../test_data/chessPieces";
+import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
 import assertions = require("../assertions/assertions");
 
 Scenario('Player uploads avatar during login', async () => { 
