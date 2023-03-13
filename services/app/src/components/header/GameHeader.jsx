@@ -16,9 +16,7 @@ const GameHeader = ({ openAvatarModal }) => {
         className='f-1 align-c gap-m header-info'
       >
         <img src={Separator} alt="separator" />
-        <div className='f-1 justify-between'>
-          <CopyBtn />
-        </div>
+        <CopyBtn />
       </div>
 
       <div className='drop-down-menu-placeholder'>

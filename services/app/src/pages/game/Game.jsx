@@ -30,9 +30,9 @@ const Game = () => {
 
   const [showAvatarModal, setShowAvatarModal] = useState(false);
 
-  const connectToWs = useCallback((roomId) => {
+  const connectToWs = useCallback(() => {
     openWsConnection({
-      gameId: roomId ?? gameId,
+      gameId,
       onConnect: (websocket) => {
         websocket.send(buildPlayerConnectedEventMessage(username, userId, role, userAvatar));
       }
