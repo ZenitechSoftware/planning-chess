@@ -19,6 +19,7 @@ export enum MessageType {
   ErrorMessage = 'ErrorMessage',
   ActionMade = 'ActionMade',
   AvatarUpdate = 'AvatarUpdate',
+  UpdateGameState = 'UpdateGameState',
 }
 
 export type SendMessagePayloads = {
@@ -33,6 +34,7 @@ export type SendMessagePayloads = {
   [MessageType.PlayerSuccessfullyJoined]: string;
   [MessageType.ErrorMessage]: string;
   [MessageType.Pong]: void;
+  [MessageType.UpdateGameState]: string;
 };
 
 export interface SendMessage<T extends keyof SendMessagePayloads> {

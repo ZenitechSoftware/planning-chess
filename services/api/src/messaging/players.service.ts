@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Player, PlayerStatus, PlayerRole } from '../domain';
+import { GameState } from '../domain/game';
 import { getPlayerAvatarColor } from '../helpers/player-avatar-color';
 import logger from '../logger';
 import {
@@ -36,6 +37,33 @@ export const findPlayerById = (
   return player;
 };
 
+export const findPlayerByConnection = (ws: GameWebSocket): Player => {
+  const players = gameRoomService.getPlayers(ws.roomId);
+  const player = players.get(ws);
+  if (!player) {
+    throw new Error('player with this ws connection not found');
+  }
+  return player;
+};
+
+export const checkIfLastToVote = (
+  roomId: string,
+  playerId: string,
+): boolean => {
+  const player = findPlayerById(roomId, playerId);
+  const voters = gameService.getVoters(roomId);
+  const votersWhoMadeMoveCount = gameService.getVoterWhoMadeActionCount(roomId);
+  const playerCount = gameRoomService.getPlayers(roomId).size;
+
+  const isOneVoteMissing = playerCount === votersWhoMadeMoveCount + 1;
+  const hasPlayerMoved = player[1].status !== PlayerStatus.ActionNotTaken;
+
+  if (isOneVoteMissing && voters.length > 1 && !hasPlayerMoved) {
+    return true;
+  }
+  return false;
+};
+
 const playerExists = (roomId: string, playerId: string): boolean => {
   try {
     findPlayerById(roomId, playerId);
@@ -55,6 +83,10 @@ const publishFinalBoard = (ws: GameWebSocket): void => {
 };
 
 export const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
+  if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_FINISHED) {
+    return;
+  }
+
   const players = getPlayers(ws.roomId);
   logger.info(`Player ${players.get(ws)?.name} moved a figure.`);
   players.set(ws, {
@@ -68,6 +100,7 @@ export const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   publishAllPlayers(ws.roomId);
   if (gameService.areAllPlayersDone(ws.roomId)) {
     publishFinalBoard(ws);
+    // TODO: send a message that the game is finished
   }
 };
 
@@ -80,6 +113,11 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
 
 export const resetGame = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
+  if (gameService.getVoters.length < 2) {
+    gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
+  } else {
+    gameRoomService.setGameState(ws.roomId, GameState.GAME_IN_PROGRESS);
+  }
   setDefaultStatusForPlayers(ws);
   publishBoard(ws.roomId);
   publishAllPlayers(ws.roomId);
@@ -90,6 +128,9 @@ export const moveSkipped: Handler = (
   { playerId }: MoveSkippedMessage,
 ): void => {
   const players = getPlayers(ws.roomId);
+  if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_FINISHED) {
+    return;
+  }
 
   try {
     const [playerConnection, player] = findPlayerById(ws.roomId, playerId);
@@ -120,6 +161,7 @@ export const moveSkipped: Handler = (
     });
     if (gameService.areAllPlayersDone(ws.roomId)) {
       publishFinalBoard(ws);
+      // TODO: send a message that the game is done
     }
   } catch (err) {
     logger.error(err?.message);
@@ -145,6 +187,8 @@ const createNewPlayer = (params: {
   if (gameService.playerHasPlacedFigure(params.roomId, params.playerId)) {
     newPlayer.status = PlayerStatus.FigurePlaced;
   } else if (gameService.playerHasSkipped(params.roomId, params.playerId)) {
+    newPlayer.status = PlayerStatus.MoveSkipped;
+  } else if (gameRoomService.getGameState(params.roomId) === GameState.GAME_FINISHED) {
     newPlayer.status = PlayerStatus.MoveSkipped;
   }
 
@@ -186,7 +230,14 @@ export const playerConnected: Handler = (
     sendMessage(ws, MessageType.SetMyTurn, myTurn);
   }
 
+  if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_NOT_STARTED) {
+    if (gameService.getVoters(ws.roomId).length > 1) {
+      gameRoomService.setGameState(ws.roomId, GameState.GAME_IN_PROGRESS);
+    }
+  }
+
   publishAllPlayers(ws.roomId);
+  // TODO: send a gameState to FE
 
   if (gameService.areAllPlayersDone(ws.roomId)) {
     publishFinalBoard(ws);
@@ -232,6 +283,36 @@ export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
 
 export const unsubscribe = (ws: GameWebSocket): void => {
   const players = getPlayers(ws.roomId);
+  const playerId = findPlayerByConnection(ws).id;
+
+  if (
+    gameService.getVoters(ws.roomId).length === 2
+    && gameRoomService.getGameState(ws.roomId) !== GameState.GAME_FINISHED
+  ) {
+    gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
+  } else if (checkIfLastToVote(ws.roomId, playerId)) {
+    players.delete(ws);
+    setTimeout(() => {
+      try {
+        const player = findPlayerById(ws.roomId, playerId);
+        if (player) {
+          return;
+        }
+      } catch (err) {
+        logger.error(err?.message);
+        logger.info('Publishing: player disconnected the game.');
+        gameRoomService.setGameState(ws.roomId, GameState.GAME_FINISHED);
+        const allPlayers = Array.from(players.values());
+        publish(ws.roomId, {
+          type: MessageType.PlayerDisconnected,
+          payload: allPlayers,
+        });
+        publishFinalBoard(ws);
+      }
+    }, 2000);
+    return;
+  }
+
   logger.info(`Unsubscribing player ${players.get(ws)?.name}`);
   players.delete(ws);
 

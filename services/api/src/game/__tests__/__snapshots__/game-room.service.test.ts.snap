@@ -2,6 +2,7 @@
 
 exports[`gameRoomService should create new room 1`] = `
 Object {
+  "gameState": "GAME_NOT_STARTED",
   "players": Map {},
   "roomId": "some-short-v4-uuid-0",
   "server": WebSocketServer {
@@ -34,6 +35,7 @@ Object {
 
 exports[`gameRoomService should get existing room 1`] = `
 Object {
+  "gameState": "GAME_NOT_STARTED",
   "players": Map {},
   "roomId": "abcd-1234",
   "server": WebSocketServer {

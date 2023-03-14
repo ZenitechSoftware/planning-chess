@@ -67,7 +67,7 @@ describe('player.service', () => {
     it('should create new id and assign voter role to player on connect', () => {
       const message: ReceivedMessage<MessageType.PlayerConnected> = {
         type: MessageType.PlayerConnected,
-        payload: { playerName: 'player1', id: '', role: null, avatar: null },
+        payload: { playerName: 'player1', id: '', role: null, avatar: undefined },
       };
       const messageSpy = jest.spyOn(playerService, 'subscribe');
       playerService.newMessageReceived(ws, message);

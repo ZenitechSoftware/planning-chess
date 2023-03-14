@@ -1,9 +1,22 @@
 import { PlaceFigureMessage } from '../domain/messages';
+import { GameState } from '../domain/game';
 import { calculateScore } from '../helpers/calculate-score';
 import * as gameRoomService from './game-room.service';
 import logger from '../logger';
 import { Turn, TurnType } from '../domain/game';
-import { PlayerStatus, PlayerRole } from '../domain/player';
+import { PlayerStatus, PlayerRole, Player } from '../domain/player';
+
+export const getVoters = (roomId: string): Player[] => {
+  const players = gameRoomService.getPlayers(roomId);
+  return Array.from(players.values()).filter(
+    (p) => p.role === PlayerRole.Voter,
+  );
+};
+
+export const getVoterWhoMadeActionCount = (roomId: string): number =>
+  getVoters(roomId).filter(
+    (voter) => voter.status !== PlayerStatus.ActionNotTaken,
+  ).length;
 
 export const playerHasMove = (roomId: string, playerId: string): boolean =>
   Boolean(findMoveByPlayerId(roomId, playerId));
@@ -22,10 +35,19 @@ export const playerHasSkipped = (roomId: string, playerId: string): boolean => {
 };
 
 export const areAllPlayersDone = (roomId: string): boolean => {
-  const players = gameRoomService.getPlayers(roomId);
-  return Array.from(players.values())
-    .filter((p) => p.role === PlayerRole.Voter)
-    .every((player) => player.status !== PlayerStatus.ActionNotTaken);
+  const voters = getVoters(roomId);
+  if (voters.length < 2) {
+    return false;
+  }
+
+  const arePlayersDone = voters.every(
+    (player) => player.status !== PlayerStatus.ActionNotTaken,
+  );
+  if (arePlayersDone) {
+    gameRoomService.setGameState(roomId, GameState.GAME_FINISHED);
+  }
+
+  return arePlayersDone;
 };
 
 export const figureMoved = (
