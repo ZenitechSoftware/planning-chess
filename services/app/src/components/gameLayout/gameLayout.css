@@ -6,6 +6,7 @@
 
 .game-layout-main-area,
 .game-layout-side-area {
+  min-height: 630px;
   height: 90vh;
 }
 

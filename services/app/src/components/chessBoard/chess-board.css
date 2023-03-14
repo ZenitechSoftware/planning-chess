@@ -7,7 +7,6 @@ table {
   padding: 16px 16px 8px 8px;
   border: 1px solid var(--dark-border);
   user-select: none;
-  height: min-content;  /* Xz if needed */
   max-width: 580px;
 }
 
@@ -27,12 +26,10 @@ table {
 
 #chess-board .border-tile:hover, .non-border-tile:hover {
   border: 1px solid var(--game-light-purple);
-  inset: 0;
 }
 
 #chess-board .border-tile,
 #chess-board .non-border-tile {
-  height: clamp(56px, 14%, 70px);
   aspect-ratio: 1 / 1;
 }
 
@@ -65,7 +62,7 @@ table {
 
 #chess-board .square {
   position: relative;
-  height: clamp(56px, 6.6vh,70px);
+  height: clamp(59px, 6.6vh,70px);
   aspect-ratio: 1 / 1;
   object-fit: contain;
 }
@@ -93,8 +90,6 @@ table {
 }
 
 #chess-board .square .figure-text {
-  font-size: clamp(14px, 2vh, 16px);
-  line-height: 27px;
   color: var(--primary-text);
 }
 
@@ -103,7 +98,6 @@ table {
 }
 
 #chess-board .square .number {
-  line-height: 16px;
   color: var(--chess-tile-dark);
   position: absolute;
   text-transform: uppercase;
@@ -181,12 +175,10 @@ table {
 }
 
 #chess-board .pop-over .pop-over-title {
-  line-height: 24px;
-  color: var(--primary-text);;
+  color: var(--primary-text);
 }
 
 #chess-board .pop-over .move-info .text {
-  line-height: 26px;
   color: var(--primary-text);
 }
 

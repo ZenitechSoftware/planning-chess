@@ -64,7 +64,7 @@ const Game = () => {
   }, [skipMove, currentPlayer, lastTurn]);
 
   return (
-    <div>
+    <div className='page-layout'>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
       <AvatarUploadModal 
         isOpen={showAvatarModal}
