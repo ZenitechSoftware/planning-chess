@@ -28,6 +28,7 @@ const ChessBoardContextProvider = ({ children }) => {
   const [players, setPlayers] = useState([]);
   const [turns, setTurns] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [gameState, setGameState] = useState(GameState.GAME_NOT_STARTED);
 
   const currentPlayer = useMemo(
     () => players.find((user) => user.id === currentPlayerId),
@@ -73,20 +74,6 @@ const ChessBoardContextProvider = ({ children }) => {
     PlayerStatuses.FigurePlaced,
     PlayerStatuses.MoveSkipped
   ].includes(currentPlayer?.status), [currentPlayer]);
-
-  const gameState = useMemo(() => {
-    const votersWhoDidNotMove = voters
-      .filter(p => p.status === PlayerStatuses.ActionNotTaken);
-    
-    if (voters.length > 1) {
-      if (votersWhoDidNotMove.length === 0) {
-          return GameState.GAME_FINISHED;
-      }
-      return GameState.GAME_IN_PROGRESS;
-    }
-
-    return GameState.GAME_NOT_STARTED;
-  }, [players]);
 
   const votersListWithScores = useMemo(() => {
     if (gameState === GameState.GAME_FINISHED && turns) {
@@ -154,6 +141,10 @@ const ChessBoardContextProvider = ({ children }) => {
   const removeFigureFromBoard = () => {
     chessBoard.clearChessBoard();
   }
+
+  addWsEventListener(MessageType.UpdateGameState, (payload) => {
+    setGameState(payload);
+  });
 
   addWsEventListener(MessageType.PlayerSuccessfullyJoined, (payload) => {
     userContext.setUserId(payload)

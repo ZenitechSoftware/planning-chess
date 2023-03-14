@@ -82,6 +82,13 @@ const publishFinalBoard = (ws: GameWebSocket): void => {
   });
 };
 
+const publishGameState = (ws: GameWebSocket): void => {
+  publish(ws.roomId, {
+    type: MessageType.UpdateGameState,
+    payload: gameRoomService.getGameState(ws.roomId),
+  });
+};
+
 export const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_FINISHED) {
     return;
@@ -99,8 +106,8 @@ export const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
   publish(ws.roomId, { type: MessageType.ActionMade, payload: newBoardState });
   publishAllPlayers(ws.roomId);
   if (gameService.areAllPlayersDone(ws.roomId)) {
+    publishGameState(ws);
     publishFinalBoard(ws);
-    // TODO: send a message that the game is finished
   }
 };
 
@@ -113,11 +120,12 @@ const setDefaultStatusForPlayers = (ws: GameWebSocket): void => {
 
 export const resetGame = (ws: GameWebSocket): void => {
   gameService.clearBoard(ws.roomId);
-  if (gameService.getVoters.length < 2) {
+  if (gameService.getVoters(ws.roomId).length < 2) {
     gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
   } else {
     gameRoomService.setGameState(ws.roomId, GameState.GAME_IN_PROGRESS);
   }
+  publishGameState(ws);
   setDefaultStatusForPlayers(ws);
   publishBoard(ws.roomId);
   publishAllPlayers(ws.roomId);
@@ -160,8 +168,8 @@ export const moveSkipped: Handler = (
       payload: gameRoomService.getTurns(ws.roomId),
     });
     if (gameService.areAllPlayersDone(ws.roomId)) {
+      publishGameState(ws);
       publishFinalBoard(ws);
-      // TODO: send a message that the game is done
     }
   } catch (err) {
     logger.error(err?.message);
@@ -230,14 +238,16 @@ export const playerConnected: Handler = (
     sendMessage(ws, MessageType.SetMyTurn, myTurn);
   }
 
+  sendMessage(ws, MessageType.UpdateGameState, gameRoomService.getGameState(ws.roomId));
+
   if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_NOT_STARTED) {
     if (gameService.getVoters(ws.roomId).length > 1) {
       gameRoomService.setGameState(ws.roomId, GameState.GAME_IN_PROGRESS);
+      publishGameState(ws);
     }
   }
 
   publishAllPlayers(ws.roomId);
-  // TODO: send a gameState to FE
 
   if (gameService.areAllPlayersDone(ws.roomId)) {
     publishFinalBoard(ws);
@@ -290,6 +300,7 @@ export const unsubscribe = (ws: GameWebSocket): void => {
     && gameRoomService.getGameState(ws.roomId) !== GameState.GAME_FINISHED
   ) {
     gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
+    publishGameState(ws);
   } else if (checkIfLastToVote(ws.roomId, playerId)) {
     players.delete(ws);
     setTimeout(() => {
@@ -307,6 +318,7 @@ export const unsubscribe = (ws: GameWebSocket): void => {
           type: MessageType.PlayerDisconnected,
           payload: allPlayers,
         });
+        publishGameState(ws);
         publishFinalBoard(ws);
       }
     }, 2000);
