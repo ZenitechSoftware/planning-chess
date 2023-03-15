@@ -293,35 +293,39 @@ export const subscribe = (ws: GameWebSocket, newPlayer: Player): void => {
 
 export const unsubscribe = (ws: GameWebSocket): void => {
   const players = getPlayers(ws.roomId);
-  const playerId = findPlayerByConnection(ws).id;
+  try {
+    const playerId = findPlayerByConnection(ws).id;
 
-  if (
-    gameService.getVoters(ws.roomId).length === 2
-    && gameRoomService.getGameState(ws.roomId) !== GameState.GAME_FINISHED
-  ) {
-    gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
-    publishGameState(ws);
-  } else if (checkIfLastToVote(ws.roomId, playerId)) {
-    players.delete(ws);
-    setTimeout(() => {
-      try {
-        const player = findPlayerById(ws.roomId, playerId);
-        if (player) {
-          return;
+    if (
+      gameService.getVoters(ws.roomId).length === 2
+      && gameRoomService.getGameState(ws.roomId) !== GameState.GAME_FINISHED
+    ) {
+      gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
+      publishGameState(ws);
+    } else if (checkIfLastToVote(ws.roomId, playerId)) {
+      players.delete(ws);
+      setTimeout(() => {
+        try {
+          const player = findPlayerById(ws.roomId, playerId);
+          if (player) {
+            return;
+          }
+        } catch (err) {
+          logger.error(err?.message);
+          logger.info('Publishing: player disconnected the game.');
+          gameRoomService.setGameState(ws.roomId, GameState.GAME_FINISHED);
+          const allPlayers = Array.from(players.values());
+          publish(ws.roomId, {
+            type: MessageType.PlayerDisconnected,
+            payload: allPlayers,
+          });
+          publishGameState(ws);
+          publishFinalBoard(ws);
         }
-      } catch (err) {
-        logger.error(err?.message);
-        logger.info('Publishing: player disconnected the game.');
-        gameRoomService.setGameState(ws.roomId, GameState.GAME_FINISHED);
-        const allPlayers = Array.from(players.values());
-        publish(ws.roomId, {
-          type: MessageType.PlayerDisconnected,
-          payload: allPlayers,
-        });
-        publishGameState(ws);
-        publishFinalBoard(ws);
-      }
-    }, 2000);
+      }, 2000);
+      return;
+    }
+  } catch {
     return;
   }
 
