@@ -90,7 +90,7 @@ const publishGameState = (ws: GameWebSocket): void => {
 };
 
 export const figureMoved: Handler = (ws, payload: PlaceFigureMessage): void => {
-  if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_FINISHED) {
+  if (gameRoomService.getGameState(ws.roomId) !== GameState.GAME_IN_PROGRESS) {
     return;
   }
 
@@ -136,7 +136,7 @@ export const moveSkipped: Handler = (
   { playerId }: MoveSkippedMessage,
 ): void => {
   const players = getPlayers(ws.roomId);
-  if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_FINISHED) {
+  if (gameRoomService.getGameState(ws.roomId) !== GameState.GAME_IN_PROGRESS) {
     return;
   }
 
@@ -196,7 +196,9 @@ const createNewPlayer = (params: {
     newPlayer.status = PlayerStatus.FigurePlaced;
   } else if (gameService.playerHasSkipped(params.roomId, params.playerId)) {
     newPlayer.status = PlayerStatus.MoveSkipped;
-  } else if (gameRoomService.getGameState(params.roomId) === GameState.GAME_FINISHED) {
+  } else if (
+    gameRoomService.getGameState(params.roomId) === GameState.GAME_FINISHED
+  ) {
     newPlayer.status = PlayerStatus.MoveSkipped;
   }
 
@@ -238,7 +240,11 @@ export const playerConnected: Handler = (
     sendMessage(ws, MessageType.SetMyTurn, myTurn);
   }
 
-  sendMessage(ws, MessageType.UpdateGameState, gameRoomService.getGameState(ws.roomId));
+  sendMessage(
+    ws,
+    MessageType.UpdateGameState,
+    gameRoomService.getGameState(ws.roomId),
+  );
 
   if (gameRoomService.getGameState(ws.roomId) === GameState.GAME_NOT_STARTED) {
     if (gameService.getVoters(ws.roomId).length > 1) {
@@ -297,8 +303,8 @@ export const unsubscribe = (ws: GameWebSocket): void => {
     const playerId = findPlayerByConnection(ws).id;
 
     if (
-      gameService.getVoters(ws.roomId).length === 2
-      && gameRoomService.getGameState(ws.roomId) !== GameState.GAME_FINISHED
+      gameService.getVoters(ws.roomId).length === 2 &&
+      gameRoomService.getGameState(ws.roomId) !== GameState.GAME_FINISHED
     ) {
       gameRoomService.setGameState(ws.roomId, GameState.GAME_NOT_STARTED);
       publishGameState(ws);
