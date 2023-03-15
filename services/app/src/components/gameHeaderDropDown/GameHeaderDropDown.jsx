@@ -36,6 +36,7 @@ const GameHeaderDropDown = ({ openAvatarModal }) => {
     {
       label: 'Change profile picture',
       onClick: onOpenAvatarModal,
+      id: 'dropdown-change-avatar',
       key: 0,
     },
     {
@@ -44,6 +45,7 @@ const GameHeaderDropDown = ({ openAvatarModal }) => {
           New room
         </a>
       ),
+      id: 'dropdown-create-new-room',
       key: 1,
     }
   ];
