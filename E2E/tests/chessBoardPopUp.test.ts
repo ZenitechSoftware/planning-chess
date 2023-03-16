@@ -12,15 +12,15 @@ Scenario('Chessboard pop-up shows individual vote information', async () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
   });
   game.voteAndCheckThatVoteIsVisible(ChessPiece.king, ChessTile.f6, ChessPieceValue.king);
-  await game.openPopUp();
-  game.checkElementsInThePopUp(username.user1);
-  const individualScoreInThePopUp = await game.extractNumbers(await I.grabTextFrom(game.locator.chessBoardPopUp.score));
+  await game.openPopUp(0,6);
+  game.checkElementsInThePopUp(username.user1);  
+  const individualScoreInThePopUp = await I.grabNumberFrom(game.locator.chessBoardPopUp.score);
   const individualScoreInPlayersList = await I.grabTextFrom(game.locator.playersList.playerIndividualSP(username.user1));
   I.assertEqual(individualScoreInThePopUp, Number(individualScoreInPlayersList));
   session(username.user2, async () => {
     game.voteAndCheckThatVoteIsVisible(ChessPiece.pawn, ChessTile.b3, ChessPieceValue.pawn);
     game.voteIsVisible(ChessPiece.king, ChessTile.f6, ChessPieceValue.king); 
-    await game.openPopUp();
+    await game.openPopUp(0,6);
     game.checkElementsInThePopUp(username.user1);
   });
 });

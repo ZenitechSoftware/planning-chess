@@ -48,7 +48,7 @@ const locator = {
     chessPiece: '//*[@class="pop-up-figure-icon margin-r-xs"]',
     avatar: '//*[contains(@class, "pop-over")]//*[contains(@class, "ant-avatar-circle")]',
     player:(username:string) => `//*[contains(@class, "pop-over")]//*[contains(text(), "${username}")]`,
-    score:'//*[contains(@class, "pop-over")]//*[@class = "score"]',
+    score:'//*[contains(@class, "pop-over")]//*[@class = "score"]//span',
   },
 };
 
@@ -120,9 +120,9 @@ export = {
     game.voteIsVisible(chessPiece, tile, value);
   },
 
-  async openPopUp () {
+  async openPopUp (row: number, column: number) {
     I.usePlaywrightTo('open pop-up', async ({ page }) => {
-      await page.evaluate("document.querySelector(`div[data-testid = 'chess-tile-0-6'] > div.pop-over`).classList.add('pop-over-opened')");
+      await page.evaluate(`document.querySelector('div[data-testid = "chess-tile-${row}-${column}"] > div.pop-over').classList.add("pop-over-opened")`);
     });
   },
 
@@ -135,8 +135,4 @@ export = {
     I.seeElement(game.locator.chessBoardPopUp.score);
   },
 
-  extractNumbers: async (string: string) => {
-    const regexp = /[0-9]./;
-    return Number(string.match(regexp)[0]);
-  },
 };

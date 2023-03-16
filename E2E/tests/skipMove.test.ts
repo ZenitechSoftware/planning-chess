@@ -5,11 +5,7 @@ import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
 import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
 import assertions = require("../assertions/assertions");
-
-const transparentGreyColor = 'rgba(183, 192, 216, 0.44)';
-const greyColor = 'rgb(102, 102, 102)';
-const orangeColor = 'rgb(158, 107, 17)';
-const whiteColor = 'rgb(255, 255, 255)';
+import { color } from "../test_data/colors";
 
 Scenario('Player skips move after placing selected figure on board ', async () => {
     login.firstVoterLogin(username.user1);
@@ -129,11 +125,11 @@ Scenario('Skip badge in players list changes its color from grey to orange', asy
         login.voterLoginIntoCreatedGameRoom(url, username.user2);
     });
     game.skipMove();
-    await assertions.checkSkippedBadgeColors(username.user1, transparentGreyColor, greyColor);
+    await assertions.checkSkippedBadgeColors(username.user1, color.transparentGrey, color.grey);
     session(username.user2,async () => {
         I.seeElement(game.locator.playersList.playerSkippedIcon(username.user1));
         game.vote(ChessPiece.pawn, ChessTile.a1);
-        await assertions.checkSkippedBadgeColors(username.user1, orangeColor, whiteColor);
+        await assertions.checkSkippedBadgeColors(username.user1, color.orange, color.white);
     });
-    await assertions.checkSkippedBadgeColors(username.user1, orangeColor, whiteColor);
+    await assertions.checkSkippedBadgeColors(username.user1, color.orange, color.white);
 });

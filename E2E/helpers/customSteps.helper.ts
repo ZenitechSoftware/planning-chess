@@ -11,6 +11,13 @@ class CustomHelper extends Helper {
     await Playwright.fillField(locator, value);
   }
 
+  async grabNumberFrom(string: string) {
+    const { Playwright } = this.helpers;
+    string = await Playwright.grabTextFrom(string);
+    const regexp = /[0-9]+/;
+    return Number(string.match(regexp)[0]);  
+  }
+
 }
 
 export = CustomHelper;
