@@ -1,9 +1,9 @@
-import copyLinkAssert = require("../assertions/assertions");
-import username = require("../test_data/usernames");
-
 Feature('Copy link');
 
 const { I, login, game } = inject();
+
+import assertions = require("../assertions/assertions");
+import username = require("../test_data/usernames");
 
 Before(() => {
   I.amOnPage('/');
@@ -24,5 +24,5 @@ Scenario('Check if the link in the clipboard was copied correctly', async () => 
   const currentUrl = await I.grabCurrentUrl();
   I.waitForElement(game.locator.buttons.copyLink);
   I.click(game.locator.buttons.copyLink); 
-  await copyLinkAssert.checkIfTheLinkWasCopied(currentUrl);
+  await assertions.checkIfTheLinkWasCopied(currentUrl);
 });
