@@ -13,17 +13,17 @@ const GameHeader = ({ openAvatarModal }) => {
   return (
     <Header>
       <div 
-        className='f-row align-c gap-m header-info'
+        className='f-1 align-c gap-m header-info'
       >
         <img src={Separator} alt="separator" />
         <CopyBtn />
       </div>
 
-      {currentPlayer && (
-        <div className='f-1 justify-end align-c gap-s'>
+      <div className='drop-down-menu-placeholder'>
+        {currentPlayer && ( 
           <GameHeaderDropDown openAvatarModal={openAvatarModal} />
-        </div>
-      )}
+        )}
+      </div>
     </Header>
     
   );

@@ -8,6 +8,7 @@
 .justify-c { justify-content: center }
 .justify-end { justify-content: flex-end }
 .justify-start { justify-content: flex-start }
+.justify-between { justify-content: space-between }
 .justify-stretch { justify-content: stretch }
 
 .f-1 {
