@@ -14,3 +14,16 @@
 .select-none {
   user-select: none;
 }
+
+.decorate-none {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.decorate-none:visited {
+  text-decoration: none;
+}
+
+.decorate-none:hover {
+  color: var(--white);
+}
