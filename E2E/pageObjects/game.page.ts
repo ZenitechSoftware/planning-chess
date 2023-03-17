@@ -143,9 +143,9 @@ export = {
     game.voteIsVisible(chessPiece, tile, value);
   },
 
-  async openPopUp (row: number, column: number) {
+  async openPopUp (chessTile: string) {
     I.usePlaywrightTo('open pop-up', async ({ page }) => {
-      await page.evaluate(`document.querySelector('div[data-testid = "chess-tile-${row}-${column}"] > div.pop-over').classList.add("pop-over-opened")`);
+      await page.evaluate(`document.querySelector('div[data-testid = "chess-tile-${chessTile}"] > div.pop-over').classList.add("pop-over-opened")`);
     });
   },
 
@@ -157,7 +157,7 @@ export = {
     I.seeElement(game.locator.chessBoardPopUp.player(username));
     I.seeElement(game.locator.chessBoardPopUp.score);
   },
-  
+
   navigateBackAndForward: () => {
     I.executeScript("window.history.back();");
     I.waitForInvisible(game.locator.chessBoard.board);

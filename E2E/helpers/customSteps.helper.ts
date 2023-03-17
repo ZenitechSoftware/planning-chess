@@ -14,8 +14,8 @@ class CustomHelper extends Helper {
   async grabNumberFrom(string: string) {
     const { Playwright } = this.helpers;
     string = await Playwright.grabTextFrom(string);
-    const regexp = /[0-9]+/;
-    return Number(string.match(regexp)[0]);  
+    const regexp = /[0-9]+/g;
+    return string.match(regexp);  
   }
 
 }
