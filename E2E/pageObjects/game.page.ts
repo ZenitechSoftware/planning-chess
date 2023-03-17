@@ -26,7 +26,7 @@ const locator = {
     board: '#chess-board',
     chessTile: (tile: string) => `$chess-tile-${tile}`,
     chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
-    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
+    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
     pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
   },
   chessPieces: {

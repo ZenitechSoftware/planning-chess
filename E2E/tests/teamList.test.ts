@@ -33,7 +33,7 @@ Scenario('Players who skipped their moves are at the bottom of the list', async 
             username.user1,
         ];
         expectedUserOrder.forEach((username, index) => {
-            I.see(`${username}`, game.locator.playersList.playerUsernameByIndex(index+=1));
+            I.see(`${username}`, game.locator.playersList.playerUsernameByIndex(index + 1));
         })
     });
 });
@@ -77,7 +77,7 @@ Scenario('Players are listed based on individual final score in descending order
         username.user1,
     ];
     expectedUserOrder.forEach((username, index) => {
-        I.see(`${username}`, game.locator.playersList.playerUsernameByIndex(index+=1));
+        I.see(`${username}`, game.locator.playersList.playerUsernameByIndex(index + 1));
     })
 });
 
