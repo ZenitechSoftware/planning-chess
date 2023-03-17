@@ -60,13 +60,13 @@ Scenario('Player leaves and returns back to game room, after game is completed',
   });
   game.voteAndCheckThatVoteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
   I.waitForText('Game complete');
-  const actualFinalScoreBeforeNavigating = await game.finalScore(await I.grabTextFrom(game.locator.playersList.totalSP));
+  const actualFinalScoreBeforeNavigating = await I.grabNumberFrom(game.locator.playersList.totalSP);
   game.navigateBackAndForward();
   I.waitForText('Game complete');
   game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
-  const actualFinalScoreAfterNavigating = await game.finalScore(await I.grabTextFrom(game.locator.playersList.totalSP)); 
-  I.assertEqual(actualFinalScoreBeforeNavigating, actualFinalScoreAfterNavigating);
+  const actualFinalScoreAfterNavigating = await I.grabNumberFrom(game.locator.playersList.totalSP); 
+  I.assertEqual(Number(actualFinalScoreBeforeNavigating), Number(actualFinalScoreAfterNavigating));
 });
 
 Scenario('Player refreshes browser when he already finished move', async () => {

@@ -2,3 +2,28 @@
 .border-r-4 { border-radius: 4px }
 .border-r-12 { border-radius: 12px }
 .border-r-20 { border-radius: 20px }
+
+.error-message {
+  color: var(--error);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.select-none {
+  user-select: none;
+}
+
+.decorate-none {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.decorate-none:visited {
+  text-decoration: none;
+}
+
+.decorate-none:hover {
+  color: var(--white);
+}

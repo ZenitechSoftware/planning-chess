@@ -16,14 +16,8 @@
   user-select: none;
 }
 
-.avatar {
-  height: 40px;
-  width: 40px;
-  border-radius: 30px; /* or 50% */
-  background-color: #ecf0f7;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  user-select: none;
+.drop-down-menu-placeholder {
+  min-width: 135px;
 }
 
 #username {

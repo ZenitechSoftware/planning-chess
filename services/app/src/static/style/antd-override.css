@@ -1,7 +1,32 @@
+/*Tooltips*/
 .ant-tooltip .ant-tooltip-inner {
   text-align: center;
 }
 
 .tooltip-arrow-hidden .ant-tooltip-arrow {
   display: none;
+}
+
+/*Dropdown*/
+.ant-dropdown-menu-item button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-text);
+  padding: 10px;
+}
+
+/*Avatar Group*/
+.ant-popover.ant-avatar-group-popover {
+  display: none;
+}
+
+/*Modal*/
+.ant-modal-header .ant-modal-title {
+  font-size: 24px;
+}
+
+/*Buttons*/
+.ant-btn.ant-btn-primary.primary-btn:disabled {
+  background-color: var(--primary-disabled);
 }

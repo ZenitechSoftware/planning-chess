@@ -30,3 +30,5 @@ export const playerWithScorePropType = PropTypes.shape({
   role: PropTypes.oneOf(Object.values(PlayerRoles)),
   score: PropTypes.number,
 });
+
+export const avatarSizePropType = PropTypes.oneOf(['xs', 's', 'm', 'l']);

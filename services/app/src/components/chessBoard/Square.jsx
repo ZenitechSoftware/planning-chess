@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Avatar } from 'antd';
 import { PIECES } from '../../constants/board';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
-import { rgbToColor } from '../../helpers/rgbToColor';
+import UserAvatar from '../avatar/UserAvatar';
 import { squareItemPropType } from '../../prop-types/chessboard';
 import SquarePopUp from './SquarePopUp';
 
@@ -15,46 +16,17 @@ const Square = ({
   column,
   filled
 }) => {
-  const { board, findUserById, players } = useChessBoardContext();
+  const { board } = useChessBoardContext();
   const [showPopover, setShowPopover] = useState(false);
   const filteredFigures = items.filter((item, index, self) => index === self.findIndex((val) => val.img === item.img));
 
-  const playerAvatarColor = (id) => {
-    const player = findUserById(id);
-    if(!player) return {};
-    return {
-      color: rgbToColor(player.color.text),
-      backgroundColor: rgbToColor(player.color.background),
-    }
-  }
+  const avatarSize = items.length > 1
+    ? 'xs'
+    : 's';
 
-  const renderBubble = useCallback((item, key) => {
-    if (key < 2) {
-      return (
-        <div
-          style={
-            playerAvatarColor(item.playerId)
-          }
-          key={`bubble-${key}`}
-          className={classNames({
-            "bubble align-c": true,
-            "multiple-bubbles": items.length !== 1,
-            "nth-bubble": key !== 0
-          })}
-        >
-          <span className="name">{item.player[0]}</span>
-        </div>
-      )
-    }
-    if (key === 2) {
-      return (
-        <div key={`bubble-${key}`} className="bubble align-c nth-bubble multiple-bubbles">
-          <span className="name">{`+${items.length - 2}`}</span>
-        </div>
-      )
-    }
-    return null;
-  }, [items, players]);
+  const maxAvatarCount = items.length <= 3
+    ? 3
+    : 2;
 
   const updatePopover = bool => {
     if (items.length && bool || !bool) {
@@ -71,7 +43,27 @@ const Square = ({
     >
       {!!items.length && <span className={classNames(["number", "number-row", filled && "number-filled"])}>{board[row][0].attribute}</span>}
       <div className="bubble-container">
-        {items.map(renderBubble)}
+        <Avatar.Group
+          maxCount={maxAvatarCount}
+          maxStyle={{
+            color: 'var(--primary)',
+            border: '1px solid var(--primary)',
+            backgroundColor: 'var(--background)',
+            fontFamily: 'Poppins',
+          }}
+          overlayClassName='hide-group-popover'
+          size={24}
+        >
+          {items.map((item, index) => (
+            <UserAvatar 
+              size={avatarSize} 
+              playerId={item.playerId} 
+              key={`bubble-${index}`}
+              playerInitials={item.player[0]}
+              bordered
+            />
+          ))}
+        </Avatar.Group>
       </div>
       <div className={classNames({"figure-container": items.length, "figure-container-centered": filteredFigures.length > 1})}>
         {filteredFigures.map((item, key) => key < 2 && (

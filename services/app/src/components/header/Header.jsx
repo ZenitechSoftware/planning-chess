@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { ROUTES } from '../../pages/routes';
 import Logo from "../../static/svg/PlanningChessLogo.svg";
 import './header.css';
-import { useWsContext } from '../../contexts/ws-context';
+import { useWsContext } from '../../contexts/WsContext';
 
 
 const Header = ({ children }) => {
@@ -24,6 +24,7 @@ const Header = ({ children }) => {
         type='button'
         onClick={clickHandler}
         className='logo-btn margin-r-m'
+        data-testid='header-logo-button'
       >
         <img src={Logo} alt="logo" />
       </button>

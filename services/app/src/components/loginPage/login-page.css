@@ -1,10 +1,11 @@
 /*LoginForm.jsx*/
 .login-form {
     width: 40%;
-    height: 40vh;
     background-color: var(--white);
     border: 1px solid var(--dark-border);
     padding: 3em 4em;
+    min-height: 40vh;
+    height: max-content;
 }
 
 .form-text {
@@ -23,23 +24,22 @@
     display: flex;
     border: 1px solid black;
     box-sizing: border-box;
+    margin-top: -4px;
 }
 
-#username-input {
+#username-input,
+#profile-pic-input {
     border: none;
     width: 100%;
 }
 
-#username-input:focus {
+#username-input:focus,
+#profile-pic-input:focus {
     outline: none;
 }
 
 .enter-game-btn {
-    background-color: var(--primary);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
-    width: 75%;
+    width: 100%;
 }
 
 .enter-game-btn:disabled {
@@ -49,4 +49,14 @@
 
 .login-input {
     height: 48px;
+}
+
+.login-input-logo {
+  width: 16px;
+  height: 34px;
+}
+
+.login-input-log:last-of-type {
+  height: 500px;
+  width: 500px;
 }

@@ -1,42 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
-import { rgbToColor } from '../../helpers/rgbToColor';
 import './header.css';
 import Separator from "../../static/svg/SolidSeparator.svg";
 import CopyBtn from './CopyBtn';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
+import GameHeaderDropDown from '../gameHeaderDropDown/GameHeaderDropDown';
 
-const GameHeader = () => {
+const GameHeader = ({ openAvatarModal }) => {
   const { currentPlayer } = useChessBoardContext();
-
-  const avatarLetter = currentPlayer?.name[0];
 
   return (
     <Header>
       <div 
-        className='f-row align-c gap-m header-info'
+        className='f-1 align-c gap-m header-info'
       >
         <img src={Separator} alt="separator" />
         <CopyBtn />
       </div>
-  
-      {currentPlayer && (
-        <div className="f-1 justify-end align-c gap-s">
-          <span
-            className="f-center avatar font-size-m weight-500"
-            style={{
-              color: rgbToColor(currentPlayer.color.text),
-              backgroundColor: rgbToColor(currentPlayer.color.background),
-            }}
-          >
-            {avatarLetter}
-          </span>
-          <span id="username">{currentPlayer.name}</span>
-        </div>
-      )}
+
+      <div className='drop-down-menu-placeholder'>
+        {currentPlayer && ( 
+          <GameHeaderDropDown openAvatarModal={openAvatarModal} />
+        )}
+      </div>
     </Header>
     
   );
+};
+
+GameHeader.propTypes = {
+  openAvatarModal: PropTypes.func.isRequired,
 };
 
 export default GameHeader;
