@@ -2,7 +2,7 @@ Feature('SP counting')
 
 const { I, login, game } = inject();
 import username = require("../test_data/usernames");
-import { ChessPiece } from "../test_data/chessPieces";
+import { ChessPiece, ChessPieceValue, ChessBoardNumbersValue, ChessBoardLettersValue } from "../test_data/chessPieces";
 import ChessTile = require("../test_data/chessTiles");
 import assertions = require("../assertions/assertions");
 
@@ -14,11 +14,11 @@ Scenario('Individual final SP is rounded to closest value', async () => {
       game.vote(ChessPiece.queen, ChessTile.f5);
     });
     game.vote(ChessPiece.bishop, ChessTile.d3);
-    const expectedFirstPlayerScore = game.expectedPlayerScore("bishop", "d", 3);
-    const actualFirstPlayerSP = await game.getActualPlayerScore(2);
+    const expectedFirstPlayerScore = game.expectedPlayerScore(ChessPieceValue.bishop, ChessBoardLettersValue.d, ChessBoardNumbersValue[3]);
+    const actualFirstPlayerSP = await game.getActualPlayerScore(username.user1);
     await I.assertEqual(actualFirstPlayerSP, expectedFirstPlayerScore);
-    const expectedSecondPlayerScore = game.expectedPlayerScore("queen", "f", 5);
-    const actualSecondPlayerSP = await game.getActualPlayerScore(1);
+    const expectedSecondPlayerScore = game.expectedPlayerScore(ChessPieceValue.queen, ChessBoardLettersValue.f, ChessBoardNumbersValue[5]);
+    const actualSecondPlayerSP = await game.getActualPlayerScore(username.user2);
     await I.assertEqual(actualSecondPlayerSP, expectedSecondPlayerScore);
 });
 

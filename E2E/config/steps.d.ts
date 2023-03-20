@@ -5,7 +5,6 @@ type game = typeof import('../pageObjects/game.page');
 type roles = typeof import('../pageObjects/roleSelection.page');
 type ChaiWrapper = import('codeceptjs-chai');
 
-
 type CustomHelper = import('../helpers/customSteps.helper');
 
 declare namespace CodeceptJS {

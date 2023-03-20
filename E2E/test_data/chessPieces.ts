@@ -7,11 +7,29 @@ export enum ChessPiece {
     queen = 'queen',
   }
   
-  export const ChessPieceValue: Record<ChessPiece, string> = {
-    [ChessPiece.pawn]: '1SP',
-    [ChessPiece.knight]: '2SP',
-    [ChessPiece.bishop]: '3SP',
-    [ChessPiece.rook]: '5SP',
-    [ChessPiece.king]: '8SP',
-    [ChessPiece.queen]: '13SP'
+  export const ChessPieceValue: Record<ChessPiece, number> = {
+    [ChessPiece.pawn]: 1,
+    [ChessPiece.knight]: 2,
+    [ChessPiece.bishop]: 3,
+    [ChessPiece.rook]: 5,
+    [ChessPiece.king]: 8,
+    [ChessPiece.queen]: 13
   }
+
+  export const ChessBoardNumbersValue = {
+    1 : 1,
+    2 : 2,
+    3 : 3,
+    4 : 5,
+    5 : 8,
+    6 : 13
+ }
+ 
+ export const ChessBoardLettersValue = {
+    a : 1,
+    b : 2,
+    c : 3,
+    d : 5,
+    e : 8,
+    f : 13
+ }

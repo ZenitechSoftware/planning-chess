@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import Game from '../../../../pages/game/Game';
 import ChessGameProvider from '../../../../contexts/ChessBoardContext';
 import UserContextProvider from '../../../../contexts/UserContext';
-import WebSocketsContextProvider from '../../../../contexts/ws-context';
+import WebSocketsContextProvider from '../../../../contexts/WsContext';
 
 describe('Game', () => {
   test('test Game page elements', () => {

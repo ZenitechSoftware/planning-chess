@@ -8,8 +8,14 @@ const locator = {
     secondUserInList: '//*[contains(@data-testid, "1")]/div[@class="team-list-item-name"]',
     playerUsernameByIndex: (rowNumberInList: number) => locate('//*[@class="team-list-item-name"]').at(rowNumberInList),
     spectatorIcon: '//*[@class="team-list-item-avatar spectator-avatar f-center"]//img[@alt="spectator icon"]',
+    playerDefaultIcon:(username:string) => `//*[contains(@data-testid, '${username}')]//*[contains(@class, 'ant-avatar-circle')]//span['#username']`,
+    avatarImageInThePlayersList: (username: string) => `//*[contains(@data-testid, '${username}')]//img[@alt='profile pic']`,
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
+    playerSkippedBadge: (username: string) => `//*[contains(@data-testid, '${username}')]/*[text()='Skipped']`,
+    voterScoreIcon: (username: string) =>`//*[contains(@data-testid, '${username}')]/*[contains(@class, 'team-list-voter-score')]`,
+    playersSkippedCount: '$players-skipped-count',
+    playersDoneCount: '$players-done-count',
     totalSP: '//*[text() = "Game complete - "]',
     playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
     playerCount:(playersNumber: number) =>`//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
@@ -18,14 +24,19 @@ const locator = {
     username: '#username',
     linkCopiedToClipboard: '//*[text() = "Link copied to clipboard"]',
     youHaveAnotherActiveSession:'//*[text() = "You have another active session"]',
-    skipMoveTooltip: '//*[text() = "Mark my move as complete, without any story points"]'
+    skipMoveTooltip: '//*[text() = "Mark my move as complete, without any story points"]',
+    uploadProfilePicture: '//*[text() = "Upload profile picture"]',
+    enterLinkOfTheImage: '//*[text() = "Enter a link of the image"]',
+    urlDoesNotContainImageErrorMessage: '//*[text() = "The provided URL does not contain a valid image"]',
+    waitingForMorePlayers: '//*[text() = "Waiting for more players"]',
   },
   chessBoard: {
     board: '#chess-board',
     chessTile: (tile: string) => `$chess-tile-${tile}`,
     chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
-    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']/div[@class='bubble-container']//span[@class='name']`,
-    pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
+    avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
+    avatarPictureOnBoard:(tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
+    pointsOnBoard: (tile: string, value: number) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}SP')]`,
   },
   chessPieces: {
     container: '#chess-pieces-container',
@@ -38,7 +49,23 @@ const locator = {
     restartGame: '//button/span[contains(text(), "Restart game")]',
     skip: '$skip-piece-btn', 
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
-    skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`, 
+    skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`,
+    changeProfilePicture: '//*[text() = "Change profile picture"]',
+    uploadPhoto:'$modal-url-input-confirm-button',
+    confirm: '$modal-upload-picture-button',
+    uploadAnotherImage: '$modal-go-back-button',
+  },
+  input: {
+    imageLink:'#modal-avatar-input',
+  },
+  popUp: {
+    uploadProfilePicture:'//*[@class="ant-modal-content"]',
+    avatarPictureInThePopUp: '//*[contains(@class, "ant-modal-content")]//*[contains(@class, "ant-avatar-circle")]//img[@alt="profile pic"]',
+    avatarDefaultPicture: '//*[contains(@class, "avatar-modal-second-step")]//*[contains(@class, "ant-avatar-circle")]//span["#username"]', 
+  },
+  header: {
+    playerDefaultAvatarPicture: '//*[contains(@data-testid, "game-header-dropdown-button")]//*[contains(@class, "ant-avatar-circle")]//span["#username"]',
+    avatarProfilePictureHeader: '//*[contains(@data-testid, "game-header-dropdown-button")]//img[@alt="profile pic"]',
   },
 };
 
@@ -71,13 +98,13 @@ export = {
     I.click(locator.chessBoard.chessTile(tile));
   },
 
-  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
+  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
 
-  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
+  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     I.dontSeeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
@@ -109,9 +136,40 @@ export = {
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
 
-  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value:string) => {
+  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
+  },
+
+  navigateBackAndForward: () => {
+    I.executeScript("window.history.back();");
+    I.waitForInvisible(game.locator.chessBoard.board);
+    I.executeScript("window.history.forward();");
+  },
+  
+  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string, value: number) => {
+    I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
+    I.seeElement(locator.chessBoard.avatarPictureOnBoard(tile));
+    I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
+  },
+
+  uploadAvatarPhoto: (imageLink: string) => {
+    I.click(locator.text.username);
+    I.waitForElement(locator.buttons.changeProfilePicture);
+    I.click(locator.buttons.changeProfilePicture);
+    I.waitForElement(locator.text.uploadProfilePicture);
+    I.seeElement(locator.text.enterLinkOfTheImage);
+    I.fillField(locator.input.imageLink, imageLink);
+    I.click(locator.buttons.uploadPhoto);
+  },
+
+  confirmAvatarPhotoWhenImageLinkIsValid: async (imageLink: string) => {
+    const profileImageInThePopUp = await I.grabAttributeFrom(locator.popUp.avatarPictureInThePopUp, 'src');
+    I.assertEqual(profileImageInThePopUp, imageLink);
+    I.seeElement(locator.buttons.confirm);
+    I.seeElement(locator.buttons.uploadAnotherImage);
+    I.click(locator.buttons.confirm);
+    I.waitForInvisible(locator.popUp.uploadProfilePicture);
   },
 
   getExpectedPlayerSP:(averageScore) => {
@@ -124,26 +182,19 @@ export = {
     return expectedSP;
   },
 
-  calculateAverage:(piece: string, letter: string, number: number) => {
-    let piecesScore = {pawn:1, knight:2, bishop:3, rook:5, king:8, queen:13};
-    let letters = {a:1, b:2, c:3, d:5, e:8, f:13};
-    let numbers = {1:1, 2:2, 3:3, 4:5, 5:8, 6:13};
-    return (piecesScore[piece] + letters[letter] + numbers[number])/3;
+  calculateAverage: (pieceSP: number, letterSP: number, numberSP: number) => {
+    let score = (pieceSP + letterSP + numberSP) / 3;
+    return score;
   },
 
-  finalScore: async (string: string) => {
-    const regexp = /[0-9]./;
-    return Number(string.match(regexp)[0]);
-  },
-
-  expectedPlayerScore: ( piece: string, letter: string, number: number) => {
-    const averageScore = game.calculateAverage(piece, letter, number);
+  expectedPlayerScore: ( pieceSP: number, letterSP: number, numberSP: number) => {
+    const averageScore = game.calculateAverage(pieceSP, letterSP, numberSP);
     const expectedSP = game.getExpectedPlayerSP(averageScore); 
     return expectedSP;
   },
 
-  getActualPlayerScore: async (player: number) => {
-    const playerScoreToNumber = Number(await I.grabTextFrom(game.locator.playersList.playerIndividualSP(player)));
+  getActualPlayerScore: async (username: string) => {
+    const playerScoreToNumber = Number(await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username)));
     return playerScoreToNumber;
   },
 };
