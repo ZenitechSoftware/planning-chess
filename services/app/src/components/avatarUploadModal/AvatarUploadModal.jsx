@@ -6,7 +6,7 @@ import AvatarModalForm from './AvatarModalForm';
 import AvatarModalComplete from './AvatarModalComplete';
 import { useUserContext } from '../../contexts/UserContext';
 import { buildPlayerAvatarUpdateMessage } from '../../api/playerApi';
-import { useWsContext } from '../../contexts/ws-context';
+import { useWsContext } from '../../contexts/WsContext';
 
 const AvatarUploadModal = ({ isOpen, onClose }) => {
   const { ws } = useWsContext();

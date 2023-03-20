@@ -8,7 +8,7 @@ const Footer = () => (
     </p>
     <a 
       href="https://zenitech.co.uk" 
-      className='zenitech-link padding-r-xxl' 
+      className='decorate-none padding-r-xxl' 
       target="_blank" 
       rel="noreferrer"
     >
