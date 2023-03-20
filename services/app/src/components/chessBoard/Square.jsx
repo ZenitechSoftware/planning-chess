@@ -82,7 +82,7 @@ const Square = ({
           </Avatar.Group>
         </div>
 
-        <div className='square-move-text f-center'>
+        <div className='square-move-text f-row justify-c font-size-xs'>
           {turnToShow && (
             <div>
               <img 

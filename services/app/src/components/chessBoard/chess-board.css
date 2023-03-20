@@ -86,7 +86,7 @@ table {
 }
 
 #chess-board .square .figure-img {
-  height: 20px;
+  height: 15px;
 }
 
 #chess-board .square .figure-text {
