@@ -8,6 +8,7 @@
 
 .piece-field {
   width: clamp(56px, 6vh, 70px);
+  aspect-ratio: 1 / 2;
   flex-direction: column;
   border: 2px solid transparent;
   cursor: pointer;
@@ -29,7 +30,7 @@
 }
 
 .figure-img {
-  height: clamp(30px , 3.5vh, 35px);
+  height: 35%;
 }
 
 .figure-title {
