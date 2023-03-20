@@ -2,7 +2,8 @@ Feature('SP counting')
 
 const { I, login, game } = inject();
 import username = require("../test_data/usernames");
-import { ChessPiece, ChessPieceValue, ChessBoardNumbersValue, ChessBoardLettersValue } from "../test_data/chessPieces";
+import { ChessPiece, ChessPieceValue} from "../test_data/chessPieces";
+import { ChessBoardNumbersValue, ChessBoardLettersValue } from "../test_data/chessBoardGridValues";
 import ChessTile = require("../test_data/chessTiles");
 import assertions = require("../assertions/assertions");
 
