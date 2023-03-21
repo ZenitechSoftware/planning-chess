@@ -12,6 +12,8 @@ const locator = {
     avatarImageInThePlayersList: (username: string) => `//*[contains(@data-testid, '${username}')]//img[@alt='profile pic']`,
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
+    totalSP: '//*[text() = "Game complete - "]',
+    playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
     playerSkippedBadge: (username: string) => `//*[contains(@data-testid, '${username}')]/*[text()='Skipped']`,
     voterScoreIcon: (username: string) =>`//*[contains(@data-testid, '${username}')]/*[contains(@class, 'team-list-voter-score')]`,
     playersSkippedCount: '$players-skipped-count',
@@ -29,6 +31,7 @@ const locator = {
     enterLinkOfTheImage: '//*[text() = "Enter a link of the image"]',
     urlDoesNotContainImageErrorMessage: '//*[text() = "The provided URL does not contain a valid image"]',
     waitingForMorePlayers: '//*[text() = "Waiting for more players"]',
+    gameInProgress: '//*[text() = "Game in progress..."]',
   },
   chessBoard: {
     board: '#chess-board',
@@ -50,7 +53,6 @@ const locator = {
     skip: '$skip-piece-btn', 
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
     skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`,
-    changeProfilePicture: '//*[text() = "Change profile picture"]',
     uploadPhoto:'$modal-url-input-confirm-button',
     confirm: '$modal-upload-picture-button',
     uploadAnotherImage: '$modal-go-back-button',
@@ -66,6 +68,11 @@ const locator = {
   header: {
     playerDefaultAvatarPicture: '//*[contains(@data-testid, "game-header-dropdown-button")]//*[contains(@class, "ant-avatar-circle")]//span["#username"]',
     avatarProfilePictureHeader: '//*[contains(@data-testid, "game-header-dropdown-button")]//img[@alt="profile pic"]',
+    dropdownIcon: '$game-header-dropdown-button',
+  },
+  headerDropdownList: {
+    changeProfilePicture: '#dropdown-change-avatar',
+    newRoom: '#dropdown-create-new-room',
   },
 };
 
@@ -118,6 +125,7 @@ export = {
     I.click(locator.buttons.copyLinkHeader);
     I.waitForElement(locator.text.linkCopiedToClipboard);
   },
+
   getNumberOfPlayersInList: async () => {
     let numberOfPlayers = await I.grabNumberOfVisibleElements(locator.playersList.playersList);
     return numberOfPlayers;
@@ -155,8 +163,8 @@ export = {
 
   uploadAvatarPhoto: (imageLink: string) => {
     I.click(locator.text.username);
-    I.waitForElement(locator.buttons.changeProfilePicture);
-    I.click(locator.buttons.changeProfilePicture);
+    I.waitForElement(locator.headerDropdownList.changeProfilePicture);
+    I.click(locator.headerDropdownList.changeProfilePicture);
     I.waitForElement(locator.text.uploadProfilePicture);
     I.seeElement(locator.text.enterLinkOfTheImage);
     I.fillField(locator.input.imageLink, imageLink);
@@ -196,5 +204,15 @@ export = {
   getActualPlayerScore: async (username: string) => {
     const playerScoreToNumber = Number(await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username)));
     return playerScoreToNumber;
+  },
+
+  createNewRoomAndCompareUrl: async (firstRoomUrl: string) => {
+    I.click(game.locator.header.dropdownIcon);
+    I.click(game.locator.headerDropdownList.newRoom);
+    I.waitForElement(game.locator.text.waitingForMorePlayers);
+    const newRoomUrl = await I.grabCurrentUrl();
+    I.assertNotEqual(firstRoomUrl, newRoomUrl);
+    const countOfOpenTabs = await I.grabNumberOfOpenTabs();
+    I.assertEqual(countOfOpenTabs, 1);
   },
 };
