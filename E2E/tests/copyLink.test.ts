@@ -1,7 +1,6 @@
 Feature('Copy link');
 
 const { I, login, game } = inject();
-
 import assertions = require("../assertions/assertions");
 import username = require("../test_data/usernames");
 
