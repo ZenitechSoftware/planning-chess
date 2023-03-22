@@ -15,7 +15,7 @@ Scenario('Chessboard pop-up shows individual vote information', async () => {
   await game.openPopUp(ChessTile.f6);
   game.checkElementsInThePopUp(username.user1);  
   const individualScoreInThePopUp = await I.grabNumberFrom(game.locator.chessBoardPopUp.score);
-  const individualScoreInPlayersList = await I.grabTextFrom(game.locator.playersList.playerIndividualSP(username.user1));
+  const individualScoreInPlayersList = await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username.user1));
   I.assertEqual(Number(individualScoreInThePopUp), Number(individualScoreInPlayersList));
   session(username.user2, async () => {
     game.voteAndCheckThatVoteIsVisible(ChessPiece.pawn, ChessTile.b3, ChessPieceValue.pawn);
