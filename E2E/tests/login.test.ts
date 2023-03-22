@@ -22,19 +22,19 @@ Scenario('Two users can have same name', async () => {
   });
 });
 
-Scenario('User can’t enter game without name', async () => {
+Scenario('User can’t enter game without name', () => {
   I.amOnPage('/');
   login.loginWithoutName();
 });
 
-Scenario('User is redirected to the same game room', async () => {
+Scenario('User is redirected to the same game room', () => {
   login.firstVoterLogin(username.user1);
   I.amOnPage('/');
   I.waitForText('Waiting for more players');
   I.see(username.user1, game.locator.playersList.firstUserInList);
 });
 
-Scenario('User is redirected to game page as spectator by pressing Shift Tab and then Enter', async () => {
+Scenario('User is redirected to game page as spectator by pressing Shift Tab and then Enter', () => {
   I.amOnPage('/');
   login.login(username.user1);
   I.pressKey('Shift+Tab');
@@ -42,7 +42,7 @@ Scenario('User is redirected to game page as spectator by pressing Shift Tab and
   I.seeElement(game.locator.playersList.spectatorIcon);  
 });
 
-Scenario('User is redirected to game page as spectator by pressing Tab and then Enter', async () => {
+Scenario('User is redirected to game page as spectator by pressing Tab and then Enter', () => {
   I.amOnPage('/');
   login.login(username.user1);
   I.pressKey('Tab');
@@ -50,7 +50,7 @@ Scenario('User is redirected to game page as spectator by pressing Tab and then 
   I.seeElement(game.locator.playersList.spectatorIcon);  
 });
 
-Scenario('User is redirected to game page as voter by pressing Enter', async () => {
+Scenario('User is redirected to game page as voter by pressing Enter', () => {
   I.amOnPage('/');
   login.login(username.user1);
   I.pressKey('Enter');

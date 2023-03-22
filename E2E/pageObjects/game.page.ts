@@ -18,6 +18,8 @@ const locator = {
     voterScoreIcon: (username: string) =>`//*[contains(@data-testid, '${username}')]/*[contains(@class, 'team-list-voter-score')]`,
     playersSkippedCount: '$players-skipped-count',
     playersDoneCount: '$players-done-count',
+    totalSP: '//*[text() = "Game complete - "]',
+    playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
     playerCount:(playersNumber: number) =>`//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
   },
   text: {
@@ -37,7 +39,7 @@ const locator = {
     chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
     avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
     avatarPictureOnBoard:(tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
-    pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
+    pointsOnBoard: (tile: string, value: number) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}SP')]`,
   },
   chessPieces: {
     container: '#chess-pieces-container',
@@ -102,12 +104,14 @@ export = {
     I.waitForVisible(locator.chessPieces.chessPieceHighlighted(chessPiece));
     I.click(locator.chessBoard.chessTile(tile));
   },
-  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
+
+  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
-  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
+
+  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     I.dontSeeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
@@ -140,7 +144,7 @@ export = {
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
 
-  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value:string) => {
+  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
   },
@@ -151,7 +155,7 @@ export = {
     I.executeScript("window.history.forward();");
   },
   
-  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string, value: string) => {
+  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string, value: number) => {
     I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarPictureOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
@@ -174,6 +178,32 @@ export = {
     I.seeElement(locator.buttons.uploadAnotherImage);
     I.click(locator.buttons.confirm);
     I.waitForInvisible(locator.popUp.uploadProfilePicture);
+  },
+
+  getExpectedPlayerSP:(averageScore) => {
+    const sp = [1,2,3,5,8,13];
+    const averageSPList = [1.5, 2.5, 4, 6.5, 10.5];
+    let expectedSP = 1;
+    for(let i = 0; averageSPList[i] <= averageScore; i++){
+      expectedSP = sp[i + 1];
+    };
+    return expectedSP;
+  },
+
+  calculateAverage: (pieceSP: number, letterSP: number, numberSP: number) => {
+    let score = (pieceSP + letterSP + numberSP) / 3;
+    return score;
+  },
+
+  expectedPlayerScore: ( pieceSP: number, letterSP: number, numberSP: number) => {
+    const averageScore = game.calculateAverage(pieceSP, letterSP, numberSP);
+    const expectedSP = game.getExpectedPlayerSP(averageScore); 
+    return expectedSP;
+  },
+
+  getActualPlayerScore: async (username: string) => {
+    const playerScoreToNumber = Number(await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username)));
+    return playerScoreToNumber;
   },
 
   createNewRoomAndCompareUrl: async (firstRoomUrl: string) => {
