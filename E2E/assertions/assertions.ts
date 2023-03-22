@@ -29,9 +29,9 @@ export = {
   },
 
   checkSkippedBadgeColors: async (username:string, backgroundColor: string, fontColor: string) => {
-    const bgColor = await I.grabCssPropertyFrom(game.locator.playersList.skippedBadge(username), 'background-color');
+    const bgColor = await I.grabCssPropertyFrom(game.locator.playersList.playerSkippedBadge(username), 'background-color');
     I.assertEqual(backgroundColor, bgColor);
-    const color = await I.grabCssPropertyFrom(game.locator.playersList.skippedBadge(username), 'color');
+    const color = await I.grabCssPropertyFrom(game.locator.playersList.playerSkippedBadge(username), 'color');
     I.assertEqual(fontColor, color); 
   },
 
