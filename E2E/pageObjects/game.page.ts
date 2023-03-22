@@ -21,6 +21,8 @@ const locator = {
     totalSP: '//*[text() = "Game complete - "]',
     playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
     playerCount:(playersNumber: number) =>`//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
+    skippedBadge: (username: string) => `//*[contains(@data-testid, '${username}')]//span[contains(@class, "team-list-voter-skip-score")]`,
+    playerIndividualSP: (username: string) => `//*[contains(@data-testid, '${username}')]//*[contains(@class,"team-list-voter-score")]`,
   },
   text: {
     username: '#username',
@@ -39,6 +41,7 @@ const locator = {
     chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
     avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
     avatarPictureOnBoard:(tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
+    openedPopUp: '//*[contains(@class, "pop-over-opened")]',
     pointsOnBoard: (tile: string, value: number) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}SP')]`,
   },
   chessPieces: {
@@ -73,6 +76,13 @@ const locator = {
   headerDropdownList: {
     changeProfilePicture: '#dropdown-change-avatar',
     newRoom: '#dropdown-create-new-room',
+  },
+  chessBoardPopUp: {
+    square: '//*[@class="pop-over-title" and contains(text(), "Square ")]',
+    chessPiece: '//*[@class="pop-up-figure-icon margin-r-xs"]',
+    avatar: '//*[contains(@class, "pop-over")]//*[contains(@class, "ant-avatar-circle")]',
+    player:(username:string) => `//*[contains(@class, "pop-over")]//*[contains(text(), "${username}")]`,
+    score:'//*[contains(@class, "pop-over")]//*[@class = "score"]//span',
   },
 };
 
@@ -147,6 +157,21 @@ export = {
   voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
+  },
+
+  async openPopUp (chessTile: string) {
+    I.usePlaywrightTo('open pop-up', async ({ page }) => {
+      await page.evaluate(`document.querySelector('div[data-testid = "chess-tile-${chessTile}"] > div.pop-over').classList.add("pop-over-opened")`);
+    });
+  },
+
+  checkElementsInThePopUp: (username: string) => {
+    I.waitForElement(game.locator.chessBoard.openedPopUp);
+    I.seeElement(game.locator.chessBoardPopUp.square);
+    I.seeElement(game.locator.chessBoardPopUp.chessPiece);
+    I.seeElement(game.locator.chessBoardPopUp.avatar);
+    I.seeElement(game.locator.chessBoardPopUp.player(username));
+    I.seeElement(game.locator.chessBoardPopUp.score);
   },
 
   navigateBackAndForward: () => {

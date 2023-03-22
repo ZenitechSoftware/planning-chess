@@ -1,11 +1,11 @@
 Feature('voting');
 
+const { I, login, game } = inject();
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPiece } from "../test_data/chessPieces";
-import { ChessPieceValue } from "../test_data/chessPieces";
-
-const { I, login, game } = inject();
+import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { color } from "../test_data/colors";
+import assertions = require("../assertions/assertions");
 
 Scenario('Voter can change vote while game is not completed', async () => {
   login.firstVoterLogin(username.user1);
@@ -153,4 +153,22 @@ Scenario('3 players choose different figure and place on same board square', asy
   I.waitForText('Game complete');
   game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
   I.seeNumberOfElements(game.locator.chessBoard.avatarOnBoard(ChessTile.a1), 3);
+});
+
+Scenario('Individual vote in players list changes its color from grey to green', async () => {
+  login.firstVoterLogin(username.user1);
+  let url = await I.grabCurrentUrl();
+  session(username.user2, () => {
+      login.voterLoginIntoCreatedGameRoom(url, username.user2);
+  });
+  game.vote(ChessPiece.pawn, ChessTile.a1);
+  await assertions.checkIndividualVoteColors(username.user1, color.transparentGrey, color.grey);
+  const individualSPBeforeGameIsCompleted = await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username.user1));
+  session(username.user2,async () => {
+    game.vote(ChessPiece.rook, ChessTile.b3);
+  });
+  I.waitForText('Game complete');
+  await  assertions.checkIndividualVoteColors(username.user1, color.green, color.white);
+  const individualSPWhenGameIsCompleted = await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username.user1));
+  I.assertEqual(individualSPBeforeGameIsCompleted, individualSPWhenGameIsCompleted);
 });

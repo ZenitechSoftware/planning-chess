@@ -28,6 +28,20 @@ export = {
     });
   },
 
+  checkSkippedBadgeColors: async (username:string, backgroundColor: string, fontColor: string) => {
+    const bgColor = await I.grabCssPropertyFrom(game.locator.playersList.skippedBadge(username), 'background-color');
+    I.assertEqual(backgroundColor, bgColor);
+    const color = await I.grabCssPropertyFrom(game.locator.playersList.skippedBadge(username), 'color');
+    I.assertEqual(fontColor, color); 
+  },
+
+  checkIndividualVoteColors: async (username: string, backgroundColor: string, fontColor: string) => {
+    const bgColor = await I.grabCssPropertyFrom(game.locator.playersList.voterScoreIcon(username), 'background-color');
+    I.assertEqual(backgroundColor, bgColor);
+    const color = await I.grabCssPropertyFrom(game.locator.playersList.voterScoreIcon(username), 'color');
+    I.assertEqual(fontColor, color);
+  },
+  
   async checkIfTheProfileImageIsUploaded(user: string, avatarImage: string) {
     const avatarImageInTheHeader = await I.grabAttributeFrom(game.locator.header.avatarProfilePictureHeader, 'src');
     I.assertEqual(avatarImageInTheHeader, avatarImage);
