@@ -2,8 +2,8 @@ const { I } = inject();
 
 const locator = {
   buttons: {
-    voter: '$Voter selection box',
-    spectator: '$Spectator selection box',
+    voter: "$Voter selection box",
+    spectator: "$Spectator selection box",
   },
 };
 export = {

@@ -1,19 +1,19 @@
-const { I, login, roles, game} = inject();
+const { I, login, roles, game } = inject();
 
 const locator = {
   buttons: {
-    login: '$login-btn',
-    voter: '$Voter selection box',
-    spectator: '$Spectator selection box',
-    disabledLogin: '//button[@data-testid="login-btn"][@disabled]'
+    login: "$login-btn",
+    voter: "$Voter selection box",
+    spectator: "$Spectator selection box",
+    disabledLogin: "//button[@data-testid='login-btn'][@disabled]",
   },
   inputs: {
-    username: '#username-input',
-    avatar: '#profile-pic-input'
+    username: "#username-input",
+    avatar: "#profile-pic-input",
   },
-  text:{
-    welcomeLetsBegin: '//*[text() = "Welcome! Let’s begin."]',
-    chooseYourRole: '//*[text() = "Choose your role"]'
+  text: {
+    welcomeLetsBegin: "//*[text() = 'Welcome! Let’s begin.']",
+    chooseYourRole: "//*[text() = 'Choose your role']",
   },
 };
 
@@ -39,13 +39,13 @@ export = {
     I.waitForVisible(locator.buttons.disabledLogin);
   },
   firstVoterLogin: (username: string) => {
-    I.amOnPage('/');
+    I.amOnPage("/");
     login.login(username);
     roles.voterLogin();
     I.waitForElement(game.locator.text.waitingForMorePlayers);
   },
   firstSpectatorLogin: (username: string) => {
-    I.amOnPage('/');
+    I.amOnPage("/");
     login.login(username);
     roles.spectatorLogin();
     I.waitForElement(game.locator.text.waitingForMorePlayers);
@@ -53,7 +53,7 @@ export = {
   voterLoginIntoCreatedGameRoom: (url: string, username: string) => {
     login.loginIntoCreatedGameRoom(url, username);
     roles.voterLogin();
-    I.waitForText('Game in progress');
+    I.waitForText("Game in progress");
   },
   spectatorLoginIntoCreatedGameRoom: (url: string, username: string) => {
     login.loginIntoCreatedGameRoom(url, username);
@@ -61,7 +61,7 @@ export = {
   },
 
   voterUploadAvatarDuringLogin: (username: string, avatarImage: string) => {
-    I.amOnPage('/');
+    I.amOnPage("/");
     I.seeElement(locator.text.welcomeLetsBegin);
     I.waitForVisible(locator.inputs.username);
     I.fillField(locator.inputs.username, username);
@@ -73,7 +73,7 @@ export = {
   },
 
   spectatorUploadAvatarDuringLogin: (username: string, avatarImage: string) => {
-    I.amOnPage('/');
+    I.amOnPage("/");
     I.seeElement(locator.text.welcomeLetsBegin);
     I.waitForVisible(locator.inputs.username);
     I.fillField(locator.inputs.username, username);

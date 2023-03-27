@@ -3,9 +3,12 @@ class CustomHelper extends Helper {
 
   // Custom steps - use Playwright helper to access default I functions
 
-  async fillInputField(locator: string, value: string | number | CodeceptJS.Secret) {
+  async fillInputField(
+    locator: string,
+    value: string | number | CodeceptJS.Secret
+  ) {
     const { Playwright } = this.helpers;
-    locator = locator.replace('$', '[data-testid=') + '] input';
+    locator = locator.replace("$", "[data-testid=") + "] input";
 
     await Playwright.waitForVisible(locator);
     await Playwright.fillField(locator, value);
@@ -15,9 +18,8 @@ class CustomHelper extends Helper {
     const { Playwright } = this.helpers;
     const text = await Playwright.grabTextFrom(selector);
     const regexp = /[0-9]+/g;
-    return text.match(regexp);  
+    return text.match(regexp);
   }
-
 }
 
 export = CustomHelper;
