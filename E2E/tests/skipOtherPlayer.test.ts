@@ -13,7 +13,7 @@ Scenario('User skips another player', async () => {
         I.click(game.locator.buttons.skipOtherPlayer(username.user1))
         I.waitForElement(game.locator.playersList.playerSkippedIcon(username.user1));
     });
-    I.waitForElement(game.locator.playersList.playerSkippedIcon(username.user1));
+    I.waitForElement(game.locator.playersList.playerSkippedBadge(username.user1));
     session(username.user2, () => {
         game.vote(ChessPiece.pawn, ChessTile.a1);
         I.waitForText('Game complete - 1 SP');
