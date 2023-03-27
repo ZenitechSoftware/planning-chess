@@ -12,9 +12,13 @@ const locator = {
     avatarImageInThePlayersList: (username: string) => `//*[contains(@data-testid, '${username}')]//img[@alt='profile pic']`,
     playerDoneIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player done icon']`,
     playerSkippedIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/img[@alt='player skipped icon']`,
+    totalSP: '//*[text() = "Game complete - "]',
+    playerIndividualSP: (rowNumberInList: number) => locate('//*[contains(@class,"team-list-voter-score")]').at(rowNumberInList),
     playerSkippedBadge: (username: string) => `//*[contains(@data-testid, '${username}')]/*[text()='Skipped']`,
-    voterScoreIcon: (username: string) =>`//*[contains(@data-testid, '${username}')]/*[contains(@class, 'team-list-voter-score')]`,
-    playerCount:(playersNumber: number) =>`//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
+    voterScoreIcon: (username: string) => `//*[contains(@data-testid, '${username}')]/*[contains(@class, 'team-list-voter-score')]`,
+    playersSkippedCount: '$players-skipped-count',
+    playersDoneCount: '$players-done-count',
+    playerCount: (playersNumber: number) => `//*[contains(@data-testid, "players-count") and contains(text(), '${playersNumber}')]`,
   },
   text: {
     username: '#username',
@@ -25,6 +29,7 @@ const locator = {
     enterLinkOfTheImage: '//*[text() = "Enter a link of the image"]',
     urlDoesNotContainImageErrorMessage: '//*[text() = "The provided URL does not contain a valid image"]',
     waitingForMorePlayers: '//*[text() = "Waiting for more players"]',
+    gameInProgress: '//*[text() = "Game in progress..."]',
   },
   chessBoard: {
     board: '#chess-board',
@@ -32,7 +37,8 @@ const locator = {
     chessPieceOnBoard: (tile: string, chessPiece: ChessPiece) => `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
     avatarOnBoard: (tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
     avatarPictureOnBoard:(tile: string) => `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
-    pointsOnBoard: (tile: string, value: string) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}')]`,
+    openedPopUp: '//*[contains(@class, "pop-over-opened")]',
+    pointsOnBoard: (tile: string, value: number) => `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}SP')]`,
   },
   chessPieces: {
     container: '#chess-pieces-container',
@@ -46,7 +52,6 @@ const locator = {
     skip: '$skip-piece-btn', 
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
     skipOtherPlayer: (username: string) =>`//*[contains(@data-testid,'${username}')]//*[@alt='skip other player button icon']`,
-    changeProfilePicture: '//*[text() = "Change profile picture"]',
     uploadPhoto:'$modal-url-input-confirm-button',
     confirm: '$modal-upload-picture-button',
     uploadAnotherImage: '$modal-go-back-button',
@@ -62,6 +67,18 @@ const locator = {
   header: {
     playerDefaultAvatarPicture: '//*[contains(@data-testid, "game-header-dropdown-button")]//*[contains(@class, "ant-avatar-circle")]//span["#username"]',
     avatarProfilePictureHeader: '//*[contains(@data-testid, "game-header-dropdown-button")]//img[@alt="profile pic"]',
+    dropdownIcon: '$game-header-dropdown-button',
+  },
+  headerDropdownList: {
+    changeProfilePicture: '#dropdown-change-avatar',
+    newRoom: '#dropdown-create-new-room',
+  },
+  chessBoardPopUp: {
+    square: '//*[@class="pop-over-title" and contains(text(), "Square ")]',
+    chessPiece: '//*[@class="pop-up-figure-icon margin-r-xs"]',
+    avatar: '//*[contains(@class, "pop-over")]//*[contains(@class, "ant-avatar-circle")]',
+    player:(username:string) => `//*[contains(@class, "pop-over")]//*[contains(text(), "${username}")]`,
+    score:'//*[contains(@class, "pop-over")]//*[@class = "score"]//span',
   },
 };
 
@@ -93,12 +110,14 @@ export = {
     I.waitForVisible(locator.chessPieces.chessPieceHighlighted(chessPiece));
     I.click(locator.chessBoard.chessTile(tile));
   },
-  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
+
+  voteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
   },
-  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: string) => {
+
+  voteIsNotVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     I.dontSeeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, value));
@@ -112,6 +131,7 @@ export = {
     I.click(locator.buttons.copyLinkHeader);
     I.waitForElement(locator.text.linkCopiedToClipboard);
   },
+
   getNumberOfPlayersInList: async () => {
     let numberOfPlayers = await I.grabNumberOfVisibleElements(locator.playersList.playersList);
     return numberOfPlayers;
@@ -124,13 +144,30 @@ export = {
     I.switchToPreviousTab();
     I.seeElement(locator.chessBoard.board);
   }, 
+
   skipMove: () => {
     I.click(locator.buttons.skip);
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
-  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value:string) => {
+
+  voteAndCheckThatVoteIsVisible:(chessPiece: ChessPiece, tile: string, value: number) => {
     game.vote(chessPiece, tile);
     game.voteIsVisible(chessPiece, tile, value);
+  },
+
+  async openPopUp (chessTile: string) {
+    I.usePlaywrightTo('open pop-up', async ({ page }) => {
+      await page.evaluate(`document.querySelector('div[data-testid = "chess-tile-${chessTile}"] > div.pop-over').classList.add("pop-over-opened")`);
+    });
+  },
+
+  checkElementsInThePopUp: (username: string) => {
+    I.waitForElement(game.locator.chessBoard.openedPopUp);
+    I.seeElement(game.locator.chessBoardPopUp.square);
+    I.seeElement(game.locator.chessBoardPopUp.chessPiece);
+    I.seeElement(game.locator.chessBoardPopUp.avatar);
+    I.seeElement(game.locator.chessBoardPopUp.player(username));
+    I.seeElement(game.locator.chessBoardPopUp.score);
   },
 
   navigateBackAndForward: () => {
@@ -139,7 +176,7 @@ export = {
     I.executeScript("window.history.forward();");
   },
   
-  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string, value: string) => {
+  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string, value: number) => {
     I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece));
     I.seeElement(locator.chessBoard.avatarPictureOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, value));
@@ -147,8 +184,8 @@ export = {
 
   uploadAvatarPhoto: (imageLink: string) => {
     I.click(locator.text.username);
-    I.waitForElement(locator.buttons.changeProfilePicture);
-    I.click(locator.buttons.changeProfilePicture);
+    I.waitForElement(locator.headerDropdownList.changeProfilePicture);
+    I.click(locator.headerDropdownList.changeProfilePicture);
     I.waitForElement(locator.text.uploadProfilePicture);
     I.seeElement(locator.text.enterLinkOfTheImage);
     I.fillField(locator.input.imageLink, imageLink);
@@ -164,4 +201,39 @@ export = {
     I.waitForInvisible(locator.popUp.uploadProfilePicture);
   },
 
+  getExpectedPlayerSP:(averageScore) => {
+    const sp = [1,2,3,5,8,13];
+    const averageSPList = [1.5, 2.5, 4, 6.5, 10.5];
+    let expectedSP = 1;
+    for(let i = 0; averageSPList[i] <= averageScore; i++){
+      expectedSP = sp[i + 1];
+    };
+    return expectedSP;
+  },
+
+  calculateAverage: (pieceSP: number, letterSP: number, numberSP: number) => {
+    let score = (pieceSP + letterSP + numberSP) / 3;
+    return score;
+  },
+
+  expectedPlayerScore: ( pieceSP: number, letterSP: number, numberSP: number) => {
+    const averageScore = game.calculateAverage(pieceSP, letterSP, numberSP);
+    const expectedSP = game.getExpectedPlayerSP(averageScore); 
+    return expectedSP;
+  },
+
+  getActualPlayerScore: async (username: string) => {
+    const playerScoreToNumber = Number(await I.grabTextFrom(game.locator.playersList.voterScoreIcon(username)));
+    return playerScoreToNumber;
+  },
+
+  createNewRoomAndCompareUrl: async (firstRoomUrl: string) => {
+    I.click(game.locator.header.dropdownIcon);
+    I.click(game.locator.headerDropdownList.newRoom);
+    I.waitForElement(game.locator.text.waitingForMorePlayers);
+    const newRoomUrl = await I.grabCurrentUrl();
+    I.assertNotEqual(firstRoomUrl, newRoomUrl);
+    const countOfOpenTabs = await I.grabNumberOfOpenTabs();
+    I.assertEqual(countOfOpenTabs, 1);
+  },
 };

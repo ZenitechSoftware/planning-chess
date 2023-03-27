@@ -14,6 +14,7 @@ declare namespace CodeceptJS {
     login: login;
     game: game;
     roles: roles;
+  
   }
   interface Methods extends CustomHelper, Playwright, ChaiWrapper { }
   interface I extends WithTranslation<Methods>, WithTranslation<ChaiWrapper> { }

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation, matchPath } from 'react-router';
 import { nanoid } from 'nanoid';
 import { ROUTES } from '../pages/routes';
-
-const ROOM_ID_LENGTH = 8;
+import { ROOM_ID_LENGTH } from '../constants/appConstants';
 
 export const UserContext = createContext();
 
@@ -63,6 +62,7 @@ const UserContextProvider = ({ children }) => {
     setGameId,
     userAvatar,
     setUserAvatar,
+    generateGameId,
   }), [username, userRole, userId, userAvatar]);
 
   return (
