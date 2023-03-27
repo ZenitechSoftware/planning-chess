@@ -84,13 +84,11 @@ const Square = ({
 
         {turnToShow && (
           <div className='square-move-text f-row justify-c font-size-xs'>
-            <div>
-              <img 
-                src={figures[turnToShow.figure].img} 
-                alt={`${turnToShow.figure} icon`} 
-                className='figure-img'
-              />
-            </div>
+            <img 
+              src={figures[turnToShow.figure].img} 
+              alt={`${turnToShow.figure} icon`} 
+              className='figure-img'
+            />
 
             <span className="figure-text rubik-font weight-800">
               {`${figures[turnToShow.figure].strength}`}
