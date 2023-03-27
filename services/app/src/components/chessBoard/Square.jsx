@@ -82,8 +82,8 @@ const Square = ({
           </Avatar.Group>
         </div>
 
-        <div className='square-move-text f-row justify-c font-size-xs'>
-          {turnToShow && (
+        {turnToShow && (
+          <div className='square-move-text f-row justify-c font-size-xs'>
             <div>
               <img 
                 src={figures[turnToShow.figure].img} 
@@ -91,13 +91,12 @@ const Square = ({
                 className='figure-img'
               />
             </div>
-          )}
-          {turnToShow && (
+
             <span className="figure-text rubik-font weight-800">
               {`${figures[turnToShow.figure].strength}`}
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {!!items.length && (
