@@ -1,27 +1,27 @@
-require('ts-node/register');
-const pages = require('./include.ts');
-require('dotenv').config({ path: '.env' });
+require("ts-node/register");
+const pages = require("./include.ts");
+require("dotenv").config({ path: ".env" });
 
 exports.config = {
-  tests: '../tests/*.test.ts',
-  output: '../screenshots',
-  name: 'Planning Chess',
+  tests: "../tests/*.test.ts",
+  output: "../screenshots",
+  name: "Planning Chess",
   include: pages,
   helpers: {
     CustomHelper: {
-      require: '../helpers/customSteps.helper.ts',
+      require: "../helpers/customSteps.helper.ts",
     },
-        ChaiWrapper: {
-          require: "codeceptjs-chai",
-        },
+    ChaiWrapper: {
+      require: "codeceptjs-chai",
+    },
     Playwright: {
       url: process.env.BASE_URL,
-      browser: 'chromium',
-      show: process.env.HEADLESS === 'yes' ? false : true,
+      browser: "chromium",
+      show: process.env.HEADLESS === "yes" ? false : true,
       restart: false,
       waitForTimeout: 10000,
-      locale: 'en-GB',
-      windowSize: '1920x1080',
+      locale: "en-GB",
+      windowSize: "1920x1080",
     },
   },
   plugins: {
@@ -37,12 +37,12 @@ exports.config = {
     },
     customLocator: {
       enabled: true,
-      attribute: 'data-testid',
+      attribute: "data-testid",
     },
   },
   multiple: {
     basic: {
-      browsers: ["chromium", "firefox", "webkit"]
-    }
-  }
+      browsers: ["chromium", "firefox", "webkit"],
+    },
+  },
 };

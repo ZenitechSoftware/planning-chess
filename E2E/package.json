@@ -4,18 +4,24 @@
   "private": true,
   "scripts": {
     "e2e": "codeceptjs run -c config/codecept.conf.ts",
-    "e2e:multi": "codeceptjs run-multiple --all -c config/codecept.conf.ts"
+    "e2e:multi": "codeceptjs run-multiple --all -c config/codecept.conf.ts",
+    "lint": "eslint \"**/*.{ts,tsx}\""
   },
   "dependencies": {
     "codeceptjs": "^3.4.1",
     "codeceptjs-chai": "^2.3.3",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-codeceptjs": "^1.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "playwright": "^1.29.2",
     "ts-node": "^10.8.1"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
     "dotenv": "^10.0.0",
-    "typescript": "^4.7.4"
+    "eslint": "^8.36.0",
+    "typescript": "^4.9.5"
   }
 }

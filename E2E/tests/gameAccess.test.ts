@@ -1,14 +1,14 @@
-Feature('Player is able to play only in one tab');
+Feature("Player is able to play only in one tab");
 
 import username = require("../test_data/usernames");
 
 const { I, login, game } = inject();
 
 Before(() => {
-  I.amOnPage('/');
+  I.amOnPage("/");
 });
 
-Scenario('Player is not allowed to play in new tab', async () => {
+Scenario("Player is not allowed to play in new tab", async () => {
   login.firstVoterLogin(username.user1);
   const url = await I.grabCurrentUrl();
   session(username.user2, () => {
