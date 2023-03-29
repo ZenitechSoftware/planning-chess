@@ -8,6 +8,7 @@ import { avatarSizePropType } from '../../prop-types/player';
 const DefaultAvatar = ({ playerId, bordered, size, playerInitials }) => (
   <AntdAvatar
     className='f-center poppins-font select-none'
+    data-testid='default-avatar-image'
     size={avatarSizesMap[size]}
     style={getAvatarStyle(playerId, bordered, size)}
   >

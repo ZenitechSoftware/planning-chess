@@ -24,6 +24,7 @@ const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials, onEr
     <Avatar 
       size={avatarSizesMap[size]}
       style={getCustomAvatarStyle()}
+      data-testid="profile-picture"
       src={(
         <img 
           src={imageUrl}

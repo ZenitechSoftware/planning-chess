@@ -21,7 +21,7 @@ const VoterScoreIcon = ({ score, status }) => {
   }
 
   return (
-    <span className={classNames('team-list-voter-score padding-x-s padding-y-xs font-size-xs border-r-20', {
+    <span data-testid="voter-score" className={classNames('team-list-voter-score padding-x-s padding-y-xs font-size-xs border-r-20', {
       'current-move-score-icon weight-700': gameState === GameState.GAME_IN_PROGRESS,
       })}
     >
