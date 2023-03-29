@@ -3,7 +3,7 @@ Feature("voting");
 const { I, login, game } = inject();
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 import { color } from "../test_data/colors";
 import assertions = require("../assertions/assertions");
 
@@ -12,18 +12,10 @@ Scenario("Voter can change vote while game is not completed", async () => {
   const url = await I.grabCurrentUrl();
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.a1,
-      ChessPieceValue.pawn
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
     I.waitForElement(game.locator.playersList.voterScoreIcon(username.user2));
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.knight,
-      ChessTile.e2,
-      ChessPieceValue.knight
-    );
-    game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e2);
+    game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
   });
 });
 

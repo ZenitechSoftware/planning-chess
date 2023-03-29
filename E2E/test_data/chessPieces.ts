@@ -1,4 +1,4 @@
-export enum ChessPiece {
+enum ChessPieceName {
   pawn = "pawn",
   knight = "knight",
   bishop = "bishop",
@@ -6,12 +6,19 @@ export enum ChessPiece {
   king = "king",
   queen = "queen",
 }
-
-export const ChessPieceValue: Record<ChessPiece, number> = {
-  [ChessPiece.pawn]: 1,
-  [ChessPiece.knight]: 2,
-  [ChessPiece.bishop]: 3,
-  [ChessPiece.rook]: 5,
-  [ChessPiece.king]: 8,
-  [ChessPiece.queen]: 13,
-};
+export class ChessPiece {
+  name: ChessPieceName;
+  value: number;
+  constructor(name: ChessPieceName, value: number) {
+    this.name = name;
+    this.value = value;
+  }
+}
+export const ChessPieces = {
+  pawn: new ChessPiece(ChessPieceName.pawn, 1),
+  knight: new ChessPiece(ChessPieceName.knight, 2),
+  bishop: new ChessPiece(ChessPieceName.bishop, 3),
+  rook: new ChessPiece(ChessPieceName.rook, 5),
+  king: new ChessPiece(ChessPieceName.king, 8),
+  queen: new ChessPiece(ChessPieceName.queen, 13),
+}
