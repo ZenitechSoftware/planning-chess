@@ -21,7 +21,7 @@ const GameStatus = () => {
     return (
       <div className='game-status-field padding-y-m padding-x-xl game-status-completed align-c'>
         <img src={CompletedIcon} alt="game status icon" className="game-status-icon" />
-        <p className="status-text font-size-m margin-y-0 margin-x-s" data-testid = "game-complete">Game complete - {globalScore} SP</p>
+        <p className="status-text font-size-m margin-y-0 margin-x-s" data-testid="game-complete">Game complete - {globalScore} SP</p>
       </div>
     )
   }

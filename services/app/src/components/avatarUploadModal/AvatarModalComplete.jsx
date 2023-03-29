@@ -44,7 +44,7 @@ const AvatarModalComplete = ({ imageUrl, submitAvatarChange, retryPictureUpload 
       </div>
 
       { isModalAvatarError && (
-        <p className='error-message margin-t-s text-center' data-testid ="incorrect-image-link-error-message">
+        <p className='error-message margin-t-s text-center' data-testid="incorrect-image-link-error-message">
           The provided URL does not contain a valid image
         </p>
       )}
