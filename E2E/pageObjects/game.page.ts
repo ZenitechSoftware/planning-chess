@@ -54,18 +54,18 @@ const locator = {
     board: "#chess-board",
     chessTile: (tile: string) => `$chess-tile-${tile}`,
     chessPieceOnBoard: (tile: string, chessPiece: string) =>
-      `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece}']`,
+      `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece} icon']`,
     avatarOnBoard: (tile: string) =>
-      `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//span[@class='ant-avatar-string']`,
+      `//*[@data-testid='chess-tile-${tile}']//span[@class='ant-avatar-string']`,
     avatarPictureOnBoard: (tile: string) =>
       `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
     openedPopUp: '//*[contains(@class, "pop-over-opened")]',
     pointsOnBoard: (tile: string, value: number) =>
-      `//*[@data-testid='chess-tile-${tile}']//span[@class='figure-text'][contains(text(), '${value}SP')]`,
+      `//*[@data-testid='chess-tile-${tile}']//*[contains(text(), '${value}SP')]`,
     tileWithChessPiece: (tile: string) =>
-      `//*[@data-testid='chess-tile-${tile}']/*[@class='figure-container']//img`,
+      `//*[@data-testid='chess-tile-${tile}']/*[contains(@class, 'square-move-info')]//img`,
     tileWithPoints: (tile: string) =>
-      `//*[@data-testid='chess-tile-${tile}']/*[@class='figure-container']/span[@class='figure-text']`,
+      `//*[@data-testid='chess-tile-${tile}']//*[contains(@class, 'figure-text')]`,
   },
   chessPieces: {
     container: "#chess-pieces-container",
@@ -145,7 +145,9 @@ export = {
   },
   vote: (chessPiece: ChessPiece, tile: string) => {
     I.click(locator.chessPieces.chessPiece(chessPiece.name));
-    I.waitForVisible(locator.chessPieces.chessPieceHighlighted(chessPiece.name));
+    I.waitForVisible(
+      locator.chessPieces.chessPieceHighlighted(chessPiece.name)
+    );
     I.click(locator.chessBoard.chessTile(tile));
   },
 
@@ -156,7 +158,9 @@ export = {
   },
 
   voteIsNotVisible: (chessPiece: ChessPiece, tile: string) => {
-    I.dontSeeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece.name));
+    I.dontSeeElement(
+      locator.chessBoard.chessPieceOnBoard(tile, chessPiece.name)
+    );
     I.dontSeeElement(locator.chessBoard.avatarOnBoard(tile));
     I.dontSeeElement(locator.chessBoard.pointsOnBoard(tile, chessPiece.value));
   },
@@ -218,10 +222,7 @@ export = {
     I.executeScript("window.history.forward();");
   },
 
-  avatarPictureIsVisibleOnTheBoard: (
-    chessPiece: ChessPiece,
-    tile: string
-  ) => {
+  avatarPictureIsVisibleOnTheBoard: (chessPiece: ChessPiece, tile: string) => {
     I.seeElement(locator.chessBoard.chessPieceOnBoard(tile, chessPiece.name));
     I.seeElement(locator.chessBoard.avatarPictureOnBoard(tile));
     I.seeElement(locator.chessBoard.pointsOnBoard(tile, chessPiece.value));
