@@ -34,7 +34,7 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
             size='xs'
             bordered
             playerInitials={item.player[0]}
-            dataTestId={`pop-up-avatar-${item.playerId}`}
+            dataTestId={`pop-up-${item.playerId}`}
           />
           <span className="text rubik-font font-size-l margin-l-s">
             {`${item.player} - `}

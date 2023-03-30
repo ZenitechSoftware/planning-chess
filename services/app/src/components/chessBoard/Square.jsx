@@ -76,7 +76,7 @@ const Square = ({
                 playerId={item.playerId}
                 key={`bubble-${index}`}
                 playerInitials={item.player[0]}
-                dataTestId={`square-avatar-${item.playerId}`}
+                dataTestId={`square-${item.playerId}`}
                 bordered
               />
             ))}

@@ -11,7 +11,7 @@ const GameHeaderNameContainer = ({ imgSrc }) => {
       data-testid='game-header-dropdown-button'
       className='f-row align-c gap-s cursor-pointer margin-r-l'
     >
-      <UserAvatar dataTestId={`header-avatar-${currentPlayer.id}`} size='s' playerId={currentPlayer.id} />
+      <UserAvatar dataTestId={`header-${currentPlayer.id}`} size='s' playerId={currentPlayer.id} />
       
       <span id="username">{currentPlayer.name}</span>
       

@@ -40,7 +40,7 @@ const AvatarModalComplete = ({ imageUrl, submitAvatarChange, retryPictureUpload 
           imageUrl={imageUrl}
           onError={() => setIsModalAvatarError(true)}
           playerInitials={currentPlayer?.name[0].toUpperCase()}
-          dataTestId={`modal-avatar-${currentPlayer?.id}`}
+          dataTestId={`modal-${currentPlayer?.id}`}
         />
       </div>
 

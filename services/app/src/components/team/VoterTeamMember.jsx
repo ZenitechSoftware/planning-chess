@@ -40,6 +40,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
             score={lastTurn?.score}
             status={player.status}
             key={`${player.id}moveScore`}
+            playerId={player.id}
           />
         )
       ]
@@ -51,6 +52,7 @@ const VoterTeamMember = ({ player, skipMove, index, currentPlayerId }) => {
       score={player.score} 
       status={player.status}
       key={`${player.id}finalScore`}
+      playerId={player.id}
     />
   ];
   

@@ -25,7 +25,7 @@ const CustomAvatar = ({ size, imageUrl, playerId, bordered, playerInitials, onEr
     <Avatar 
       size={avatarSizesMap[size]}
       style={getCustomAvatarStyle()}
-      data-testid={`custom-${dataTestId}`}
+      data-testid={`custom-avatar-${dataTestId}`}
       src={(
         <img 
           src={imageUrl}

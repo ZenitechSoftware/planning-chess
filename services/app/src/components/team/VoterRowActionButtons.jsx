@@ -10,7 +10,7 @@ const VoterRowActionButtons = ({ status, onSkipMove }) => (
       onClick={onSkipMove}
       disabled={status !== PlayerStatuses.ActionNotTaken}
     >
-      <img alt="skip other player button icon" data-testid="skip-other-player-move" src={Skip} />
+      <img alt="skip other player button icon" src={Skip} />
     </button>
   </div>
 )
