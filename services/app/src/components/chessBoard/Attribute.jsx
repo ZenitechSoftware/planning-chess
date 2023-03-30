@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 const Attribute = ({
   tile: { attribute, points }
 }) => (
-  <div className="attribute align-c">
-    <span className="index">{attribute}</span>
-    <span className="points">{`${points} SP`}</span>
+  <div className="attribute f-column-center justify-center padding-s">
+    <span className="index weight-700 font-size-l">{attribute}</span>
+    <span className="points weight-500 rubik-font font-size-xxs">{`${points} SP`}</span>
   </div>
 );
 
