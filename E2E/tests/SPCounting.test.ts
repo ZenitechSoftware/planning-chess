@@ -2,7 +2,7 @@ Feature("SP counting");
 
 const { I, login, game } = inject();
 import username = require("../test_data/usernames");
-import { ChessPiece, ChessPieceValue } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 import {
   ChessBoardNumbersValue,
   ChessBoardLettersValue,
@@ -15,18 +15,18 @@ Scenario("Individual final SP is rounded to closest value", async () => {
   const url = await I.grabCurrentUrl();
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
-    game.vote(ChessPiece.queen, ChessTile.f5);
+    game.vote(ChessPieces.queen, ChessTile.f5);
   });
-  game.vote(ChessPiece.bishop, ChessTile.d3);
+  game.vote(ChessPieces.bishop, ChessTile.d3);
   const expectedFirstPlayerScore = game.expectedPlayerScore(
-    ChessPieceValue.bishop,
+    ChessPieces.bishop.value,
     ChessBoardLettersValue.d,
     ChessBoardNumbersValue[3]
   );
   const actualFirstPlayerSP = await game.getActualPlayerScore(username.user1);
   await I.assertEqual(actualFirstPlayerSP, expectedFirstPlayerScore);
   const expectedSecondPlayerScore = game.expectedPlayerScore(
-    ChessPieceValue.queen,
+    ChessPieces.queen.value,
     ChessBoardLettersValue.f,
     ChessBoardNumbersValue[5]
   );
@@ -41,9 +41,9 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.vote(ChessPiece.queen, ChessTile.f5);
+      game.vote(ChessPieces.queen, ChessTile.f5);
     });
-    game.vote(ChessPiece.pawn, ChessTile.b3);
+    game.vote(ChessPieces.pawn, ChessTile.b3);
     await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
   }
 );
@@ -57,7 +57,7 @@ Scenario(
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
       game.skipMove();
     });
-    game.vote(ChessPiece.bishop, ChessTile.d3);
+    game.vote(ChessPieces.bishop, ChessTile.d3);
     await assertions.checkTheTotalSPAfterOneOfThePlayersSkippedTheMove();
   }
 );
@@ -69,9 +69,9 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.vote(ChessPiece.rook, ChessTile.d4);
+      game.vote(ChessPieces.rook, ChessTile.d4);
     });
-    game.vote(ChessPiece.bishop, ChessTile.a3);
+    game.vote(ChessPieces.bishop, ChessTile.a3);
     await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
   }
 );
@@ -83,9 +83,9 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.vote(ChessPiece.king, ChessTile.f6);
+      game.vote(ChessPieces.king, ChessTile.f6);
     });
-    game.vote(ChessPiece.pawn, ChessTile.b3);
+    game.vote(ChessPieces.pawn, ChessTile.b3);
     await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
   }
 );
@@ -97,13 +97,13 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.vote(ChessPiece.king, ChessTile.f6);
+      game.vote(ChessPieces.king, ChessTile.f6);
     });
     session(username.user3, () => {
       I.openNewTab();
       login.voterLoginIntoCreatedGameRoom(url, username.user3);
     });
-    game.vote(ChessPiece.pawn, ChessTile.b3);
+    game.vote(ChessPieces.pawn, ChessTile.b3);
     session(username.user3, () => {
       I.switchToNextTab();
       I.closeCurrentTab();
@@ -120,8 +120,8 @@ Scenario("Spectators are not included in final score counting", async () => {
   });
   session(username.user3, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user3);
-    game.vote(ChessPiece.king, ChessTile.f6);
+    game.vote(ChessPieces.king, ChessTile.f6);
   });
-  game.vote(ChessPiece.pawn, ChessTile.b3);
+  game.vote(ChessPieces.pawn, ChessTile.b3);
   await assertions.checkIfTheFinalSPIsRoundedCorrectly(2);
 });

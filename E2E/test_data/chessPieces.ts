@@ -21,4 +21,4 @@ export const ChessPieces = {
   rook: new ChessPiece(ChessPieceName.rook, 5),
   king: new ChessPiece(ChessPieceName.king, 8),
   queen: new ChessPiece(ChessPieceName.queen, 13),
-}
+};

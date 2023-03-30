@@ -87,14 +87,19 @@ export = {
   },
 
   async chessPieceOnBoard(chessPiece: ChessPiece, tile: string) {
-    const expectedChessPiece = chessPiece.name;
-    const actualChessPiece = await I.grabAttributeFrom(game.locator.chessBoard.tileWithChessPiece(tile), 'alt');
+    const expectedChessPiece = chessPiece.name + " icon";
+    const actualChessPiece = await I.grabAttributeFrom(
+      game.locator.chessBoard.tileWithChessPiece(tile),
+      "alt"
+    );
     I.assertEqual(expectedChessPiece, actualChessPiece);
   },
 
   async SPOnBoard(chessPiece: ChessPiece, tile: string) {
-    const expectedValue = chessPiece.value + 'SP';
-    const actualValue = await I.grabTextFrom(game.locator.chessBoard.tileWithPoints(tile));
+    const expectedValue = chessPiece.value + "SP";
+    const actualValue = await I.grabTextFrom(
+      game.locator.chessBoard.tileWithPoints(tile)
+    );
     I.assertEqual(expectedValue, actualValue);
   },
 };
