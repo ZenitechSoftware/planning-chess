@@ -25,12 +25,16 @@ const Tile = ({
     <td
       onClick={_onClick}
       role="presentation"
-      className={classNames({
+      className={classNames('chess-board-tile',{
         'non-border-tile': filled,
         'border-tile': isTileWithBorder()
       })}
     >
-      {attribute ? <Attribute tile={{ attribute, points }} /> : <Square filled={!!filled} row={row} column={column} items={items} />}
+      { 
+        attribute 
+          ? <Attribute tile={{ attribute, points }} /> 
+          : <Square filled={!!filled} row={row} column={column} items={items} />
+      }
     </td>
   );
 };

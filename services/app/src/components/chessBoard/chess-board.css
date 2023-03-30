@@ -4,46 +4,14 @@ table {
 }
 
 .chess-board-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
   padding: 16px 16px 8px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(33, 33, 33, 0.12);
-  background-color: white;
-  width: fit-content;
+  border: 1px solid var(--dark-border);
   user-select: none;
-}
-
-.chess-board-container .rotated-outer {
-  position: relative;
-  width: 24px;
-  height: 120px;
-}
-
-.chess-board-container .rotated-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
-  transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
-}
-
-.chess-board-container .axis-title {
-  font-size: 14px;
-  line-height: 24px;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  white-space: nowrap;
-  color: var(--primary-text);
+  max-width: 580px;
 }
 
 #chess-board .border-tile, .non-border-tile {
   cursor: pointer;
-  width: 72px;
-  height: 72px;
   position: relative;
   border: 1px solid transparent;
 }
@@ -57,36 +25,28 @@ table {
 }
 
 #chess-board .border-tile:hover, .non-border-tile:hover {
-  border: 1px solid #6547FD;
-  width: 70px;
-  height: 70px;
+  border: 1px solid var(--game-light-purple);
+}
+
+#chess-board .border-tile,
+#chess-board .non-border-tile {
+  aspect-ratio: 1 / 1;
 }
 
 #chess-board .is-empty-tile:hover::before {
   content: "";
-  width: 40px;
-  height: 40px;
-  background: #6547FD;
+  width: 60%;
+  aspect-ratio: 1 / 1;
+  background: var(--game-light-purple);
   opacity: 0.5;
-  border-radius: 40px;
+  border-radius: 50%;
   position: absolute;
   transform: translateX(-50%) translateY(-50%);
   top: 50%;
   left: 50%;
 }
 
-#chess-board .attribute {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 8px;
-}
-
 #chess-board .attribute .index {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
   line-height: 28px;
   letter-spacing: -0.15px;
   color: var(--primary-text);
@@ -94,10 +54,6 @@ table {
 }
 
 #chess-board .attribute .points {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -105,56 +61,36 @@ table {
 }
 
 #chess-board .square {
-  display: flex;
   position: relative;
-  height: 70px;
-  width: 70px;
-  margin: auto;
+  height: clamp(59px, 6.6vh,70px);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.square-move-info {
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-#chess-board .square .bubble-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2px;
-}
-
-#chess-board .square .name {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 16px;
-  text-transform: uppercase;
-  color: var(--primary);
-}
-
-#chess-board .square .figure-container {
-  display: flex;
   justify-content: space-around;
-  padding: 0px 3px
+  align-items: center;
+  height: 100%;
 }
 
-#chess-board .square .figure-container-centered {
-  justify-content: center;
+.square-move-info .square-avatar-container {
+  height: 45%;
+  z-index: 2;
+}
+
+.square-move-info .square-move-text {
+  height: 25%;
+  z-index: 2;
 }
 
 #chess-board .square .figure-img {
-  height: 23px;
-}
-
-#chess-board .square .figure-img-nth {
-  margin-left: -4px;
+  height: 15px;
 }
 
 #chess-board .square .figure-text {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 800;
-  font-size: 15px;
-  line-height: 27px;
-  color: var(--primary-text);;
+  color: var(--primary-text);
 }
 
 #chess-board .square .figure-text-margin {
@@ -162,11 +98,6 @@ table {
 }
 
 #chess-board .square .number {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 16px;
   color: var(--chess-tile-dark);
   position: absolute;
   text-transform: uppercase;
@@ -186,21 +117,42 @@ table {
   bottom: 2px;
 }
 
+.chess-board-container .rotated-outer {
+  position: relative;
+  width: 24px;
+  height: 120px;
+}
+
+.chess-board-container .rotated-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+.chess-board-container .axis-title {
+  font-size: 1rem;
+  white-space: nowrap;
+  color: var(--primary-text);
+}
+
 #chess-board .pop-over {
+  z-index: 3;
   display: none;
   flex-direction: column;
   align-items: flex-start;
-  padding: 12px 16px;
   position: absolute;
   min-width: 242px;
   width: max-content;
   left: 0px;
   top: 6px;
   background: var(--white);
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.06), 0px 1px 18px rgba(0, 0, 0, 0.04), 0px 3px 5px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.06), 
+              0px 1px 18px rgba(0, 0, 0, 0.04), 
+              0px 3px 5px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
-  cursor: default;
-  z-index: 1;
   top: 89px;
   left: 50%;
   -webkit-transform: translateX(-50%);
@@ -209,10 +161,10 @@ table {
 
 #chess-board .pop-over:before {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   content: "";
   right: calc(50% - 10px);
-  top: -6px;
+  top: -5px;
   border-style: solid;
   border-width: 0 9px 6px 9px;
   border-color: transparent transparent #fff transparent;
@@ -223,41 +175,19 @@ table {
 }
 
 #chess-board .pop-over .pop-over-title {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 24px;
-  font-feature-settings: 'ordn' on;
-  color: var(--primary-text);;
+  color: var(--primary-text);
 }
 
 #chess-board .pop-over .move-info .text {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 26px;
-  color: var(--primary-text);;
-  margin-left: 8px;
-}
-
-#chess-board .pop-over .move-info .text-bold {
-  font-weight: 600;
+  color: var(--primary-text);
 }
 
 #chess-board .pop-over .move-info .score {
-  display: flex;
-  padding: 0px 6px;
   background: var(--primary);
   border-radius: 20px;
-  margin-left: 8px;
 }
 
 #chess-board .pop-over .move-info .score span {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.1px;

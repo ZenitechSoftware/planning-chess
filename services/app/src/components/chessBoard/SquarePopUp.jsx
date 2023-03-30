@@ -15,24 +15,32 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
   }
 
   return (
-    <div className={classNames(["pop-over", showPopover && "pop-over-opened"])}>
-      <span className="pop-over-title" data-testid="pop-up-selected-square">{`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}</span>
+    <div 
+      className={classNames("pop-over padding-y-sm padding-x-m", {
+        "pop-over-opened": showPopover
+      })}
+      data-testid={`pop-up-${row}-${column}`}
+    >
+      <span className="pop-over-title weight-700 font-size-l lato-font">
+        {`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}
+      </span>
       {items.map((item, index) => (
         <div key={`move-info-${index}`} className="move-info f-1 align-c margin-t-s">
           <div className='pop-up-figure-icon-container f-center'>
-            <img className='pop-up-figure-icon margin-r-xs' data-testid="pop-up-figure-icon" src={getPieceIconSrc(item.figure)} alt="move-piece-icon" />
+            <img className='pop-up-figure-icon margin-r-xs' src={getPieceIconSrc(item.figure)} alt="move-piece-icon" />
           </div>
           <UserAvatar 
             playerId={item.playerId}
             size='xs'
             bordered
             playerInitials={item.player[0]}
+            dataTestId={`pop-up-avatar-${item.playerId}`}
           />
-          <span className="text">
+          <span className="text rubik-font font-size-l margin-l-s">
             {`${item.player} - `}
           </span>
-          <div className="score">
-            <span data-testid="pop-up-score">{`${item.score} SP`}</span>
+          <div className="score margin-l-s padding-y-0 padding-x-s">
+            <span className='rubik-font' data-testid={`pop-up-${item.playerId}-score`}>{`${item.score} SP`}</span>
           </div>
         </div>
       ))}
