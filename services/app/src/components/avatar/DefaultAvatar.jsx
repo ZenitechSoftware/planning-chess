@@ -5,9 +5,10 @@ import { getAvatarStyle } from '../../helpers/getAvatarStyle';
 import { avatarSizesMap } from '../../helpers/getAvatarProperties';
 import { avatarSizePropType } from '../../prop-types/player';
 
-const DefaultAvatar = ({ playerId, bordered, size, playerInitials }) => (
+const DefaultAvatar = ({ playerId, bordered, size, playerInitials, dataTestId }) => (
   <AntdAvatar
     className='f-center poppins-font select-none'
+    data-testid={`default-avatar-${dataTestId}`}
     size={avatarSizesMap[size]}
     style={getAvatarStyle(playerId, bordered, size)}
   >
@@ -18,6 +19,7 @@ const DefaultAvatar = ({ playerId, bordered, size, playerInitials }) => (
 DefaultAvatar.defaultProps = {
   size: 'm',
   bordered: false,
+  dataTestId: null,
 }
 
 DefaultAvatar.propTypes = {
@@ -25,6 +27,7 @@ DefaultAvatar.propTypes = {
   size: avatarSizePropType,
   bordered: PropTypes.bool,
   playerInitials: PropTypes.string.isRequired,
+  dataTestId: PropTypes.string,
 };
 
 export default DefaultAvatar;

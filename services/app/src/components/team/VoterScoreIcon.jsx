@@ -6,14 +6,16 @@ import { PlayerStatuses } from '../../constants/playerConstants';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { GameState } from '../../constants/gameConstants';
 
-const VoterScoreIcon = ({ score, status }) => {
+const VoterScoreIcon = ({ score, status, playerId }) => {
   const { gameState } = useChessBoardContext();
 
   if (status === PlayerStatuses.MoveSkipped) {
     return (
-      <span className={classNames('team-list-voter-skip-score rubik-font weight-500 padding-x-s padding-y-xs font-size-xs border-r-20', {
+      <span 
+        className={classNames('team-list-voter-skip-score rubik-font weight-500 padding-x-s padding-y-xs font-size-xs border-r-20', {
           'current-move-score-icon': gameState === GameState.GAME_IN_PROGRESS,
         })}
+        data-testid={`voter-skipped-endgame-icon-${playerId}`}
       >
         Skipped
       </span>
@@ -21,7 +23,9 @@ const VoterScoreIcon = ({ score, status }) => {
   }
 
   return (
-    <span className={classNames('team-list-voter-score padding-x-s padding-y-xs font-size-xs border-r-20', {
+    <span 
+      data-testid={`voter-score-icon-${playerId}`}
+      className={classNames('team-list-voter-score padding-x-s padding-y-xs font-size-xs border-r-20', {
       'current-move-score-icon weight-700': gameState === GameState.GAME_IN_PROGRESS,
       })}
     >
@@ -36,7 +40,8 @@ VoterScoreIcon.defaultProps = {
 
 VoterScoreIcon.propTypes = {
   score: PropTypes.number,
-  status: PropTypes.oneOf(Object.values(PlayerStatuses)).isRequired
+  status: PropTypes.oneOf(Object.values(PlayerStatuses)).isRequired,
+  playerId: PropTypes.string.isRequired,
 };
 
 export default VoterScoreIcon;

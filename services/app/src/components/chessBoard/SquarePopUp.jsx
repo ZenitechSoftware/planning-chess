@@ -19,6 +19,7 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
       className={classNames("pop-over padding-y-sm padding-x-m", {
         "pop-over-opened": showPopover
       })}
+      data-testid={`pop-up-${row}-${column}`}
     >
       <span className="pop-over-title weight-700 font-size-l lato-font">
         {`Square ${board[row][0].attribute}${board[board.length - 1][column].attribute.toUpperCase()}:`}
@@ -33,12 +34,13 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
             size='xs'
             bordered
             playerInitials={item.player[0]}
+            dataTestId={`pop-up-${item.playerId}`}
           />
           <span className="text rubik-font font-size-l margin-l-s">
             {`${item.player} - `}
           </span>
           <div className="score margin-l-s padding-y-0 padding-x-s">
-            <span className='rubik-font'>{`${item.score} SP`}</span>
+            <span className='rubik-font' data-testid={`pop-up-${item.playerId}-score`}>{`${item.score} SP`}</span>
           </div>
         </div>
       ))}
