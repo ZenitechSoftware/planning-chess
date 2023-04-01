@@ -12,8 +12,79 @@
   display: flex;
   border: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.copy-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: width 0.3s ease-out;
+  pointer-events: none;
+}
+
+.copy-btn:hover::before {
+  width: 100%;
+  background-color: green;
+}
+
+.copy-btn::after {
+  content: "\2713";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 24px;
+  color: #fff;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease-out;
+  pointer-events: none;
+}
+
+.copy-btn.clicked::before {
+  transition: none;
+}
+
+.copy-btn.clicked::after {
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 1;
+  animation: reset-state 0.85s 1;
+  animation-fill-mode: forwards;
 }
 
 .copy-btn > .copy-icon {
   filter: brightness(100) saturate(100%);
+  opacity: 1;
+  transition: opacity 0.1s ease-out;
+}
+
+.copy-btn > p {
+  opacity: 1;
+  transition: opacity 0.1s ease-out;
+}
+
+
+.copy-btn.clicked > .copy-icon {
+  opacity: 0;
+}
+
+.copy-btn.clicked > p {
+  opacity: 0;
+}
+
+@keyframes reset-state {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 0;
+  }
 }
