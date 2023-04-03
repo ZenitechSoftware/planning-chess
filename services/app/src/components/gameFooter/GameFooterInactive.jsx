@@ -1,5 +1,6 @@
 import React from 'react';
 import CopyIcon from '../../static/svg/CopyLink.svg';
+
 const GameFooterInactive = () => {
   const copyUrl = () => {
     navigator.clipboard.writeText(window.location.href);
