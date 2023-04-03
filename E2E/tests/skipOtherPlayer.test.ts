@@ -1,7 +1,7 @@
 Feature("skip other player");
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 
 const { I, login, game } = inject();
 
@@ -17,7 +17,7 @@ Scenario("User skips another player", async () => {
   });
   I.waitForElement(game.locator.playersList.playerSkippedBadge(username.user1));
   session(username.user2, () => {
-    game.vote(ChessPiece.pawn, ChessTile.a1);
+    game.vote(ChessPieces.pawn, ChessTile.a1);
     I.waitForText("Game complete - 1 SP");
   });
 });

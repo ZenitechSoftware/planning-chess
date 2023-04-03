@@ -1,5 +1,6 @@
 const { I, game } = inject();
 import username = require("../test_data/usernames");
+import { ChessPiece } from "../test_data/ChessPieces";
 
 export = {
   async checkIfTheFinalSPIsRoundedCorrectly(playerNumber: number) {
@@ -83,5 +84,22 @@ export = {
       "src"
     );
     I.assertEqual(avatarImageInPlayersList, avatarImage);
+  },
+
+  async chessPieceOnBoard(chessPiece: ChessPiece, tile: string) {
+    const expectedChessPiece = chessPiece.name + " icon";
+    const actualChessPiece = await I.grabAttributeFrom(
+      game.locator.chessBoard.tileWithChessPiece(tile),
+      "alt"
+    );
+    I.assertEqual(expectedChessPiece, actualChessPiece);
+  },
+
+  async SPOnBoard(chessPiece: ChessPiece, tile: string) {
+    const expectedValue = chessPiece.value + "SP";
+    const actualValue = await I.grabTextFrom(
+      game.locator.chessBoard.tileWithPoints(tile)
+    );
+    I.assertEqual(expectedValue, actualValue);
   },
 };
