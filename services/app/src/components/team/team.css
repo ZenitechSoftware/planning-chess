@@ -1,9 +1,9 @@
 .team-container {
   box-sizing: border-box;
   border: 1px solid var(--dark-border);
-  order: 1;
+  border-radius: 5px 5px 0 0;
   width: 384px;
-  height: inherit;
+  height: 100%;
 }
 
 .team-header {
@@ -44,7 +44,7 @@
   width: 40px;
   height: 40px;
   flex: none;
-  border-radius: 64px;
+  border-radius: 50%;
   user-select: none;
 }
 

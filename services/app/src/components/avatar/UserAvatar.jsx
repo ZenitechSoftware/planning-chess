@@ -5,14 +5,14 @@ import CustomAvatar from './CustomAvatar';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import { avatarSizePropType } from '../../prop-types/player';
 
-const UserAvatar = ({ size, playerId, imageUrl, playerInitials, bordered }) => {
+const UserAvatar = ({ size, playerId, imageUrl, playerInitials, bordered, dataTestId }) => {
   const { findUserById } = useChessBoardContext();
   const user = findUserById(playerId);
 
   const playerLetter = playerInitials ?? user.name[0].toUpperCase();
 
   if (!user) {
-    return <DefaultAvatar playerId={playerId} bordered size={size} playerInitials={playerLetter} />;
+    return <DefaultAvatar playerId={playerId} bordered size={size} playerInitials={playerLetter} dataTestId={dataTestId} />;
   }
 
   if (imageUrl || user.avatar) {
@@ -23,11 +23,12 @@ const UserAvatar = ({ size, playerId, imageUrl, playerInitials, bordered }) => {
         imageUrl={imageUrl || user.avatar}
         playerId={playerId}
         playerInitials={playerLetter}
+        dataTestId={dataTestId}
       />
     );
   }
 
-  return <DefaultAvatar size={size} playerId={playerId} bordered={bordered} playerInitials={playerLetter} />;
+  return <DefaultAvatar size={size} playerId={playerId} bordered={bordered} playerInitials={playerLetter} dataTestId={dataTestId} />;
 }
 
 UserAvatar.defaultProps = {
@@ -35,6 +36,7 @@ UserAvatar.defaultProps = {
   imageUrl: '',
   playerInitials: null,
   bordered: false,
+  dataTestId: null,
 }
 
 UserAvatar.propTypes = {
@@ -43,6 +45,7 @@ UserAvatar.propTypes = {
   imageUrl: PropTypes.string,
   playerInitials: PropTypes.string,
   bordered: PropTypes.bool,
+  dataTestId: PropTypes.string,
 };
 
 export default UserAvatar;

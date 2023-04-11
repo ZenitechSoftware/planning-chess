@@ -41,7 +41,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           {figureName}
         </p>
         <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
-          <p className="figure-strength font-size-xxs weight-700">{figureStrength}</p>
+          <p className="figure-strength font-size-xxs weight-500">{figureStrength}</p>
         </div>
       </button>
     </PlanningChessTooltip>

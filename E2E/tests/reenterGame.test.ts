@@ -3,7 +3,7 @@ Feature("Reenter game");
 const { I, login, game } = inject();
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 
 Scenario(
   "Player, who was skipped from game by others, leaves and returns back to game room",
@@ -19,7 +19,7 @@ Scenario(
       game.gameInProgressStatus();
       I.seeElement(game.locator.buttons.skipButtonHighlighted);
     });
-    game.vote(ChessPiece.knight, ChessTile.e4);
+    game.vote(ChessPieces.knight, ChessTile.e4);
     I.waitForText("Game complete");
   }
 );
@@ -49,7 +49,7 @@ Scenario(
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
     });
-    game.vote(ChessPiece.rook, ChessTile.d3);
+    game.vote(ChessPieces.rook, ChessTile.d3);
     session(username.user2, () => {
       game.skipMove();
       I.refreshPage();
@@ -66,25 +66,17 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.voteAndCheckThatVoteIsVisible(
-        ChessPiece.pawn,
-        ChessTile.a1,
-        ChessPieceValue.pawn
-      );
+      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
     });
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.knight,
-      ChessTile.e4,
-      ChessPieceValue.knight
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e4);
     I.waitForText("Game complete");
     const actualFinalScoreBeforeNavigating = await I.grabNumberFrom(
       game.locator.playersList.totalSP
     );
     game.navigateBackAndForward();
     I.waitForText("Game complete");
-    game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
-    game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
+    game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
+    game.voteIsVisible(ChessPieces.knight, ChessTile.e4);
     const actualFinalScoreAfterNavigating = await I.grabNumberFrom(
       game.locator.playersList.totalSP
     );
@@ -100,24 +92,16 @@ Scenario("Player refreshes browser when he already finished move", async () => {
   const url = await I.grabCurrentUrl();
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.a1,
-      ChessPieceValue.pawn
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
     I.refreshPage();
     I.waitForText("Game in progress...");
-    game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+    game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
-  game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
-  game.voteAndCheckThatVoteIsVisible(
-    ChessPiece.knight,
-    ChessTile.e4,
-    ChessPieceValue.knight
-  );
+  game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
+  game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e4);
   I.waitForText("Game complete");
-  game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
-  game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
+  game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
+  game.voteIsVisible(ChessPieces.knight, ChessTile.e4);
 });
 
 Scenario(
@@ -127,23 +111,19 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, async () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.voteAndCheckThatVoteIsVisible(
-        ChessPiece.pawn,
-        ChessTile.a1,
-        ChessPieceValue.pawn
-      );
+      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
       const voteScoreBeforeNavigating = Number(
         await I.grabTextFrom(game.locator.playersList.playerIndividualSP(1))
       );
       game.navigateBackAndForward();
       I.waitForText("Game in progress...");
-      game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+      game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
       const voteScoreAfterNavigating = Number(
         await I.grabTextFrom(game.locator.playersList.playerIndividualSP(1))
       );
       I.assertEqual(voteScoreBeforeNavigating, voteScoreAfterNavigating);
     });
-    game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+    game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
   }
 );
 

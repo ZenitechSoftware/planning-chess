@@ -2,7 +2,7 @@ Feature("game complete");
 
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 
 const { I, login, game } = inject();
 
@@ -11,24 +11,20 @@ Scenario("Game completes automatically after last voter votes", async () => {
   const url = await I.grabCurrentUrl();
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.knight,
-      ChessTile.e4,
-      ChessPieceValue.knight
-    );
-    I.click(game.locator.chessPieces.chessPiece(ChessPiece.rook));
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e4);
+    I.click(game.locator.chessPieces.chessPiece(ChessPieces.rook.name));
   });
-  game.vote(ChessPiece.pawn, ChessTile.c4);
+  game.vote(ChessPieces.pawn, ChessTile.c4);
   I.waitForText("Game complete");
   session(username.user2, () => {
     I.waitForText("Game complete");
-    game.voteIsVisible(ChessPiece.pawn, ChessTile.c4, ChessPieceValue.pawn);
-    game.voteIsVisible(ChessPiece.knight, ChessTile.e4, ChessPieceValue.knight);
+    game.voteIsVisible(ChessPieces.pawn, ChessTile.c4);
+    game.voteIsVisible(ChessPieces.knight, ChessTile.e4);
     I.seeElement(
-      game.locator.chessPieces.chessPieceHighlighted(ChessPiece.knight)
+      game.locator.chessPieces.chessPieceHighlighted(ChessPieces.knight.name)
     );
     I.dontSeeElement(
-      game.locator.chessPieces.chessPieceHighlighted(ChessPiece.rook)
+      game.locator.chessPieces.chessPieceHighlighted(ChessPieces.rook.name)
     );
   });
 });

@@ -4,7 +4,7 @@ import UserAvatar from '../avatar/UserAvatar';
 
 const VoterRow = ({ name, currentPlayerId, playerId, addon }) => (
   <>
-    <UserAvatar size='m' playerId={playerId} />
+    <UserAvatar size='m' playerId={playerId} dataTestId={`team-list-${playerId}`} />
 
     <div className="team-list-item-name">
       {name}
