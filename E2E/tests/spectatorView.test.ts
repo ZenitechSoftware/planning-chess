@@ -1,7 +1,7 @@
 Feature("spectator view");
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 
 const { I, login, game } = inject();
 
@@ -13,12 +13,12 @@ Scenario("Spectator can’t place selected figure on board", async () => {
   });
   session(username.user3, () => {
     login.spectatorLoginIntoCreatedGameRoom(url, username.user3);
-    I.click(game.locator.chessPieces.chessPiece(ChessPiece.rook));
+    I.click(game.locator.chessPieces.chessPiece(ChessPieces.rook.name));
     I.dontSeeElement(
-      game.locator.chessPieces.chessPieceHighlighted(ChessPiece.rook)
+      game.locator.chessPieces.chessPieceHighlighted(ChessPieces.rook.name)
     );
     I.click(game.locator.chessBoard.chessTile(ChessTile.e4));
-    game.voteIsNotVisible(ChessPiece.rook, ChessTile.e2, ChessPieceValue.rook);
+    game.voteIsNotVisible(ChessPieces.rook, ChessTile.e2);
   });
 });
 
@@ -64,17 +64,13 @@ Scenario("Spectator doesn’t have to vote for game to be finished", async () =>
     login.spectatorLoginIntoCreatedGameRoom(url, username.user3);
   });
   session(username.user2, () => {
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.a1,
-      ChessPieceValue.pawn
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
   game.skipMove();
   I.waitForText("Game complete");
-  game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+  game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
   session(username.user3, () => {
-    game.voteIsVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+    game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
 });
 
@@ -88,33 +84,21 @@ Scenario("Spectator restarts previously finished game", async () => {
     login.spectatorLoginIntoCreatedGameRoom(url, username.user3);
   });
   session(username.user2, () => {
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.a1,
-      ChessPieceValue.pawn
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
   game.skipMove();
   session(username.user3, () => {
     I.waitForText("Game complete");
     I.click(game.locator.buttons.restartGame);
-    game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+    game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
   });
-  game.voteAndCheckThatVoteIsVisible(
-    ChessPiece.knight,
-    ChessTile.e2,
-    ChessPieceValue.knight
-  );
+  game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e2);
   session(username.user2, () => {
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.king,
-      ChessTile.d3,
-      ChessPieceValue.king
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.king, ChessTile.d3);
     I.waitForText("Game complete");
-    game.voteIsVisible(ChessPiece.king, ChessTile.d3, ChessPieceValue.king);
-    game.voteIsVisible(ChessPiece.knight, ChessTile.e2, ChessPieceValue.knight);
-    game.voteIsNotVisible(ChessPiece.pawn, ChessTile.a1, ChessPieceValue.pawn);
+    game.voteIsVisible(ChessPieces.king, ChessTile.d3);
+    game.voteIsVisible(ChessPieces.knight, ChessTile.e2);
+    game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
   });
 });
 
@@ -146,9 +130,9 @@ Scenario("Spectators are displayed at the bottom of players list", async () => {
       game.locator.playersList.playerUsernameByIndex(4)
     );
   });
-  game.vote(ChessPiece.king, ChessTile.c3);
+  game.vote(ChessPieces.king, ChessTile.c3);
   session(username.user3, () => {
-    game.vote(ChessPiece.king, ChessTile.c3);
+    game.vote(ChessPieces.king, ChessTile.c3);
     I.waitForText("Game complete");
     I.seeTextEquals(
       `${username.user2}`,

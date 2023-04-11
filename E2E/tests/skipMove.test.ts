@@ -5,7 +5,7 @@ import assertions = require("../assertions/assertions");
 import { color } from "../test_data/colors";
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 
 Scenario(
   "Player skips move after placing selected figure on board",
@@ -14,18 +14,10 @@ Scenario(
     const url = await I.grabCurrentUrl();
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.voteAndCheckThatVoteIsVisible(
-        ChessPiece.pawn,
-        ChessTile.a1,
-        ChessPieceValue.pawn
-      );
+      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
       I.waitForElement(game.locator.playersList.voterScoreIcon(username.user2));
       game.skipMove();
-      game.voteIsNotVisible(
-        ChessPiece.pawn,
-        ChessTile.a1,
-        ChessPieceValue.pawn
-      );
+      game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
       I.seeElement(game.locator.buttons.skipButtonHighlighted);
       I.waitForElement(
         game.locator.playersList.playerSkippedBadge(username.user2)
@@ -42,19 +34,11 @@ Scenario("Player who makes the move last skips", async () => {
   });
   session(username.user3, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user3);
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.a1,
-      ChessPieceValue.pawn
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
   session(username.user2, () => {
     I.waitForElement(game.locator.playersList.playerDoneIcon(username.user3));
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.rook,
-      ChessTile.b3,
-      ChessPieceValue.rook
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
   });
   I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
   I.waitForElement(game.locator.playersList.playerDoneIcon(username.user3));
@@ -76,22 +60,14 @@ Scenario("Player who makes the move first skips", async () => {
     I.waitForElement(
       game.locator.playersList.playerSkippedIcon(username.user1)
     );
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.rook,
-      ChessTile.b3,
-      ChessPieceValue.rook
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
   });
   session(username.user3, () => {
     I.waitForElement(
       game.locator.playersList.playerSkippedIcon(username.user1)
     );
     I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.a1,
-      ChessPieceValue.pawn
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
     I.waitForText("Game complete");
   });
 });
@@ -107,11 +83,7 @@ Scenario(
     session(username.user3, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user3);
     });
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.rook,
-      ChessTile.b3,
-      ChessPieceValue.rook
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
     session(username.user2, () => {
       I.waitForElement(game.locator.playersList.playerDoneIcon(username.user1));
       game.skipMove();
@@ -121,11 +93,7 @@ Scenario(
       I.waitForElement(
         game.locator.playersList.playerSkippedIcon(username.user2)
       );
-      game.voteAndCheckThatVoteIsVisible(
-        ChessPiece.pawn,
-        ChessTile.a1,
-        ChessPieceValue.pawn
-      );
+      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
       I.waitForText("Game complete");
     });
   }
@@ -162,7 +130,7 @@ Scenario("On hover skip move button tooltip appears", async () => {
   I.dontSeeElement(game.locator.text.skipMoveTooltip);
   I.moveCursorTo(game.locator.buttons.skip);
   I.waitForVisible(game.locator.text.skipMoveTooltip);
-  I.moveCursorTo(game.locator.chessPieces.chessPiece(ChessPiece.bishop));
+  I.moveCursorTo(game.locator.chessPieces.chessPiece(ChessPieces.bishop.name));
   I.dontSeeElement(game.locator.text.skipMoveTooltip);
 });
 
@@ -182,7 +150,7 @@ Scenario(
     );
     session(username.user2, async () => {
       I.seeElement(game.locator.playersList.playerSkippedIcon(username.user1));
-      game.vote(ChessPiece.pawn, ChessTile.a1);
+      game.vote(ChessPieces.pawn, ChessTile.a1);
       await assertions.checkSkippedBadgeColors(
         username.user1,
         color.orange,

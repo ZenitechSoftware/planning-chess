@@ -4,7 +4,7 @@ const { I, login, game } = inject();
 import username = require("../test_data/usernames");
 import imageLink = require("../test_data/imageLinks");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 import assertions = require("../assertions/assertions");
 
 Scenario("Player uploads avatar during login", async () => {
@@ -85,11 +85,7 @@ Scenario(
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
     });
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.rook,
-      ChessTile.a1,
-      ChessPieceValue.rook
-    );
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.a1);
     game.uploadAvatarPhoto(imageLink.dogImageLink);
     await game.confirmAvatarPhotoWhenImageLinkIsValid(imageLink.dogImageLink);
     session(username.user2, async () => {
@@ -98,22 +94,10 @@ Scenario(
         "src"
       );
       I.assertEqual(imageLink.dogImageLink, firstPlayersImageOnThePlayersList);
-      game.voteIsNotVisible(
-        ChessPiece.rook,
-        ChessTile.a1,
-        ChessPieceValue.rook
-      );
-      game.voteAndCheckThatVoteIsVisible(
-        ChessPiece.pawn,
-        ChessTile.b3,
-        ChessPieceValue.pawn
-      );
+      game.voteIsNotVisible(ChessPieces.rook, ChessTile.a1);
+      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.b3);
       I.waitForText("Game complete");
-      game.avatarPictureIsVisibleOnTheBoard(
-        ChessPiece.rook,
-        ChessTile.a1,
-        ChessPieceValue.rook
-      );
+      game.avatarPictureIsVisibleOnTheBoard(ChessPieces.rook, ChessTile.a1);
     });
   }
 );

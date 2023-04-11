@@ -3,7 +3,7 @@ Feature("Chessboard pop-up is showing moves SP");
 const { I, login, game } = inject();
 import username = require("../test_data/usernames");
 import ChessTile = require("../test_data/chessTiles");
-import { ChessPieceValue, ChessPiece } from "../test_data/chessPieces";
+import { ChessPieces } from "../test_data/chessPieces";
 
 Scenario("Chessboard pop-up shows individual vote information", async () => {
   login.firstVoterLogin(username.user1);
@@ -11,11 +11,7 @@ Scenario("Chessboard pop-up shows individual vote information", async () => {
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
   });
-  game.voteAndCheckThatVoteIsVisible(
-    ChessPiece.king,
-    ChessTile.f6,
-    ChessPieceValue.king
-  );
+  game.voteAndCheckThatVoteIsVisible(ChessPieces.king, ChessTile.f6);
   game.openPopUp(ChessTile.f6);
   game.checkElementsInThePopUp(username.user1);
   const individualScoreInThePopUp = await I.grabNumberFrom(
@@ -29,12 +25,8 @@ Scenario("Chessboard pop-up shows individual vote information", async () => {
     Number(individualScoreInPlayersList)
   );
   session(username.user2, () => {
-    game.voteAndCheckThatVoteIsVisible(
-      ChessPiece.pawn,
-      ChessTile.b3,
-      ChessPieceValue.pawn
-    );
-    game.voteIsVisible(ChessPiece.king, ChessTile.f6, ChessPieceValue.king);
+    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.b3);
+    game.voteIsVisible(ChessPieces.king, ChessTile.f6);
     game.openPopUp(ChessTile.f6);
     game.checkElementsInThePopUp(username.user1);
   });
