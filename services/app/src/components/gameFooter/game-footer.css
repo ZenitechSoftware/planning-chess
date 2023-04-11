@@ -28,11 +28,6 @@
   pointer-events: none;
 }
 
-.copy-btn:hover::before {
-  width: 100%;
-  background-color: green;
-}
-
 .copy-btn::after {
   content: "\2713";
   position: absolute;
