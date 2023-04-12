@@ -18,6 +18,7 @@ const Square = ({
 }) => {
   const { board, currentPlayerId } = useChessBoardContext();
   const [showPopover, setShowPopover] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const turnToShow = useMemo(() => {
     const myMove = items.find(figure => figure.playerId === currentPlayerId);
@@ -44,10 +45,10 @@ const Square = ({
       className={classNames("square", {
         'is-empty-tile': !items.length && row !== board.length - 1 && column !== 0
       })}
-      onMouseEnter={() => updatePopover(true)}
-      onMouseLeave={() => updatePopover(false)}
+      onMouseEnter={() => {updatePopover(true); setIsHovered(true)}}
+      onMouseLeave={() => {updatePopover(false); setIsHovered(false)}}
     >
-      {!!items.length && (
+      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0)) && (
         <span
           className={classNames('number number-row', {
             'number-filled': filled
@@ -98,7 +99,7 @@ const Square = ({
         )}
       </div>
 
-      {!!items.length && (
+      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0))&& (
         <span 
           className={classNames('number number-column', {
             'number-filled': filled,
