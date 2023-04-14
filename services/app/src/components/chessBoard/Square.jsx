@@ -7,6 +7,7 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import UserAvatar from '../avatar/UserAvatar';
 import { squareItemPropType } from '../../prop-types/chessboard';
 import SquarePopUp from './SquarePopUp';
+import { GameState } from '../../constants/gameConstants'
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -16,7 +17,7 @@ const Square = ({
   column,
   filled
 }) => {
-  const { board, currentPlayerId } = useChessBoardContext();
+  const { board, currentPlayerId, gameState } = useChessBoardContext();
   const [showPopover, setShowPopover] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -48,7 +49,7 @@ const Square = ({
       onMouseEnter={() => {updatePopover(true); setIsHovered(true)}}
       onMouseLeave={() => {updatePopover(false); setIsHovered(false)}}
     >
-      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0)) && (
+      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState === GameState.GAME_IN_PROGRESS)) && (
         <span
           className={classNames('number number-row', {
             'number-filled': filled
@@ -99,7 +100,7 @@ const Square = ({
         )}
       </div>
 
-      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0))&& (
+      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState === GameState.GAME_IN_PROGRESS))&& (
         <span 
           className={classNames('number number-column', {
             'number-filled': filled,
