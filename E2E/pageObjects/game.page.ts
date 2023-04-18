@@ -74,8 +74,10 @@ const locator = {
       `//button[@data-testid="${chessPiece}-piece-btn"][contains(@class, "selected")]`,
   },
   buttons: {
-    copyLinkHeader: locate('//*[text() = "Copy Link"]').at(1),
-    copyLink: '//button/p[contains(text(), "Copy Link")]',
+    copyLinkHeader: "$game-header-copy-link-button",
+    copyLink: "$game-footer-copy-link-button",
+    copyLinkFooterButtonClicked:
+      '//*[@class="copy-btn border-r-4 padding-sm gap-s align-c clicked"]',
     restartGame: '//button/span[contains(text(), "Restart game")]',
     skip: "$skip-piece-btn",
     skipButtonHighlighted: `//button[@data-testid="skip-piece-btn"][contains(@class, "selected")]`,
@@ -172,6 +174,13 @@ export = {
     I.waitForInvisible(locator.text.linkCopiedToClipboard);
     I.click(locator.buttons.copyLinkHeader);
     I.waitForElement(locator.text.linkCopiedToClipboard);
+  },
+
+  checkCopyLinkButtonLocatedUnderChessboard: () => {
+    I.waitForElement(locator.buttons.copyLink);
+    I.click(locator.buttons.copyLink);
+    I.waitForElement(locator.buttons.copyLinkFooterButtonClicked);
+    I.waitForInvisible(locator.buttons.copyLinkFooterButtonClicked);
   },
 
   getNumberOfPlayersInList: async () => {

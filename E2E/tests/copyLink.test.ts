@@ -28,3 +28,13 @@ Scenario(
     assertions.checkIfTheLinkWasCopied(currentUrl);
   }
 );
+
+Scenario(
+  "Copy Link button located under the chess board is working correctly",
+  async () => {
+    login.firstVoterLogin(username.user1);
+    const currentUrl = await I.grabCurrentUrl();
+    game.checkCopyLinkButtonLocatedUnderChessboard();
+    assertions.checkIfTheLinkWasCopied(currentUrl);
+  }
+);
