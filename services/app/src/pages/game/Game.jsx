@@ -29,6 +29,29 @@ const Game = () => {
   const { currentPlayer, lastTurn, removeFigureFromBoard, isAnotherSessionActive } = useChessBoardContext();
 
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [isInGame, setIsInGame] = useState(true);
+
+  useEffect(() => {
+    let timeoutId;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        timeoutId = setTimeout(() => {
+          setIsInGame(false)
+        }, 5 * 60 * 1000); 
+      } else {
+        clearTimeout(timeoutId);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
 
   const connectToWs = useCallback(() => {
     openWsConnection({
@@ -68,6 +91,7 @@ const Game = () => {
   return (
     <div className='page-layout'>
       {isAnotherSessionActive && <Navigate to={ROUTES.userTaken} />}
+      {!isInGame && <Navigate to={ROUTES.error} />}
       <AvatarUploadModal 
         isOpen={showAvatarModal}
         onClose={() => setShowAvatarModal(false)}
