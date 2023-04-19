@@ -7,7 +7,6 @@ import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import UserAvatar from '../avatar/UserAvatar';
 import { squareItemPropType } from '../../prop-types/chessboard';
 import SquarePopUp from './SquarePopUp';
-import { GameState } from '../../constants/gameConstants'
 
 const figures = PIECES.reduce((prev, curr) => ({ ...prev, [curr.name]: curr}), {});
 
@@ -17,8 +16,8 @@ const Square = ({
   column,
   filled
 }) => {
-  const { board, currentPlayerId, gameState } = useChessBoardContext();
-  const [isHovered, setIsHovered] = useState(false);
+  const { board, currentPlayerId } = useChessBoardContext();
+  const [showPopover, setShowPopover] = useState(false);
 
   const turnToShow = useMemo(() => {
     const myMove = items.find(figure => figure.playerId === currentPlayerId);
@@ -33,16 +32,22 @@ const Square = ({
     ? 3
     : 2;
 
+  const updatePopover = bool => {
+    if (items.length && bool || !bool) {
+      setShowPopover(bool);
+    }
+  }
+
   return (
     <div
       data-testid={`chess-tile-${row}-${column}`}
       className={classNames("square", {
         'is-empty-tile': !items.length && row !== board.length - 1 && column !== 0
       })}
-      onMouseEnter={() => {setIsHovered(true)}}
-      onMouseLeave={() => {setIsHovered(false)}}
+      onMouseEnter={() => updatePopover(true)}
+      onMouseLeave={() => updatePopover(false)}
     >
-      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState === GameState.GAME_IN_PROGRESS)) && (
+      {!!items.length && (
         <span
           className={classNames('number number-row', {
             'number-filled': filled
@@ -93,7 +98,7 @@ const Square = ({
         )}
       </div>
 
-      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState === GameState.GAME_IN_PROGRESS))&& (
+      {!!items.length && (
         <span 
           className={classNames('number number-column', {
             'number-filled': filled,
@@ -102,7 +107,7 @@ const Square = ({
           {board[board.length - 1][column].attribute}
         </span>
       )}
-      {!!items.length && <SquarePopUp items={items} showPopover={isHovered} row={row} column={column} />}
+      {!!items.length && <SquarePopUp items={items} showPopover={showPopover} row={row} column={column} />}
     </div>
   );
 };
