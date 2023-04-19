@@ -39,10 +39,10 @@ const Square = ({
       className={classNames("square", {
         'is-empty-tile': !items.length && row !== board.length - 1 && column !== 0
       })}
-      onMouseEnter={() => {setIsHovered(true)}}
-      onMouseLeave={() => {setIsHovered(false)}}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState === GameState.GAME_IN_PROGRESS)) && (
+      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState !== GameState.GAME_FINISHED)) && (
         <span
           className={classNames('number number-row', {
             'number-filled': filled
@@ -93,7 +93,7 @@ const Square = ({
         )}
       </div>
 
-      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState === GameState.GAME_IN_PROGRESS))&& (
+      {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState !== GameState.GAME_FINISHED))&& (
         <span 
           className={classNames('number number-column', {
             'number-filled': filled,
