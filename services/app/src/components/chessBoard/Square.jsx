@@ -102,7 +102,7 @@ const Square = ({
           {board[board.length - 1][column].attribute}
         </span>
       )}
-      {!!items.length && <SquarePopUp items={items} showPopover={false} row={row} column={column} />}
+      {!!items.length && <SquarePopUp items={items} showPopover={isHovered} row={row} column={column} />}
     </div>
   );
 };
