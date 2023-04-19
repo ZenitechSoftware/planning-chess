@@ -7,6 +7,14 @@
   display: none;
 }
 
+.ant-tooltip-arrow::before {
+  background: none !important;
+}
+
+.ant-tooltip-arrow::after {
+  background: var(--antd-arrow-background-color) !important;
+}
+
 /*Dropdown*/
 .ant-dropdown-menu-item button {
   background: none;
