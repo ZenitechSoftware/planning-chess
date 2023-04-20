@@ -42,6 +42,7 @@ const Square = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* TODO: make it more prettier when fixing PLAN-205 */}
       {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState !== GameState.GAME_FINISHED)) && (
         <span
           className={classNames('number number-row', {
@@ -92,7 +93,8 @@ const Square = ({
           </div>
         )}
       </div>
-
+      
+      {/* TODO: make it more prettier when fixing PLAN-205 */}
       {(isHovered && (!items.length && row !== board.length - 1 && column !== 0) && (gameState !== GameState.GAME_FINISHED))&& (
         <span 
           className={classNames('number number-column', {
