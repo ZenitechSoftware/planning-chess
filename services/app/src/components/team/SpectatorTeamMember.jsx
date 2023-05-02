@@ -10,7 +10,7 @@ const SpectatorTeamMember = ({ index, name, spectatorId, currentPlayerId }) => (
     </div>
 
     <div className="team-list-item-name">
-      {name}
+      {name && name.substring(0, 20) + (name.length > 20 ? '...' : '')}
       {' '}
       { currentPlayerId === spectatorId && <span className='font-size-xs'>(you)</span> }
     </div>

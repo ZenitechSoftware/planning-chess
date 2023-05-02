@@ -7,7 +7,7 @@ const VoterRow = ({ name, currentPlayerId, playerId, addon }) => (
     <UserAvatar size='m' playerId={playerId} dataTestId={`team-list-${playerId}`} />
 
     <div className="team-list-item-name">
-      {name}
+      {name && name.substring(0, 20) + (name.length > 20 ? '...' : '')}
       {' '}
       { currentPlayerId === playerId && <span>(you)</span> }
     </div>
