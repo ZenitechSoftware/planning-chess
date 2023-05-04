@@ -4,6 +4,13 @@
   display: flex;
   justify-content: space-evenly;
   user-select: none;
+  height: auto;
+  position: relative;
+}
+
+.figure-info {
+  position: absolute;
+  top: calc(100% + 5px); /* adjust this value as needed */
 }
 
 .piece-field {
@@ -50,4 +57,8 @@
 .figure-strength-container p {
   color: var(--white);
   letter-spacing: -0.1px;
+}
+
+.chess-piece-button {
+
 }
