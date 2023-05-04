@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './chess-board-pieces.css';
+import { Avatar, Tooltip } from 'antd';
 import { useChessBoardContext } from '../../contexts/ChessBoardContext';
 import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 import { GameState } from '../../constants/gameConstants';
-import { Avatar, Tooltip } from 'antd';
 import UserAvatar from '../avatar/UserAvatar';
+
 const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, disabled }) => {
   const { selectedItem, turns, gameState } = useChessBoardContext();
 
   const skipTooltipTxt = "Mark my move as complete, without any story points";
 
-  console.log(turns)
   const avatarSize = turns.length > 1
     ? 'xs'
     : 's';
@@ -45,7 +45,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           {
             'piece-field-selected': selectedItem === figureName,
             // disabling with class, because antd appends unnecessary spam around the button when its disabled
-            disabled: disabled,
+            'disabled': disabled,
           },
         )}
       >
