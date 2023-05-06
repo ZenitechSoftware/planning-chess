@@ -8,6 +8,7 @@ import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 import { GameState } from '../../constants/gameConstants';
 import UserAvatar from '../avatar/UserAvatar';
+
 const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, disabled }) => {
   const { selectedItem, turns, gameState } = useChessBoardContext();
 
@@ -53,7 +54,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           </div>
         </div>
         <Tooltip
-          title={
+          title={(
             <div>
               <div>
                 {
@@ -69,6 +70,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
                   .join(', ')}
               </div>
             </div>
+            )
           }
           placement="top"
         >
