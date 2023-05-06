@@ -8,6 +8,7 @@ import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 import { GameState } from '../../constants/gameConstants';
 import UserAvatar from '../avatar/UserAvatar';
+
 const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, disabled }) => {
   const { selectedItem, turns, gameState } = useChessBoardContext();
 
@@ -44,7 +45,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           {
             'piece-field-selected': selectedItem === figureName,
             // disabling with class, because antd appends unnecessary spam around the button when its disabled
-            disabled: disabled,
+            'disabled': disabled,
           },
         )}
       >
