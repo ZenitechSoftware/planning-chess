@@ -10,7 +10,15 @@
 
 .figure-info {
   position: absolute;
-  top: calc(100% + 5px); /* adjust this value as needed */
+  top: calc(100% + 5px); 
+}
+
+.piece-and-score {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  height: 100px;
 }
 
 .piece-field {

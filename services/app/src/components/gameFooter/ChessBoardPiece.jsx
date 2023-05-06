@@ -49,6 +49,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           },
         )}
       >
+      <div class="piece-and-score">
         <img src={figureImg} alt={figureName} className="figure-img" />
         <p className="figure-title font-size-s weight-500">{figureName}</p>
         <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
@@ -56,6 +57,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
             {figureStrength}
           </p>
         </div>
+      </div>
         <Tooltip
           title={<div dangerouslySetInnerHTML={{ __html: tooltipContent }} />}
           placement="top"
