@@ -8,7 +8,6 @@ import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 import { GameState } from '../../constants/gameConstants';
 import UserAvatar from '../avatar/UserAvatar';
-
 const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, disabled }) => {
   const { selectedItem, turns, gameState } = useChessBoardContext();
 
@@ -23,13 +22,6 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
       selectFigure(figureName)
     }
   }
-
-  const tooltipContent = `
-  <div>
-    <div>${turns.filter((element) => element.figure === figureName).length} voted for ${figureStrength}</div>
-    <div>${turns.filter((element) => element.figure === figureName).map((item) => item.player).join(", ")}</div>
-  </div>
-`;
 
   return (
     <PlanningChessTooltip
@@ -61,7 +53,23 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           </div>
         </div>
         <Tooltip
-          title={<div dangerouslySetInnerHTML={{ __html: tooltipContent }} />}
+          title={
+            <div>
+              <div>
+                {
+                  turns.filter((element) => element.figure === figureName)
+                    .length
+                }{' '}
+                voted for {figureStrength}
+              </div>
+              <div>
+                {turns
+                  .filter((element) => element.figure === figureName)
+                  .map((item) => item.player)
+                  .join(', ')}
+              </div>
+            </div>
+          }
           placement="top"
         >
           <div className="figure-info">
