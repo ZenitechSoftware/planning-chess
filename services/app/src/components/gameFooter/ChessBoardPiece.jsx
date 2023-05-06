@@ -8,7 +8,6 @@ import PlanningChessTooltip from '../planningChessTooltip/PlanningChessTooltip';
 import { PieceName } from '../../constants/board';
 import { GameState } from '../../constants/gameConstants';
 import UserAvatar from '../avatar/UserAvatar';
-
 const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, disabled }) => {
   const { selectedItem, turns, gameState } = useChessBoardContext();
 
@@ -45,19 +44,19 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           {
             'piece-field-selected': selectedItem === figureName,
             // disabling with class, because antd appends unnecessary spam around the button when its disabled
-            'disabled': disabled,
+            disabled: disabled,
           },
         )}
       >
-      <div class="piece-and-score">
-        <img src={figureImg} alt={figureName} className="figure-img" />
-        <p className="figure-title font-size-s weight-500">{figureName}</p>
-        <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
-          <p className="figure-strength font-size-xxs weight-500">
-            {figureStrength}
-          </p>
+        <div className="piece-and-score">
+          <img src={figureImg} alt={figureName} className="figure-img" />
+          <p className="figure-title font-size-s weight-500">{figureName}</p>
+          <div className="figure-strength-container border-r-20 padding-y-0 padding-x-xxs f-center">
+            <p className="figure-strength font-size-xxs weight-500">
+              {figureStrength}
+            </p>
+          </div>
         </div>
-      </div>
         <Tooltip
           title={<div dangerouslySetInnerHTML={{ __html: tooltipContent }} />}
           placement="top"
