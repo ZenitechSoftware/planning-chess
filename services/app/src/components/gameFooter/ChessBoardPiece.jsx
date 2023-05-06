@@ -70,8 +70,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
                   .join(', ')}
               </div>
             </div>
-            )
-          }
+          )}
           placement="top"
         >
           <div className="figure-info">
