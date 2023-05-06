@@ -43,7 +43,9 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
         className={classnames(
           'piece-field padding-y-s padding-x-sm f-center rubik-font',
           {
-            'piece-field-selected': selectedItem === figureName,
+            'piece-field-selected':
+              selectedItem === figureName &&
+              gameState !== GameState.GAME_FINISHED,
             // disabling with class, because antd appends unnecessary spam around the button when its disabled
             'disabled': disabled,
           },
