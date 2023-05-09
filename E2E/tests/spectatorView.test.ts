@@ -67,7 +67,7 @@ Scenario("Spectator doesn’t have to vote for game to be finished", async () =>
     game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
   game.skipMove();
-  I.waitForText("Game complete");
+  I.seeElement(game.locator.playersList.totalSP);
   game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
   session(username.user3, () => {
     game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
@@ -88,14 +88,14 @@ Scenario("Spectator restarts previously finished game", async () => {
   });
   game.skipMove();
   session(username.user3, () => {
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
     I.click(game.locator.buttons.restartGame);
     game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
   });
   game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e2);
   session(username.user2, () => {
     game.voteAndCheckThatVoteIsVisible(ChessPieces.king, ChessTile.d3);
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
     game.voteIsVisible(ChessPieces.king, ChessTile.d3);
     game.voteIsVisible(ChessPieces.knight, ChessTile.e2);
     game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
@@ -133,7 +133,7 @@ Scenario("Spectators are displayed at the bottom of players list", async () => {
   game.vote(ChessPieces.king, ChessTile.c3);
   session(username.user3, () => {
     game.vote(ChessPieces.king, ChessTile.c3);
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
     I.seeTextEquals(
       `${username.user2}`,
       game.locator.playersList.playerUsernameByIndex(3)

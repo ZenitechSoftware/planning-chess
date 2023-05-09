@@ -12,9 +12,9 @@ Scenario(
   async () => {
     login.firstVoterLogin(username.user1);
     const url = await I.grabCurrentUrl();
-    session(username.user2, () => {
+    session(username.user2, async () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
-      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
+      await game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
       I.waitForElement(game.locator.playersList.voterScoreIcon(username.user2));
       game.skipMove();
       game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
@@ -32,18 +32,18 @@ Scenario("Player who makes the move last skips", async () => {
   session(username.user2, () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
   });
-  session(username.user3, () => {
+  session(username.user3, async () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user3);
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
   });
-  session(username.user2, () => {
+  session(username.user2, async () => {
     I.waitForElement(game.locator.playersList.playerDoneIcon(username.user3));
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
   });
   I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
   I.waitForElement(game.locator.playersList.playerDoneIcon(username.user3));
   game.skipMove();
-  I.waitForText("Game complete");
+  I.seeElement(game.locator.playersList.totalSP);
 });
 
 Scenario("Player who makes the move first skips", async () => {
@@ -56,19 +56,19 @@ Scenario("Player who makes the move first skips", async () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user3);
   });
   game.skipMove();
-  session(username.user2, () => {
+  session(username.user2, async () => {
     I.waitForElement(
       game.locator.playersList.playerSkippedIcon(username.user1)
     );
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
   });
-  session(username.user3, () => {
+  session(username.user3, async () => {
     I.waitForElement(
       game.locator.playersList.playerSkippedIcon(username.user1)
     );
     I.waitForElement(game.locator.playersList.playerDoneIcon(username.user2));
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
-    I.waitForText("Game complete");
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
+    I.seeElement(game.locator.playersList.totalSP);
   });
 });
 
@@ -83,18 +83,18 @@ Scenario(
     session(username.user3, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user3);
     });
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.b3);
     session(username.user2, () => {
       I.waitForElement(game.locator.playersList.playerDoneIcon(username.user1));
       game.skipMove();
     });
-    session(username.user3, () => {
+    session(username.user3, async () => {
       I.waitForElement(game.locator.playersList.playerDoneIcon(username.user1));
       I.waitForElement(
         game.locator.playersList.playerSkippedIcon(username.user2)
       );
-      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
-      I.waitForText("Game complete");
+      await game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
+      I.seeElement(game.locator.playersList.totalSP);
     });
   }
 );

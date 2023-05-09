@@ -85,7 +85,7 @@ Scenario(
     session(username.user2, () => {
       login.voterLoginIntoCreatedGameRoom(url, username.user2);
     });
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.a1);
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.rook, ChessTile.a1);
     game.uploadAvatarPhoto(imageLink.dogImageLink);
     await game.confirmAvatarPhotoWhenImageLinkIsValid(imageLink.dogImageLink);
     session(username.user2, async () => {
@@ -95,8 +95,8 @@ Scenario(
       );
       I.assertEqual(imageLink.dogImageLink, firstPlayersImageOnThePlayersList);
       game.voteIsNotVisible(ChessPieces.rook, ChessTile.a1);
-      game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.b3);
-      I.waitForText("Game complete");
+      await game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.b3);
+      I.seeElement(game.locator.playersList.totalSP);
       game.avatarPictureIsVisibleOnTheBoard(ChessPieces.rook, ChessTile.a1);
     });
   }
