@@ -26,7 +26,7 @@ Scenario(
     session(username.user3, () => {
       I.click(game.locator.buttons.skip);
       I.click(game.locator.buttons.skipOtherPlayer(username.user1));
-      I.waitForText("Game complete");
+      I.seeElement(game.locator.playersList.totalSP);
       const expectedUserOrder = [
         username.user4,
         username.user2,

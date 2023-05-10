@@ -56,9 +56,9 @@ const locator = {
     chessPieceOnBoard: (tile: string, chessPiece: string) =>
       `//*[@data-testid='chess-tile-${tile}']//img[@alt='${chessPiece} icon']`,
     avatarOnBoard: (tile: string) =>
-      `//*[@data-testid='chess-tile-${tile}']//span[@class='ant-avatar-string']`,
+      `//*[@data-testid='chess-tile-${tile}']//*[contains(@data-testid, 'default-avatar-square')]`,
     avatarPictureOnBoard: (tile: string) =>
-      `//*[@data-testid='chess-tile-${tile}']//div[@class='bubble-container']//img[@alt='profile pic']`,
+      `//*[@data-testid='chess-tile-${tile}']//*[contains(@data-testid,'custom-avatar-square-')]`,
     openedPopUp: '//*[contains(@class, "pop-over-opened")]',
     pointsOnBoard: (tile: string, value: number) =>
       `//*[@data-testid='chess-tile-${tile}']//*[contains(text(), '${value}SP')]`,
@@ -109,13 +109,15 @@ const locator = {
     newRoom: "#dropdown-create-new-room",
   },
   chessBoardPopUp: {
-    square: '//*[@class="pop-over-title" and contains(text(), "Square ")]',
+    square:
+      '//*[contains(@class,"pop-over-title") and contains(text(), "Square ")]',
     chessPiece: '//*[@class="pop-up-figure-icon margin-r-xs"]',
     avatar:
       '//*[contains(@class, "pop-over")]//*[contains(@class, "ant-avatar-circle")]',
     player: (username: string) =>
       `//*[contains(@class, "pop-over")]//*[contains(text(), "${username}")]`,
-    score: '//*[contains(@class, "pop-over")]//*[@class = "score"]//span',
+    score:
+      '//*[contains(@class, "pop-over")]//*[contains(@class, "score")]//span',
   },
 };
 
@@ -153,10 +155,10 @@ export = {
     I.click(locator.chessBoard.chessTile(tile));
   },
 
-  voteIsVisible: (chessPiece: ChessPiece, tile: string) => {
+  voteIsVisible: async (chessPiece: ChessPiece, tile: string) => {
     I.seeElement(locator.chessBoard.avatarOnBoard(tile));
-    assertions.chessPieceOnBoard(chessPiece, tile);
-    assertions.SPOnBoard(chessPiece, tile);
+    await assertions.chessPieceOnBoard(chessPiece, tile);
+    await assertions.SPOnBoard(chessPiece, tile);
   },
 
   voteIsNotVisible: (chessPiece: ChessPiece, tile: string) => {
@@ -203,9 +205,12 @@ export = {
     I.seeElement(locator.buttons.skipButtonHighlighted);
   },
 
-  voteAndCheckThatVoteIsVisible: (chessPiece: ChessPiece, tile: string) => {
+  voteAndCheckThatVoteIsVisible: async (
+    chessPiece: ChessPiece,
+    tile: string
+  ) => {
     game.vote(chessPiece, tile);
-    game.voteIsVisible(chessPiece, tile);
+    await game.voteIsVisible(chessPiece, tile);
   },
 
   openPopUp(chessTile: string) {
