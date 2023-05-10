@@ -20,7 +20,7 @@ Scenario(
       I.seeElement(game.locator.buttons.skipButtonHighlighted);
     });
     game.vote(ChessPieces.knight, ChessTile.e4);
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
   }
 );
 
@@ -54,7 +54,7 @@ Scenario(
       game.skipMove();
       I.refreshPage();
       I.seeElement(game.locator.buttons.skipButtonHighlighted);
-      I.waitForText("Game complete");
+      I.seeElement(game.locator.playersList.totalSP);
     });
   }
 );
@@ -69,12 +69,12 @@ Scenario(
       game.voteAndCheckThatVoteIsVisible(ChessPieces.pawn, ChessTile.a1);
     });
     game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e4);
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
     const actualFinalScoreBeforeNavigating = await I.grabNumberFrom(
       game.locator.playersList.totalSP
     );
     game.navigateBackAndForward();
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
     game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
     game.voteIsVisible(ChessPieces.knight, ChessTile.e4);
     const actualFinalScoreAfterNavigating = await I.grabNumberFrom(
@@ -99,7 +99,7 @@ Scenario("Player refreshes browser when he already finished move", async () => {
   });
   game.voteIsNotVisible(ChessPieces.pawn, ChessTile.a1);
   game.voteAndCheckThatVoteIsVisible(ChessPieces.knight, ChessTile.e4);
-  I.waitForText("Game complete");
+  I.seeElement(game.locator.playersList.totalSP);
   game.voteIsVisible(ChessPieces.pawn, ChessTile.a1);
   game.voteIsVisible(ChessPieces.knight, ChessTile.e4);
 });

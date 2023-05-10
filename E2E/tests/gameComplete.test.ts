@@ -15,9 +15,9 @@ Scenario("Game completes automatically after last voter votes", async () => {
     I.click(game.locator.chessPieces.chessPiece(ChessPieces.rook.name));
   });
   game.vote(ChessPieces.pawn, ChessTile.c4);
-  I.waitForText("Game complete");
+  I.seeElement(game.locator.playersList.totalSP);
   session(username.user2, () => {
-    I.waitForText("Game complete");
+    I.seeElement(game.locator.playersList.totalSP);
     game.voteIsVisible(ChessPieces.pawn, ChessTile.c4);
     game.voteIsVisible(ChessPieces.knight, ChessTile.e4);
     I.seeElement(

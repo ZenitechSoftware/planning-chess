@@ -9,12 +9,12 @@ const { I, login, game } = inject();
 Scenario("Board is cleared after clicking restart game button", async () => {
   login.firstVoterLogin(username.user1);
   const url = await I.grabCurrentUrl();
-  session(username.user2, () => {
+  session(username.user2, async () => {
     login.voterLoginIntoCreatedGameRoom(url, username.user2);
-    game.voteAndCheckThatVoteIsVisible(ChessPieces.bishop, ChessTile.a1);
+    await game.voteAndCheckThatVoteIsVisible(ChessPieces.bishop, ChessTile.a1);
   });
-  game.voteAndCheckThatVoteIsVisible(ChessPieces.bishop, ChessTile.c4);
-  I.waitForText("Game complete");
+  await game.voteAndCheckThatVoteIsVisible(ChessPieces.bishop, ChessTile.c4);
+  I.seeElement(game.locator.playersList.totalSP);
   I.click(game.locator.buttons.restartGame);
   game.voteIsNotVisible(ChessPieces.bishop, ChessTile.c4);
   game.voteIsNotVisible(ChessPieces.bishop, ChessTile.a1);
