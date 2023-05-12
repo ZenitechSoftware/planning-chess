@@ -14,10 +14,6 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
 
   const skipTooltipTxt = "Mark my move as complete, without any story points";
 
-  const avatarSize = turns.length > 1
-    ? 'xs'
-    : 's';
-
   const onSelect = () => {
     if (!disabled) {
       selectFigure(figureName)
@@ -37,8 +33,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
           'piece-field padding-y-s padding-x-sm f-center rubik-font',
           {
             'piece-field-selected':
-              selectedItem === figureName &&
-              gameState !== GameState.GAME_FINISHED,
+            selectedItem === figureName,
             // disabling with class, because antd appends unnecessary spam around the button when its disabled
             'disabled': disabled,
           },
@@ -90,7 +85,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
                   .filter((element) => element.figure === figureName)
                   .map((item, index) => (
                     <UserAvatar
-                      size={avatarSize}
+                      size={'xs'}
                       playerId={item.playerId}
                       key={`bubble-${index}`}
                       playerInitials={item.player[0]}
