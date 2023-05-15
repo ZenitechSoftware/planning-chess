@@ -50,6 +50,7 @@ const Team = ({ skipMove }) => {
             name={player.name}
             id={player.id}
             currentPlayerId={currentPlayerId}
+            spectatorId={player.id}
           />
         ))}
       </div>
