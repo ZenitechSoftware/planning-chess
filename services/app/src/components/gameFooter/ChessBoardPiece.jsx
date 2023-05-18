@@ -85,7 +85,7 @@ const ChessBoardPiece = ({ selectFigure, figureName, figureImg, figureStrength, 
                   .filter((element) => element.figure === figureName)
                   .map((item, index) => (
                     <UserAvatar
-                      size={'xs'}
+                      size='xs'
                       playerId={item.playerId}
                       key={`bubble-${index}`}
                       playerInitials={item.player[0]}
