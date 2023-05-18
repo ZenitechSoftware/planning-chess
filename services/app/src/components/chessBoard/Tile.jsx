@@ -16,7 +16,7 @@ const Tile = ({
 
   /* eslint-disable-next-line */
   const _onClick = useCallback(() => {
-    if (!attribute && (row !== 6 && column !== 0)) {
+    if (!attribute) {
       onClick(row, column);
     }
   }, [onClick, row, column]);

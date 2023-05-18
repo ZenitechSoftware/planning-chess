@@ -4,11 +4,25 @@
   display: flex;
   justify-content: space-evenly;
   user-select: none;
+  height: auto;
+  position: relative;
+}
+
+.figure-info {
+  position: absolute;
+  top: calc(100%); 
+}
+
+.piece-and-score {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  height: 85px;
 }
 
 .piece-field {
   width: clamp(56px, 6vh, 70px);
-  aspect-ratio: 1 / 2;
   flex-direction: column;
   border: 2px solid transparent;
   cursor: pointer;
