@@ -2,13 +2,14 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import logger from '../logger';
 import { Player } from '../domain';
-import { Turn } from '../domain/game';
+import { Turn, GameState } from '../domain/game';
 
 interface GameRoom {
   roomId: string;
   server: WebSocketServer;
   players: Map<WebSocket, Player>;
   turns: Turn[];
+  gameState: GameState;
 }
 
 export const rooms = new Map<string, GameRoom>();
@@ -31,11 +32,19 @@ export const getOrCreateRoom = (id?: string): GameRoom => {
     server,
     players: new Map(),
     turns: [],
+    gameState: GameState.GAME_NOT_STARTED,
   };
   rooms.set(roomId, newRoom);
 
   return newRoom;
 };
+
+export const setGameState = (roomId: string, gameState: GameState): void => {
+  getOrCreateRoom(roomId).gameState = gameState;
+};
+
+export const getGameState = (roomId: string): GameState =>
+  getOrCreateRoom(roomId).gameState;
 
 export const getClients = (id: string): Set<WebSocket> =>
   rooms.get(id)?.server.clients;

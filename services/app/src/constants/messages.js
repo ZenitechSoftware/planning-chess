@@ -8,4 +8,5 @@ export const MessageType = {
   ActionMade: 'ActionMade',
   SetMyTurn: 'SetMyTurn',
   NewBoardState: 'NewBoardState',
+  UpdateGameState: 'UpdateGameState',
 }

@@ -1,6 +1,6 @@
 import { GameWebSocket } from './GameRoom';
 import { Player, PlayerRole } from './player';
-import { Turn } from './game';
+import { Turn, GameState } from './game';
 
 export enum MessageType {
   PlayerSuccessfullyJoined = 'PlayerSuccessfullyJoined',
@@ -19,6 +19,7 @@ export enum MessageType {
   ErrorMessage = 'ErrorMessage',
   ActionMade = 'ActionMade',
   AvatarUpdate = 'AvatarUpdate',
+  UpdateGameState = 'UpdateGameState',
 }
 
 export type SendMessagePayloads = {
@@ -33,6 +34,7 @@ export type SendMessagePayloads = {
   [MessageType.PlayerSuccessfullyJoined]: string;
   [MessageType.ErrorMessage]: string;
   [MessageType.Pong]: void;
+  [MessageType.UpdateGameState]: GameState;
 };
 
 export interface SendMessage<T extends keyof SendMessagePayloads> {
