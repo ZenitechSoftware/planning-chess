@@ -20,7 +20,9 @@
     "lint": "lerna run lint --concurrency 1",
     "ci": "lerna run ci",
     "run": "docker run -d -p 8080:8081 --name=planning-chess planning-chess:latest",
-    "nuke": "lerna run nuke --parallel && npm run clean:root"
+    "nuke": "lerna run nuke --parallel && npm run clean:root",
+    "package": "docker build -t planning-chess-servic.node:latest .",
+    "deploy": "aws lightsail push-container-image --region eu-west-2 --service-name planning-chess-servic --label node --image planning-chess-servic.node:latest --profile planningchess"
   },
   "repository": {
     "type": "git",
