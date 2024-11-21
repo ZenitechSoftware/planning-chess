@@ -2,6 +2,10 @@
 
 The consensus-based chess inspired estimation game.
 
+# Demo
+
+[planningchess.com](http://planningchess.com)
+
 ## Rules
 
 - The game is played by a team (multiple players)
@@ -101,6 +105,10 @@ This starts all micro-services in watch mode.
 `lint` - runs linter in every package.
 
 `build` - builds all services.
+
+`package` - package docker image.
+
+`deploy` - deploy to demo site (special permissions are needed)
 
 ## Contributing guidelines
 
