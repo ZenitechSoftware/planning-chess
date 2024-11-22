@@ -43,11 +43,10 @@
 
 .figure-strength-container {
   width: 2.5em;
-  height: 24px;
-  background-color: var(--primary);
+  height: 12px;
 }
 
 .figure-strength-container p {
-  color: var(--white);
+  color: var(--secondary-text);
   letter-spacing: -0.1px;
 }

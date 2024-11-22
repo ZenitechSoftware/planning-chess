@@ -2,10 +2,10 @@ FROM node:16-alpine as build
 
 WORKDIR /opt/planning-chess
 ADD . .
-RUN npm -v
 RUN npm i
 RUN npm run bootstrap
-RUN npm run ci
+RUN npm run build
+RUN npm i --production
 
 WORKDIR /opt/planning-chess/api
 RUN npm i --production

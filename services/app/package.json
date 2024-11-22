@@ -19,6 +19,7 @@
   "author": "Planning Chess",
   "license": "MIT",
   "dependencies": {
+    "@ant-design/icons": "^5.5.1",
     "@planning-chess/shared": "file:../shared",
     "antd": "^5.1.4",
     "bootstrap": "^5.1.3",

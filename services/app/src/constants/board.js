@@ -20,32 +20,32 @@ export const PIECES = [
   {
     name: PieceName.PAWN,
     img: Pawn,
-    strength: '1SP',
+    strength: '1',
   },
   {
     name: PieceName.KNIGHT,
     img: Knight,
-    strength: '2SP',
+    strength: '2',
   },
   {
     name: PieceName.BISHOP,
     img: Bishop,
-    strength: '3SP',
+    strength: '3',
   },
   {
     name: PieceName.ROOK,
     img: Rook,
-    strength: '5SP',
+    strength: '5',
   },
   {
     name: PieceName.KING,
     img: King,
-    strength: '8SP',
+    strength: '8',
   },
   {
     name: PieceName.QUEEN,
     img: Queen,
-    strength: '13SP',
+    strength: '13',
   },
   {
     name: PieceName.SKIP,

@@ -40,7 +40,7 @@ const SquarePopUp = ({ items, showPopover, row, column }) => {
             {`${item.player} - `}
           </span>
           <div className="score margin-l-s padding-y-0 padding-x-s">
-            <span className='rubik-font' data-testid={`pop-up-${item.playerId}-score`}>{`${item.score} SP`}</span>
+            <span className='rubik-font' data-testid={`pop-up-${item.playerId}-score`}>{`${item.score}`}</span>
           </div>
         </div>
       ))}
